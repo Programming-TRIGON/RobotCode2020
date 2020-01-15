@@ -2,6 +2,7 @@ package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
+import frc.robot.commands.shooter.ProfiledShoot;
 import frc.robot.commands.shooter.Shoot;
 import frc.robot.utils.DashboardController;
 
@@ -16,6 +17,7 @@ public class DashboardDataContainer {
 
         dashboardController.addNumber("Sensors/ShooterVelocity", Robot.shooter::getSpeed);
         SmartDashboard.putData("Commands/Shoot ball", new Shoot());
+        SmartDashboard.putData("Commands/Profiled shoot ball", new ProfiledShoot());
         // dashboardController.addBoolean(name, booleanSupplier);
         // dashboardController.addNumber(name, numberSupplier);
         // dashboardController.addString(name, stringSupplier);
