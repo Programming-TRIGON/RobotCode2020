@@ -19,13 +19,14 @@ public class ProfiledShoot extends CommandBase {
 
     public ProfiledShoot(double setpointVelocity) {
         addRequirements(shooter);
-        Constraints constraints = new Constraints(robotConstants.shooterConstants.MAX_ACCELERATION,
+        feedforward = new SimpleMotorFeedforward(robotConstants.shooterConstants.KS,
+                robotConstants.shooterConstants.KV, robotConstants.shooterConstants.KA);
+        pidController.setGoal(setpointVelocity);
+        Constraints constraints = new Constraints(feedforward.maxAchievableAcceleration(12, 0),
                 robotConstants.shooterConstants.MAX_JERK);
         pidController = new ProfiledPIDController(robotConstants.shooterConstants.KP, 0, 0,
                 constraints);
-        pidController.setGoal(setpointVelocity);
-        feedforward = new SimpleMotorFeedforward(robotConstants.shooterConstants.KS,
-                robotConstants.shooterConstants.KV, robotConstants.shooterConstants.KA);
+
     }
 
     @Override

@@ -50,8 +50,7 @@ public class RobotA extends RobotConstants {
         shooterConstants.KS = 0;
         shooterConstants.KV = 0;
         shooterConstants.KA = 0;
-        shooterConstants.MAX_ACCELERATION = 5;
-        shooterConstants.MAX_JERK = 10;
+        shooterConstants.MAX_JERK = 80;
 
         /* Robot Map */
         can.SHOOTER_CONTROLLER = 0;
