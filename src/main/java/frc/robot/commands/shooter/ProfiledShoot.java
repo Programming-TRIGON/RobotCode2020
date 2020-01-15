@@ -39,7 +39,7 @@ public class ProfiledShoot extends CommandBase {
         double pidCalculation = pidController.calculate(shooter.getSpeed());
         double output = pidCalculation +
                 feedforward.calculate(pidController.getSetpoint().position, pidController.getSetpoint().velocity);
-        shooter.setVoltage(MathUtil.clamp(output,0,12));
+        shooter.setVoltage(MathUtil.clamp(output, 0, 12));
     }
 
     @Override
