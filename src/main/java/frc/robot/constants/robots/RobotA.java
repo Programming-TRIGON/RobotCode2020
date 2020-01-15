@@ -47,6 +47,11 @@ public class RobotA extends RobotConstants {
         shooterConstants.DEFAULT_RPM = 3000;
         shooterConstants.KP = 0;
         shooterConstants.KF = 0;
+        shooterConstants.KS = 0;
+        shooterConstants.KV = 0;
+        shooterConstants.KA = 0;
+        shooterConstants.MAX_ACCELERATION = 5;
+        shooterConstants.MAX_JERK = 10;
 
         /* Robot Map */
         can.SHOOTER_CONTROLLER = 0;

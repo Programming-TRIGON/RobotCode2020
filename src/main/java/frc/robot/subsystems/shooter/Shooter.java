@@ -49,4 +49,8 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
   public double getSpeed(){
     return talon.getSelectedSensorVelocity();
   }
+
+  public void setVoltage(double outputVolts) {
+    talon.setVoltage(outputVolts);
+  }
 }

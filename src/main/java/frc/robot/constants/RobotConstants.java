@@ -28,6 +28,11 @@ public abstract class RobotConstants extends RobotMap {
         public double DEFAULT_RPM;
         public double KP;
         public double KF;
+        public double KS;
+        public double KV;
+        public double KA;
+        public double MAX_ACCELERATION;
+        public double MAX_JERK;
     }
     /** Control constants contain control value such as kp, kv for control loops */
     public static class ControlConstants {
