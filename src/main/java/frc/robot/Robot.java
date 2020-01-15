@@ -8,10 +8,11 @@ import frc.robot.constants.FieldConstants;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
+import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.utils.DashboardDataContainer;
 import frc.robot.vision.Limelight;
 import frc.robot.subsystems.drivetrain.DrivetrainInterface;
-import frc.robot.subsystems.led.LED;
+import frc.robot.subsystems.LED.LED;
 
 public class Robot extends TimedRobot {
   private Command autoCommand;
@@ -23,6 +24,7 @@ public class Robot extends TimedRobot {
   public static Limelight limelight;
   public static DrivetrainInterface drivetrain; // TODO: Change interface to subsystem
   public static LED led;
+  public static Shooter shooter;
 
   @Override
   public void robotInit() {
@@ -31,6 +33,7 @@ public class Robot extends TimedRobot {
 
     // Subsystems:
     led = new LED();
+    shooter = new Shooter();
 
     // Utils:
     dashboardDataContainer = new DashboardDataContainer();

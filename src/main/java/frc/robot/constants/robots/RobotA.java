@@ -38,10 +38,18 @@ public class RobotA extends RobotConstants {
         visionConstants.LIMELIGHT_ANGLE_OFFSET = 0;
         visionConstants.TARGET_NOT_FOUND_WAIT_TIME = 0.1;
 
+        /* control Constants */
         controlConstants.visionDistanceSettings = new PIDSettings(0,0,0,0,0);
         controlConstants.visionRotationSettings = new PIDSettings(0,0,0,0,0);
 
+        /* Shooter Constants */
+        shooterConstants.UNITS_PER_ROTATION = 1;
+        shooterConstants.DEFAULT_RPM = 3000;
+        shooterConstants.KP = 0;
+        shooterConstants.KF = 0;
+
         /* Robot Map */
+        can.SHOOTER_CONTROLLER = 0;
         pwm.LED_CONTROLLER = 0;
 
     }

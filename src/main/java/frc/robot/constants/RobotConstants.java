@@ -1,27 +1,34 @@
 package frc.robot.constants;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.utils.PIDSettings;
 
 /**
  * The RobotConstants maps constants to a variable name.
  */
 public abstract class RobotConstants extends RobotMap {
-    public DrivetrainConstants drivetrainConstants = new DrivetrainConstants(); 
+    public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
+    public ShooterConstants shooterConstants = new ShooterConstants();
     public VisionConstants visionConstants = new VisionConstants();
     public ControlConstants controlConstants = new ControlConstants();
-    public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants(); 
+    public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
 
     // Example:
     public static class DrivetrainConstants {
-        public double WHEEL_DIAMETER; 
+        public double WHEEL_DIAMETER;
         public double WHEEL_BASE_WIDTH;
         public double ROBOT_LENGTH;
         public double ROBOT_WIDTH;
         public double LEFT_ENCODER_TICKS_PER_METER;
         public double RIGHT_ENCODER_TICKS_PER_METER;
     }
-    
+    public static class ShooterConstants {
+        public double UNITS_PER_ROTATION;
+        public double DEFAULT_RPM;
+        public double KP;
+        public double KF;
+    }
     /** Control constants contain control value such as kp, kv for control loops */
     public static class ControlConstants {
         public SimpleMotorFeedforward motionProfilingSettings;
