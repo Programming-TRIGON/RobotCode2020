@@ -63,8 +63,22 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
     /**
      * @return the speed of the shooter in RPM.
      */
-    public double getAvgSpeed() {
-        return (double)(leftTalon.getSelectedSensorVelocity() + rightTalon.getSelectedSensorVelocity()) / 2;
+    public double getAverageSpeed() {
+        return (getLeftSpeed() + getRightSpeed()) / 2;
+    }
+
+    /**
+     * @return the speed of the shooter in RPM.
+     */
+    public double getLeftSpeed() {
+        return leftTalon.getSelectedSensorVelocity();
+    }
+
+    /**
+     * @return the speed of the shooter in RPM.
+     */
+    public double getRightSpeed() {
+        return rightTalon.getSelectedSensorVelocity();
     }
 
     /**
@@ -79,7 +93,7 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
      * @param meterPerSecond speed to be converted
      * @return velocity in revolution per minute
      */
-    public static double MeterPerSecondToRPM(double meterPerSecond) {
+    public static double meterPerSecondToRPM(double meterPerSecond) {
         return Units.radiansPerSecondToRotationsPerMinute(meterPerSecond / robotConstants.shooterConstants.WHEEL_RADIUS);
     }
 }

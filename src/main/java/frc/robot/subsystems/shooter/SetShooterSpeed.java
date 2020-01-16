@@ -13,8 +13,8 @@ import static frc.robot.Robot.shooter;
  */
 public class SetShooterSpeed extends CommandBase {
 
-    private DoubleSupplier targetVelocity;
-    private double lastTarget;
+    private DoubleSupplier velocitySetpoint;
+    private double lastSetpoint;
 
     /**
      * Constructs a shoot command with default RPM setpoint.
@@ -24,16 +24,26 @@ public class SetShooterSpeed extends CommandBase {
     }
 
     /**
-     * @param setpointVelocity The setpoint used for calculation the PID velocity error in RPM.
+     * @param velocitySetpoint The setpoint used for calculation the PID velocity error in RPM.
      */
-    public SetShooterSpeed(double setpointVelocity) {
+    public SetShooterSpeed(double velocitySetpoint) {
         addRequirements(shooter);
-        this.targetVelocity = () -> setpointVelocity;
+        this.velocitySetpoint = () -> velocitySetpoint;
+    }
+
+    @Override
+    public void initialize() {
+        lastSetpoint = velocitySetpoint.getAsDouble();
+        shooter.startPID(lastSetpoint);
     }
 
     @Override
     public void execute() {
-        shooter.startPID(targetVelocity.getAsDouble());
+        double newSetpoint = velocitySetpoint.getAsDouble();
+        if (lastSetpoint != newSetpoint) {
+            shooter.startPID(newSetpoint);
+            lastSetpoint = newSetpoint;
+        }
     }
 
     @Override
