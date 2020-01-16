@@ -27,8 +27,11 @@ public class SetShooterSpeed extends CommandBase {
      * @param velocitySetpoint The setpoint used for calculation the PID velocity error in RPM.
      */
     public SetShooterSpeed(double velocitySetpoint) {
+        this(() -> velocitySetpoint);
+    }
+    public SetShooterSpeed(DoubleSupplier velocitySetpointSupplier) {
         addRequirements(shooter);
-        this.velocitySetpoint = () -> velocitySetpoint;
+        this.velocitySetpoint = velocitySetpointSupplier;
     }
 
     @Override
