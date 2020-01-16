@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.components.Pigeon;
-import frc.robot.constants.RobotMap;
+import frc.robot.constants.RobotConstants;
 import frc.robot.subsystems.MoveableSubsystem;
 
 /**
@@ -32,7 +32,7 @@ public class Drivetrain implements MoveableSubsystem {
   DifferentialDrive drivetrain;
 
   public Drivetrain() {
-    leftRearTalon = new WPI_TalonFX(RobotMap.can.DRIVETRAIN_LEFT_REAR_TALON);
+    leftRearTalon = new WPI_TalonFX(RobotConstants.can.DRIVETRAIN_LEFT_REAR_TALON);
     leftMiddleTalon = new WPI_TalonFX(RobotMap.can.DRIVETRAIN_LEFT_MIDDLE_TALON);
     leftFrontTalon = new WPI_TalonFX(RobotMap.can.DRIVETRAIN_LEFT_FRONT_TALON);
     rightRearTalon = new WPI_TalonFX(RobotMap.can.DRIVETRAIN_RIGHT_REAR_TALON);
