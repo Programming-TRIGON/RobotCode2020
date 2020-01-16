@@ -64,10 +64,10 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         return sum / AMOUNT_OF_TALONS;
     }
   public void setVoltage(double outputVolts) {
-    talon.setVoltage(outputVolts);
+    talons[0].setVoltage(outputVolts);
   }
 
   public double getOutputVoltage() {
-    return talon.getMotorOutputVoltage();
+    return talons[0].getMotorOutputVoltage();
   }
 }
