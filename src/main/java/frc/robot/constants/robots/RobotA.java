@@ -1,5 +1,6 @@
 package frc.robot.constants.robots;
 
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.constants.RobotConstants;
 import frc.robot.utils.PIDSettings;
@@ -56,6 +57,7 @@ public class RobotA extends RobotConstants {
         can.LEFT_SHOOTER_CONTROLLER = 0;
         can.RIGHT_SHOOTER_CONTROLLER = 1;
         pwm.LED_CONTROLLER = 0;
+        i2c.i2cPort = Port.kOnboard;
 
     }
 }
