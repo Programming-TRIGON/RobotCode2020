@@ -1,6 +1,7 @@
 package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
@@ -28,6 +29,8 @@ public class Drivetrain implements MoveableSubsystem {
   private WPI_TalonFX rightRearTalon;
   private WPI_TalonFX rightMiddleTalon;
   private WPI_TalonFX rightFrontTalon;
+  private WPI_TalonSRX rightEncoder;
+  private WPI_TalonSRX leftEncoder;
   private Pigeon gyro;
 
   private DifferentialDrive drivetrain;
@@ -45,9 +48,11 @@ public class Drivetrain implements MoveableSubsystem {
     gyro = new Pigeon(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON);
     kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.WHEEL_BASE_WIDTH);
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
+    //TODO: set correct talons for encoders.
+    leftEncoder = 
   }
 
-    // Drive functions
+  // Drive functions
   public void arcadeDrive(double x, double y) {
     drivetrain.arcadeDrive(x, y);
   }
@@ -137,8 +142,8 @@ public class Drivetrain implements MoveableSubsystem {
     odometry.resetPosition(pose, gyroAngle);
   }
 
-  public void resetOdometry(){
-    resetOdometry(new Pose2d(0,0, Rotation2d.fromDegrees(0)));
+  public void resetOdometry() {
+    resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
   }
 
   public Pose2d getPose() {
@@ -146,11 +151,11 @@ public class Drivetrain implements MoveableSubsystem {
   }
 
   public double getLeftMotorOutputVoltage() {
-	  return leftFrontTalon.getMotorOutputVoltage();
+    return leftFrontTalon.getMotorOutputVoltage();
   }
 
   public double getRightMotorOutputVoltage() {
-	  return rightFrontTalon.getMotorOutputVoltage();
+    return rightFrontTalon.getMotorOutputVoltage();
 
   }
 
