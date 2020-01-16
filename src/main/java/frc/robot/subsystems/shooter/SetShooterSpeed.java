@@ -2,7 +2,6 @@ package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.shooter;
@@ -29,6 +28,7 @@ public class SetShooterSpeed extends CommandBase {
     public SetShooterSpeed(double velocitySetpoint) {
         this(() -> velocitySetpoint);
     }
+
     public SetShooterSpeed(DoubleSupplier velocitySetpointSupplier) {
         addRequirements(shooter);
         this.velocitySetpoint = velocitySetpointSupplier;
