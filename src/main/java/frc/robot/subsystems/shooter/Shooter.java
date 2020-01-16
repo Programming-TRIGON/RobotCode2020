@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.util.Units;
@@ -18,7 +19,8 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
 
     public Shooter() {
         //setting up the talon
-        leftTalon = new WPI_TalonSRX(robotConstants.can.LEFT_SHOOTER_CONTROLLER);
+        leftTalon = new WPI_TalonSRX(robotConstants.can.LEFT_SHOOTER_TALON_SRX);
+        leftTalon.setNeutralMode(NeutralMode.Coast);
         leftTalon.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         leftTalon.configSelectedFeedbackCoefficient(1 / (robotConstants.shooterConstants.LEFT_UNITS_PER_ROTATION * 600));
         leftTalon.config_kP(0, robotConstants.controlConstants.leftShooterSettings.getKP());
@@ -26,8 +28,11 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         leftTalon.config_kD(0, robotConstants.controlConstants.leftShooterSettings.getKD());
         leftTalon.config_kF(0, robotConstants.shooterConstants.LEFT_KF);
         leftTalon.selectProfileSlot(0, 0);
+        // leftTalon.setInverted(true);
+        // leftTalon.setSensorPhase(true);
 
-        rightTalon = new WPI_TalonSRX(robotConstants.can.RIGHT_SHOOTER_CONTROLLER);
+        rightTalon = new WPI_TalonSRX(robotConstants.can.RIGHT_SHOOTER_TALON_SRX);
+        rightTalon.setNeutralMode(NeutralMode.Coast);
         rightTalon.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         rightTalon.configSelectedFeedbackCoefficient(1 / (robotConstants.shooterConstants.RIGHT_UNITS_PER_ROTATION * 600));
         rightTalon.config_kP(0, robotConstants.controlConstants.rightShooterSettings.getKP());
@@ -35,10 +40,14 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         rightTalon.config_kD(0, robotConstants.controlConstants.rightShooterSettings.getKD());
         rightTalon.config_kF(0, robotConstants.shooterConstants.RIGHT_KF);
         rightTalon.selectProfileSlot(0, 0);
+        // rightTalon.setInverted(true);
+        // rightTalon.setSensorPhase(true);
+
+        resetEncoders();
     }
 
     /**
-     * @param power The power to set the talon in open loop.  Value should be between -1.0 and 1.0.
+     * @param power The power to set the talons in open loop. Value should be between -1.0 and 1.0.
      */
     @Override
     public void move(double power) {
@@ -53,11 +62,11 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
     /**
      * Starts using velocity PID instead of open-loop.
      *
-     * @param setpointVelocity The setpoint used for calculation the velocity error in RPM.
+     * @param velocitySetpoint velocity to set the talons.
      */
-    public void startPID(double setpointVelocity) {
-        leftTalon.set(ControlMode.Velocity, setpointVelocity);
-        rightTalon.set(ControlMode.Velocity, setpointVelocity);
+    public void startPID(double velocitySetpoint) {
+        leftTalon.set(ControlMode.Velocity, velocitySetpoint);
+        rightTalon.set(ControlMode.Velocity, velocitySetpoint);
     }
 
     /**
@@ -68,17 +77,22 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
     }
 
     /**
-     * @return the speed of the shooter in RPM.
+     * @return the speed of the left shooter in RPM.
      */
     public double getLeftSpeed() {
         return leftTalon.getSelectedSensorVelocity();
     }
 
     /**
-     * @return the speed of the shooter in RPM.
+     * @return the speed of the right shooter in RPM.
      */
     public double getRightSpeed() {
         return rightTalon.getSelectedSensorVelocity();
+    }
+
+    public void resetEncoders() {
+        leftTalon.setSelectedSensorPosition(0);
+        rightTalon.setSelectedSensorPosition(0);
     }
 
     /**

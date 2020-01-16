@@ -54,8 +54,8 @@ public class RobotA extends RobotConstants {
         shooterConstants.RIGHT_KF = 0;
 
         /* Robot Map */
-        can.LEFT_SHOOTER_CONTROLLER = 0;
-        can.RIGHT_SHOOTER_CONTROLLER = 1;
+        can.LEFT_SHOOTER_TALON_SRX = 0;
+        can.RIGHT_SHOOTER_TALON_SRX = 1;
         pwm.LED_CONTROLLER = 0;
         i2c.i2cPort = Port.kOnboard;
 
