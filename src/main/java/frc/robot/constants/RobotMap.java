@@ -15,7 +15,7 @@ public abstract class RobotMap {
   // TODO: Set variables for hardware components
   
   public static class CAN {
-      public int SHOOTER_CONTROLLER;
+      public int[] SHOOTER_CONTROLLERS;
   }
     
   public static class PCM {

@@ -14,7 +14,7 @@ public class DashboardDataContainer {
     public DashboardDataContainer() {
         dashboardController = new DashboardController();
 
-        dashboardController.addNumber("Sensors/ShooterVelocity", Robot.shooter::getSpeed);
+        dashboardController.addNumber("Sensors/ShooterVelocity", Robot.shooter::getAvgSpeed);
         SmartDashboard.putData("Commands/Shoot ball", new Shoot());
         // dashboardController.addBoolean(name, booleanSupplier);
         // dashboardController.addNumber(name, numberSupplier);

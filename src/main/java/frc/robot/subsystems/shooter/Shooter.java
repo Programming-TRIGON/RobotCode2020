@@ -11,42 +11,56 @@ import frc.robot.subsystems.MoveableSubsystem;
  * This subsystem handles shooting power cells into the outer and inner ports.
  */
 public class Shooter extends SubsystemBase implements MoveableSubsystem {
-  private WPI_TalonSRX talon;
+    private static final int AMOUNT_OF_TALONS = 1;
+    private WPI_TalonSRX[] talons;
 
-  public Shooter() {
-    //setting up the talon
-    talon = new WPI_TalonSRX(Robot.robotConstants.can.SHOOTER_CONTROLLER);
-    talon.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
-    talon.configSelectedFeedbackCoefficient(1 / Robot.robotConstants.shooterConstants.UNITS_PER_ROTATION);
-    talon.config_kP(0, Robot.robotConstants.shooterConstants.KP);
-    talon.config_kF(0, Robot.robotConstants.shooterConstants.KF);
-    talon.selectProfileSlot(0, 0);
-  }
+    public Shooter() {
+        talons = new WPI_TalonSRX[AMOUNT_OF_TALONS];
+        //setting up the talon
+        for (int i = 0; i < talons.length; i++) {
+            talons[i] = new WPI_TalonSRX(Robot.robotConstants.can.SHOOTER_CONTROLLERS[i]);
+            setUpTalon(talons[i]);
+        }
+    }
 
-  /**
-   * @param power The power to set the talon in open loop.  Value should be between -1.0 and 1.0.
-   */
-  @Override
-  public void move(double power) {
-    talon.set(power);
-  }
+    private void setUpTalon(WPI_TalonSRX talon) {
+        talon.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
+        talon.configSelectedFeedbackCoefficient(1 / Robot.robotConstants.shooterConstants.UNITS_PER_ROTATION);
+        talon.config_kP(0, Robot.robotConstants.shooterConstants.KP);
+        talon.config_kF(0, Robot.robotConstants.shooterConstants.KF);
+        talon.selectProfileSlot(0, 0);
+    }
 
-  public void startPID() {
-    startPID(Robot.robotConstants.shooterConstants.DEFAULT_RPM);
-  }
+    /**
+     * @param power The power to set the talon in open loop.  Value should be between -1.0 and 1.0.
+     */
+    @Override
+    public void move(double power) {
+        for (WPI_TalonSRX talon : talons)
+            talon.set(power);
+    }
 
-  /**
-   * Starts using velocity PID instead of open-loop.
-   * @param setpointVelocity The setpoint used for calculation the velocity error in RPM.
-   */
-  public void startPID(double setpointVelocity){
-    talon.set(ControlMode.Velocity, setpointVelocity);
-  }
+    public void startPID() {
+        startPID(Robot.robotConstants.shooterConstants.DEFAULT_RPM);
+    }
 
-  /**
-   * @return the speed of the shooter in RPM.
-   */
-  public double getSpeed(){
-    return talon.getSelectedSensorVelocity();
-  }
+    /**
+     * Starts using velocity PID instead of open-loop.
+     *
+     * @param setpointVelocity The setpoint used for calculation the velocity error in RPM.
+     */
+    public void startPID(double setpointVelocity) {
+        for (WPI_TalonSRX talon : talons)
+            talon.set(ControlMode.Velocity, setpointVelocity);
+    }
+
+    /**
+     * @return the speed of the shooter in RPM.
+     */
+    public double getAvgSpeed() {
+        double sum = 0;
+        for (WPI_TalonSRX talon : talons)
+            sum += talon.getSelectedSensorVelocity();
+        return sum / AMOUNT_OF_TALONS;
+    }
 }
