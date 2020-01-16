@@ -13,7 +13,9 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import frc.robot.components.Pigeon;
 import frc.robot.subsystems.MoveableSubsystem;
@@ -23,6 +25,9 @@ import static frc.robot.Robot.robotConstants;
  * Creates a new DrivetrainSubsytem.
  */
 public class Drivetrain implements MoveableSubsystem {
+
+  private DifferentialDriveKinematics kinematics;
+  private final DifferentialDriveOdometry odometry;
 
   private WPI_TalonFX leftRearTalon;
   private WPI_TalonFX leftMiddleTalon;
@@ -45,9 +50,11 @@ public class Drivetrain implements MoveableSubsystem {
         new SpeedControllerGroup(rightRearTalon, rightMiddleTalon, rightFrontTalon));
     // TODO: set correct port for pigeon gyro.
     gyro = new Pigeon(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON);
-    // Drive functions
+    kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.WHEEL_BASE_WIDTH);
+    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
   }
 
+    // Drive functions
   public void arcadeDrive(double x, double y) {
     drivetrain.arcadeDrive(x, y);
   }
@@ -124,34 +131,33 @@ public class Drivetrain implements MoveableSubsystem {
 
   // Motion Profiling functions
   public DifferentialDriveKinematics getKinematics() {
-
+    return kinematics;
   }
 
   public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-
+    return new DifferentialDriveWheelSpeeds(getLeftVelocity(), getRightVelocity());
   }
 
   public void resetOdometry(Pose2d pose) {
+    resetEncoders();
+    Rotation2d gyroAngle = Rotation2d.fromDegrees(getAngle());
+    odometry.resetPosition(pose, gyroAngle);
+  }
 
+  public void resetOdometry(){
+    resetOdometry(new Pose2d(0,0, Rotation2d.fromDegrees(0)));
   }
 
   public Pose2d getPose() {
-
+    return odometry.getPoseMeters();
   }
 
-  public double getLeftBusVoltage() {
-
+  public double getLeftMotorOutputVoltage() {
+	  return leftFrontTalon.getMotorOutputVoltage();
   }
 
-  public double getRightBusVoltage() {
-
-  }
-
-  public double getLeftAppliedOutput() {
-
-  }
-
-  public double getRightAppliedOutput() {
+  public double getRightMotorOutputVoltage() {
+	  return rightFrontTalon.getMotorOutputVoltage();
 
   }
 
