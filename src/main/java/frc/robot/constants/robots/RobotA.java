@@ -53,6 +53,7 @@ public class RobotA extends RobotConstants {
         can.DRIVETRAIN_RIGHT_FRONT_TALON = 3;
         can.DRIVETRAIN_RIGHT_MIDDLE_TALON = 4;
         can.DRIVETRAIN_RIGHT_REAR_TALON = 5;
-
+        can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER = 7;
+        can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER = 8;
     }
 }

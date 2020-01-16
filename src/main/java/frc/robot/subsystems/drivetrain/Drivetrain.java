@@ -49,7 +49,8 @@ public class Drivetrain implements MoveableSubsystem {
     kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.WHEEL_BASE_WIDTH);
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
     //TODO: set correct talons for encoders.
-    leftEncoder = 
+    leftEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER);
+    rightEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER);
   }
 
   // Drive functions
@@ -88,25 +89,26 @@ public class Drivetrain implements MoveableSubsystem {
 
   // Encoders functions
   // TODO: set correct talons that have encoder connected to it.
-  public int getRightTicks() {
-    return rightMiddleTalon.getSelectedSensorPosition();
-  }
 
   public int getLeftTicks() {
-    return leftMiddleTalon.getSelectedSensorPosition();
+    return leftEncoder.getSelectedSensorPosition();
+  }
+
+  public int getRightTicks() {
+    return rightEncoder.getSelectedSensorPosition();
   }
 
   public void resetEncoders() {
-    leftMiddleTalon.setSelectedSensorPosition(0);
-    rightMiddleTalon.setSelectedSensorPosition(0);
-  }
-
-  public double getRightDistance() {
-    return getRightTicks() / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER;
+    leftEncoder.setSelectedSensorPosition(0);
+    rightEncoder.setSelectedSensorPosition(0);
   }
 
   public double getLeftDistance() {
     return getLeftTicks() / robotConstants.drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER;
+  }
+  
+  public double getRightDistance() {
+    return getRightTicks() / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER;
   }
 
   public double getAverageDistance() {
@@ -114,12 +116,12 @@ public class Drivetrain implements MoveableSubsystem {
   }
 
   public double getRightVelocity() {
-    return rightMiddleTalon.getSelectedSensorVelocity()
+    return rightEncoder.getSelectedSensorVelocity()
         / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER;
   }
 
   public double getLeftVelocity() {
-    return leftMiddleTalon.getSelectedSensorVelocity()
+    return leftEncoder.getSelectedSensorVelocity()
         / robotConstants.drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER;
   }
 
