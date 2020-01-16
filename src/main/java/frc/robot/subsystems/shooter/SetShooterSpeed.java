@@ -1,9 +1,11 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import java.util.function.DoubleSupplier;
 
+import static frc.robot.Robot.robotConstants;
 import static frc.robot.Robot.shooter;
 
 
@@ -14,6 +16,9 @@ public class SetShooterSpeed extends CommandBase {
 
     private DoubleSupplier velocitySetpoint;
     private double lastSetpoint;
+    private boolean isInZone;
+    private double lastTimeOutsideZone;
+    private int cellsShot;
 
     /**
      * Constructs a shoot command with default RPM setpoint.
@@ -39,6 +44,8 @@ public class SetShooterSpeed extends CommandBase {
     public void initialize() {
         lastSetpoint = velocitySetpoint.getAsDouble();
         shooter.startPID(lastSetpoint);
+        cellsShot = 0;
+        isInZone = true;
     }
 
     @Override
@@ -48,11 +55,20 @@ public class SetShooterSpeed extends CommandBase {
             shooter.startPID(newSetpoint);
             lastSetpoint = newSetpoint;
         }
+        if (!isInZone && shooter.getAverageSpeed() < robotConstants.shooterConstants.SHOOTING_BALL_ZONE &&
+                Timer.getFPGATimestamp() - lastTimeOutsideZone > robotConstants.shooterConstants.ZONE_WAIT_TIME) {
+            isInZone = true;
+            cellsShot++;
+        }
+        if (isInZone && shooter.getAverageSpeed() > robotConstants.shooterConstants.SHOOTING_BALL_ZONE) {
+            isInZone = false;
+            lastTimeOutsideZone = Timer.getFPGATimestamp();
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return cellsShot >= 5;
     }
 
     @Override

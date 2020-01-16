@@ -30,6 +30,8 @@ public abstract class RobotConstants extends RobotMap {
         public double DEFAULT_RPM;
         public double LEFT_KF;
         public double RIGHT_KF;
+        public double SHOOTING_BALL_ZONE;
+        public double ZONE_WAIT_TIME;
     }
     /** Control constants contain control value such as kp, kv for control loops */
     public static class ControlConstants {

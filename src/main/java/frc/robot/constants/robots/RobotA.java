@@ -52,6 +52,8 @@ public class RobotA extends RobotConstants {
         shooterConstants.DEFAULT_RPM = 3000;
         shooterConstants.LEFT_KF = 0;
         shooterConstants.RIGHT_KF = 0;
+        shooterConstants.SHOOTING_BALL_ZONE = 2000;
+        shooterConstants.ZONE_WAIT_TIME = 0;
 
         /* Robot Map */
         can.LEFT_SHOOTER_TALON_SRX = 0;
