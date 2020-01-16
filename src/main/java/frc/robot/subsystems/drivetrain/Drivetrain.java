@@ -82,7 +82,7 @@ public class Drivetrain implements MoveableSubsystem {
   }
 
   // Encoders functions
-  //TODO: set correct talons that have encoder connected to it.
+  // TODO: set correct talons that have encoder connected to it.
   public int getRightTicks() {
     return rightMiddleTalon.getSelectedSensorPosition();
   }
@@ -92,7 +92,8 @@ public class Drivetrain implements MoveableSubsystem {
   }
 
   public void resetEncoders() {
-    leftMiddleTalon.
+    leftMiddleTalon.setSelectedSensorPosition(0);
+    rightMiddleTalon.setSelectedSensorPosition(0);
   }
 
   public double getRightDistance() {
@@ -108,23 +109,17 @@ public class Drivetrain implements MoveableSubsystem {
   }
 
   public double getRightVelocity() {
-
+    return rightMiddleTalon.getSelectedSensorVelocity()
+        / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER;
   }
 
   public double getLeftVelocity() {
-
+    return leftMiddleTalon.getSelectedSensorVelocity()
+        / robotConstants.drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER;
   }
 
   public double getAverageVelocity() {
     return (getLeftVelocity() + getRightVelocity()) / 2;
-  }
-
-  public double getRightAcceleration() {
-
-  }
-
-  public double getLeftAcceleration() {
-
   }
 
   // Motion Profiling functions
