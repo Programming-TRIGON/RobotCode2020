@@ -43,16 +43,8 @@ public class RobotA extends RobotConstants {
         controlConstants.visionRotationSettings = new PIDSettings(0,0,0,0,0);
 
         /* Robot Map */
-        /* CAN */
-
-        /* PCM */
-        
-        /* PWM */ 
         pwm.LED_CONTROLLER = 0;
-
-        /* DIO */
-
-        /* I2C */
         i2c.i2cPort = Port.kOnboard;
+
     }
 }
