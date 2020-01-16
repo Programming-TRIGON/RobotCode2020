@@ -3,6 +3,7 @@ package frc.robot.subsystems.shooter;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.MoveableSubsystem;
@@ -24,7 +25,7 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
     }
 
     private void setUpTalon(WPI_TalonSRX talon) {
-        talon.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Absolute, 0, 0);
+        talon.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
         talon.configSelectedFeedbackCoefficient(1 / Robot.robotConstants.shooterConstants.UNITS_PER_ROTATION);
         talon.config_kP(0, Robot.robotConstants.shooterConstants.KP);
         talon.config_kF(0, Robot.robotConstants.shooterConstants.KF);
