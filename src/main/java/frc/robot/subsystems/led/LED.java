@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
-import frc.robot.subsystems.led.LEDColor;
 
 public class LED extends SubsystemBase {
   private static final double BLINK_TIME = 0.2;
