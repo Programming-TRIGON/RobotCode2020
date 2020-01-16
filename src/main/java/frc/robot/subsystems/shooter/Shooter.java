@@ -3,32 +3,38 @@ package frc.robot.subsystems.shooter;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 import frc.robot.subsystems.MoveableSubsystem;
+
+import static frc.robot.Robot.robotConstants;
 
 /**
  * This subsystem handles shooting power cells into the outer and inner ports.
  */
 public class Shooter extends SubsystemBase implements MoveableSubsystem {
-    private static final int AMOUNT_OF_TALONS = 1;
-    private WPI_TalonSRX[] talons;
+    private WPI_TalonSRX leftTalon;
+    private WPI_TalonSRX rightTalon;
 
     public Shooter() {
-        talons = new WPI_TalonSRX[AMOUNT_OF_TALONS];
         //setting up the talon
-        for (int i = 0; i < talons.length; i++) {
-            talons[i] = new WPI_TalonSRX(Robot.robotConstants.can.SHOOTER_CONTROLLERS[i]);
-            setUpTalon(talons[i]);
-        }
-    }
+        leftTalon = new WPI_TalonSRX(robotConstants.can.LEFT_SHOOTER_CONTROLLER);
+        leftTalon.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        leftTalon.configSelectedFeedbackCoefficient(1 / (robotConstants.shooterConstants.LEFT_UNITS_PER_ROTATION * 600));
+        leftTalon.config_kP(0, robotConstants.controlConstants.leftShooterSettings.getKP());
+        leftTalon.config_kI(0, robotConstants.controlConstants.leftShooterSettings.getKI());
+        leftTalon.config_kD(0, robotConstants.controlConstants.leftShooterSettings.getKD());
+        leftTalon.config_kF(0, robotConstants.shooterConstants.LEFT_KF);
+        leftTalon.selectProfileSlot(0, 0);
 
-    private void setUpTalon(WPI_TalonSRX talon) {
-        talon.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-        talon.configSelectedFeedbackCoefficient(1 / Robot.robotConstants.shooterConstants.UNITS_PER_ROTATION);
-        talon.config_kP(0, Robot.robotConstants.shooterConstants.KP);
-        talon.config_kF(0, Robot.robotConstants.shooterConstants.KF);
-        talon.selectProfileSlot(0, 0);
+        rightTalon = new WPI_TalonSRX(robotConstants.can.RIGHT_SHOOTER_CONTROLLER);
+        rightTalon.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+        rightTalon.configSelectedFeedbackCoefficient(1 / (robotConstants.shooterConstants.RIGHT_UNITS_PER_ROTATION * 600));
+        rightTalon.config_kP(0, robotConstants.controlConstants.rightShooterSettings.getKP());
+        rightTalon.config_kI(0, robotConstants.controlConstants.rightShooterSettings.getKI());
+        rightTalon.config_kD(0, robotConstants.controlConstants.rightShooterSettings.getKD());
+        rightTalon.config_kF(0, robotConstants.shooterConstants.RIGHT_KF);
+        rightTalon.selectProfileSlot(0, 0);
     }
 
     /**
@@ -36,12 +42,12 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
      */
     @Override
     public void move(double power) {
-        for (WPI_TalonSRX talon : talons)
-            talon.set(power);
+        leftTalon.set(power);
+        rightTalon.set(power);
     }
 
     public void startPID() {
-        startPID(Robot.robotConstants.shooterConstants.DEFAULT_RPM);
+        startPID(robotConstants.shooterConstants.DEFAULT_RPM);
     }
 
     /**
@@ -50,17 +56,30 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
      * @param setpointVelocity The setpoint used for calculation the velocity error in RPM.
      */
     public void startPID(double setpointVelocity) {
-        for (WPI_TalonSRX talon : talons)
-            talon.set(ControlMode.Velocity, setpointVelocity);
+        leftTalon.set(ControlMode.Velocity, setpointVelocity);
+        rightTalon.set(ControlMode.Velocity, setpointVelocity);
     }
 
     /**
      * @return the speed of the shooter in RPM.
      */
     public double getAvgSpeed() {
-        double sum = 0;
-        for (WPI_TalonSRX talon : talons)
-            sum += talon.getSelectedSensorVelocity();
-        return sum / AMOUNT_OF_TALONS;
+        return (double)(leftTalon.getSelectedSensorVelocity() + rightTalon.getSelectedSensorVelocity()) / 2;
+    }
+
+    /**
+     * @param RPM Revolution per minute
+     * @return RPM in meter per second
+     */
+    public static double rpmToMeterPerSecond(double RPM) {
+        return Units.rotationsPerMinuteToRadiansPerSecond(RPM) * robotConstants.shooterConstants.WHEEL_RADIUS;
+    }
+
+    /**
+     * @param meterPerSecond speed to be converted
+     * @return velocity in revolution per minute
+     */
+    public static double MeterPerSecondToRPM(double meterPerSecond) {
+        return Units.radiansPerSecondToRotationsPerMinute(meterPerSecond / robotConstants.shooterConstants.WHEEL_RADIUS);
     }
 }

@@ -24,10 +24,12 @@ public abstract class RobotConstants extends RobotMap {
         public double RIGHT_ENCODER_TICKS_PER_METER;
     }
     public static class ShooterConstants {
-        public double UNITS_PER_ROTATION;
+        public double WHEEL_RADIUS;
+        public double LEFT_UNITS_PER_ROTATION;
+        public double RIGHT_UNITS_PER_ROTATION;
         public double DEFAULT_RPM;
-        public double KP;
-        public double KF;
+        public double LEFT_KF;
+        public double RIGHT_KF;
     }
     /** Control constants contain control value such as kp, kv for control loops */
     public static class ControlConstants {
@@ -35,6 +37,8 @@ public abstract class RobotConstants extends RobotMap {
         public SimpleMotorFeedforward motionProfilingReverseSettings;
         public PIDSettings visionRotationSettings;
         public PIDSettings visionDistanceSettings;
+        public PIDSettings leftShooterSettings;
+        public PIDSettings rightShooterSettings;
     }
 
     public static class MotionProfilingConstants {

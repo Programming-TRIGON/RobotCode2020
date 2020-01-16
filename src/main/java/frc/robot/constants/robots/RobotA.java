@@ -41,15 +41,20 @@ public class RobotA extends RobotConstants {
         /* control Constants */
         controlConstants.visionDistanceSettings = new PIDSettings(0,0,0,0,0);
         controlConstants.visionRotationSettings = new PIDSettings(0,0,0,0,0);
+        controlConstants.leftShooterSettings = new PIDSettings(0,0,0,0,0);
+        controlConstants.rightShooterSettings = new PIDSettings(0,0,0,0,0);
 
         /* Shooter Constants */
-        shooterConstants.UNITS_PER_ROTATION = 1;
+        shooterConstants.WHEEL_RADIUS = 1;
+        shooterConstants.LEFT_UNITS_PER_ROTATION = 1;
+        shooterConstants.RIGHT_UNITS_PER_ROTATION = 1;
         shooterConstants.DEFAULT_RPM = 3000;
-        shooterConstants.KP = 0;
-        shooterConstants.KF = 0;
+        shooterConstants.LEFT_KF = 0;
+        shooterConstants.RIGHT_KF = 0;
 
         /* Robot Map */
-        can.SHOOTER_CONTROLLERS = new int[]{0};
+        can.LEFT_SHOOTER_CONTROLLER = 0;
+        can.RIGHT_SHOOTER_CONTROLLER = 1;
         pwm.LED_CONTROLLER = 0;
 
     }

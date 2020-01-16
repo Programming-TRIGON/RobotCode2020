@@ -2,8 +2,7 @@ package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
-import frc.robot.commands.shooter.Shoot;
-import frc.robot.utils.DashboardController;
+import frc.robot.subsystems.shooter.Shoot;
 
 /**
  * DashboardDataContainer contains all the data to be viewed or put in the dashboard.  

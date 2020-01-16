@@ -1,7 +1,9 @@
-package frc.robot.commands.shooter;
+package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+
+import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.shooter;
 
@@ -11,7 +13,8 @@ import static frc.robot.Robot.shooter;
  */
 public class Shoot extends CommandBase {
 
-    private double targetVelocity;
+    private DoubleSupplier targetVelocity;
+    private double lastTarget;
 
     /**
      * Constructs a shoot command with default RPM setpoint.
@@ -25,12 +28,12 @@ public class Shoot extends CommandBase {
      */
     public Shoot(double setpointVelocity) {
         addRequirements(shooter);
-        this.targetVelocity = setpointVelocity;
+        this.targetVelocity = () -> setpointVelocity;
     }
 
     @Override
-    public void initialize() {
-        shooter.startPID(targetVelocity);
+    public void execute() {
+        shooter.startPID(targetVelocity.getAsDouble());
     }
 
     @Override
