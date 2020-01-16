@@ -45,8 +45,8 @@ public class CalibrateFeedforward extends CommandBase {
 
     double battery = RobotController.getBatteryVoltage();
 
-    double leftMotorVolts = drivetrain.getLeftMotorOutputVoltage() * drivetrain.getLeftAppliedOutput();
-    double rightMotorVolts = drivetrain.getRightMotorOutputVoltage() * drivetrain.getRightAppliedOutput();
+    double leftMotorVolts = drivetrain.getLeftMotorOutputVoltage();
+    double rightMotorVolts = drivetrain.getRightMotorOutputVoltage();
 
     // Retrieve the commanded speed from NetworkTables
     double autospeed = autoSpeedEntry.getDouble(0);

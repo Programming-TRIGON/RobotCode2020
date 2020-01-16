@@ -157,12 +157,4 @@ public class Drivetrain implements MoveableSubsystem {
   public void move(double power) {
     arcadeDrive(0, power);
   }
-
-  public double getLeftAppliedOutput(){
-    return 0;
-  }
-
-  public double getRightAppliedOutput(){
-    return 0;
-  }
 }
