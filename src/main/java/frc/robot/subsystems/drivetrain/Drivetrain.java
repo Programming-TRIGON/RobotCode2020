@@ -32,12 +32,12 @@ public class Drivetrain implements MoveableSubsystem {
   DifferentialDrive drivetrain;
 
   public Drivetrain() {
-    leftRearTalon = new WPI_TalonFX(RobotMap.CAN.DRIVETRAIN_LEFT_REAR_TALON);
-    leftMiddleTalon = new WPI_TalonFX(RobotMap.CAN.DRIVETRAIN_LEFT_MIDDLE_TALON);
-    leftFrontTalon = new WPI_TalonFX(RobotMap.CAN.DRIVETRAIN_LEFT_FRONT_TALON);
-    rightRearTalon = new WPI_TalonFX(RobotMap.CAN.DRIVETRAIN_RIGHT_REAR_TALON);
-    rightMiddleTalon = new WPI_TalonFX(RobotMap.CAN.DRIVETRAIN_RIGHT_MIDDLE_TALON);
-    rightFrontTalon = new WPI_TalonFX(RobotMap.CAN.DRIVETRAIN_RIGHT_FRONT_TALON);
+    leftRearTalon = new WPI_TalonFX(RobotMap.can.DRIVETRAIN_LEFT_REAR_TALON);
+    leftMiddleTalon = new WPI_TalonFX(RobotMap.can.DRIVETRAIN_LEFT_MIDDLE_TALON);
+    leftFrontTalon = new WPI_TalonFX(RobotMap.can.DRIVETRAIN_LEFT_FRONT_TALON);
+    rightRearTalon = new WPI_TalonFX(RobotMap.can.DRIVETRAIN_RIGHT_REAR_TALON);
+    rightMiddleTalon = new WPI_TalonFX(RobotMap.can.DRIVETRAIN_RIGHT_MIDDLE_TALON);
+    rightFrontTalon = new WPI_TalonFX(RobotMap.can.DRIVETRAIN_RIGHT_FRONT_TALON);
     drivetrain = new DifferentialDrive(new SpeedControllerGroup(leftRearTalon, leftMiddleTalon, leftFrontTalon), new SpeedControllerGroup(rightRearTalon, rightMiddleTalon, rightFrontTalon));
     gyro = new Pigeon(RobotMap.CAN.
   // Drive functions
