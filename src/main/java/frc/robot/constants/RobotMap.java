@@ -18,12 +18,12 @@ public abstract class RobotMap {
   // TODO: Set variables for hardware components
   
   public static class CAN {
-    public static int drivetrainLeftRearTalon;
-    public static int drivetrainLeftMiddleTalon;
-    public static int drivetrainLeftFrontTalon;
-    public static int drivetrainRightRearTalon;
-    public static int drivetrainRightMiddleTalon;
-    public static int drivetrainRightFrontTalon;
+    public static int DRIVETRAIN_LEFT_REAR_TALON;
+    public static int DRIVETRAIN_LEFT_MIDDLE_TALON;
+    public static int DRIVETRAIN_LEFT_FRONT_TALON;
+    public static int DRIVETRAIN_RIGHT_REAR_TALON;
+    public static int DRIVETRAIN_RIGHT_MIDDLE_TALON;
+    public static int DRIVETRAIN_RIGHT_FRONT_TALON;
   }
     
   public static class PCM {

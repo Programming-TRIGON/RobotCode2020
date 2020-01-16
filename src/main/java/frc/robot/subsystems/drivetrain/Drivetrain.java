@@ -28,6 +28,7 @@ public class Drivetrain implements MoveableSubsystem  {
   DifferentialDrive drivetrain;
 
   public Drivetrain() {
+  leftRearTalon = RobotA.
     
   }
 
