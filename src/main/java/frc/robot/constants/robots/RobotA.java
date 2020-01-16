@@ -53,7 +53,7 @@ public class RobotA extends RobotConstants {
         shooterConstants.MAX_JERK = 80;
 
         /* Robot Map */
-        can.SHOOTER_CONTROLLER = 0;
+        can.SHOOTER_CONTROLLERS = new int[]{0};
         pwm.LED_CONTROLLER = 0;
 
     }
