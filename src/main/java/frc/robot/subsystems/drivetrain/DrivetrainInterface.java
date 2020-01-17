@@ -54,9 +54,6 @@ public interface DrivetrainInterface extends MoveableSubsystem {
         return (getLeftVelocity() + getRightVelocity()) / 2;
     }
 
-    double getRightAcceleration();
-    double getLeftAcceleration();
-
     // Motion Profiling functions
     DifferentialDriveKinematics getKinematics();
     DifferentialDriveWheelSpeeds getWheelSpeeds();

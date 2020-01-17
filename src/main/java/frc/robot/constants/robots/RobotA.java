@@ -46,8 +46,17 @@ public class RobotA extends RobotConstants {
         pwm.LED_CONTROLLER = 0;
         i2c.i2cPort = Port.kOnboard;
 
-        /* Trigon Drive Constants */
+        /* Drivetrain Map */
+        can.DRIVETRAIN_LEFT_FRONT_TALON = 6;
+        can.DRIVETRAIN_LEFT_MIDDLE_TALON = 1;
+        can.DRIVETRAIN_LEFT_REAR_TALON = 2;
+        can.DRIVETRAIN_RIGHT_FRONT_TALON = 3;
+        can.DRIVETRAIN_RIGHT_MIDDLE_TALON = 4;
+        can.DRIVETRAIN_RIGHT_REAR_TALON = 5;
+        can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER = 7;
+        can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER = 8;
 
+        /* Trigon Drive Constants */
         trigonDriveConstents.SENSITIVITY = 0;
         trigonDriveConstents.THRESHOLD = 0;
         trigonDriveConstents.X_LOCK = false;
