@@ -20,6 +20,10 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.ROBOT_WIDTH = 0;
         drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER = 1;
         drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER = 1;
+        drivetrainConstants.RAMP_RATE = 1;
+        drivetrainConstants.CURRENT_LIMIT = 1;
+        drivetrainConstants.TRIGGER_THRESHOLD_CURRENT = 1;
+        drivetrainConstants.TRIGGER_THRESHOLD_TIME = 1;
 
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;
