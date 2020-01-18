@@ -59,6 +59,5 @@ public class RobotA extends RobotConstants {
         /* Trigon Drive Constants */
         trigonDriveConstents.SENSITIVITY = 0;
         trigonDriveConstents.THRESHOLD = 0;
-        trigonDriveConstents.X_LOCK = false;
     }
 }

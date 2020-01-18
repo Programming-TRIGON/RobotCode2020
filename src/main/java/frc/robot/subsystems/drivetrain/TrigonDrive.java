@@ -12,25 +12,19 @@ import static frc.robot.Robot.robotConstants;
 // TODO: add documentation
 public class TrigonDrive extends DifferentialDrive {
 
-    private boolean xLock;
     private double sensitivity;
     private double threshold;
 
     public TrigonDrive(SpeedController leftMotor, SpeedController rightMotor) {
-        this(leftMotor, rightMotor, robotConstants.trigonDriveConstents.X_LOCK,
+        this(leftMotor, rightMotor,
                 robotConstants.trigonDriveConstents.SENSITIVITY, robotConstants.trigonDriveConstents.THRESHOLD);
     }
 
-    public TrigonDrive(SpeedController leftMotor, SpeedController rightMotor, boolean xLock, double sensitivity,
+    public TrigonDrive(SpeedController leftMotor, SpeedController rightMotor, double sensitivity,
             double threshold) {
         super(leftMotor, rightMotor);
-        this.xLock = xLock;
         this.sensitivity = sensitivity;
         this.threshold = threshold;
-    }
-
-    public void lockX(boolean xLock) {
-        this.xLock = xLock;
     }
 
     public void setSensitivity(double sensitivity) {
@@ -41,10 +35,6 @@ public class TrigonDrive extends DifferentialDrive {
         this.threshold = threshold;
     }
 
-    public boolean getXLock() {
-        return xLock;
-    }
-
     public double getSensitivity() {
         return sensitivity;
     }
@@ -53,15 +43,15 @@ public class TrigonDrive extends DifferentialDrive {
         return threshold;
     }
 
-    public double yInputcalculation(double value) {
-        boolean isLinear = Math.abs(value) <= 0.25;
-        return isLinear ? 2 * value : Math.signum(value) * Math.sqrt(Math.abs(value));
-    }
+    // public double yInputCalculation(double value) {
+    //     boolean isLinear = Math.abs(value) <= 0.25;
+    //     return isLinear ? 2 * value : Math.signum(value) * Math.sqrt(Math.abs(value));
+    // }
 
-    public double xyInputcalculation(double value) {
-        boolean isLinear = Math.abs(value) <= 0.5;
-        return xLock ? 0 : isLinear ? 0.5 * value : Math.signum(value) * Math.pow(value, 2);
-    }
+    // public double xyInputCalculation(double value) {
+    //     boolean isLinear = Math.abs(value) <= 0.5;
+    //     return isLinear ? 0.5 * value : Math.signum(value) * Math.pow(value, 2);
+    // }
 
     public void TrigonCurvatureDrive(double xInput, double yInput) {
         TrigonCurvatureDrive(xInput, yInput, sensitivity, threshold);

@@ -53,7 +53,6 @@ public abstract class RobotConstants extends RobotMap {
     public static class TrigonDriveConstents {
         public double SENSITIVITY;
         public double THRESHOLD;
-        public boolean X_LOCK;
     }
 
     // More static class here!
