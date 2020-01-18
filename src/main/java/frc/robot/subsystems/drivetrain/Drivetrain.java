@@ -4,24 +4,21 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.subsystems.MoveableSubsystem;
 import static frc.robot.Robot.robotConstants;
 
-/**
- * Creates a new DrivetrainSubsytem.
- */
-public class Drivetrain implements MoveableSubsystem {
+public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
 
   private DifferentialDriveKinematics kinematics;
-  private final DifferentialDriveOdometry odometry;
+  private DifferentialDriveOdometry odometry;
 
   private WPI_TalonFX leftRearTalon;
   private WPI_TalonFX leftMiddleTalon;
@@ -34,7 +31,9 @@ public class Drivetrain implements MoveableSubsystem {
   private Pigeon gyro;
 
   private DifferentialDrive drivetrain;
-
+/**
+ * This is the subsystem of the drivetrain
+ */
   public Drivetrain() {
     leftRearTalon = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON);
     leftMiddleTalon = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_MIDDLE_TALON);
@@ -42,20 +41,28 @@ public class Drivetrain implements MoveableSubsystem {
     rightRearTalon = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_REAR_TALON);
     rightMiddleTalon = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_MIDDLE_TALON);
     rightFrontTalon = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_FRONT_TALON);
-    drivetrain = new DifferentialDrive(new SpeedControllerGroup(leftRearTalon, leftMiddleTalon, leftFrontTalon),
-        new SpeedControllerGroup(rightRearTalon, rightMiddleTalon, rightFrontTalon));
+    leftMiddleTalon.follow(leftFrontTalon);
+    leftRearTalon.follow(leftFrontTalon);
+    rightMiddleTalon.follow(rightFrontTalon);
+    rightRearTalon.follow(rightFrontTalon);
+    drivetrain = new DifferentialDrive(leftFrontTalon, rightFrontTalon);
+    drivetrain.setDeadband(0);
     // TODO: set correct port for pigeon gyro.
     gyro = new Pigeon(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON);
     kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.WHEEL_BASE_WIDTH);
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
-    //TODO: set correct talons for encoders.
+    // TODO: set correct talons for encoders.
     leftEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER);
     rightEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER);
   }
 
+  public void periodic() {
+    odometry.update(Rotation2d.fromDegrees(getAngle()), getLeftDistance(), getRightDistance());
+  }
+
   // Drive functions
   public void arcadeDrive(double x, double y) {
-    drivetrain.arcadeDrive(x, y);
+    drivetrain.arcadeDrive(x, y, false);
   }
 
   public void curvatureDrive(double x, double y, boolean quickTurn) {
@@ -63,20 +70,24 @@ public class Drivetrain implements MoveableSubsystem {
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
-    drivetrain.tankDrive(leftSpeed, rightSpeed);
+    drivetrain.tankDrive(leftSpeed, rightSpeed, false);
   }
 
-  public void voltageTankDrive(double left, double right) {
-    tankDrive(left / RobotController.getBatteryVoltage(), right / RobotController.getBatteryVoltage());
+  public void voltageTankDrive(double leftVoltage, double rightVoltage) {
+    tankDrive(leftVoltage / RobotController.getBatteryVoltage(), rightVoltage / RobotController.getBatteryVoltage());
+  }
+
+  public void move(double power) {
+    arcadeDrive(0, power);
   }
 
   // Gyro functions
   double getAngle() {
-    return gyro.getAngle();
+    return Math.IEEEremainder(gyro.getAngle(), 360);
   }
 
   public double getRadianAngle() {
-    return Math.toRadians(getAngle());
+    return Math.toRadians(gyro.getAngle() );
   }
 
   public void resetGyro() {
@@ -88,8 +99,6 @@ public class Drivetrain implements MoveableSubsystem {
   }
 
   // Encoders functions
-  // TODO: set correct talons that have encoder connected to it.
-
   public int getLeftTicks() {
     return leftEncoder.getSelectedSensorPosition();
   }
@@ -106,7 +115,7 @@ public class Drivetrain implements MoveableSubsystem {
   public double getLeftDistance() {
     return getLeftTicks() / robotConstants.drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER;
   }
-  
+
   public double getRightDistance() {
     return getRightTicks() / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER;
   }
@@ -116,13 +125,13 @@ public class Drivetrain implements MoveableSubsystem {
   }
 
   public double getRightVelocity() {
-    return rightEncoder.getSelectedSensorVelocity()
-        / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER;
+    return rightEncoder.getSelectedSensorVelocity() / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER
+        * 10;
   }
 
   public double getLeftVelocity() {
-    return leftEncoder.getSelectedSensorVelocity()
-        / robotConstants.drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER;
+    return leftEncoder.getSelectedSensorVelocity() / robotConstants.drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER
+        * 10;
   }
 
   public double getAverageVelocity() {
@@ -159,9 +168,5 @@ public class Drivetrain implements MoveableSubsystem {
   public double getRightMotorOutputVoltage() {
     return rightFrontTalon.getMotorOutputVoltage();
 
-  }
-
-  public void move(double power) {
-    arcadeDrive(0, power);
   }
 }
