@@ -49,7 +49,7 @@ public class TrigonDrive extends DifferentialDrive {
         return isLinear ? X_LINEAR_COEFFICIENT * value : Math.signum(value) * Math.pow(value, 2);
     }
 
-    public void TrigonCurvatureDrive(double xInput, double yInput) {
+    public void trigonCurvatureDrive(double xInput, double yInput) {
         double x = xInputCalculation(xInput);
         double y = yInputCalculation(yInput);
         curvatureDrive(sensitivity * x, sensitivity * y,

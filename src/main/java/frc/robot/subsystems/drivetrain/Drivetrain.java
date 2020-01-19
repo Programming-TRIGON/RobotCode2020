@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
@@ -28,7 +27,7 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
   private WPI_TalonFX rightMiddleTalon;
   private WPI_TalonFX rightFrontTalon;
 
-  private DifferentialDrive drivetrain;
+  private TrigonDrive drivetrain;
 
   private WPI_TalonSRX rightEncoder;
   private WPI_TalonSRX leftEncoder;
@@ -55,7 +54,7 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
     setUpMotor(rightMiddleTalon, rightFrontTalon);
     setUpMotor(rightFrontTalon, rightFrontTalon);
 
-    drivetrain = new DifferentialDrive(leftFrontTalon, rightFrontTalon);
+    drivetrain = new TrigonDrive(leftFrontTalon, rightFrontTalon);
     drivetrain.setDeadband(0);
 
     // TODO: set correct talons for encoders.
@@ -76,6 +75,11 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
 
   public void tankDrive(double leftSpeed, double rightSpeed) {
     drivetrain.tankDrive(leftSpeed, rightSpeed, false);
+  }
+
+  /** This is a custom made driving method designed for our driver */
+  public void trigonCurvatureDrive(double xInput, double yInput) {
+    drivetrain.trigonCurvatureDrive(xInput, yInput);
   }
 
   /** This takes the params and devides them by the battery voltage */
@@ -179,6 +183,22 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
 
   public double getRightMotorOutputVoltage() {
     return rightFrontTalon.getMotorOutputVoltage();
+  }
+
+  public void setTrigonDriveSensitivity(double sensitivity) {
+    drivetrain.setSensitivity(sensitivity);
+  }
+
+  public double getTrigonDrivSensitivity() {
+    return drivetrain.getSensitivity();
+  }
+
+  public void setTrigonDrivThreshold(double threshold) {
+    drivetrain.setThreshold(threshold);
+  }
+
+  public double getTrigonDriveThreshold() {
+    return drivetrain.getThreshold();
   }
 
   public void periodic() {
