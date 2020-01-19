@@ -82,7 +82,12 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
     drivetrain.trigonCurvatureDrive(xInput, yInput);
   }
 
-  /** This takes the params and devides them by the battery voltage */
+  /**
+   * @param leftVoltage  The power to insert into the left side of the drivetrain
+   *                     devided by the battery voltage
+   * @param rightVoltage The power to insert into the right side of the drivetrai
+   *                     devided by the battery voltage
+   */
   public void voltageTankDrive(double leftVoltage, double rightVoltage) {
     tankDrive(leftVoltage / RobotController.getBatteryVoltage(), rightVoltage / RobotController.getBatteryVoltage());
   }
@@ -140,14 +145,14 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
 
   /** @return Meters per second */
   public double getRightVelocity() {
-    return rightEncoder.getSelectedSensorVelocity() / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER
-        * 10;
+    return rightEncoder.getSelectedSensorVelocity() * 10
+        / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER;
   }
 
   /** @return Meters per second */
   public double getLeftVelocity() {
-    return leftEncoder.getSelectedSensorVelocity() / robotConstants.drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER
-        * 10;
+    return leftEncoder.getSelectedSensorVelocity() * 10
+        / robotConstants.drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER;
   }
 
   public double getAverageVelocity() {
