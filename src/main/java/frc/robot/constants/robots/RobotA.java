@@ -45,6 +45,8 @@ public class RobotA extends RobotConstants {
         /* Robot Map */
         pwm.LED_CONTROLLER = 0;
         i2c.i2cPort = Port.kOnboard;
+        //TODO: change mixer talon to correct port
+        can.MIXER_TALON = 8;
 
     }
 }

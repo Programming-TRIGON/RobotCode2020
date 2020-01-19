@@ -18,7 +18,7 @@ public abstract class RobotMap {
   // TODO: Set variables for hardware components
   
   public static class CAN {
-    public 
+    public int MIXER_TALON;
       
   }
     
