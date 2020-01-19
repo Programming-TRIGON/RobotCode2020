@@ -15,7 +15,7 @@ public class DashboardDataContainer {
 
         dashboardController = new DashboardController();
         SmartDashboard.putNumber("Mixer Power", 0.0);
-        SmartDashboard.putData("Spin Mixer", new SpinMixer(SmartDashboard.getNumber("Mixer Power", 0.0)));
+        SmartDashboard.putData("Spin Mixer", new SpinMixer(SmartDashboard.getNumber("Mixer Power", 0.0), 0));
         // dashboardController.addBoolean(name, booleanSupplier);
         // dashboardController.addNumber(name, numberSupplier);
         // dashboardController.addString(name, stringSupplier);
