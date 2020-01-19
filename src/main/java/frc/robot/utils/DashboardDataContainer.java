@@ -1,16 +1,19 @@
 package frc.robot.utils;
 
-import frc.robot.utils.DashboardController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.intake.SetIntakeSpeed;
 
 /**
- * DashboardDataContainer contains all the data to be viewed or put in the dashboard.  
+ * DashboardDataContainer contains all the data to be viewed or put in the dashboard.
  */
 public class DashboardDataContainer {
     private DashboardController dashboardController;
-    
-    public DashboardDataContainer() {
-        dashboardController = new DashboardController();
 
+    public DashboardDataContainer() {
+        SmartDashboard.putNumber("Intake/Intake Power", 0);
+        dashboardController = new DashboardController();
+        SmartDashboard.putData("Intake/Spin Intake",
+                new SetIntakeSpeed(() -> SmartDashboard.getNumber("Intake/Intake Power", 0)));
         // dashboardController.addBoolean(name, booleanSupplier);
         // dashboardController.addNumber(name, numberSupplier);
         // dashboardController.addString(name, stringSupplier);
