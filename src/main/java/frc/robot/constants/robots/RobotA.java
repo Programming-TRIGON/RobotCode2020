@@ -46,5 +46,10 @@ public class RobotA extends RobotConstants {
         pwm.LED_CONTROLLER = 0;
         i2c.i2cPort = Port.kOnboard;
 
+        /* Climb Map */
+        can.LEFT_CLIMB_MOTOR = 0;
+        can.RIGHT_CLIMB_MOTOR = 1;
+        can.LEFT_HOOK_MOTOR = 2;
+        can.RIGHT_HOOK_MOTOR = 3;
     }
 }
