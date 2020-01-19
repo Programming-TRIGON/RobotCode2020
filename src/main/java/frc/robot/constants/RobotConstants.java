@@ -11,6 +11,7 @@ public abstract class RobotConstants extends RobotMap {
     public VisionConstants visionConstants = new VisionConstants();
     public ControlConstants controlConstants = new ControlConstants();
     public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants(); 
+    public IntakeConstants intakeConstants = new IntakeConstants();
 
     // Example:
     public static class DrivetrainConstants {
@@ -49,5 +50,7 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     // More static class here!
-
+    public static class IntakeConstants {
+        public boolean isIntakeReversed;
+    }
 }
