@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -18,10 +17,12 @@ public class Mixer extends SubsystemBase implements MoveableSubsystem {
     motor = new WPI_TalonSRX(robotConstants.can.MIXER_TALON);
   }
 
+  @Override
   public void move(double power) {
-    motor.set(ControlMode.PercentOutput, power);
+    motor.set(power);
   }
 
+  /** @return The motor output in amps */
   public double getStall(){
     return motor.getMotorOutputVoltage();
   }

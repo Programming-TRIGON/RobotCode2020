@@ -16,7 +16,6 @@ public abstract class RobotMap {
   public I2C i2c = new I2C(); 
 
   // TODO: Set variables for hardware components
-  
   public static class CAN {
     public int MIXER_TALON;
       
