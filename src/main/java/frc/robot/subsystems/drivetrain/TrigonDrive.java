@@ -12,11 +12,10 @@ import static frc.robot.Robot.robotConstants;
 public class TrigonDrive extends DifferentialDrive {
     private double sensitivity;
     private double threshold;
-    private final double Y_LINEAR_THRESHOLD = 0.25;
-    private final double Y_LINEAR_COEFFICIENT = 2;
-    private final double X_LINEAR_THRESHOLD = 0.5;
-    private final double X_LINEAR_COEFFICIENT = 0.5;
-
+    private static final double Y_LINEAR_THRESHOLD = 0.25;
+    private static final double Y_LINEAR_COEFFICIENT = 2;
+    private static final double X_LINEAR_THRESHOLD = 0.5;
+    private static final double X_LINEAR_COEFFICIENT = 0.5;
 
     public TrigonDrive(SpeedController leftMotor, SpeedController rightMotor) {
         super(leftMotor, rightMotor);
@@ -51,9 +50,9 @@ public class TrigonDrive extends DifferentialDrive {
     }
 
     public void TrigonCurvatureDrive(double xInput, double yInput) {
-        curvatureDrive(sensitivity * xInputCalculation(xInput), sensitivity * yInputCalculation(yInput),
-                Math.sqrt(yInputCalculation(yInput) * yInputCalculation(yInput)
-                        + xInputCalculation(xInput) * xInputCalculation(xInput)) < threshold    
-                        || Math.abs(yInputCalculation(yInput)) < Math.abs(xInputCalculation(xInput)));
+        double x = xInputCalculation(xInput);
+        double y = yInputCalculation(yInput);
+        curvatureDrive(sensitivity * x, sensitivity * y,
+            Math.sqrt(y * y + x * x) < threshold || Math.abs(y) < Math.abs(x));
     }
 }
