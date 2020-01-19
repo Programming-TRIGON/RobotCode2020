@@ -45,6 +45,6 @@ public class RobotA extends RobotConstants {
         /* Robot Map */
         pwm.LED_CONTROLLER = 0;
         i2c.i2cPort = Port.kOnboard;
-
+        can.INTAKE_SPARK_MAX = 5;
     }
 }
