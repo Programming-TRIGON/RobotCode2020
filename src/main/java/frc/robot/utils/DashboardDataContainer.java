@@ -1,16 +1,21 @@
 package frc.robot.utils;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.utils.DashboardController;
 
 /**
- * DashboardDataContainer contains all the data to be viewed or put in the dashboard.  
+ * DashboardDataContainer contains all the data to be viewed or put in the
+ * dashboard.
  */
 public class DashboardDataContainer {
     private DashboardController dashboardController;
-    
-    public DashboardDataContainer() {
-        dashboardController = new DashboardController();
 
+    public DashboardDataContainer() {
+
+        dashboardController = new DashboardController();
+        SmartDashboard.putNumber("Mixer Power", 0.0);
+        SmartDashboard.putData("Spin Mixer", new SpinMixer(SmartDashboard.getNumber("Mixer Power", 0.0)));
         // dashboardController.addBoolean(name, booleanSupplier);
         // dashboardController.addNumber(name, numberSupplier);
         // dashboardController.addString(name, stringSupplier);
