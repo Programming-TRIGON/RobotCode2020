@@ -21,6 +21,10 @@ public abstract class RobotConstants extends RobotMap {
         public double ROBOT_WIDTH;
         public double LEFT_ENCODER_TICKS_PER_METER;
         public double RIGHT_ENCODER_TICKS_PER_METER;
+        public double RAMP_RATE;
+        public double CURRENT_LIMIT;
+        public double TRIGGER_THRESHOLD_CURRENT;
+        public double TRIGGER_THRESHOLD_TIME;
     }
 
     /** Control constants contain control value such as kp, kv for control loops */

@@ -13,36 +13,34 @@ public abstract class RobotMap {
   public PCM pcm = new PCM();
   public DIO dio = new DIO();
   public PWM pwm = new PWM();
-  public I2C i2c = new I2C(); 
+  public I2C i2c = new I2C();
 
   // TODO: Set variables for hardware components
-  
+
   public static class CAN {
-    
-    //Drivetrain ports
+
+    // Drivetrain ports
     public int DRIVETRAIN_LEFT_REAR_TALON;
     public int DRIVETRAIN_LEFT_MIDDLE_TALON;
     public int DRIVETRAIN_LEFT_FRONT_TALON;
     public int DRIVETRAIN_RIGHT_REAR_TALON;
     public int DRIVETRAIN_RIGHT_MIDDLE_TALON;
     public int DRIVETRAIN_RIGHT_FRONT_TALON;
-
-    //Shooter ports
     public int TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER;
-    public int TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER; 
+    public int TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER;
   }
-    
+
   public static class PCM {
-      
+
   }
-  
+
   public static class DIO {
-      
+
   }
 
   public static class PWM {
     public int LED_CONTROLLER;
-    
+
   }
 
   public static class I2C {
