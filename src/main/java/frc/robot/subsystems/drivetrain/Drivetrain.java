@@ -78,7 +78,12 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
     drivetrain.tankDrive(leftSpeed, rightSpeed, false);
   }
 
-  /** This takes the params and devides them by the battery voltage */
+  /**
+   * @param leftVoltage  The power to insert into the left side of the drivetrain
+   *                     devided by the battery voltage
+   * @param rightVoltage The power to insert into the right side of the drivetrai
+   *                      devided by the battery voltage
+   */
   public void voltageTankDrive(double leftVoltage, double rightVoltage) {
     tankDrive(leftVoltage / RobotController.getBatteryVoltage(), rightVoltage / RobotController.getBatteryVoltage());
   }

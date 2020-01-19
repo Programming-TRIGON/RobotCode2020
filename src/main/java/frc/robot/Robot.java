@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
 
     // Subsystems:
     led = new LED();
+    drivetrain = new Drivetrain();
 
     // Utils:
     dashboardDataContainer = new DashboardDataContainer();
