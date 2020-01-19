@@ -18,9 +18,6 @@ import frc.robot.subsystems.MoveableSubsystem;
 import static frc.robot.Robot.robotConstants;
 
 public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
-  private DifferentialDriveKinematics kinematics;
-  private DifferentialDriveOdometry odometry;
-
   private WPI_TalonFX leftRearTalon;
   private WPI_TalonFX leftMiddleTalon;
   private WPI_TalonFX leftFrontTalon;
@@ -33,6 +30,9 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
   private WPI_TalonSRX rightEncoder;
   private WPI_TalonSRX leftEncoder;
   private Pigeon gyro;
+
+  private DifferentialDriveKinematics kinematics;
+  private DifferentialDriveOdometry odometry;
 
   /**
    * This is the subsystem of the drivetrain
