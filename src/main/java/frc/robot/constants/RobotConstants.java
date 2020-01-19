@@ -1,7 +1,6 @@
 package frc.robot.constants;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.utils.PIDSettings;
 
 /**
@@ -10,11 +9,10 @@ import frc.robot.utils.PIDSettings;
 public abstract class RobotConstants extends RobotMap {
     public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
     public ShooterConstants shooterConstants = new ShooterConstants();
-    public VisionConstants visionConstants = new VisionConstants();
     public ControlConstants controlConstants = new ControlConstants();
+    public VisionConstants visionConstants = new VisionConstants();
     public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
 
-    // Example:
     public static class DrivetrainConstants {
         public double WHEEL_DIAMETER;
         public double WHEEL_BASE_WIDTH;
@@ -23,6 +21,7 @@ public abstract class RobotConstants extends RobotMap {
         public double LEFT_ENCODER_TICKS_PER_METER;
         public double RIGHT_ENCODER_TICKS_PER_METER;
     }
+
     public static class ShooterConstants {
         public double WHEEL_RADIUS;
         public double LEFT_UNITS_PER_ROTATION;
@@ -31,7 +30,7 @@ public abstract class RobotConstants extends RobotMap {
         public double LEFT_KF;
         public double RIGHT_KF;
         public double SHOOTING_BALL_ZONE;
-        public double ZONE_WAIT_TIME;
+        public double WAIT_TIME_ZONE;
         public boolean IS_LEFT_FRONT_MOTOR_INVERTED;
         public boolean IS_RIGHT_FRONT_MOTOR_INVERTED;
         public boolean IS_LEFT_REAR_MOTOR_INVERTED;
@@ -39,6 +38,7 @@ public abstract class RobotConstants extends RobotMap {
         public boolean IS_LEFT_ENCODER_INVERTED;
         public boolean IS_RIGHT_ENCODER_INVERTED;
     }
+
     /** Control constants contain control value such as kp, kv for control loops */
     public static class ControlConstants {
         public SimpleMotorFeedforward motionProfilingSettings;

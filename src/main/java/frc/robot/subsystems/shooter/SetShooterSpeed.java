@@ -2,7 +2,6 @@ package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.robotConstants;
@@ -14,7 +13,9 @@ import static frc.robot.Robot.shooter;
  */
 public class SetShooterSpeed extends CommandBase {
 
+    private static final int LOADED_CELLS_IN_AUTO = 3;
     private DoubleSupplier velocitySetpoint;
+    private boolean isAuto;
     private double lastSetpoint;
     private boolean isInZone;
     private double lastTimeOutsideZone;
@@ -25,7 +26,11 @@ public class SetShooterSpeed extends CommandBase {
      * @see frc.robot.constants.RobotConstants.ShooterConstants#DEFAULT_RPM
      */
     public SetShooterSpeed() {
-        this(Robot.robotConstants.shooterConstants.DEFAULT_RPM);
+        this(robotConstants.shooterConstants.DEFAULT_RPM);
+    }
+    public SetShooterSpeed(boolean isAuto) {
+        this();
+        this.isAuto = isAuto;
     }
 
     /**
@@ -33,6 +38,15 @@ public class SetShooterSpeed extends CommandBase {
      */
     public SetShooterSpeed(double velocitySetpoint) {
         this(() -> velocitySetpoint);
+    }
+
+    /**
+     * @param velocitySetpoint The setpoint used for calculation the PID velocity error in RPM.
+     * @param isAuto Whether the command is run in autonomous.
+     */
+    public SetShooterSpeed(double velocitySetpoint, boolean isAuto){
+        this(velocitySetpoint);
+        this.isAuto = isAuto;
     }
 
     public SetShooterSpeed(DoubleSupplier velocitySetpointSupplier) {
@@ -55,12 +69,12 @@ public class SetShooterSpeed extends CommandBase {
             shooter.startPID(newSetpoint);
             lastSetpoint = newSetpoint;
         }
-        if (!isInZone && shooter.getAverageSpeed() < robotConstants.shooterConstants.SHOOTING_BALL_ZONE &&
-                Timer.getFPGATimestamp() - lastTimeOutsideZone > robotConstants.shooterConstants.ZONE_WAIT_TIME) {
+        if (isAuto && !isInZone && shooter.getAverageSpeed() < robotConstants.shooterConstants.SHOOTING_BALL_ZONE &&
+                Timer.getFPGATimestamp() - lastTimeOutsideZone > robotConstants.shooterConstants.WAIT_TIME_ZONE) {
             isInZone = true;
             cellsShot++;
         }
-        if (isInZone && shooter.getAverageSpeed() > robotConstants.shooterConstants.SHOOTING_BALL_ZONE) {
+        if (isAuto && isInZone && shooter.getAverageSpeed() > robotConstants.shooterConstants.SHOOTING_BALL_ZONE) {
             isInZone = false;
             lastTimeOutsideZone = Timer.getFPGATimestamp();
         }
@@ -68,7 +82,7 @@ public class SetShooterSpeed extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return cellsShot >= 5;
+        return isAuto && cellsShot >= LOADED_CELLS_IN_AUTO;
     }
 
     @Override

@@ -38,12 +38,8 @@ public class RobotA extends RobotConstants {
         visionConstants.LIMELIGHT_OFFSET_Y = 0;
         visionConstants.LIMELIGHT_ANGLE_OFFSET = 0;
         visionConstants.TARGET_NOT_FOUND_WAIT_TIME = 0.1;
-
-        /* control Constants */
         controlConstants.visionDistanceSettings = new PIDSettings(0,0,0,0,0);
         controlConstants.visionRotationSettings = new PIDSettings(0,0,0,0,0);
-        controlConstants.leftShooterSettings = new PIDSettings(0,0,0,0,0);
-        controlConstants.rightShooterSettings = new PIDSettings(0,0,0,0,0);
 
         /* Shooter Constants */
         shooterConstants.WHEEL_RADIUS = 1;
@@ -53,13 +49,15 @@ public class RobotA extends RobotConstants {
         shooterConstants.LEFT_KF = 0;
         shooterConstants.RIGHT_KF = 0;
         shooterConstants.SHOOTING_BALL_ZONE = 2000;
-        shooterConstants.ZONE_WAIT_TIME = 0;
+        shooterConstants.WAIT_TIME_ZONE = 0;
         shooterConstants.IS_LEFT_FRONT_MOTOR_INVERTED = false;
         shooterConstants.IS_RIGHT_FRONT_MOTOR_INVERTED = false;
         shooterConstants.IS_LEFT_REAR_MOTOR_INVERTED = false;
         shooterConstants.IS_RIGHT_REAR_MOTOR_INVERTED = false;
         shooterConstants.IS_LEFT_ENCODER_INVERTED = false;
         shooterConstants.IS_RIGHT_ENCODER_INVERTED = false;
+        controlConstants.leftShooterSettings = new PIDSettings(0,0,0,0,0);
+        controlConstants.rightShooterSettings = new PIDSettings(0,0,0,0,0);
 
         /* Robot Map */
         can.LEFT_FRONT_SHOOTER_TALON_SRX = 0;
