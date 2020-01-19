@@ -4,16 +4,19 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
-public class SpinMixer extends CommandBase {
-  DoubleSupplier power;
   /**
    * spin the mixer during the game for putting balls in the ejector.
    */
+public class SpinMixer extends CommandBase {
+  DoubleSupplier power;
+
+  /** gets a supplier for motor power */
   public SpinMixer(DoubleSupplier power) {
     addRequirements(Robot.mixer);
     this.power = power;
   }
 
+  /** gets a double for motor power */
   public SpinMixer(double power){
     this(() -> power);
   }
@@ -31,6 +34,7 @@ public class SpinMixer extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    Robot.mixer.move(0);
   }
 
   @Override
