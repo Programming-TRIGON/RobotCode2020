@@ -10,7 +10,7 @@ import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.utils.DashboardDataContainer;
 import frc.robot.vision.Limelight;
-import frc.robot.subsystems.Mixer;
+import frc.robot.subsystems.mixer.Mixer;
 import frc.robot.subsystems.drivetrain.DrivetrainInterface;
 import frc.robot.subsystems.led.LED;
 
