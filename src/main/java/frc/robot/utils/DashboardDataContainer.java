@@ -1,5 +1,7 @@
 package frc.robot.utils;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.climb.ClimbWithXbox;
 import frc.robot.utils.DashboardController;
 
 /**
@@ -10,6 +12,8 @@ public class DashboardDataContainer {
     
     public DashboardDataContainer() {
         dashboardController = new DashboardController();
+        SmartDashboard.putNumber("climb power", 0.0); 
+        SmartDashboard.putData("cimb motors", new ClimbWithXbox(() -> SmartDashboard.getNumber("climb power", 0.0), true));
 
         // dashboardController.addBoolean(name, booleanSupplier);
         // dashboardController.addNumber(name, numberSupplier);

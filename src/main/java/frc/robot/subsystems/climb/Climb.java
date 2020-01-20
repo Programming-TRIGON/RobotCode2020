@@ -19,8 +19,8 @@ public class Climb extends SubsystemBase {
 
   /**
    * The climb holds all the methods used for the robots climb in the endgame.
-   * Climb is the system that extends to hang on the climb.
-   * Hook is the system that pulls the rope to make the robot levitate.
+   * Climb is the system that extends to hang on the climb. Hook is the system
+   * that pulls the rope to make the robot levitate.
    */
   public Climb() {
     rightClimb = new WPI_TalonSRX(robotConstants.can.RIGHT_CLIMB_MOTOR);
@@ -42,12 +42,11 @@ public class Climb extends SubsystemBase {
       climbGroup.set(power);
   }
 
-  public double getClimbOutputAmps(){
+  public double getClimbOutputAmps() {
     return (rightClimb.getStatorCurrent() + leftClimb.getStatorCurrent()) / 2;
   }
 
-  
-  public double getHookOutputAmps(){
+  public double getHookOutputAmps() {
     return (rightHook.getOutputCurrent() + leftHook.getOutputCurrent()) / 2;
   }
 }
