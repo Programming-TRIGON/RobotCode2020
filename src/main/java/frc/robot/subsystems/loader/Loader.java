@@ -24,12 +24,13 @@ public class Loader extends SubsystemBase implements MoveableSubsystem {
 
   /** @return Meters per second */
   public double getVelocity() {
-      return motor.getSelectedSensorVelocity() * 10 / robotConstants.loaderConstants.TICKS_PER_METER;
+    return motor.getSelectedSensorVelocity() * 10 / robotConstants.loaderConstants.TICKS_PER_METER;
   }
 
   public void setVoltage(double voltage) {
-    
+    motor.setVoltage(voltage);
   }
+
   public void move(double power) {
     motor.set(power);
   }
