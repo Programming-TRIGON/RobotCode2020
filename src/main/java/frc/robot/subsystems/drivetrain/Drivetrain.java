@@ -194,11 +194,11 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
     drivetrain.setSensitivity(sensitivity);
   }
 
-  public double getTrigonDrivSensitivity() {
+  public double getTrigonDriveSensitivity() {
     return drivetrain.getSensitivity();
   }
 
-  public void setTrigonDrivThreshold(double threshold) {
+  public void setTrigonDriveThreshold(double threshold) {
     drivetrain.setThreshold(threshold);
   }
 
