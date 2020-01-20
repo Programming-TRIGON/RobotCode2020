@@ -38,10 +38,17 @@ public class SetShooterVelocity extends CommandBase {
         this(ShooterVelocity.kDefault, isAuto);
     }
 
+    /**
+     * @param velocity the velocity setpoint the talon fx will try to achieve.
+     */
     public SetShooterVelocity(ShooterVelocity velocity) {
         this(velocity, false);
     }
 
+    /**
+     * @param velocity the velocity setpoint the talon fx will try to achieve.
+     * @param isAuto whether the command should stop after shooting 3 cells
+     */
     public SetShooterVelocity(ShooterVelocity velocity, boolean isAuto) {
         this(velocity.getVelocity(), isAuto);
     }
