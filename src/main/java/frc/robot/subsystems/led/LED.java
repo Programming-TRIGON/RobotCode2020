@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 
 public class LED extends SubsystemBase {
-  private static final double BLINK_TIME = 0.2;
+  private static final double BLINK_TIME = 0.1;
   private Spark ledController;
   private LEDColor currentColor;
   private LEDColor blinkColor;
@@ -59,7 +59,7 @@ public class LED extends SubsystemBase {
     lastColorBeforeBlink = getCurrentColor();
     turnOffLED();
     blinkColor = color;
-    blinkingAmount = quantity * 2;
+    blinkingAmount = quantity * 2 - 1;
   }
 
   public boolean isLedOn() {
