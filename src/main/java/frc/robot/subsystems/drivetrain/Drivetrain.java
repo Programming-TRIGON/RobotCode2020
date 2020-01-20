@@ -37,9 +37,6 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
    * This is the subsystem of the drivetrain
    */
   public Drivetrain() {
-    kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.WHEEL_BASE_WIDTH);
-    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
-
     leftRearTalon = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON);
     leftMiddleTalon = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_MIDDLE_TALON);
     leftFrontTalon = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_FRONT_TALON);
@@ -62,6 +59,9 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
     rightEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER);
     // TODO: set correct port for pigeon gyro.
     gyro = new Pigeon(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON);
+
+    kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.WHEEL_BASE_WIDTH);
+    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
   }
 
   // Drive functions
