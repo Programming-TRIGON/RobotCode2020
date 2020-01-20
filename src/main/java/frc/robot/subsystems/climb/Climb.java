@@ -32,6 +32,9 @@ public class Climb extends SubsystemBase {
     hookGroup = new SpeedControllerGroup(rightHook, leftHook);
   }
 
+  public void stallLimit(){
+  }
+
   public void setHookPower(double power) {
     hookGroup.set(power);
   }
