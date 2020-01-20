@@ -28,25 +28,21 @@ public class Climb extends SubsystemBase {
     rightHook = new CANSparkMax(robotConstants.can.RIGHT_HOOK_MOTOR, MotorType.kBrushless);
     leftHook = new CANSparkMax(robotConstants.can.LEFT_HOOK_MOTOR, MotorType.kBrushless);
 
+    rightClimb.configContinuousCurrentLimit(robotConstants.climbConstants.CLIMB_STALL_LIMIT);
+    leftClimb.configContinuousCurrentLimit(robotConstants.climbConstants.CLIMB_STALL_LIMIT);
+    rightHook.setSmartCurrentLimit(robotConstants.climbConstants.HOOK_STALL_LIMIT);
+    leftHook.setSmartCurrentLimit(robotConstants.climbConstants.HOOK_STALL_LIMIT);
+
     climbGroup = new SpeedControllerGroup(rightClimb, leftClimb);
     hookGroup = new SpeedControllerGroup(rightHook, leftHook);
   }
 
   public void setHookPower(double power) {
-    if (getHookOutputAmps() < robotConstants.climbConstants.CLIMB_STALL_LIMIT)
       hookGroup.set(power);
   }
 
   public void setClimbPower(double power) {
-    if (getHookOutputAmps() < robotConstants.climbConstants.HOOK_STALL_LIMIT)
       climbGroup.set(power);
   }
 
-  public double getClimbOutputAmps() {
-    return (rightClimb.getStatorCurrent() + leftClimb.getStatorCurrent()) / 2;
-  }
-
-  public double getHookOutputAmps() {
-    return (rightHook.getOutputCurrent() + leftHook.getOutputCurrent()) / 2;
-  }
 }
