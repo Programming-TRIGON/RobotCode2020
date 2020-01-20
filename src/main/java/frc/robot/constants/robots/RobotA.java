@@ -21,6 +21,9 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER = 1;
         drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER = 1;
 
+        /* Climb Constants */
+        climbConstants.CLIMB_STALL_LIMIT = 0;
+
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;
         motionProfilingConstants.MAX_ACCELERATION = 0;

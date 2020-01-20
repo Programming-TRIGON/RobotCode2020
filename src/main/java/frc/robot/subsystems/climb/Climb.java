@@ -32,14 +32,22 @@ public class Climb extends SubsystemBase {
     hookGroup = new SpeedControllerGroup(rightHook, leftHook);
   }
 
-  public void stallLimit(){
-  }
-
   public void setHookPower(double power) {
-    hookGroup.set(power);
+    if (getHookOutputAmps() < robotConstants.climbConstants.CLIMB_STALL_LIMIT)
+      hookGroup.set(power);
   }
 
   public void setClimbPower(double power) {
-    climbGroup.set(power);
+    if (getHookOutputAmps() < robotConstants.climbConstants.CLIMB_STALL_LIMIT)
+      climbGroup.set(power);
+  }
+
+  public double getClimbOutputAmps(){
+    return (rightClimb.getStatorCurrent() + leftClimb.getStatorCurrent()) / 2;
+  }
+
+  
+  public double getHookOutputAmps(){
+    return (rightHook.getOutputCurrent() + leftHook.getOutputCurrent()) / 2;
   }
 }
