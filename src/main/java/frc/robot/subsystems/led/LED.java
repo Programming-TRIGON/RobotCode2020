@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
+import frc.robot.utils.DriverStationLogger;
 
 public class LED extends SubsystemBase {
   private static final double BLINK_TIME = 0.1;
@@ -18,7 +19,8 @@ public class LED extends SubsystemBase {
   private int blinkingAmount;
   private Notifier notifier;
   private Random rand;
-  
+  private boolean isInEmergency;
+
   /**
    * Creates a new LED subsystem for Rev robotics Led controller and color changing.
    */
@@ -39,6 +41,8 @@ public class LED extends SubsystemBase {
   } 
 
   public void setControllerPower(double value) {
+    if (isInEmergency)
+      return;
     ledController.set(value);
   }
 
@@ -63,7 +67,7 @@ public class LED extends SubsystemBase {
   }
 
   public boolean isLedOn() {
-    return ledController.get() != 0;
+    return ledController.get() != LEDColor.Off.getValue();
   }
 
   public void notifierPeriodic() {
@@ -92,6 +96,12 @@ public class LED extends SubsystemBase {
     currentColor = LEDColor.Random;
     blinkingAmount = -1;
     setControllerPower(getRandomPattern());
+  }
+
+  public void startEmergencyLED(){
+    DriverStationLogger.logToDS("Starting emergency LED");
+    setColor(LEDColor.Red);
+    isInEmergency = true;
   }
 
   /**
