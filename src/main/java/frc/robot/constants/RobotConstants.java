@@ -7,21 +7,22 @@ import frc.robot.utils.PIDSettings;
  * The RobotConstants maps constants to a variable name.
  */
 public abstract class RobotConstants extends RobotMap {
-    public DrivetrainConstants drivetrainConstants = new DrivetrainConstants(); 
+    public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
     public VisionConstants visionConstants = new VisionConstants();
     public ControlConstants controlConstants = new ControlConstants();
-    public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants(); 
+    public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
+    public LoaderConstants loaderConstants = new LoaderConstants();
 
     // Example:
     public static class DrivetrainConstants {
-        public double WHEEL_DIAMETER; 
+        public double WHEEL_DIAMETER;
         public double WHEEL_BASE_WIDTH;
         public double ROBOT_LENGTH;
         public double ROBOT_WIDTH;
         public double LEFT_ENCODER_TICKS_PER_METER;
         public double RIGHT_ENCODER_TICKS_PER_METER;
     }
-    
+
     /** Control constants contain control value such as kp, kv for control loops */
     public static class ControlConstants {
         public SimpleMotorFeedforward motionProfilingSettings;
@@ -41,11 +42,20 @@ public abstract class RobotConstants extends RobotMap {
     public static class VisionConstants {
         public double DISTANCE_CALCULATION_A_COEFFICIENT;
         public double DISTANCE_CALCULATION_B_COEFFICIENT;
-        // Offsets are measured from the robot's center of rotation to the limelight position.
+        // Offsets are measured from the robot's center of rotation to the limelight
+        // position.
         public double LIMELIGHT_OFFSET_X;
         public double LIMELIGHT_OFFSET_Y;
         public double LIMELIGHT_ANGLE_OFFSET;
         public double TARGET_NOT_FOUND_WAIT_TIME;
+    }
+
+    public static class LoaderConstants {
+        public double RAMP_RATE;
+        public double CURRENT_LIMIT;
+        public double THRESHOLD_LIMIT;
+        public double TIMEOUT;
+        public double TICKS_PER_METER;
     }
 
     // More static class here!

@@ -28,8 +28,8 @@ public class RobotA extends RobotConstants {
         motionProfilingConstants.KP = 0;
         motionProfilingConstants.REVERSE_KP = 0;
 
-        controlConstants.motionProfilingSettings = new SimpleMotorFeedforward(0,0,0);
-        controlConstants.motionProfilingReverseSettings = new SimpleMotorFeedforward(0,0,0);
+        controlConstants.motionProfilingSettings = new SimpleMotorFeedforward(0, 0, 0);
+        controlConstants.motionProfilingReverseSettings = new SimpleMotorFeedforward(0, 0, 0);
 
         /* Vision Constants */
         visionConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 0;
@@ -39,16 +39,21 @@ public class RobotA extends RobotConstants {
         visionConstants.LIMELIGHT_ANGLE_OFFSET = 0;
         visionConstants.TARGET_NOT_FOUND_WAIT_TIME = 0.1;
 
-        controlConstants.visionDistanceSettings = new PIDSettings(0,0,0,0,0);
-        controlConstants.visionRotationSettings = new PIDSettings(0,0,0,0,0);
+        controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
+        controlConstants.visionRotationSettings = new PIDSettings(0, 0, 0, 0, 0);
+
+        /* Loader Constants */
+        loaderConstants.RAMP_RATE = 0;
+        loaderConstants.CURRENT_LIMIT = 0;
+        loaderConstants.THRESHOLD_LIMIT = 0;
+        loaderConstants.TIMEOUT = 0;
+        loaderConstants.TICKS_PER_METER = 0;
 
         /* Robot Map */
         pwm.LED_CONTROLLER = 0;
         i2c.i2cPort = Port.kOnboard;
 
-        /* Ejector Map */
-        can.EJECTOR_TALON_PORT = 1;
-        can.EJECTOR_ENCODER_CHANNEL_A = 2;
-        can.EJECTOR_ENCODER_CHANNEL_B = 3;
+        /* Loader Map */
+        can.LOADER_TALONSRX = 1;
     }
 }
