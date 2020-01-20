@@ -31,10 +31,8 @@ public abstract class RobotConstants extends RobotMap {
         public double RIGHT_KF;
         public double SHOOTING_BALL_ZONE;
         public double WAIT_TIME_ZONE;
-        public boolean IS_LEFT_FRONT_MOTOR_INVERTED;
-        public boolean IS_RIGHT_FRONT_MOTOR_INVERTED;
-        public boolean IS_LEFT_REAR_MOTOR_INVERTED;
-        public boolean IS_RIGHT_REAR_MOTOR_INVERTED;
+        public boolean IS_LEFT_MOTOR_INVERTED;
+        public boolean IS_RIGHT_MOTOR_INVERTED;
         public boolean IS_LEFT_ENCODER_INVERTED;
         public boolean IS_RIGHT_ENCODER_INVERTED;
     }

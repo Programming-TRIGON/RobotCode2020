@@ -50,20 +50,16 @@ public class RobotA extends RobotConstants {
         shooterConstants.RIGHT_KF = 0;
         shooterConstants.SHOOTING_BALL_ZONE = 2000;
         shooterConstants.WAIT_TIME_ZONE = 0;
-        shooterConstants.IS_LEFT_FRONT_MOTOR_INVERTED = false;
-        shooterConstants.IS_RIGHT_FRONT_MOTOR_INVERTED = false;
-        shooterConstants.IS_LEFT_REAR_MOTOR_INVERTED = false;
-        shooterConstants.IS_RIGHT_REAR_MOTOR_INVERTED = false;
+        shooterConstants.IS_LEFT_MOTOR_INVERTED = false;
+        shooterConstants.IS_RIGHT_MOTOR_INVERTED = false;
         shooterConstants.IS_LEFT_ENCODER_INVERTED = false;
         shooterConstants.IS_RIGHT_ENCODER_INVERTED = false;
         controlConstants.leftShooterSettings = new PIDSettings(0,0,0,0,0);
         controlConstants.rightShooterSettings = new PIDSettings(0,0,0,0,0);
 
         /* Robot Map */
-        can.LEFT_FRONT_SHOOTER_TALON_SRX = 0;
-        can.LEFT_REAR_SHOOTER_TALON_SRX = 1;
-        can.RIGHT_FRONT_SHOOTER_TALON_SRX = 2;
-        can.RIGHT_REAR_SHOOTER_TALON_SRX = 3;
+        can.LEFT_SHOOTER_TALON_FX = 0;
+        can.RIGHT_SHOOTER_TALON_FX = 2;
         pwm.LED_CONTROLLER = 0;
         i2c.i2cPort = Port.kOnboard;
 

@@ -18,10 +18,8 @@ public abstract class RobotMap {
   // TODO: Set variables for hardware components
   
   public static class CAN {
-      public int LEFT_FRONT_SHOOTER_TALON_SRX;
-      public int LEFT_REAR_SHOOTER_TALON_SRX;
-      public int RIGHT_FRONT_SHOOTER_TALON_SRX;
-      public int RIGHT_REAR_SHOOTER_TALON_SRX;
+      public int LEFT_SHOOTER_TALON_FX;
+      public int RIGHT_SHOOTER_TALON_FX;
   }
     
   public static class PCM {
