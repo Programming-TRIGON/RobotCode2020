@@ -11,7 +11,7 @@ import static frc.robot.Robot.shooter;
 /**
  * This command spins the wheel in the desired velocity in order to shoot the power cells.
  */
-public class SetShooterSpeed extends CommandBase {
+public class SetShooterVelocity extends CommandBase {
 
     private static final int LOADED_CELLS_IN_AUTO = 3;
     private DoubleSupplier velocitySetpoint;
@@ -25,10 +25,10 @@ public class SetShooterSpeed extends CommandBase {
      * Constructs a shoot command with default RPM setpoint.
      * @see frc.robot.constants.RobotConstants.ShooterConstants#DEFAULT_RPM
      */
-    public SetShooterSpeed() {
+    public SetShooterVelocity() {
         this(robotConstants.shooterConstants.DEFAULT_RPM);
     }
-    public SetShooterSpeed(boolean isAuto) {
+    public SetShooterVelocity(boolean isAuto) {
         this();
         this.isAuto = isAuto;
     }
@@ -36,7 +36,7 @@ public class SetShooterSpeed extends CommandBase {
     /**
      * @param velocitySetpoint The setpoint used for calculation the PID velocity error in RPM.
      */
-    public SetShooterSpeed(double velocitySetpoint) {
+    public SetShooterVelocity(double velocitySetpoint) {
         this(() -> velocitySetpoint);
     }
 
@@ -44,12 +44,12 @@ public class SetShooterSpeed extends CommandBase {
      * @param velocitySetpoint The setpoint used for calculation the PID velocity error in RPM.
      * @param isAuto Whether the command is run in autonomous.
      */
-    public SetShooterSpeed(double velocitySetpoint, boolean isAuto){
+    public SetShooterVelocity(double velocitySetpoint, boolean isAuto){
         this(velocitySetpoint);
         this.isAuto = isAuto;
     }
 
-    public SetShooterSpeed(DoubleSupplier velocitySetpointSupplier) {
+    public SetShooterVelocity(DoubleSupplier velocitySetpointSupplier) {
         addRequirements(shooter);
         velocitySetpoint = velocitySetpointSupplier;
     }
