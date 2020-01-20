@@ -12,19 +12,19 @@ import static frc.robot.Robot.robotConstants;
  */
 public class Mixer extends SubsystemBase implements MoveableSubsystem {
 
-  private final WPI_TalonSRX motor;
+  private final WPI_TalonSRX talon;
 
   public Mixer() {
-    motor = new WPI_TalonSRX(robotConstants.can.MIXER_TALON);
+    talon = new WPI_TalonSRX(robotConstants.can.MIXER_TALON);
   }
 
   @Override
   public void move(double power) {
-    motor.set(power);
+    talon.set(power);
   }
 
   /** @return The motor output in amps */
   public double getStall(){
-    return motor.getMotorOutputVoltage();
+    return talon.getStatorCurrent();
   }
 }
