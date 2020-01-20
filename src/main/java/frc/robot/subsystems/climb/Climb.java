@@ -38,7 +38,7 @@ public class Climb extends SubsystemBase {
   }
 
   public void setClimbPower(double power) {
-    if (getHookOutputAmps() < robotConstants.climbConstants.CLIMB_STALL_LIMIT)
+    if (getHookOutputAmps() < robotConstants.climbConstants.HOOK_STALL_LIMIT)
       climbGroup.set(power);
   }
 

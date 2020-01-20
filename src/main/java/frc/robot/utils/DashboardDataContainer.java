@@ -5,15 +5,17 @@ import frc.robot.subsystems.climb.ClimbWithXbox;
 import frc.robot.utils.DashboardController;
 
 /**
- * DashboardDataContainer contains all the data to be viewed or put in the dashboard.  
+ * DashboardDataContainer contains all the data to be viewed or put in the
+ * dashboard.
  */
 public class DashboardDataContainer {
     private DashboardController dashboardController;
-    
+
     public DashboardDataContainer() {
         dashboardController = new DashboardController();
-        SmartDashboard.putNumber("climb power", 0.0); 
-        SmartDashboard.putData("cimb motors", new ClimbWithXbox(() -> SmartDashboard.getNumber("climb power", 0.0), true));
+        SmartDashboard.putNumber("climb power", 0.0);
+        SmartDashboard.putData("cimb motors",
+                new ClimbWithXbox(() -> SmartDashboard.getNumber("climb power", 0.0), true));
 
         // dashboardController.addBoolean(name, booleanSupplier);
         // dashboardController.addNumber(name, numberSupplier);

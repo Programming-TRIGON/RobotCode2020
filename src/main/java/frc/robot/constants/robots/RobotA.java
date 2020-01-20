@@ -23,6 +23,7 @@ public class RobotA extends RobotConstants {
 
         /* Climb Constants */
         climbConstants.CLIMB_STALL_LIMIT = 0;
+        climbConstants.HOOK_STALL_LIMIT = 0;
 
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;
