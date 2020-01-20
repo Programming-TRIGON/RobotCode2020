@@ -10,6 +10,7 @@ public class DashboardDataContainer {
     private DashboardController dashboardController;
 
     public DashboardDataContainer() {
+        // Intake data
         SmartDashboard.putNumber("Intake/Intake Power", 0);
         dashboardController = new DashboardController();
         SmartDashboard.putData("Intake/Spin Intake",
