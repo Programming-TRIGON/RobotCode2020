@@ -56,7 +56,10 @@ public abstract class RobotConstants extends RobotMap {
         public double THRESHOLD_LIMIT;
         public double TIMEOUT;
         public double TICKS_PER_METER;
+        public PIDSettings PID_SETTINGS;
+        public SimpleMotorFeedforward FEED_FORWARD;
     }
+
 
     // More static class here!
 

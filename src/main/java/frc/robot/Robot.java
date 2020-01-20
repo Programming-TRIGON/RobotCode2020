@@ -12,6 +12,7 @@ import frc.robot.utils.DashboardDataContainer;
 import frc.robot.vision.Limelight;
 import frc.robot.subsystems.drivetrain.DrivetrainInterface;
 import frc.robot.subsystems.led.LED;
+import frc.robot.subsystems.loader.Loader;
 
 public class Robot extends TimedRobot {
   private Command autoCommand;
@@ -23,6 +24,7 @@ public class Robot extends TimedRobot {
   public static Limelight limelight;
   public static DrivetrainInterface drivetrain; // TODO: Change interface to subsystem
   public static LED led;
+  public static Loader loader;
 
   @Override
   public void robotInit() {
@@ -31,6 +33,7 @@ public class Robot extends TimedRobot {
 
     // Subsystems:
     led = new LED();
+    loader = new Loader();
 
     // Utils:
     dashboardDataContainer = new DashboardDataContainer();

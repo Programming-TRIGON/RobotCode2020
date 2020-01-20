@@ -48,6 +48,8 @@ public class RobotA extends RobotConstants {
         loaderConstants.THRESHOLD_LIMIT = 0;
         loaderConstants.TIMEOUT = 0;
         loaderConstants.TICKS_PER_METER = 0;
+        loaderConstants.PID_SETTINGS = new PIDSettings(0, 0, 0, 0, 0);
+        loaderConstants.FEED_FORWARD = new SimpleMotorFeedforward(0, 0, 0);
 
         /* Robot Map */
         pwm.LED_CONTROLLER = 0;
