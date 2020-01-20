@@ -37,8 +37,8 @@ public class Climb extends SubsystemBase {
     rightClimb.setSmartCurrentLimit(robotConstants.climbConstants.HOOK_CURRENT_LIMIT);
     leftClimb.setSmartCurrentLimit(robotConstants.climbConstants.HOOK_CURRENT_LIMIT);
 
-    climbGroup = new SpeedControllerGroup(rightClimb, leftClimb);
     hookGroup = new SpeedControllerGroup(rightHook, leftHook);
+    climbGroup = new SpeedControllerGroup(rightClimb, leftClimb);
   }
 
   public void setHookPower(double power) {
