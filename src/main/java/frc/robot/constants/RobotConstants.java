@@ -50,8 +50,10 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public static class ClimbConstants {
-        public int CLIMB_STALL_LIMIT;
-        public int HOOK_STALL_LIMIT;
+        public double CLIMB_THRESHOLD_LIMIT;
+        public double CLIMB_CURRENT_LIMIT;
+        public double CLIMB_TIMEOUT;
+        public int HOOK_CURRENT_LIMIT;
     }
     // More static class here!
 

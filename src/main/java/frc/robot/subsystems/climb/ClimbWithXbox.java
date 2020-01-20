@@ -14,16 +14,12 @@ public class ClimbWithXbox extends CommandBase {
    * 
    * @param power   the power to give the motors
    * @param isClimb whether to send power to the climb motors or the hook motors.
-   *                True set the climb motors to the power.
+   *                If True set the climb motors to the power.
    */
   public ClimbWithXbox(DoubleSupplier power, boolean isClimb) {
     addRequirements(Robot.climb);
     this.power = power;
     this.isClimb = isClimb;
-  }
-
-  @Override
-  public void initialize() {
   }
 
   @Override
@@ -38,10 +34,5 @@ public class ClimbWithXbox extends CommandBase {
   public void end(boolean interrupted) {
     Robot.climb.setClimbPower(0);
     Robot.climb.setHookPower(0);
-  }
-
-  @Override
-  public boolean isFinished() {
-    return false;
   }
 }
