@@ -1,9 +1,9 @@
 package frc.robot.subsystems.mixer;
 
 import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import static frc.robot.Robot.mixer;
 
 /**

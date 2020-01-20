@@ -24,7 +24,7 @@ public class Mixer extends SubsystemBase implements MoveableSubsystem {
   }
 
   /** @return The motor output in amps */
-  public double getStall(){
+  public double getStall() {
     return talon.getStatorCurrent();
   }
 }
