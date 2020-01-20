@@ -22,7 +22,7 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER = 1;
 
         /* Intake Constants */
-        intakeConstants.isIntakeReversed = false;
+        intakeConstants.kIntakeReversed = false;
 
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;

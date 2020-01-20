@@ -51,6 +51,6 @@ public abstract class RobotConstants extends RobotMap {
 
     // More static class here!
     public static class IntakeConstants {
-        public boolean isIntakeReversed;
+        public boolean kIntakeReversed;
     }
 }

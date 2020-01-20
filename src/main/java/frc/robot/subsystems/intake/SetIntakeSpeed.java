@@ -16,16 +16,16 @@ public class SetIntakeSpeed extends CommandBase {
      * @param power Power to be given to the intake motor.
      */
     public SetIntakeSpeed(double power) {
-        powerSupplier = () -> power;
+        this(() -> power);
     }
 
     /**
      * @param powerSupplier A supplier of power to be given to the intake motor
      */
     public SetIntakeSpeed(DoubleSupplier powerSupplier) {
+        addRequirements(intake);
         this.powerSupplier = powerSupplier;
     }
-
 
     @Override
     public void execute() {
