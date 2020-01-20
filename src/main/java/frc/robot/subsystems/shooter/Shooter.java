@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.MoveableSubsystem;
@@ -16,6 +17,7 @@ import static frc.robot.Robot.robotConstants;
 public class Shooter extends SubsystemBase implements MoveableSubsystem {
     private WPI_TalonFX leftTalon;
     private WPI_TalonFX rightTalon;
+    private boolean isTuning;
 
     public Shooter() {
         //setting up the talon
@@ -68,6 +70,24 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         rightTalon.set(TalonFXControlMode.Velocity, velocityInTalonUnits);
     }
 
+
+    public void enableTuning() {
+        isTuning = true;
+        // left shooter gains
+        SmartDashboard.putNumber("PID/LeftShooter/kP", 0);
+        SmartDashboard.putNumber("PID/LeftShooter/kI", 0);
+        SmartDashboard.putNumber("PID/LeftShooter/kD", 0);
+        SmartDashboard.putNumber("PID/LeftShooter/kF", 0);
+        // right shooter gains
+        SmartDashboard.putNumber("PID/RightShooter/kP", 0);
+        SmartDashboard.putNumber("PID/RightShooter/kI", 0);
+        SmartDashboard.putNumber("PID/RightShooter/kD", 0);
+        SmartDashboard.putNumber("PID/RightShooter/kF", 0);
+    }
+    public void disableTuning() {
+        isTuning = false;
+    }
+
     /**
      * @return the speed of the shooter in RPM.
      */
@@ -94,6 +114,29 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
     public void resetEncoders() {
         leftTalon.setSelectedSensorPosition(0);
         rightTalon.setSelectedSensorPosition(0);
+    }
+
+    @Override
+    public void periodic() {
+        if (isTuning) {
+            leftTalon.config_kP(0, SmartDashboard.getNumber(
+                    "PID/LeftShooter/kP", 0), 0);
+            leftTalon.config_kI(0, SmartDashboard.getNumber(
+                    "PID/LeftShooter/kI", 0), 0);
+            leftTalon.config_kD(0, SmartDashboard.getNumber(
+                    "PID/LeftShooter/kD", 0), 0);
+            leftTalon.config_kF(0, SmartDashboard.getNumber(
+                    "PID/LeftShooter/kF", 0), 0);
+            rightTalon.config_kP(0, SmartDashboard.getNumber(
+                    "PID/RightShooter/kP", 0), 0);
+            rightTalon.config_kI(0, SmartDashboard.getNumber(
+                    "PID/RightShooter/kI", 0), 0);
+            rightTalon.config_kD(0, SmartDashboard.getNumber(
+                    "PID/RightShooter/kD", 0), 0);
+            rightTalon.config_kF(0, SmartDashboard.getNumber(
+                    "PID/RightShooter/kF", 0), 0);
+
+        }
     }
 
     /**
