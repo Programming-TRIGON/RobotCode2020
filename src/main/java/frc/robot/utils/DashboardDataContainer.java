@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.subsystems.shooter.SetShooterSpeed;
 
+import static frc.robot.Robot.robotConstants;
+
 /**
  * DashboardDataContainer contains all the data to be viewed or put in the dashboard.  
  */
@@ -13,8 +15,11 @@ public class DashboardDataContainer {
     public DashboardDataContainer() {
         dashboardController = new DashboardController();
 
-        dashboardController.addNumber("Sensors/ShooterVelocity", Robot.shooter::getAverageSpeed);
-        SmartDashboard.putData("Commands/Shoot ball", new SetShooterSpeed());
+        // shooter data
+        dashboardController.addNumber("Shooter/ShooterVelocity", Robot.shooter::getAverageSpeed);
+        SmartDashboard.putNumber("Shooter/Shooting Velocity", robotConstants.shooterConstants.DEFAULT_RPM);
+        SmartDashboard.putData("Shooter/Shoot ball", new SetShooterSpeed(
+                SmartDashboard.getNumber("Shooter/Shooting Velocity", 0)));
         // dashboardController.addBoolean(name, booleanSupplier);
         // dashboardController.addNumber(name, numberSupplier);
         // dashboardController.addString(name, stringSupplier);
