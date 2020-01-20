@@ -1,4 +1,5 @@
 package frc.robot.subsystems.climb;
+
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
@@ -9,10 +10,10 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Robot.robotConstants;
 
 public class Climb extends SubsystemBase {
-  WPI_TalonSRX rightClimb;
-  WPI_TalonSRX leftClimb;
-  CANSparkMax rightHook;
-  CANSparkMax leftHook;
+  WPI_TalonSRX rightHook;
+  WPI_TalonSRX leftHook;
+  CANSparkMax rightClimb;
+  CANSparkMax leftClimb;
   SpeedControllerGroup climbGroup;
   SpeedControllerGroup hookGroup;
 
@@ -22,19 +23,19 @@ public class Climb extends SubsystemBase {
    * that pulls the rope to make the robot levitate.
    */
   public Climb() {
-    rightClimb = new WPI_TalonSRX(robotConstants.can.RIGHT_CLIMB_MOTOR);
-    leftClimb = new WPI_TalonSRX(robotConstants.can.LEFT_CLIMB_MOTOR);
-    rightHook = new CANSparkMax(robotConstants.can.RIGHT_HOOK_MOTOR, MotorType.kBrushless);
-    leftHook = new CANSparkMax(robotConstants.can.LEFT_HOOK_MOTOR, MotorType.kBrushless);
+    rightHook = new WPI_TalonSRX(robotConstants.can.RIGHT_CLIMB_MOTOR);
+    leftHook = new WPI_TalonSRX(robotConstants.can.LEFT_CLIMB_MOTOR);
+    rightClimb = new CANSparkMax(robotConstants.can.RIGHT_HOOK_MOTOR, MotorType.kBrushless);
+    leftClimb = new CANSparkMax(robotConstants.can.LEFT_HOOK_MOTOR, MotorType.kBrushless);
 
-    rightClimb.configSupplyCurrentLimit(
+    rightHook.configSupplyCurrentLimit(
         new SupplyCurrentLimitConfiguration(true, robotConstants.climbConstants.HOOK_CURRENT_LIMIT,
             robotConstants.climbConstants.CLIMB_THRESHOLD_LIMIT, robotConstants.climbConstants.CLIMB_TIMEOUT));
-    leftClimb.configSupplyCurrentLimit(
+    leftHook.configSupplyCurrentLimit(
         new SupplyCurrentLimitConfiguration(true, robotConstants.climbConstants.HOOK_CURRENT_LIMIT,
             robotConstants.climbConstants.CLIMB_THRESHOLD_LIMIT, robotConstants.climbConstants.CLIMB_TIMEOUT));
-    rightHook.setSmartCurrentLimit(robotConstants.climbConstants.HOOK_CURRENT_LIMIT);
-    leftHook.setSmartCurrentLimit(robotConstants.climbConstants.HOOK_CURRENT_LIMIT);
+    rightClimb.setSmartCurrentLimit(robotConstants.climbConstants.HOOK_CURRENT_LIMIT);
+    leftClimb.setSmartCurrentLimit(robotConstants.climbConstants.HOOK_CURRENT_LIMIT);
 
     climbGroup = new SpeedControllerGroup(rightClimb, leftClimb);
     hookGroup = new SpeedControllerGroup(rightHook, leftHook);
