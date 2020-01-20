@@ -18,7 +18,9 @@ public abstract class RobotMap {
   // TODO: Set variables for hardware components
   
   public static class CAN {
-      
+    public int EJECTOR_TALON_PORT;
+    public int EJECTOR_ENCODER_CHANNEL_A;
+    public int EJECTOR_ENCODER_CHANNEL_B;
   }
     
   public static class PCM {

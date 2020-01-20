@@ -46,5 +46,9 @@ public class RobotA extends RobotConstants {
         pwm.LED_CONTROLLER = 0;
         i2c.i2cPort = Port.kOnboard;
 
+        /* Ejector Map */
+        can.EJECTOR_TALON_PORT = 1;
+        can.EJECTOR_ENCODER_CHANNEL_A = 2;
+        can.EJECTOR_ENCODER_CHANNEL_B = 3;
     }
 }
