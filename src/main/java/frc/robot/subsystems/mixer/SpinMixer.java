@@ -4,21 +4,21 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
+import static frc.robot.Robot.mixer;
 
 /**
- * Spins the mixer during the game for putting balls in the ejector, if the current is too big the motor power flips.
+ * Spins the mixer during the game for putting balls in the ejector, if the
+ * current is too big the motor power flips.
  */
 public class SpinMixer extends CommandBase {
   private DoubleSupplier power;
-  private double startTime;
-  private double notOnTarget;
+  private double lastTimeNotOnStall;
   private double waitTime;
   private double maxStall;
 
   /** gets a supplier for motor power */
   public SpinMixer(DoubleSupplier power, double maxStall) {
-    addRequirements(Robot.mixer);
+    addRequirements(mixer);
     this.power = power;
     this.maxStall = maxStall;
   }
@@ -29,28 +29,18 @@ public class SpinMixer extends CommandBase {
   }
 
   @Override
-  public void initialize() {
-    startTime = Timer.getFPGATimestamp();
-  }
-
-  @Override
   public void execute() {
-    if (Robot.mixer.getStall() < maxStall){
-      notOnTarget = Timer.getFPGATimestamp() - startTime;
+    if (mixer.getStall() < maxStall) {
+      lastTimeNotOnStall = Timer.getFPGATimestamp();
+      mixer.move(power.getAsDouble());
     }
-    if (Timer.getFPGATimestamp() - startTime - notOnTarget > waitTime){
-      double speed = -power.getAsDouble();
-      Robot.mixer.move(speed);
+    if (Timer.getFPGATimestamp() - lastTimeNotOnStall > waitTime) {
+      mixer.move(-power.getAsDouble());
     }
   }
 
   @Override
   public void end(boolean interrupted) {
-    Robot.mixer.move(0);
-  }
-
-  @Override
-  public boolean isFinished() {
-    return false;
+    mixer.stopMove();
   }
 }
