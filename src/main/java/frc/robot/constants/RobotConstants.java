@@ -8,6 +8,7 @@ import frc.robot.utils.PIDSettings;
  */
 public abstract class RobotConstants extends RobotMap {
     public DrivetrainConstants drivetrainConstants = new DrivetrainConstants(); 
+    public MixerConstants mixerConstants = new MixerConstants();
     public VisionConstants visionConstants = new VisionConstants();
     public ControlConstants controlConstants = new ControlConstants();
     public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants(); 
@@ -48,6 +49,9 @@ public abstract class RobotConstants extends RobotMap {
         public double TARGET_NOT_FOUND_WAIT_TIME;
     }
 
+    public static class MixerConstants {
+        public double MIXER_MAX_STALL;
+    }
     // More static class here!
 
 }
