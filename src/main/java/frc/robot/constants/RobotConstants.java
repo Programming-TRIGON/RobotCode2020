@@ -8,10 +8,10 @@ import frc.robot.utils.PIDSettings;
  */
 public abstract class RobotConstants extends RobotMap {
     public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
+    public TrigonDriveConstents trigonDriveConstents = new TrigonDriveConstents();
     public VisionConstants visionConstants = new VisionConstants();
     public ControlConstants controlConstants = new ControlConstants();
     public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
-    public TrigonDriveConstents trigonDriveConstents = new TrigonDriveConstents();
 
     // Example:
     public static class DrivetrainConstants {
@@ -25,6 +25,11 @@ public abstract class RobotConstants extends RobotMap {
         public double CURRENT_LIMIT;
         public double TRIGGER_THRESHOLD_CURRENT;
         public double TRIGGER_THRESHOLD_TIME;
+    }
+
+    public static class TrigonDriveConstents {
+        public double SENSITIVITY;
+        public double THRESHOLD;
     }
 
     /** Control constants contain control value such as kp, kv for control loops */
@@ -52,11 +57,6 @@ public abstract class RobotConstants extends RobotMap {
         public double LIMELIGHT_OFFSET_Y;
         public double LIMELIGHT_ANGLE_OFFSET;
         public double TARGET_NOT_FOUND_WAIT_TIME;
-    }
-
-    public static class TrigonDriveConstents {
-        public double SENSITIVITY;
-        public double THRESHOLD;
     }
 
     // More static class here!

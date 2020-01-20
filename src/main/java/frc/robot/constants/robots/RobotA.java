@@ -25,6 +25,10 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.TRIGGER_THRESHOLD_CURRENT = 1;
         drivetrainConstants.TRIGGER_THRESHOLD_TIME = 1;
 
+        /* Trigon Drive Constants */
+        trigonDriveConstents.SENSITIVITY = 1;
+        trigonDriveConstents.THRESHOLD = 0.5;
+
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;
         motionProfilingConstants.MAX_ACCELERATION = 0;
@@ -59,9 +63,5 @@ public class RobotA extends RobotConstants {
         can.DRIVETRAIN_RIGHT_REAR_TALON = 6;
         can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER = 7;
         can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER = 8;
-
-        /* Trigon Drive Constants */
-        trigonDriveConstents.SENSITIVITY = 0;
-        trigonDriveConstents.THRESHOLD = 0;
     }
 }
