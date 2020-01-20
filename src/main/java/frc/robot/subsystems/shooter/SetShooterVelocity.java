@@ -29,6 +29,11 @@ public class SetShooterVelocity extends CommandBase {
         this(false);
     }
 
+    /**
+     * Constructs a shoot command with default RPM setpoint.
+     * @see frc.robot.subsystems.shooter.ShooterVelocity#kDefault
+     * @param isAuto whether the command should stop after shooting 3 cells
+     */
     public SetShooterVelocity(boolean isAuto) {
         this(ShooterVelocity.kDefault, isAuto);
     }
@@ -65,9 +70,9 @@ public class SetShooterVelocity extends CommandBase {
     @Override
     public void initialize() {
         lastSetpoint = velocitySetpoint.getAsDouble();
-        shooter.startPID(lastSetpoint);
         cellsShot = 0;
         isInZone = true;
+        shooter.startPID(lastSetpoint);
     }
 
     @Override
