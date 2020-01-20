@@ -25,6 +25,10 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.TRIGGER_THRESHOLD_CURRENT = 1;
         drivetrainConstants.TRIGGER_THRESHOLD_TIME = 1;
 
+        /* Trigon Drive Constants */
+        trigonDriveConstents.SENSITIVITY = 1;
+        trigonDriveConstents.THRESHOLD = 0.5;
+
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;
         motionProfilingConstants.MAX_ACCELERATION = 0;
@@ -32,8 +36,8 @@ public class RobotA extends RobotConstants {
         motionProfilingConstants.KP = 0;
         motionProfilingConstants.REVERSE_KP = 0;
 
-        controlConstants.motionProfilingSettings = new SimpleMotorFeedforward(0,0,0);
-        controlConstants.motionProfilingReverseSettings = new SimpleMotorFeedforward(0,0,0);
+        controlConstants.motionProfilingSettings = new SimpleMotorFeedforward(0, 0, 0);
+        controlConstants.motionProfilingReverseSettings = new SimpleMotorFeedforward(0, 0, 0);
 
         /* Vision Constants */
         visionConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 0;
@@ -43,8 +47,8 @@ public class RobotA extends RobotConstants {
         visionConstants.LIMELIGHT_ANGLE_OFFSET = 0;
         visionConstants.TARGET_NOT_FOUND_WAIT_TIME = 0.1;
 
-        controlConstants.visionDistanceSettings = new PIDSettings(0,0,0,0,0);
-        controlConstants.visionRotationSettings = new PIDSettings(0,0,0,0,0);
+        controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
+        controlConstants.visionRotationSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         /* Robot Map */
         pwm.LED_CONTROLLER = 0;

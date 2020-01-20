@@ -7,14 +7,15 @@ import frc.robot.utils.PIDSettings;
  * The RobotConstants maps constants to a variable name.
  */
 public abstract class RobotConstants extends RobotMap {
-    public DrivetrainConstants drivetrainConstants = new DrivetrainConstants(); 
+    public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
+    public TrigonDriveConstents trigonDriveConstents = new TrigonDriveConstents();
     public VisionConstants visionConstants = new VisionConstants();
     public ControlConstants controlConstants = new ControlConstants();
-    public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants(); 
+    public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
 
     // Example:
     public static class DrivetrainConstants {
-        public double WHEEL_DIAMETER; 
+        public double WHEEL_DIAMETER;
         public double WHEEL_BASE_WIDTH;
         public double ROBOT_LENGTH;
         public double ROBOT_WIDTH;
@@ -25,7 +26,12 @@ public abstract class RobotConstants extends RobotMap {
         public double TRIGGER_THRESHOLD_CURRENT;
         public double TRIGGER_THRESHOLD_TIME;
     }
-    
+
+    public static class TrigonDriveConstents {
+        public double SENSITIVITY;
+        public double THRESHOLD;
+    }
+
     /** Control constants contain control value such as kp, kv for control loops */
     public static class ControlConstants {
         public SimpleMotorFeedforward motionProfilingSettings;
@@ -45,7 +51,8 @@ public abstract class RobotConstants extends RobotMap {
     public static class VisionConstants {
         public double DISTANCE_CALCULATION_A_COEFFICIENT;
         public double DISTANCE_CALCULATION_B_COEFFICIENT;
-        // Offsets are measured from the robot's center of rotation to the limelight position.
+        // Offsets are measured from the robot's center of rotation to the limelight
+        // position.
         public double LIMELIGHT_OFFSET_X;
         public double LIMELIGHT_OFFSET_Y;
         public double LIMELIGHT_ANGLE_OFFSET;
