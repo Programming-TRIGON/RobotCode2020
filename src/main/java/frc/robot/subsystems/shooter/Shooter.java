@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.MoveableSubsystem;
+import frc.robot.utils.DriverStationLogger;
 
 import static frc.robot.Robot.robotConstants;
 
@@ -20,7 +21,7 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
     private boolean isTuning;
 
     public Shooter() {
-        //setting up the talon
+        //setting up the talon fx
         leftTalon = new WPI_TalonFX(robotConstants.can.LEFT_SHOOTER_TALON_FX);
         leftTalon.setNeutralMode(NeutralMode.Coast);
         leftTalon.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
@@ -55,7 +56,7 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
     }
 
     public void startPID() {
-        startPID(robotConstants.shooterConstants.DEFAULT_RPM);
+        startPID(ShooterVelocity.kDefault.getVelocity());
     }
 
     /**
@@ -64,14 +65,17 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
      * @param velocitySetpoint velocity to set the talons.
      */
     public void startPID(double velocitySetpoint) {
-        double velocityInTalonUnits = velocitySetpoint * robotConstants.shooterConstants.LEFT_UNITS_PER_ROTATION
+        double leftVelocityInTalonUnits = velocitySetpoint * robotConstants.shooterConstants.LEFT_UNITS_PER_ROTATION
                 / 600;
-        leftTalon.set(TalonFXControlMode.Velocity, velocityInTalonUnits);
-        rightTalon.set(TalonFXControlMode.Velocity, velocityInTalonUnits);
+        double rightVelocityInTalonUnits = velocitySetpoint * robotConstants.shooterConstants.RIGHT_UNITS_PER_ROTATION
+                / 600;
+        leftTalon.set(TalonFXControlMode.Velocity, leftVelocityInTalonUnits);
+        rightTalon.set(TalonFXControlMode.Velocity, rightVelocityInTalonUnits);
     }
 
 
     public void enableTuning() {
+        DriverStationLogger.logToDS("Shooter tuning enabled");
         isTuning = true;
         // left shooter gains
         SmartDashboard.putNumber("PID/LeftShooter/kP", 0);
@@ -84,6 +88,7 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         SmartDashboard.putNumber("PID/RightShooter/kD", 0);
         SmartDashboard.putNumber("PID/RightShooter/kF", 0);
     }
+
     public void disableTuning() {
         isTuning = false;
     }

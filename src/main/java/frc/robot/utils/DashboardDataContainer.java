@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.Robot;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
+import frc.robot.subsystems.shooter.ShooterVelocity;
 
-import static frc.robot.Robot.robotConstants;
 import static frc.robot.Robot.shooter;
 
 /**
@@ -19,7 +19,7 @@ public class DashboardDataContainer {
 
         // shooter data
         dashboardController.addNumber("Shooter/ShooterVelocity", Robot.shooter::getAverageSpeed);
-        SmartDashboard.putNumber("Shooter/Shooting Velocity Setpoint", robotConstants.shooterConstants.DEFAULT_RPM);
+        SmartDashboard.putNumber("Shooter/Shooting Velocity Setpoint", ShooterVelocity.kDefault.getVelocity());
         SmartDashboard.putData("Shooter/Shoot ball", new SetShooterVelocity(
                 SmartDashboard.getNumber("Shooter/Shooting Velocity Setpoint", 0)));
         SmartDashboard.putData("Shooter/Enable Tuning",

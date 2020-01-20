@@ -45,7 +45,6 @@ public class RobotA extends RobotConstants {
         shooterConstants.WHEEL_RADIUS = 1;
         shooterConstants.LEFT_UNITS_PER_ROTATION = 1;
         shooterConstants.RIGHT_UNITS_PER_ROTATION = 1;
-        shooterConstants.DEFAULT_RPM = 3000;
         shooterConstants.LEFT_KF = 0;
         shooterConstants.RIGHT_KF = 0;
         shooterConstants.SHOOTING_BALL_ZONE = 2000;

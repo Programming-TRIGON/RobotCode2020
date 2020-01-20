@@ -23,14 +23,22 @@ public class SetShooterVelocity extends CommandBase {
 
     /**
      * Constructs a shoot command with default RPM setpoint.
-     * @see frc.robot.constants.RobotConstants.ShooterConstants#DEFAULT_RPM
+     * @see frc.robot.subsystems.shooter.ShooterVelocity#kDefault
      */
     public SetShooterVelocity() {
-        this(robotConstants.shooterConstants.DEFAULT_RPM);
+        this(false);
     }
+
     public SetShooterVelocity(boolean isAuto) {
-        this();
-        this.isAuto = isAuto;
+        this(ShooterVelocity.kDefault, isAuto);
+    }
+
+    public SetShooterVelocity(ShooterVelocity velocity) {
+        this(velocity, false);
+    }
+
+    public SetShooterVelocity(ShooterVelocity velocity, boolean isAuto) {
+        this(velocity.getVelocity(), isAuto);
     }
 
     /**
