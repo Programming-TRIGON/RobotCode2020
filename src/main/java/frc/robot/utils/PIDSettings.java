@@ -12,12 +12,13 @@ public class PIDSettings {
   private double deltaTolerance;
 
   /**
-   * @param KP        The the Proportional coefficient of the PID loop in this
-   *                  command.
-   * @param KI        The Integral coefficient of the PID loop in this command.
-   * @param KD        The Differential coefficient of the PID loop in this
-   *                  command.
-   * @param tolerance The error tolerance of this command.
+   * @param KP             The the Proportional coefficient of the PID loop in
+   *                       this command.
+   * @param KI             The Integral coefficient of the PID loop in this
+   *                       command.
+   * @param KD             The Differential coefficient of the PID loop in this
+   *                       command.
+   * @param tolerance      The error tolerance of this command.
    * @param deltaTolerance The tolerance of the change in error.
    */
   public PIDSettings(double KP, double KI, double KD, double tolerance, double deltaTolerance) {
