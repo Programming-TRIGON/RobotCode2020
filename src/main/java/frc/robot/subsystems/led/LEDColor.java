@@ -6,7 +6,7 @@ package frc.robot.subsystems.led;
  */
 public enum LEDColor {
     Red(0.61),
-    BlinkingRed(-0.25 ),
+    BlinkingRed(-0.25),
     Orange(0.65),
     Gold(0.67),
     Yellow(0.69),
