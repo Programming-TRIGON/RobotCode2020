@@ -12,6 +12,7 @@ public abstract class RobotConstants extends RobotMap {
     public TrigonDriveConstants TrigonDriveConstants = new TrigonDriveConstants();
     public ClimbConstants climbConstants = new ClimbConstants();
     public MixerConstants mixerConstants = new MixerConstants();
+    public LoaderConstants loaderConstants = new LoaderConstants();
     public IntakeConstants intakeConstants = new IntakeConstants();
     public ControlConstants controlConstants = new ControlConstants();
     public VisionConstants visionConstants = new VisionConstants();
@@ -65,6 +66,14 @@ public abstract class RobotConstants extends RobotMap {
         public boolean IS_RIGHT_ENCODER_INVERTED;
     }
 
+    public static class LoaderConstants {
+        public double RAMP_RATE;
+        public double CURRENT_LIMIT;
+        public double THRESHOLD_LIMIT;
+        public double TIMEOUT;
+        public double TICKS_PER_ROTATION;
+    }
+
     /** Control constants contain control value such as kp, kv for control loops */
     public static class ControlConstants {
         public SimpleMotorFeedforward motionProfilingSettings;
@@ -73,6 +82,8 @@ public abstract class RobotConstants extends RobotMap {
         public PIDSettings visionDistanceSettings;
         public PIDSettings leftShooterSettings;
         public PIDSettings rightShooterSettings;
+        public PIDSettings loaderPidSettings;
+        public SimpleMotorFeedforward loaderFeedforward;
     }
 
     public static class MotionProfilingConstants {

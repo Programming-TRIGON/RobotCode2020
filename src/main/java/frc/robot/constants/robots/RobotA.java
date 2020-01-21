@@ -58,6 +58,16 @@ public class RobotA extends RobotConstants {
         controlConstants.leftShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
         controlConstants.rightShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
 
+        /* Loader Constants */
+        loaderConstants.RAMP_RATE = 0;
+        loaderConstants.CURRENT_LIMIT = 0;
+        loaderConstants.THRESHOLD_LIMIT = 0;
+        loaderConstants.TIMEOUT = 0;
+        loaderConstants.TICKS_PER_ROTATION = 1;
+
+        controlConstants.loaderFeedforward  = new SimpleMotorFeedforward(0, 0, 0);
+        controlConstants.loaderPidSettings = new PIDSettings(0, 0, 0, 0, 0);
+
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;
         motionProfilingConstants.MAX_ACCELERATION = 0;
@@ -104,5 +114,7 @@ public class RobotA extends RobotConstants {
         can.LEFT_HOOK_TALON_SRX = 2;
         can.RIGHT_HOOK_TALON_SRX = 3;
 
+        /* Loader Map */
+        can.LOADER_TALON_SRX = 1;
     }
 }

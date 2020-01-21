@@ -16,6 +16,7 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.mixer.Mixer;
 import frc.robot.subsystems.led.LED;
+import frc.robot.subsystems.loader.Loader;
 
 public class Robot extends TimedRobot {
   private Command autoCommand;
@@ -31,6 +32,7 @@ public class Robot extends TimedRobot {
   public static Climb climb;
   public static Intake intake;
   public static Mixer mixer;
+  public static Loader loader;
 
   @Override
   public void robotInit() {
@@ -44,6 +46,7 @@ public class Robot extends TimedRobot {
     mixer = new Mixer();
     climb = new Climb();
     shooter = new Shooter();
+    loader = new Loader();
 
     // Utils:
     dashboardDataContainer = new DashboardDataContainer();

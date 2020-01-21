@@ -38,6 +38,8 @@ public abstract class RobotMap {
     // Shooter setpoint
     public int LEFT_SHOOTER_TALON_FX;
     public int RIGHT_SHOOTER_TALON_FX;
+    // Loader ports
+    public int LOADER_TALON_SRX;
   }
 
   public static class PCM {
