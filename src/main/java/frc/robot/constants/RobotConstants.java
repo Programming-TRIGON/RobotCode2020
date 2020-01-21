@@ -9,12 +9,13 @@ import frc.robot.utils.PIDSettings;
 public abstract class RobotConstants extends RobotMap {
     public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
     public ShooterConstants shooterConstants = new ShooterConstants();
-    public TrigonDriveConstents TrigonDriveConstants = new TrigonDriveConstents();
+    public TrigonDriveConstants TrigonDriveConstants = new TrigonDriveConstants();
     public ClimbConstants climbConstants = new ClimbConstants();
     public MixerConstants mixerConstants = new MixerConstants();
+    public IntakeConstants intakeConstants = new IntakeConstants();
     public ControlConstants controlConstants = new ControlConstants();
     public VisionConstants visionConstants = new VisionConstants();
-    public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();public IntakeConstants intakeConstants = new IntakeConstants();
+    public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
 
     public static class DrivetrainConstants {
         public double WHEEL_DIAMETER;
@@ -29,7 +30,7 @@ public abstract class RobotConstants extends RobotMap {
         public double TRIGGER_THRESHOLD_TIME;
     }
 
-    public static class TrigonDriveConstents {
+    public static class TrigonDriveConstants {
         public double SENSITIVITY;
         public double THRESHOLD;
     }
