@@ -23,10 +23,18 @@ public class TrigonDrive extends DifferentialDrive {
         this.threshold = robotConstants.TrigonDriveConstants.THRESHOLD;
     }
 
+    /**
+     * sets the sensitivity of the joystick to multiply it by the input given later.
+     * 
+     * @param sensitivity the sensitivity to of the joystick.
+     */
     public void setSensitivity(double sensitivity) {
         this.sensitivity = sensitivity;
     }
 
+    /**
+     * gets the sensitivity of the joystick to multiply it by the input given later.
+     */
     public double getSensitivity() {
         return sensitivity;
     }
@@ -39,11 +47,19 @@ public class TrigonDrive extends DifferentialDrive {
         return threshold;
     }
 
+    /**
+     * Gets the Y axis joystick input and performs calculations to it according to
+     * the driver requests.
+     */
     public double yInputCalculation(double value) {
         boolean isLinear = Math.abs(value) <= Y_LINEAR_THRESHOLD;
         return isLinear ? Y_LINEAR_COEFFICIENT * value : Math.signum(value) * Math.sqrt(Math.abs(value));
     }
 
+    /**
+     * Gets the X axis joystick input and performs calculations to it according to
+     * the driver requests.
+     */
     public double xInputCalculation(double value) {
         boolean isLinear = Math.abs(value) <= X_LINEAR_THRESHOLD;
         return isLinear ? X_LINEAR_COEFFICIENT * value : Math.signum(value) * Math.pow(value, 2);
