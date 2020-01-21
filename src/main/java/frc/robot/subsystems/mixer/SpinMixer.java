@@ -1,48 +1,57 @@
 package frc.robot.subsystems.mixer;
 
-import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.RobotConstants.MixerConstants;
+import java.util.function.DoubleSupplier;
 
-import static frc.robot.Robot.robotConstants;
 import static frc.robot.Robot.mixer;
+import static frc.robot.Robot.robotConstants;
 
 /**
  * Spins the mixer during the game for putting balls in the ejector, if the
  * current is too big the motor power flips.
  */
 public class SpinMixer extends CommandBase {
-  private static final double WAIT_TIME = 0.2;
   private DoubleSupplier power;
   private double lastTimeNotOnStall;
-  private double changeDirectionTime;
+  private double backwardsSpinStartTime;
 
-  /** gets a supplier for motor power */
+  /**
+   * gets a double for motor power
+   */
+  public SpinMixer(double power) {
+    this(() -> power);
+  }
+
+  /**
+   * gets a supplier for motor power
+   */
   public SpinMixer(DoubleSupplier power) {
     addRequirements(mixer);
     this.power = power;
   }
 
-  /** gets a double for motor power */
-  public SpinMixer(double power) {
-    this(() -> power);
-  }
-
   @Override
   public void initialize() {
     lastTimeNotOnStall = Timer.getFPGATimestamp();
+    backwardsSpinStartTime = 0;
   }
 
   @Override
   public void execute() {
-    if (mixer.getStall() < robotConstants.mixerConstants.kMixerMaxStall) {
-      lastTimeNotOnStall = Timer.getFPGATimestamp();
-    }
-    if (Timer.getFPGATimestamp() - lastTimeNotOnStall > WAIT_TIME) {
+    if (Timer.getFPGATimestamp() - backwardsSpinStartTime < robotConstants.mixerConstants.kBackwardsSpinTime)
       mixer.move(-power.getAsDouble());
+    else {
+      if (mixer.getStall() < robotConstants.mixerConstants.kMixerMaxStall) {
+        lastTimeNotOnStall = Timer.getFPGATimestamp();
+      }
+      if (Timer.getFPGATimestamp() - lastTimeNotOnStall > robotConstants.mixerConstants.kStallWaitTime) {
+        backwardsSpinStartTime = Timer.getFPGATimestamp();
+        mixer.move(-power.getAsDouble());
+      } else
+        mixer.move(power.getAsDouble());
     }
-    else
-      mixer.move(power.getAsDouble());
   }
 
   @Override

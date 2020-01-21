@@ -52,6 +52,8 @@ public abstract class RobotConstants extends RobotMap {
     public static class MixerConstants {
         public double kMixerMaxStall;
         public boolean kIsInverted;
+        public double kStallWaitTime;
+        public double kBackwardsSpinTime;
     }
     // More static class here!
 

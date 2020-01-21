@@ -21,8 +21,10 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER = 1;
 
         /* Mixer Constants */ 
-        mixerConstants.kMixerMaxStall = 0;
+        mixerConstants.kMixerMaxStall = 30;
         mixerConstants.kIsInverted = false;
+        mixerConstants.kStallWaitTime = 0.2;
+        mixerConstants.kBackwardsSpinTime = 0.2;
 
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;
