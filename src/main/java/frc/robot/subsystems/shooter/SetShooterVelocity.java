@@ -14,11 +14,15 @@ import static frc.robot.Robot.shooter;
 public class SetShooterVelocity extends CommandBase {
 
     private static final int LOADED_CELLS_IN_AUTO = 3;
+    private static final int MINIMUM_KF_SAMPLES = 20;
     private DoubleSupplier velocitySetpoint;
     private boolean isAuto;
-    private double lastSetpoint;
-    private boolean isInZone;
+    private double setpoint;
+    private double kfSamplesAmount;
+    private double leftKfSamplesSum;
+    private double rightKfSamplesSum;
     private double lastTimeOutsideZone;
+    private boolean isInZone;
     private int cellsShot;
 
     /**
@@ -80,28 +84,64 @@ public class SetShooterVelocity extends CommandBase {
 
     @Override
     public void initialize() {
-        lastSetpoint = velocitySetpoint.getAsDouble();
+        setpoint = velocitySetpoint.getAsDouble();
+        kfSamplesAmount = 0;
+        leftKfSamplesSum = 0;
+        rightKfSamplesSum = 0;
         cellsShot = 0;
         isInZone = true;
-        shooter.startPID(lastSetpoint);
+        shooter.setVelocity(setpoint);
     }
 
     @Override
     public void execute() {
-        double newSetpoint = velocitySetpoint.getAsDouble();
-        if (lastSetpoint != newSetpoint) {
-            shooter.startPID(newSetpoint);
-            lastSetpoint = newSetpoint;
+        if (kfSamplesAmount < MINIMUM_KF_SAMPLES)
+            // reach target velocity in closed loop and calculate kF
+            spinUpExecute();
+        else
+            // switch to open loop with calculated kF
+            holdExecute();
+    }
+
+    private void spinUpExecute() {
+        shooter.setVelocity(setpoint);
+        boolean onTarget = Math.abs(shooter.getAverageSpeed() - setpoint) < robotConstants.shooterConstants.TOLERANCE;
+        if (onTarget)
+            updateKf();
+        else {
+            // reset kF since we are to far
+            kfSamplesAmount = 0;
+            leftKfSamplesSum = 0;
+            rightKfSamplesSum = 0;
         }
-        if (isAuto && !isInZone && shooter.getAverageSpeed() < robotConstants.shooterConstants.SHOOTING_BALL_ZONE &&
-                Timer.getFPGATimestamp() - lastTimeOutsideZone > robotConstants.shooterConstants.WAIT_TIME_ZONE) {
-            isInZone = true;
-            cellsShot++;
+    }
+
+    private void holdExecute() {
+        double leftFeedforward = setpoint * leftKfSamplesSum / kfSamplesAmount;
+        shooter.setLeftPower(leftFeedforward);
+        double rightFeedforward = setpoint * rightKfSamplesSum / kfSamplesAmount;
+        shooter.setRightPower(rightFeedforward);
+        // The shooter might heat up after extended use so we need to make sure to update kF if the shooter too much fast.
+        if (shooter.getAverageSpeed() > setpoint)
+            updateKf();
+        // If in auto, check how many cells were shot.
+        if (isAuto) {
+            if (!isInZone && shooter.getAverageSpeed() < robotConstants.shooterConstants.SHOOTING_BALL_ZONE &&
+                    Timer.getFPGATimestamp() - lastTimeOutsideZone > robotConstants.shooterConstants.WAIT_TIME_ZONE) {
+                isInZone = true;
+                cellsShot++;
+            }
+            if (isInZone && shooter.getAverageSpeed() > robotConstants.shooterConstants.SHOOTING_BALL_ZONE) {
+                isInZone = false;
+                lastTimeOutsideZone = Timer.getFPGATimestamp();
+            }
         }
-        if (isAuto && isInZone && shooter.getAverageSpeed() > robotConstants.shooterConstants.SHOOTING_BALL_ZONE) {
-            isInZone = false;
-            lastTimeOutsideZone = Timer.getFPGATimestamp();
-        }
+    }
+
+    private void updateKf() {
+        leftKfSamplesSum += estimateKf(shooter.getLeftSpeed(), shooter.getLeftVoltage());
+        rightKfSamplesSum += estimateKf(shooter.getRightSpeed(), shooter.getRightVoltage());
+        kfSamplesAmount++;
     }
 
     @Override
@@ -112,5 +152,17 @@ public class SetShooterVelocity extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         shooter.stopMove();
+    }
+
+    /**
+     * This calculation was taken from team 254 2017 robot code.
+     * @param rpm current velocity in rotations per minute
+     * @param voltage the current voltage
+     * @return kf estimated by to be used with talonFX
+     */
+    private static double estimateKf(double rpm, double voltage) {
+        final double speedInTicksPer100Ms = 4096.0 / 600.0 * rpm;
+        final double output = voltage / 12.0;
+        return output / speedInTicksPer100Ms;
     }
 }

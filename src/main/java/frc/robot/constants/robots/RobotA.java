@@ -47,6 +47,7 @@ public class RobotA extends RobotConstants {
         shooterConstants.RIGHT_UNITS_PER_ROTATION = 1;
         shooterConstants.LEFT_KF = 0;
         shooterConstants.RIGHT_KF = 0;
+        shooterConstants.TOLERANCE = 50;
         shooterConstants.SHOOTING_BALL_ZONE = 2000;
         shooterConstants.WAIT_TIME_ZONE = 0;
         shooterConstants.IS_LEFT_MOTOR_INVERTED = false;

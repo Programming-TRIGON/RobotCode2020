@@ -16,33 +16,33 @@ import static frc.robot.Robot.robotConstants;
  * This subsystem handles shooting power cells into the outer and inner ports.
  */
 public class Shooter extends SubsystemBase implements MoveableSubsystem {
-    private WPI_TalonFX leftTalon;
-    private WPI_TalonFX rightTalon;
+    private WPI_TalonFX leftTalonFX;
+    private WPI_TalonFX rightTalonFX;
     private boolean isTuning;
 
     public Shooter() {
         //setting up the talon fx
-        leftTalon = new WPI_TalonFX(robotConstants.can.LEFT_SHOOTER_TALON_FX);
-        leftTalon.setNeutralMode(NeutralMode.Coast);
-        leftTalon.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
-        leftTalon.config_kP(0, robotConstants.controlConstants.leftShooterSettings.getKP());
-        leftTalon.config_kI(0, robotConstants.controlConstants.leftShooterSettings.getKI());
-        leftTalon.config_kD(0, robotConstants.controlConstants.leftShooterSettings.getKD());
-        leftTalon.config_kF(0, robotConstants.shooterConstants.LEFT_KF);
-        leftTalon.selectProfileSlot(0, 0);
-        leftTalon.setInverted(robotConstants.shooterConstants.IS_LEFT_MOTOR_INVERTED);
-        leftTalon.setSensorPhase(robotConstants.shooterConstants.IS_LEFT_ENCODER_INVERTED);
+        leftTalonFX = new WPI_TalonFX(robotConstants.can.LEFT_SHOOTER_TALON_FX);
+        leftTalonFX.setNeutralMode(NeutralMode.Coast);
+        leftTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+        leftTalonFX.config_kP(0, robotConstants.controlConstants.leftShooterSettings.getKP());
+        leftTalonFX.config_kI(0, robotConstants.controlConstants.leftShooterSettings.getKI());
+        leftTalonFX.config_kD(0, robotConstants.controlConstants.leftShooterSettings.getKD());
+        leftTalonFX.config_kF(0, robotConstants.shooterConstants.LEFT_KF);
+        leftTalonFX.selectProfileSlot(0, 0);
+        leftTalonFX.setInverted(robotConstants.shooterConstants.IS_LEFT_MOTOR_INVERTED);
+        leftTalonFX.setSensorPhase(robotConstants.shooterConstants.IS_LEFT_ENCODER_INVERTED);
 
-        rightTalon = new WPI_TalonFX(robotConstants.can.RIGHT_SHOOTER_TALON_FX);
-        rightTalon.setNeutralMode(NeutralMode.Coast);
-        rightTalon.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
-        rightTalon.config_kP(0, robotConstants.controlConstants.rightShooterSettings.getKP());
-        rightTalon.config_kI(0, robotConstants.controlConstants.rightShooterSettings.getKI());
-        rightTalon.config_kD(0, robotConstants.controlConstants.rightShooterSettings.getKD());
-        rightTalon.config_kF(0, robotConstants.shooterConstants.RIGHT_KF);
-        rightTalon.selectProfileSlot(0, 0);
-        rightTalon.setInverted(robotConstants.shooterConstants.IS_RIGHT_MOTOR_INVERTED);
-        rightTalon.setSensorPhase(robotConstants.shooterConstants.IS_RIGHT_ENCODER_INVERTED);
+        rightTalonFX = new WPI_TalonFX(robotConstants.can.RIGHT_SHOOTER_TALON_FX);
+        rightTalonFX.setNeutralMode(NeutralMode.Coast);
+        rightTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+        rightTalonFX.config_kP(0, robotConstants.controlConstants.rightShooterSettings.getKP());
+        rightTalonFX.config_kI(0, robotConstants.controlConstants.rightShooterSettings.getKI());
+        rightTalonFX.config_kD(0, robotConstants.controlConstants.rightShooterSettings.getKD());
+        rightTalonFX.config_kF(0, robotConstants.shooterConstants.RIGHT_KF);
+        rightTalonFX.selectProfileSlot(0, 0);
+        rightTalonFX.setInverted(robotConstants.shooterConstants.IS_RIGHT_MOTOR_INVERTED);
+        rightTalonFX.setSensorPhase(robotConstants.shooterConstants.IS_RIGHT_ENCODER_INVERTED);
         resetEncoders();
     }
 
@@ -51,12 +51,20 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
      */
     @Override
     public void move(double power) {
-        leftTalon.set(power);
-        rightTalon.set(power);
+        leftTalonFX.set(power);
+        rightTalonFX.set(power);
     }
 
-    public void startPID() {
-        startPID(ShooterVelocity.kDefault.getVelocity());
+    public void setLeftPower(double power) {
+        leftTalonFX.set(power);
+    }
+
+    public void setRightPower(double power) {
+        rightTalonFX.set(power);
+    }
+
+    public void setDefaultVelocity() {
+        setVelocity(ShooterVelocity.kDefault.getVelocity());
     }
 
     /**
@@ -64,13 +72,21 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
      *
      * @param velocitySetpoint velocity to set the talons.
      */
-    public void startPID(double velocitySetpoint) {
+    public void setVelocity(double velocitySetpoint) {
         double leftVelocityInTalonUnits = velocitySetpoint * robotConstants.shooterConstants.LEFT_UNITS_PER_ROTATION
                 / 600;
         double rightVelocityInTalonUnits = velocitySetpoint * robotConstants.shooterConstants.RIGHT_UNITS_PER_ROTATION
                 / 600;
-        leftTalon.set(TalonFXControlMode.Velocity, leftVelocityInTalonUnits);
-        rightTalon.set(TalonFXControlMode.Velocity, rightVelocityInTalonUnits);
+        leftTalonFX.set(TalonFXControlMode.Velocity, leftVelocityInTalonUnits);
+        rightTalonFX.set(TalonFXControlMode.Velocity, rightVelocityInTalonUnits);
+    }
+
+    public double getLeftVoltage() {
+        return leftTalonFX.getMotorOutputVoltage();
+    }
+
+    public double getRightVoltage() {
+        return rightTalonFX.getMotorOutputVoltage();
     }
 
 
@@ -104,7 +120,7 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
      * @return the speed of the left shooter in RPM.
      */
     public double getLeftSpeed() {
-        return leftTalon.getSelectedSensorVelocity() * 600.0
+        return leftTalonFX.getSelectedSensorVelocity() * 600.0
                 / robotConstants.shooterConstants.LEFT_UNITS_PER_ROTATION;
     }
 
@@ -112,33 +128,33 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
      * @return the speed of the right shooter in RPM.
      */
     public double getRightSpeed() {
-        return rightTalon.getSelectedSensorVelocity() * 600.0
+        return rightTalonFX.getSelectedSensorVelocity() * 600.0
                 / robotConstants.shooterConstants.LEFT_UNITS_PER_ROTATION;
     }
 
     public void resetEncoders() {
-        leftTalon.setSelectedSensorPosition(0);
-        rightTalon.setSelectedSensorPosition(0);
+        leftTalonFX.setSelectedSensorPosition(0);
+        rightTalonFX.setSelectedSensorPosition(0);
     }
 
     @Override
     public void periodic() {
         if (isTuning) {
-            leftTalon.config_kP(0, SmartDashboard.getNumber(
+            leftTalonFX.config_kP(0, SmartDashboard.getNumber(
                     "PID/LeftShooter/kP", 0), 0);
-            leftTalon.config_kI(0, SmartDashboard.getNumber(
+            leftTalonFX.config_kI(0, SmartDashboard.getNumber(
                     "PID/LeftShooter/kI", 0), 0);
-            leftTalon.config_kD(0, SmartDashboard.getNumber(
+            leftTalonFX.config_kD(0, SmartDashboard.getNumber(
                     "PID/LeftShooter/kD", 0), 0);
-            leftTalon.config_kF(0, SmartDashboard.getNumber(
+            leftTalonFX.config_kF(0, SmartDashboard.getNumber(
                     "PID/LeftShooter/kF", 0), 0);
-            rightTalon.config_kP(0, SmartDashboard.getNumber(
+            rightTalonFX.config_kP(0, SmartDashboard.getNumber(
                     "PID/RightShooter/kP", 0), 0);
-            rightTalon.config_kI(0, SmartDashboard.getNumber(
+            rightTalonFX.config_kI(0, SmartDashboard.getNumber(
                     "PID/RightShooter/kI", 0), 0);
-            rightTalon.config_kD(0, SmartDashboard.getNumber(
+            rightTalonFX.config_kD(0, SmartDashboard.getNumber(
                     "PID/RightShooter/kD", 0), 0);
-            rightTalon.config_kF(0, SmartDashboard.getNumber(
+            rightTalonFX.config_kF(0, SmartDashboard.getNumber(
                     "PID/RightShooter/kF", 0), 0);
 
         }
