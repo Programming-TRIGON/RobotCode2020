@@ -10,8 +10,8 @@ import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.utils.DashboardDataContainer;
 import frc.robot.vision.Limelight;
+import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.mixer.Mixer;
-import frc.robot.subsystems.drivetrain.DrivetrainInterface;
 import frc.robot.subsystems.led.LED;
 
 public class Robot extends TimedRobot {
@@ -22,7 +22,7 @@ public class Robot extends TimedRobot {
   public static RobotConstants robotConstants;
   public static FieldConstants fieldConstants;
   public static Limelight limelight;
-  public static DrivetrainInterface drivetrain; // TODO: Change interface to subsystem
+  public static Drivetrain drivetrain;
   public static LED led;
   public static Mixer mixer;
 
@@ -33,6 +33,7 @@ public class Robot extends TimedRobot {
 
     // Subsystems:
     led = new LED();
+    drivetrain = new Drivetrain();
     mixer = new Mixer();
 
     // Utils:

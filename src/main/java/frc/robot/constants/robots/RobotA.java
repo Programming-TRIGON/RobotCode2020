@@ -19,6 +19,14 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.ROBOT_WIDTH = 0;
         drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER = 1;
         drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER = 1;
+        drivetrainConstants.RAMP_RATE = 1;
+        drivetrainConstants.CURRENT_LIMIT = 1;
+        drivetrainConstants.TRIGGER_THRESHOLD_CURRENT = 1;
+        drivetrainConstants.TRIGGER_THRESHOLD_TIME = 1;
+
+        /* Trigon Drive Constants */
+        TrigonDriveConstants.SENSITIVITY = 1;
+        TrigonDriveConstants.THRESHOLD = 0.5;
 
         /* Mixer Constants */ 
         mixerConstants.kMixerMaxStall = 30;
@@ -51,6 +59,16 @@ public class RobotA extends RobotConstants {
         /* Robot Map */
         pwm.LED_CONTROLLER = 0;
         i2c.i2cPort = Port.kOnboard;
+        /* Drivetrain Map */
+        can.DRIVETRAIN_LEFT_FRONT_TALON_FX = 1;
+        can.DRIVETRAIN_LEFT_MIDDLE_TALON_FX = 2;
+        can.DRIVETRAIN_LEFT_REAR_TALON_FX = 3;
+        can.DRIVETRAIN_RIGHT_FRONT_TALON_FX = 4;
+        can.DRIVETRAIN_RIGHT_MIDDLE_TALON_FX = 5;
+        can.DRIVETRAIN_RIGHT_REAR_TALON_FX = 6;
+        can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER = 7;
+        can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER = 8;
+        /* Mixer Map */
         can.MIXER_TALON_SRX = 8;
     }
 }
