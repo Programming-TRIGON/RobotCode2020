@@ -22,8 +22,16 @@ public abstract class RobotConstants extends RobotMap {
         public double LEFT_ENCODER_TICKS_PER_METER;
         public double RIGHT_ENCODER_TICKS_PER_METER;
     }
-    
+
     /** Control constants contain control value such as kp, kv for control loops */
+    public static class MixerConstants {
+        public double kMixerMaxStall;
+        public boolean kIsInverted;
+        public double kStallWaitTime;
+        public double kBackwardsSpinTime;
+        public double kRampUpTime;
+    }
+
     public static class ControlConstants {
         public SimpleMotorFeedforward motionProfilingSettings;
         public SimpleMotorFeedforward motionProfilingReverseSettings;
@@ -48,14 +56,5 @@ public abstract class RobotConstants extends RobotMap {
         public double LIMELIGHT_ANGLE_OFFSET;
         public double TARGET_NOT_FOUND_WAIT_TIME;
     }
-
-    public static class MixerConstants {
-        public double kMixerMaxStall;
-        public boolean kIsInverted;
-        public double kStallWaitTime;
-        public double kBackwardsSpinTime;
-        public double kRampUpTime;
-    }
     // More static class here!
-
 }
