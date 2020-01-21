@@ -10,7 +10,6 @@ import frc.robot.utils.PIDSettings;
  */
 public class RobotA extends RobotConstants {
     // TODO: Set constants
-
     public RobotA() {
         /* Robot Constants */
         /* Drivetrain Constants */
@@ -28,6 +27,13 @@ public class RobotA extends RobotConstants {
         /* Trigon Drive Constants */
         TrigonDriveConstants.SENSITIVITY = 1;
         TrigonDriveConstants.THRESHOLD = 0.5;
+
+        /* Mixer Constants */ 
+        mixerConstants.kMixerMaxStall = 30;
+        mixerConstants.kIsInverted = false;
+        mixerConstants.kRampUpTime = 0;
+        mixerConstants.kStallWaitTime = 0.2;
+        mixerConstants.kBackwardsSpinTime = 0.2;
 
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;
@@ -53,7 +59,6 @@ public class RobotA extends RobotConstants {
         /* Robot Map */
         pwm.LED_CONTROLLER = 0;
         i2c.i2cPort = Port.kOnboard;
-
         /* Drivetrain Map */
         can.DRIVETRAIN_LEFT_FRONT_TALON_FX = 1;
         can.DRIVETRAIN_LEFT_MIDDLE_TALON_FX = 2;
@@ -63,5 +68,7 @@ public class RobotA extends RobotConstants {
         can.DRIVETRAIN_RIGHT_REAR_TALON_FX = 6;
         can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER = 7;
         can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER = 8;
+        /* Mixer Map */
+        can.MIXER_TALON_SRX = 8;
     }
 }
