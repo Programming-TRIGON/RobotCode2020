@@ -11,8 +11,8 @@ public class MoveMovableSubsystem extends CommandBase {
   private DoubleSupplier power;
 
   /**
-   * This command can move any subsystem that implements MovableSubsystem without
-   * an isFinished
+   * This command can move any subsystem that implements MovableSubsystem and runs
+   * forever.
    */
   public MoveMovableSubsystem(MoveableSubsystem subsystem, DoubleSupplier power) {
     this(subsystem, power, () -> false);
