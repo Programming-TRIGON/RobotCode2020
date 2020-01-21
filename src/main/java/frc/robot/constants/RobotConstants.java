@@ -24,10 +24,10 @@ public abstract class RobotConstants extends RobotMap {
     }
     
     public static class ClimbConstants {
-        public double CLIMB_THRESHOLD_LIMIT;
-        public double CLIMB_CURRENT_LIMIT;
-        public double CLIMB_CURRENT_TIMEOUT;
-        public int HOOK_CURRENT_LIMIT;
+        public double HOOK_THRESHOLD_LIMIT;
+        public double HOOK_CURRENT_LIMIT;
+        public double HOOK_CURRENT_TIMEOUT;
+        public int CLIMB_CURRENT_LIMIT;
     }
 
     /** Control constants contain control value such as kp, kv for control loops */

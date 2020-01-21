@@ -20,6 +20,7 @@ public class ClimbWithXbox extends CommandBase {
   public ClimbWithXbox(DoubleSupplier hookPower, DoubleSupplier climbPower) {
     addRequirements(Robot.climb);
     this.hookPower = hookPower;
+    this.climbPower = climbPower;
   }
 
   @Override
