@@ -45,8 +45,7 @@ public abstract class RobotMap {
   }
 
   public static class DIO {
-      public int LOW_SWITCH_SHOOTER;
-      public int HIGH_SWITCH_SHOOTER;
+      public int SWITCH_SHOOTER;
   }
 
   public static class PWM {

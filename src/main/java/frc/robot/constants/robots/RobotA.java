@@ -93,8 +93,7 @@ public class RobotA extends RobotConstants {
         /* Shooter Map */
         can.LEFT_SHOOTER_TALON_FX = 0;
         can.RIGHT_SHOOTER_TALON_FX = 2;
-        dio.LOW_SWITCH_SHOOTER = 0;
-        dio.HIGH_SWITCH_SHOOTER = 1;
+        dio.SWITCH_SHOOTER = 0;
         /* Intake Map */
         can.INTAKE_SPARK_MAX = 5;
         /* Mixer Map */
