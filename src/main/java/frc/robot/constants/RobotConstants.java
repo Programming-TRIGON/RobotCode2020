@@ -29,8 +29,6 @@ public abstract class RobotConstants extends RobotMap {
         public double THRESHOLD_LIMIT;
         public double TIMEOUT;
         public double TICKS_PER_ROTATION;
-        public PIDSettings PID_SETTINGS;
-        public SimpleMotorFeedforward FEEDFORWARD;
     }
 
     /** Control constants contain control value such as kp, kv for control loops */
@@ -39,6 +37,8 @@ public abstract class RobotConstants extends RobotMap {
         public SimpleMotorFeedforward motionProfilingReverseSettings;
         public PIDSettings visionRotationSettings;
         public PIDSettings visionDistanceSettings;
+        public PIDSettings loaderPidSettings;
+        public SimpleMotorFeedforward loaderFeedforward;
     }
 
     public static class MotionProfilingConstants {

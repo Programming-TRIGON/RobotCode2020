@@ -1,5 +1,6 @@
 package frc.robot.subsystems.loader;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -8,7 +9,7 @@ import frc.robot.subsystems.MoveableSubsystem;
 import static frc.robot.Robot.robotConstants;;
 
 public class Loader extends SubsystemBase implements MoveableSubsystem {
-  WPI_TalonSRX talonSRX;
+  private WPI_TalonSRX talonSRX;
 
   /**
    * This class holds all the methods for the Loader which takes the POWER CELLS
@@ -17,6 +18,7 @@ public class Loader extends SubsystemBase implements MoveableSubsystem {
   public Loader() {
     talonSRX = new WPI_TalonSRX(robotConstants.can.LOADER_TALON_SRX);
     talonSRX.configClosedloopRamp(robotConstants.loaderConstants.RAMP_RATE);
+    talonSRX.setNeutralMode(NeutralMode.Coast);
     talonSRX.configSupplyCurrentLimit(
         new SupplyCurrentLimitConfiguration(true, robotConstants.loaderConstants.CURRENT_LIMIT,
             robotConstants.loaderConstants.THRESHOLD_LIMIT, robotConstants.loaderConstants.TIMEOUT));

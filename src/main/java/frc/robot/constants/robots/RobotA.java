@@ -27,8 +27,9 @@ public class RobotA extends RobotConstants {
         loaderConstants.THRESHOLD_LIMIT = 0;
         loaderConstants.TIMEOUT = 0;
         loaderConstants.TICKS_PER_ROTATION = 1;
-        loaderConstants.PID_SETTINGS = new PIDSettings(0, 0, 0, 0, 0);
-        loaderConstants.FEEDFORWARD = new SimpleMotorFeedforward(0, 0, 0);
+
+        controlConstants.loaderFeedforward  = new SimpleMotorFeedforward(0, 0, 0);
+        controlConstants.loaderPidSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;
