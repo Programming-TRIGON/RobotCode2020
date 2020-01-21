@@ -10,7 +10,6 @@ import frc.robot.utils.PIDSettings;
  */
 public class RobotA extends RobotConstants {
     // TODO: Set constants
-
     public RobotA() {
         /* Robot Constants */
         /* Drivetrain Constants */
@@ -21,6 +20,13 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER = 1;
         drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER = 1;
 
+        /* Mixer Constants */ 
+        mixerConstants.kMixerMaxStall = 30;
+        mixerConstants.kIsInverted = false;
+        mixerConstants.kRampUpTime = 0;
+        mixerConstants.kStallWaitTime = 0.2;
+        mixerConstants.kBackwardsSpinTime = 0.2;
+
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;
         motionProfilingConstants.MAX_ACCELERATION = 0;
@@ -28,8 +34,8 @@ public class RobotA extends RobotConstants {
         motionProfilingConstants.KP = 0;
         motionProfilingConstants.REVERSE_KP = 0;
 
-        controlConstants.motionProfilingSettings = new SimpleMotorFeedforward(0,0,0);
-        controlConstants.motionProfilingReverseSettings = new SimpleMotorFeedforward(0,0,0);
+        controlConstants.motionProfilingSettings = new SimpleMotorFeedforward(0, 0, 0);
+        controlConstants.motionProfilingReverseSettings = new SimpleMotorFeedforward(0, 0, 0);
 
         /* Vision Constants */
         visionConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 0;
@@ -39,12 +45,12 @@ public class RobotA extends RobotConstants {
         visionConstants.LIMELIGHT_ANGLE_OFFSET = 0;
         visionConstants.TARGET_NOT_FOUND_WAIT_TIME = 0.1;
 
-        controlConstants.visionDistanceSettings = new PIDSettings(0,0,0,0,0);
-        controlConstants.visionRotationSettings = new PIDSettings(0,0,0,0,0);
+        controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
+        controlConstants.visionRotationSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         /* Robot Map */
         pwm.LED_CONTROLLER = 0;
         i2c.i2cPort = Port.kOnboard;
-
+        can.MIXER_TALON_SRX = 8;
     }
 }
