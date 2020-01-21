@@ -7,18 +7,27 @@ import frc.robot.utils.TrigonPIDController;
 import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.robotConstants;
 
-
 public class RotateDrivetrain extends CommandBase {
   TrigonPIDController pidController;
-  DoubleSupplier angle;
+  DoubleSupplier desiredAngle;
 
   /**
    * Rotates the drivetrain in place.
    */
-  public RotateDrivetrain(DoubleSupplier angle) {
+  public RotateDrivetrain(DoubleSupplier desiredAngle) {
     addRequirements(drivetrain);
-    pidController = new TrigonPIDController(robotConstants.controlConstants.drivetrainRotateSettings,
-        angle.getAsDouble());
+    pidController = new TrigonPIDController(robotConstants.controlConstants.drivetrainRotateSettings);
+    pidController.enableContinuousInput(-180, 180);
+  }
+
+  /**
+   * Rotates the drivetrain in place. This constructor is used for tuning the PID
+   * in the smartdashboard.
+   */
+  public RotateDrivetrain() {
+    addRequirements(drivetrain);
+    pidController = new TrigonPIDController("Rotate Drivetrain Settings");
+    pidController.enableContinuousInput(-180, 180);
   }
 
   @Override
@@ -28,7 +37,7 @@ public class RotateDrivetrain extends CommandBase {
 
   @Override
   public void execute() {
-    drivetrain.arcadeDrive(pidController.trigonCalculate(drivetrain.getAngle()), 0);
+    drivetrain.arcadeDrive(pidController.trigonCalculate(drivetrain.getAngle(), desiredAngle.getAsDouble()), 0);
   }
 
   @Override
