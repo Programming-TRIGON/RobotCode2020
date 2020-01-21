@@ -9,6 +9,7 @@ import frc.robot.utils.PIDSettings;
 public abstract class RobotConstants extends RobotMap {
     public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
     public TrigonDriveConstents TrigonDriveConstants = new TrigonDriveConstents();
+    public ClimbConstants climbConstants = new ClimbConstants();
     public MixerConstants mixerConstants = new MixerConstants();
     public VisionConstants visionConstants = new VisionConstants();
     public ControlConstants controlConstants = new ControlConstants();
@@ -33,8 +34,14 @@ public abstract class RobotConstants extends RobotMap {
         public double SENSITIVITY;
         public double THRESHOLD;
     }
+    
+    public static class ClimbConstants {
+        public double HOOK_THRESHOLD_LIMIT;
+        public double HOOK_CURRENT_LIMIT;
+        public double HOOK_CURRENT_TIMEOUT;
+        public int CLIMB_CURRENT_LIMIT;
+    }
 
-    /** Control constants contain control value such as kp, kv for control loops */
     public static class MixerConstants {
         public double kMixerMaxStall;
         public boolean kIsInverted;
@@ -43,6 +50,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kRampUpTime;
     }
 
+    /** Control constants contain control value such as kp, kv for control loops */
     public static class ControlConstants {
         public SimpleMotorFeedforward motionProfilingSettings;
         public SimpleMotorFeedforward motionProfilingReverseSettings;
@@ -69,8 +77,10 @@ public abstract class RobotConstants extends RobotMap {
         public double TARGET_NOT_FOUND_WAIT_TIME;
     }
 
-    // More static class here!
     public static class IntakeConstants {
         public boolean kIntakeReversed;
     }
+
+    // More static class here!
+
 }
