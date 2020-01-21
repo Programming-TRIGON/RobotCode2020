@@ -19,7 +19,7 @@ import static frc.robot.Robot.robotConstants;
 public class Shooter extends SubsystemBase implements MoveableSubsystem {
     private WPI_TalonFX leftTalonFX;
     private WPI_TalonFX rightTalonFX;
-    private DigitalInput highSwitch;
+    private DigitalInput microSwitch;
     private boolean isTuning;
 
     public Shooter() {
@@ -50,7 +50,7 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         rightTalonFX.setInverted(robotConstants.shooterConstants.IS_RIGHT_MOTOR_INVERTED);
         rightTalonFX.setSensorPhase(robotConstants.shooterConstants.IS_RIGHT_ENCODER_INVERTED);
 
-        highSwitch = new DigitalInput(robotConstants.dio.SWITCH_SHOOTER);
+        microSwitch = new DigitalInput(robotConstants.dio.SWITCH_SHOOTER);
         resetEncoders();
     }
 
@@ -104,7 +104,7 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
     }
 
     public boolean isSwitchPressed() {
-        return highSwitch.get();
+        return microSwitch.get();
     }
 
     public void enableTuning() {
