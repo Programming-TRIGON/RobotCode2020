@@ -8,19 +8,19 @@ import frc.robot.subsystems.MoveableSubsystem;
 import static frc.robot.Robot.robotConstants;
 
 /**
- * This Class holds all the methods for the intake which collects POWER CELLS
+ * This class holds all the methods for the intake which collects POWER CELLS
  * into the robot.
  */
 public class Intake extends SubsystemBase implements MoveableSubsystem {
-  private CANSparkMax motor;
+  private CANSparkMax sparkMax;
 
   public Intake() {
-    motor = new CANSparkMax(robotConstants.can.INTAKE_SPARK_MAX, MotorType.kBrushless);
-    motor.setInverted(robotConstants.intakeConstants.kIntakeReversed);
+    sparkMax = new CANSparkMax(robotConstants.can.INTAKE_SPARK_MAX, MotorType.kBrushless);
+    sparkMax.setInverted(robotConstants.intakeConstants.kIntakeReversed);
   }
 
   @Override
   public void move(double power) {
-    motor.set(power);
+    sparkMax.set(power);
   }
 }
