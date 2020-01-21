@@ -42,6 +42,6 @@ public class MoveMovableSubsystem extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return this.isFinished.getAsBoolean();
+    return isFinished.getAsBoolean();
   }
 }
