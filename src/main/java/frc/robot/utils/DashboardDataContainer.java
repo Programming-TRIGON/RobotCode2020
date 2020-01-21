@@ -13,12 +13,6 @@ public class DashboardDataContainer {
 
     public DashboardDataContainer() {
         dashboardController = new DashboardController();
-        SmartDashboard.putNumber("Climb/Climb Power", 0.0);
-        SmartDashboard.putNumber("Climb/Hook Power", 0.0);
-        SmartDashboard.putData("Climb/Climb Motors",
-                new ClimbWithXbox(() -> SmartDashboard.getNumber("Climb/Climb Power", 0.0), true));
-        SmartDashboard.putData("Climb/Hook Motors",
-                new ClimbWithXbox(() -> SmartDashboard.getNumber("Climb/Hook Power", 0.0), false));
 
         // dashboardController.addBoolean(name, booleanSupplier);
         // dashboardController.addNumber(name, numberSupplier);

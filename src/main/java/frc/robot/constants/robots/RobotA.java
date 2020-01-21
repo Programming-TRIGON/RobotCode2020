@@ -24,7 +24,7 @@ public class RobotA extends RobotConstants {
         /* Climb Constants */
         climbConstants.CLIMB_CURRENT_LIMIT = 0;
         climbConstants.CLIMB_THRESHOLD_LIMIT = 0;
-        climbConstants.CLIMB_TIMEOUT = 0;
+        climbConstants.CLIMB_CURRENT_TIMEOUT = 0;
         climbConstants.HOOK_CURRENT_LIMIT = 0;
 
         /* Motion Profiling Constants */
@@ -53,9 +53,9 @@ public class RobotA extends RobotConstants {
         i2c.i2cPort = Port.kOnboard;
 
         /* Climb Map */
-        can.LEFT_CLIMB_MOTOR = 0;
-        can.RIGHT_CLIMB_MOTOR = 1;
-        can.LEFT_HOOK_MOTOR = 2;
-        can.RIGHT_HOOK_MOTOR = 3;
+        can.LEFT_CLIMB_SPARK_MAX = 0;
+        can.RIGHT_CLIMB_SPARK_MAX = 1;
+        can.LEFT_HOOK_TALON = 2;
+        can.RIGHT_HOOK_TALON = 3;
     }
 }

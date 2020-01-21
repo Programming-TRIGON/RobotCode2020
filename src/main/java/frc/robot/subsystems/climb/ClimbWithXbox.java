@@ -6,28 +6,26 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
 public class ClimbWithXbox extends CommandBase {
-  DoubleSupplier power;
-  boolean isClimb;
+  private DoubleSupplier hookPower;
+  private DoubleSupplier climbPower;
 
   /**
-   * Use this class to higher the lift for the hook to climb.
+   * Use this class to higher the lift for the hook to climb during the endgame.
+   * It can either pick up the lift for the Hook, or Pull the robot upwards with
+   * the Hook.
    * 
-   * @param power   the power to give the motors
-   * @param isClimb whether to send power to the climb motors or the hook motors.
-   *                If True set the climb motors to the power.
+   * @param hookPower The power to give the hook motors.
+   * @param climbPower The power to give the climb motors.
    */
-  public ClimbWithXbox(DoubleSupplier power, boolean isClimb) {
+  public ClimbWithXbox(DoubleSupplier hookPower, DoubleSupplier climbPower) {
     addRequirements(Robot.climb);
-    this.power = power;
-    this.isClimb = isClimb;
+    this.hookPower = hookPower;
   }
 
   @Override
   public void execute() {
-    if (isClimb)
-      Robot.climb.setClimbPower(power.getAsDouble());
-    else
-      Robot.climb.setHookPower(power.getAsDouble());
+      Robot.climb.setClimbPower(climbPower.getAsDouble());
+      Robot.climb.setHookPower(hookPower.getAsDouble());
   }
 
   @Override
