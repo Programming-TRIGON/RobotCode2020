@@ -11,7 +11,9 @@ import frc.robot.constants.robots.RobotA;
 import frc.robot.utils.DashboardDataContainer;
 import frc.robot.vision.Limelight;
 import frc.robot.subsystems.climb.Climb;
-import frc.robot.subsystems.drivetrain.DrivetrainInterface;
+import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.drivetrain.Drivetrain;
+import frc.robot.subsystems.mixer.Mixer;
 import frc.robot.subsystems.led.LED;
 
 public class Robot extends TimedRobot {
@@ -22,9 +24,11 @@ public class Robot extends TimedRobot {
   public static RobotConstants robotConstants;
   public static FieldConstants fieldConstants;
   public static Limelight limelight;
-  public static DrivetrainInterface drivetrain; // TODO: Change interface to subsystem
+  public static Drivetrain drivetrain;
   public static LED led;
   public static Climb climb;
+  public static Intake intake;
+  public static Mixer mixer;
 
   @Override
   public void robotInit() {
@@ -33,6 +37,9 @@ public class Robot extends TimedRobot {
 
     // Subsystems:
     led = new LED();
+    intake = new Intake();
+    drivetrain = new Drivetrain();
+    mixer = new Mixer();
     climb = new Climb();
 
     // Utils:
@@ -60,6 +67,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    led.stopEmergencyLED();
     autoCommand = autoChooser.getSelected();
 
     if (autoCommand != null) {
