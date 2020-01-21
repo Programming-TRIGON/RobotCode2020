@@ -3,7 +3,7 @@ package frc.robot.utils;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.Robot;
-import frc.robot.subsystems.shooter.SetShooterVelocity;
+import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.ShooterVelocity;
 
 import static frc.robot.Robot.shooter;
@@ -22,7 +22,7 @@ public class DashboardDataContainer {
 		dashboardController.addNumber("Shooter/LeftShooterVelocity", Robot.shooter::getLeftSpeed);
 		dashboardController.addNumber("Shooter/RightShooterVelocity", Robot.shooter::getRightSpeed);
 		SmartDashboard.putNumber("Shooter/Shooting Velocity Setpoint", ShooterVelocity.kDefault.getVelocity());
-		SmartDashboard.putData("Shooter/Shoot ball", new SetShooterVelocity(() ->
+		SmartDashboard.putData("Shooter/Shoot ball", new CheesySetShooterVelocity(() ->
 				SmartDashboard.getNumber("Shooter/Shooting Velocity Setpoint", 0)));
 		SmartDashboard.putData("Shooter/Enable Tuning",
 				new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
