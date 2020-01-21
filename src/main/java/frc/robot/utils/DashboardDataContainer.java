@@ -5,18 +5,24 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.Robot;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.ShooterVelocity;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.mixer.SpinMixer;
+import frc.robot.utils.DashboardController;
 
 import static frc.robot.Robot.shooter;
 
 /**
- * DashboardDataContainer contains all the data to be viewed or put in the dashboard.
+ * DashboardDataContainer contains all the data to be viewed or put in the
+ * dashboard.
  */
 public class DashboardDataContainer {
 	private DashboardController dashboardController;
 
 	public DashboardDataContainer() {
 		dashboardController = new DashboardController();
-
+SmartDashboard.putNumber("Mixer/Mixer Power", 0.0);
+        SmartDashboard.putData("Mixer/Spin Mixer",
+                new SpinMixer(() -> SmartDashboard.getNumber("Mixer/Mixer Power", 0.0)));
 		// shooter data
 		dashboardController.addNumber("Shooter/ShooterVelocity", Robot.shooter::getAverageSpeed);
 		dashboardController.addNumber("Shooter/LeftShooterVelocity", Robot.shooter::getLeftSpeed);
@@ -33,7 +39,7 @@ public class DashboardDataContainer {
 		// etc.
 	}
 
-	public void update() {
-		dashboardController.update();
-	}
+    public void update() {
+        dashboardController.update();
+    }
 }

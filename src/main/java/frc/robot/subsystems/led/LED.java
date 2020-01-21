@@ -8,9 +8,10 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
+import frc.robot.utils.DriverStationLogger;
 
 public class LED extends SubsystemBase {
-  private static final double BLINK_TIME = 0.2;
+  private static final double BLINK_TIME = 0.1;
   private Spark ledController;
   private LEDColor currentColor;
   private LEDColor blinkColor;
@@ -18,7 +19,8 @@ public class LED extends SubsystemBase {
   private int blinkingAmount;
   private Notifier notifier;
   private Random rand;
-  
+  private boolean isInEmergency;
+
   /**
    * Creates a new LED subsystem for Rev robotics Led controller and color changing.
    */
@@ -36,9 +38,11 @@ public class LED extends SubsystemBase {
     currentColor = color;
     blinkingAmount = -1;
     setControllerPower(color.getValue());
-  } 
+  }
 
   public void setControllerPower(double value) {
+    if (isInEmergency)
+      return;
     ledController.set(value);
   }
 
@@ -53,17 +57,17 @@ public class LED extends SubsystemBase {
   /**
    * Blinks the LED with a certain color for several times.
    * @param color the color to blink
-   * @param quantity the number of times to blink 
+   * @param quantity the number of times to blink
    */
   public void blinkColor(LEDColor color, int quantity) {
     lastColorBeforeBlink = getCurrentColor();
     turnOffLED();
     blinkColor = color;
-    blinkingAmount = quantity * 2;
+    blinkingAmount = quantity * 2 - 1;
   }
 
   public boolean isLedOn() {
-    return ledController.get() != 0;
+    return ledController.get() != LEDColor.Off.getValue();
   }
 
   public void notifierPeriodic() {
@@ -94,16 +98,29 @@ public class LED extends SubsystemBase {
     setControllerPower(getRandomPattern());
   }
 
+  public void startEmergencyLED() {
+    setColor(LEDColor.BlinkingRed);
+    isInEmergency = true;
+  }
+
+  public void stopEmergencyLED() {
+    if (isInEmergency) {
+      DriverStationLogger.logToDS("LED emergency disabled");
+      setColor(LEDColor.Off);
+      isInEmergency = false;
+    }
+  }
+
   /**
    * @return random number between -0.05 to -0.99 in jumps of 0.02
    */
-  private double getRandomPattern() { 
+  private double getRandomPattern() {
     double rand = 0.1 * this.rand.nextInt(10);
     int odd = randomOddNumber();
     while(odd<5 && rand==0.0) {
       odd = randomOddNumber();
     }
-    return -(rand + odd * 0.01);  
+    return -(rand + odd * 0.01);
   }
 
   /**
@@ -111,7 +128,7 @@ public class LED extends SubsystemBase {
    */
   private int randomOddNumber() {
     int rand = this.rand.nextInt(10);
-    return rand % 2 == 0 ? rand + 1 : rand; 
+    return rand % 2 == 0 ? rand + 1 : rand;
   }
 }
 

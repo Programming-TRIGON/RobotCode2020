@@ -16,10 +16,28 @@ public abstract class RobotMap {
   public I2C i2c = new I2C();
 
   // TODO: Set variables for hardware components
-
   public static class CAN {
-      public int LEFT_SHOOTER_TALON_FX;
-      public int RIGHT_SHOOTER_TALON_FX;
+    // Drivetrain ports
+    public int DRIVETRAIN_LEFT_REAR_TALON_FX;
+    public int DRIVETRAIN_LEFT_MIDDLE_TALON_FX;
+    public int DRIVETRAIN_LEFT_FRONT_TALON_FX;
+    public int DRIVETRAIN_RIGHT_REAR_TALON_FX;
+    public int DRIVETRAIN_RIGHT_MIDDLE_TALON_FX;
+    public int DRIVETRAIN_RIGHT_FRONT_TALON_FX;
+    public int TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER;
+    public int TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER;
+    // Mixer ports
+    public int MIXER_TALON_SRX;
+    // Intake ports
+    public int INTAKE_SPARK_MAX;
+    // Climb ports
+    public int RIGHT_CLIMB_SPARK_MAX;
+    public int LEFT_CLIMB_SPARK_MAX;
+    public int RIGHT_HOOK_TALON_SRX;
+    public int LEFT_HOOK_TALON_SRX;
+    // Shooter setpoint
+    public int LEFT_SHOOTER_TALON_FX;
+    public int RIGHT_SHOOTER_TALON_FX;
   }
 
   public static class PCM {
@@ -40,4 +58,3 @@ public abstract class RobotMap {
     public Port i2cPort;
   }
 }
-  
