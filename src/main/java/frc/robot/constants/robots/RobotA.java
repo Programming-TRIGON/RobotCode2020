@@ -23,6 +23,7 @@ public class RobotA extends RobotConstants {
         /* Mixer Constants */ 
         mixerConstants.kMixerMaxStall = 30;
         mixerConstants.kIsInverted = false;
+        mixerConstants.kRampUpTime = 0;
         mixerConstants.kStallWaitTime = 0.2;
         mixerConstants.kBackwardsSpinTime = 0.2;
 

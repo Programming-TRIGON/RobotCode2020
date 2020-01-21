@@ -13,21 +13,22 @@ import static frc.robot.Robot.robotConstants;
  */
 public class Mixer extends SubsystemBase implements MoveableSubsystem {
 
-  private final WPI_TalonSRX talon;
+  private final WPI_TalonSRX talonSRX;
 
   public Mixer() {
-    talon = new WPI_TalonSRX(robotConstants.can.MIXER_TALON_SRX);
-    talon.setNeutralMode(NeutralMode.Coast);
-    talon.setInverted(robotConstants.mixerConstants.kIsInverted);
+    talonSRX = new WPI_TalonSRX(robotConstants.can.MIXER_TALON_SRX);
+    talonSRX.setNeutralMode(NeutralMode.Coast);
+    talonSRX.setInverted(robotConstants.mixerConstants.kIsInverted);
+    talonSRX.configClosedloopRamp(robotConstants.mixerConstants.kRampUpTime);
   }
 
   @Override
   public void move(double power) {
-    talon.set(power);
+    talonSRX.set(power);
   }
 
   /** @return The motor output in amps */
   public double getStall() {
-    return talon.getStatorCurrent();
+    return talonSRX.getStatorCurrent();
   }
 }
