@@ -43,6 +43,9 @@ public class Climb extends SubsystemBase {
 
     rightHook.follow(leftHook);
     rightClimb.follow(leftClimb);
+
+    leftClimb.burnFlash();
+    rightClimb.burnFlash();
   }
 
   public void setHookPower(double power) {
