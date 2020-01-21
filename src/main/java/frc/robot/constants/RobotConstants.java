@@ -8,7 +8,7 @@ import frc.robot.utils.PIDSettings;
  */
 public abstract class RobotConstants extends RobotMap {
     public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
-    public TrigonDriveConstents trigonDriveConstents = new TrigonDriveConstents();
+    public TrigonDriveConstents TrigonDriveConstants = new TrigonDriveConstents();
     public VisionConstants visionConstants = new VisionConstants();
     public ControlConstants controlConstants = new ControlConstants();
     public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
@@ -51,8 +51,7 @@ public abstract class RobotConstants extends RobotMap {
     public static class VisionConstants {
         public double DISTANCE_CALCULATION_A_COEFFICIENT;
         public double DISTANCE_CALCULATION_B_COEFFICIENT;
-        // Offsets are measured from the robot's center of rotation to the limelight
-        // position.
+        // Offsets are measured from the robot's center of rotation to the limelight position.
         public double LIMELIGHT_OFFSET_X;
         public double LIMELIGHT_OFFSET_Y;
         public double LIMELIGHT_ANGLE_OFFSET;

@@ -20,12 +20,12 @@ public abstract class RobotMap {
   public static class CAN {
 
     // Drivetrain ports
-    public int DRIVETRAIN_LEFT_REAR_TALON;
-    public int DRIVETRAIN_LEFT_MIDDLE_TALON;
-    public int DRIVETRAIN_LEFT_FRONT_TALON;
-    public int DRIVETRAIN_RIGHT_REAR_TALON;
-    public int DRIVETRAIN_RIGHT_MIDDLE_TALON;
-    public int DRIVETRAIN_RIGHT_FRONT_TALON;
+    public int DRIVETRAIN_LEFT_REAR_TALON_FX;
+    public int DRIVETRAIN_LEFT_MIDDLE_TALON_FX;
+    public int DRIVETRAIN_LEFT_FRONT_TALON_FX;
+    public int DRIVETRAIN_RIGHT_REAR_TALON_FX;
+    public int DRIVETRAIN_RIGHT_MIDDLE_TALON_FX;
+    public int DRIVETRAIN_RIGHT_FRONT_TALON_FX;
     public int TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER;
     public int TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER;
   }

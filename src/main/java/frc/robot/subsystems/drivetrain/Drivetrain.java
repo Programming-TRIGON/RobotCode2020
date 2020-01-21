@@ -17,12 +17,12 @@ import frc.robot.subsystems.MoveableSubsystem;
 import static frc.robot.Robot.robotConstants;
 
 public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
-  private WPI_TalonFX leftRearTalon;
-  private WPI_TalonFX leftMiddleTalon;
-  private WPI_TalonFX leftFrontTalon;
-  private WPI_TalonFX rightRearTalon;
-  private WPI_TalonFX rightMiddleTalon;
-  private WPI_TalonFX rightFrontTalon;
+  private WPI_TalonFX leftRearTalonFX;
+  private WPI_TalonFX leftMiddleTalonFX;
+  private WPI_TalonFX leftFrontTalonFX;
+  private WPI_TalonFX rightRearTalonFX;
+  private WPI_TalonFX rightMiddleTalonFX;
+  private WPI_TalonFX rightFrontTalonFX;
 
   private TrigonDrive drivetrain;
 
@@ -37,28 +37,28 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
    * This is the subsystem of the drivetrain
    */
   public Drivetrain() {
-    leftRearTalon = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON);
-    leftMiddleTalon = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_MIDDLE_TALON);
-    leftFrontTalon = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_FRONT_TALON);
-    rightRearTalon = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_REAR_TALON);
-    rightMiddleTalon = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_MIDDLE_TALON);
-    rightFrontTalon = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_FRONT_TALON);
+    leftRearTalonFX = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON_FX);
+    leftMiddleTalonFX = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_MIDDLE_TALON_FX);
+    leftFrontTalonFX = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_FRONT_TALON_FX);
+    rightRearTalonFX = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_REAR_TALON_FX);
+    rightMiddleTalonFX = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_MIDDLE_TALON_FX);
+    rightFrontTalonFX = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_FRONT_TALON_FX);
 
-    setUpMotor(leftRearTalon, leftFrontTalon);
-    setUpMotor(leftMiddleTalon, leftFrontTalon);
-    setUpMotor(leftFrontTalon, leftFrontTalon);
-    setUpMotor(rightRearTalon, rightFrontTalon);
-    setUpMotor(rightMiddleTalon, rightFrontTalon);
-    setUpMotor(rightFrontTalon, rightFrontTalon);
+    configTalonFX(leftRearTalonFX, leftFrontTalonFX);
+    configTalonFX(leftMiddleTalonFX, leftFrontTalonFX);
+    configTalonFX(leftFrontTalonFX, leftFrontTalonFX);
+    configTalonFX(rightRearTalonFX, rightFrontTalonFX);
+    configTalonFX(rightMiddleTalonFX, rightFrontTalonFX);
+    configTalonFX(rightFrontTalonFX, rightFrontTalonFX);
 
-    drivetrain = new TrigonDrive(leftFrontTalon, rightFrontTalon);
+    drivetrain = new TrigonDrive(leftFrontTalonFX, rightFrontTalonFX);
     drivetrain.setDeadband(0);
 
     // TODO: set correct talons for encoders.
     leftEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER);
     rightEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER);
     // TODO: set correct port for pigeon gyro.
-    gyro = new Pigeon(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON);
+    gyro = new Pigeon(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON_FX);
 
     kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.WHEEL_BASE_WIDTH);
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
@@ -66,20 +66,22 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
 
   // Drive functions
   public void arcadeDrive(double x, double y) {
-    drivetrain.arcadeDrive(x, y, false);
+    // we switch the y and x in curvature drive because the joystick class has a different coordinate system than the differential drive class
+    drivetrain.arcadeDrive(y, x, false);
   }
 
   public void curvatureDrive(double x, double y, boolean quickTurn) {
-    drivetrain.curvatureDrive(x, y, quickTurn);
-  }
-
-  public void tankDrive(double leftSpeed, double rightSpeed) {
-    drivetrain.tankDrive(leftSpeed, rightSpeed, false);
+    // we switch the y and x in curvature drive because the joystick class has a different coordinate system than the differential drive class
+    drivetrain.curvatureDrive(y, x, quickTurn);
   }
 
   /** This is a custom made driving method designed for our driver */
   public void trigonCurvatureDrive(double xInput, double yInput) {
     drivetrain.trigonCurvatureDrive(xInput, yInput);
+  }
+
+  public void tankDrive(double leftSpeed, double rightSpeed) {
+    drivetrain.tankDrive(leftSpeed, rightSpeed, false);
   }
 
   /**
@@ -129,12 +131,12 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
     rightEncoder.setSelectedSensorPosition(0);
   }
 
-  /** @return Meters */
+  /** @return meters */
   public double getLeftDistance() {
     return getLeftTicks() / robotConstants.drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER;
   }
 
-  /** @return Meters */
+  /** @return meters */
   public double getRightDistance() {
     return getRightTicks() / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER;
   }
@@ -143,13 +145,13 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
     return (getLeftDistance() + getRightDistance()) / 2;
   }
 
-  /** @return Meters per second */
+  /** @return meters per second */
   public double getRightVelocity() {
     return rightEncoder.getSelectedSensorVelocity() * 10
         / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER;
   }
 
-  /** @return Meters per second */
+  /** @return meters per second */
   public double getLeftVelocity() {
     return leftEncoder.getSelectedSensorVelocity() * 10
         / robotConstants.drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER;
@@ -170,8 +172,8 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
 
   public void resetOdometry(Pose2d pose) {
     resetEncoders();
-    Rotation2d gyroAngle = Rotation2d.fromDegrees(getAngle());
-    odometry.resetPosition(pose, gyroAngle);
+    Rotation2d angle = Rotation2d.fromDegrees(getAngle());
+    odometry.resetPosition(pose, angle);
   }
 
   public void resetOdometry() {
@@ -183,11 +185,11 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
   }
 
   public double getLeftMotorOutputVoltage() {
-    return leftFrontTalon.getMotorOutputVoltage();
+    return leftFrontTalonFX.getMotorOutputVoltage();
   }
 
   public double getRightMotorOutputVoltage() {
-    return rightFrontTalon.getMotorOutputVoltage();
+    return rightFrontTalonFX.getMotorOutputVoltage();
   }
 
   public void setTrigonDriveSensitivity(double sensitivity) {
@@ -210,7 +212,7 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
     odometry.update(Rotation2d.fromDegrees(getAngle()), getLeftDistance(), getRightDistance());
   }
 
-  private void setUpMotor(WPI_TalonFX motor, WPI_TalonFX master) {
+  private void configTalonFX(WPI_TalonFX motor, WPI_TalonFX master) {
     motor.follow(master);
     motor.setNeutralMode(NeutralMode.Coast);
     motor.configClosedloopRamp(robotConstants.drivetrainConstants.RAMP_RATE);

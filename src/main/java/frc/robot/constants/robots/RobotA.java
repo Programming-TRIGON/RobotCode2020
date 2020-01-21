@@ -26,8 +26,8 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.TRIGGER_THRESHOLD_TIME = 1;
 
         /* Trigon Drive Constants */
-        trigonDriveConstents.SENSITIVITY = 1;
-        trigonDriveConstents.THRESHOLD = 0.5;
+        TrigonDriveConstants.SENSITIVITY = 1;
+        TrigonDriveConstants.THRESHOLD = 0.5;
 
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;
@@ -55,12 +55,12 @@ public class RobotA extends RobotConstants {
         i2c.i2cPort = Port.kOnboard;
 
         /* Drivetrain Map */
-        can.DRIVETRAIN_LEFT_FRONT_TALON = 1;
-        can.DRIVETRAIN_LEFT_MIDDLE_TALON = 2;
-        can.DRIVETRAIN_LEFT_REAR_TALON = 3;
-        can.DRIVETRAIN_RIGHT_FRONT_TALON = 4;
-        can.DRIVETRAIN_RIGHT_MIDDLE_TALON = 5;
-        can.DRIVETRAIN_RIGHT_REAR_TALON = 6;
+        can.DRIVETRAIN_LEFT_FRONT_TALON_FX = 1;
+        can.DRIVETRAIN_LEFT_MIDDLE_TALON_FX = 2;
+        can.DRIVETRAIN_LEFT_REAR_TALON_FX = 3;
+        can.DRIVETRAIN_RIGHT_FRONT_TALON_FX = 4;
+        can.DRIVETRAIN_RIGHT_MIDDLE_TALON_FX = 5;
+        can.DRIVETRAIN_RIGHT_REAR_TALON_FX = 6;
         can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER = 7;
         can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER = 8;
     }
