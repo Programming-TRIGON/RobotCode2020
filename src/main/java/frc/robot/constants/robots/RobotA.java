@@ -63,6 +63,7 @@ public class RobotA extends RobotConstants {
 
         controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
         controlConstants.visionRotationSettings = new PIDSettings(0, 0, 0, 0, 0);
+        controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         /* Robot Map */
         pwm.LED_CONTROLLER = 0;

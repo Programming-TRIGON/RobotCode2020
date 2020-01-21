@@ -56,6 +56,7 @@ public abstract class RobotConstants extends RobotMap {
         public SimpleMotorFeedforward motionProfilingReverseSettings;
         public PIDSettings visionRotationSettings;
         public PIDSettings visionDistanceSettings;
+        public PIDSettings drivetrainRotateSettings;
     }
 
     public static class MotionProfilingConstants {
