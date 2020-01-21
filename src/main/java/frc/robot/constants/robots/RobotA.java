@@ -55,7 +55,7 @@ public class RobotA extends RobotConstants {
         /* Climb Map */
         can.LEFT_CLIMB_SPARK_MAX = 0;
         can.RIGHT_CLIMB_SPARK_MAX = 1;
-        can.LEFT_HOOK_TALON = 2;
-        can.RIGHT_HOOK_TALON = 3;
+        can.LEFT_HOOK_TALON_SRX = 2;
+        can.RIGHT_HOOK_TALON_SRX = 3;
     }
 }

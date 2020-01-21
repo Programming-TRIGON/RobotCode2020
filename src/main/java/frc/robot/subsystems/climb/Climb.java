@@ -14,19 +14,17 @@ public class Climb extends SubsystemBase {
   private WPI_TalonSRX leftHook;
   private CANSparkMax rightClimb;
   private CANSparkMax leftClimb;
-  private SpeedControllerGroup climbGroup;
-  private SpeedControllerGroup hookGroup;
 
   /**
    * The climb holds all the methods used for the robots climb in the endgame.
-   * Climb is the system that pulls the rope to make the robot levitate.
-   * Hook is the system that extends to hang on the climb.
+   * Climb is the system that pulls the rope to make the robot levitate. Hook is
+   * the system that extends to hang on the climb.
    */
   public Climb() {
     rightHook = new WPI_TalonSRX(robotConstants.can.RIGHT_CLIMB_SPARK_MAX);
     leftHook = new WPI_TalonSRX(robotConstants.can.LEFT_CLIMB_SPARK_MAX);
-    rightClimb = new CANSparkMax(robotConstants.can.RIGHT_HOOK_TALON, MotorType.kBrushless);
-    leftClimb = new CANSparkMax(robotConstants.can.LEFT_HOOK_TALON, MotorType.kBrushless);
+    rightClimb = new CANSparkMax(robotConstants.can.RIGHT_HOOK_TALON_SRX, MotorType.kBrushless);
+    leftClimb = new CANSparkMax(robotConstants.can.LEFT_HOOK_TALON_SRX, MotorType.kBrushless);
 
     rightHook.configSupplyCurrentLimit(
         new SupplyCurrentLimitConfiguration(true, robotConstants.climbConstants.HOOK_CURRENT_LIMIT,
@@ -37,16 +35,15 @@ public class Climb extends SubsystemBase {
     rightClimb.setSmartCurrentLimit(robotConstants.climbConstants.HOOK_CURRENT_LIMIT);
     leftClimb.setSmartCurrentLimit(robotConstants.climbConstants.HOOK_CURRENT_LIMIT);
 
-    hookGroup = new SpeedControllerGroup(rightHook, leftHook);
-    climbGroup = new SpeedControllerGroup(rightClimb, leftClimb);
+    rightHook.follow(leftHook);
+    rightClimb.follow(leftClimb);
   }
 
   public void setHookPower(double power) {
-    hookGroup.set(power);
+    leftHook.set(power);
   }
 
   public void setClimbPower(double power) {
-    climbGroup.set(power);
+    leftClimb.set(power);
   }
-
 }

@@ -23,6 +23,13 @@ public abstract class RobotConstants extends RobotMap {
         public double RIGHT_ENCODER_TICKS_PER_METER;
     }
     
+    public static class ClimbConstants {
+        public double CLIMB_THRESHOLD_LIMIT;
+        public double CLIMB_CURRENT_LIMIT;
+        public double CLIMB_CURRENT_TIMEOUT;
+        public int HOOK_CURRENT_LIMIT;
+    }
+
     /** Control constants contain control value such as kp, kv for control loops */
     public static class ControlConstants {
         public SimpleMotorFeedforward motionProfilingSettings;
@@ -48,13 +55,5 @@ public abstract class RobotConstants extends RobotMap {
         public double LIMELIGHT_ANGLE_OFFSET;
         public double TARGET_NOT_FOUND_WAIT_TIME;
     }
-
-    public static class ClimbConstants {
-        public double CLIMB_THRESHOLD_LIMIT;
-        public double CLIMB_CURRENT_LIMIT;
-        public double CLIMB_CURRENT_TIMEOUT;
-        public int HOOK_CURRENT_LIMIT;
-    }
     // More static class here!
-
 }

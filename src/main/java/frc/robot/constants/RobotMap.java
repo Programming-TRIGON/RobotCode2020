@@ -20,8 +20,8 @@ public abstract class RobotMap {
   public static class CAN {
     public int RIGHT_CLIMB_SPARK_MAX;
     public int LEFT_CLIMB_SPARK_MAX;
-    public int RIGHT_HOOK_TALON;
-    public int LEFT_HOOK_TALON;
+    public int RIGHT_HOOK_TALON_SRX;
+    public int LEFT_HOOK_TALON_SRX;
   }
     
   public static class PCM {
