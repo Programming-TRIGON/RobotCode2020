@@ -38,7 +38,7 @@ public class LED extends SubsystemBase {
     currentColor = color;
     blinkingAmount = -1;
     setControllerPower(color.getValue());
-  } 
+  }
 
   public void setControllerPower(double value) {
     if (isInEmergency)
@@ -57,7 +57,7 @@ public class LED extends SubsystemBase {
   /**
    * Blinks the LED with a certain color for several times.
    * @param color the color to blink
-   * @param quantity the number of times to blink 
+   * @param quantity the number of times to blink
    */
   public void blinkColor(LEDColor color, int quantity) {
     lastColorBeforeBlink = getCurrentColor();
@@ -99,21 +99,25 @@ public class LED extends SubsystemBase {
   }
 
   public void startEmergencyLED() {
-    DriverStationLogger.logToDS("Starting emergency LED");
     setColor(LEDColor.BlinkingRed);
     isInEmergency = true;
   }
 
+  public void stopEmergencyLED() {
+    if (isInEmergency)
+      setColor(LEDColor.Off);
+    isInEmergency = false;
+  }
   /**
    * @return random number between -0.05 to -0.99 in jumps of 0.02
    */
-  private double getRandomPattern() { 
+  private double getRandomPattern() {
     double rand = 0.1 * this.rand.nextInt(10);
     int odd = randomOddNumber();
     while(odd<5 && rand==0.0) {
       odd = randomOddNumber();
     }
-    return -(rand + odd * 0.01);  
+    return -(rand + odd * 0.01);
   }
 
   /**
@@ -121,7 +125,7 @@ public class LED extends SubsystemBase {
    */
   private int randomOddNumber() {
     int rand = this.rand.nextInt(10);
-    return rand % 2 == 0 ? rand + 1 : rand; 
+    return rand % 2 == 0 ? rand + 1 : rand;
   }
 }
 
