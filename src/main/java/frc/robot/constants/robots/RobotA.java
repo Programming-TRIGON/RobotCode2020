@@ -21,7 +21,8 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER = 1;
 
         /* Mixer Constants */ 
-        mixerConstants.MIXER_MAX_STALL = 0;
+        mixerConstants.kMixerMaxStall = 0;
+        mixerConstants.kIsInverted = false;
 
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;
@@ -47,6 +48,6 @@ public class RobotA extends RobotConstants {
         /* Robot Map */
         pwm.LED_CONTROLLER = 0;
         i2c.i2cPort = Port.kOnboard;
-        can.MIXER_TALON = 8;
+        can.MIXER_TALON_SRX = 8;
     }
 }

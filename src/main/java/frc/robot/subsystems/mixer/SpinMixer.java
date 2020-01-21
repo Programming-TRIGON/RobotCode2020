@@ -12,9 +12,10 @@ import static frc.robot.Robot.mixer;
  * current is too big the motor power flips.
  */
 public class SpinMixer extends CommandBase {
+  private static final double WAIT_TIME = 0.2;
   private DoubleSupplier power;
   private double lastTimeNotOnStall;
-  private double waitTime;
+  private double changeDirectionTime;
 
   /** gets a supplier for motor power */
   public SpinMixer(DoubleSupplier power) {
@@ -28,14 +29,20 @@ public class SpinMixer extends CommandBase {
   }
 
   @Override
+  public void initialize() {
+    lastTimeNotOnStall = Timer.getFPGATimestamp();
+  }
+
+  @Override
   public void execute() {
-    if (mixer.getStall() < robotConstants.mixerConstants.MIXER_MAX_STALL) {
+    if (mixer.getStall() < robotConstants.mixerConstants.kMixerMaxStall) {
       lastTimeNotOnStall = Timer.getFPGATimestamp();
-      mixer.move(power.getAsDouble());
     }
-    if (Timer.getFPGATimestamp() - lastTimeNotOnStall > waitTime) {
+    if (Timer.getFPGATimestamp() - lastTimeNotOnStall > WAIT_TIME) {
       mixer.move(-power.getAsDouble());
     }
+    else
+      mixer.move(power.getAsDouble());
   }
 
   @Override
