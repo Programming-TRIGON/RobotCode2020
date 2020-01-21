@@ -8,10 +8,10 @@ import frc.robot.utils.PIDSettings;
  */
 public abstract class RobotConstants extends RobotMap {
     public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
+    public LoaderConstants loaderConstants = new LoaderConstants();
     public VisionConstants visionConstants = new VisionConstants();
     public ControlConstants controlConstants = new ControlConstants();
     public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
-    public LoaderConstants loaderConstants = new LoaderConstants();
 
     // Example:
     public static class DrivetrainConstants {
@@ -21,6 +21,16 @@ public abstract class RobotConstants extends RobotMap {
         public double ROBOT_WIDTH;
         public double LEFT_ENCODER_TICKS_PER_METER;
         public double RIGHT_ENCODER_TICKS_PER_METER;
+    }
+
+    public static class LoaderConstants {
+        public double RAMP_RATE;
+        public double CURRENT_LIMIT;
+        public double THRESHOLD_LIMIT;
+        public double TIMEOUT;
+        public double TICKS_PER_ROTATION;
+        public PIDSettings PID_SETTINGS;
+        public SimpleMotorFeedforward FEEDFORWARD;
     }
 
     /** Control constants contain control value such as kp, kv for control loops */
@@ -49,17 +59,6 @@ public abstract class RobotConstants extends RobotMap {
         public double LIMELIGHT_ANGLE_OFFSET;
         public double TARGET_NOT_FOUND_WAIT_TIME;
     }
-
-    public static class LoaderConstants {
-        public double RAMP_RATE;
-        public double CURRENT_LIMIT;
-        public double THRESHOLD_LIMIT;
-        public double TIMEOUT;
-        public double TICKS_PER_METER;
-        public PIDSettings PID_SETTINGS;
-        public SimpleMotorFeedforward FEED_FORWARD;
-    }
-
 
     // More static class here!
 

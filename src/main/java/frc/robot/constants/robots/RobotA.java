@@ -21,6 +21,15 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER = 1;
         drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER = 1;
 
+        /* Loader Constants */
+        loaderConstants.RAMP_RATE = 0;
+        loaderConstants.CURRENT_LIMIT = 0;
+        loaderConstants.THRESHOLD_LIMIT = 0;
+        loaderConstants.TIMEOUT = 0;
+        loaderConstants.TICKS_PER_ROTATION = 1;
+        loaderConstants.PID_SETTINGS = new PIDSettings(0, 0, 0, 0, 0);
+        loaderConstants.FEEDFORWARD = new SimpleMotorFeedforward(0, 0, 0);
+
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;
         motionProfilingConstants.MAX_ACCELERATION = 0;
@@ -41,15 +50,6 @@ public class RobotA extends RobotConstants {
 
         controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
         controlConstants.visionRotationSettings = new PIDSettings(0, 0, 0, 0, 0);
-
-        /* Loader Constants */
-        loaderConstants.RAMP_RATE = 0;
-        loaderConstants.CURRENT_LIMIT = 0;
-        loaderConstants.THRESHOLD_LIMIT = 0;
-        loaderConstants.TIMEOUT = 0;
-        loaderConstants.TICKS_PER_METER = 0;
-        loaderConstants.PID_SETTINGS = new PIDSettings(0, 0, 0, 0, 0);
-        loaderConstants.FEED_FORWARD = new SimpleMotorFeedforward(0, 0, 0);
 
         /* Robot Map */
         pwm.LED_CONTROLLER = 0;
