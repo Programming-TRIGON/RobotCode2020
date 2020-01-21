@@ -66,12 +66,14 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
 
   // Drive functions
   public void arcadeDrive(double x, double y) {
-    // we switch the y and x in curvature drive because the joystick class has a different coordinate system than the differential drive class
+    // we switch the y and x in curvature drive because the joystick class has a
+    // different coordinate system than the differential drive class
     drivetrain.arcadeDrive(y, x, false);
   }
 
   public void curvatureDrive(double x, double y, boolean quickTurn) {
-    // we switch the y and x in curvature drive because the joystick class has a different coordinate system than the differential drive class
+    // we switch the y and x in curvature drive because the joystick class has a
+    // different coordinate system than the differential drive class
     drivetrain.curvatureDrive(y, x, quickTurn);
   }
 
