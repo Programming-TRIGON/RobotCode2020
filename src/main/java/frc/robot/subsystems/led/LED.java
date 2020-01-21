@@ -104,8 +104,10 @@ public class LED extends SubsystemBase {
   }
 
   public void stopEmergencyLED() {
-    if (isInEmergency)
+    if (isInEmergency) {
+      DriverStationLogger.logToDS("LED emergency disabled");
       setColor(LEDColor.Off);
+    }
     isInEmergency = false;
   }
   /**
