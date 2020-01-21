@@ -35,6 +35,9 @@ public abstract class RobotMap {
     public int LEFT_CLIMB_SPARK_MAX;
     public int RIGHT_HOOK_TALON_SRX;
     public int LEFT_HOOK_TALON_SRX;
+    // Shooter setpoint
+    public int LEFT_SHOOTER_TALON_FX;
+    public int RIGHT_SHOOTER_TALON_FX;
     // Loader ports
     public int LOADER_TALON_SRX;
   }
@@ -44,7 +47,7 @@ public abstract class RobotMap {
   }
 
   public static class DIO {
-
+      public int SWITCH_SHOOTER;
   }
 
   public static class PWM {

@@ -8,16 +8,16 @@ import frc.robot.utils.PIDSettings;
  */
 public abstract class RobotConstants extends RobotMap {
     public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
-    public TrigonDriveConstents TrigonDriveConstants = new TrigonDriveConstents();
+    public ShooterConstants shooterConstants = new ShooterConstants();
+    public TrigonDriveConstants TrigonDriveConstants = new TrigonDriveConstants();
     public ClimbConstants climbConstants = new ClimbConstants();
     public MixerConstants mixerConstants = new MixerConstants();
     public LoaderConstants loaderConstants = new LoaderConstants();
     public IntakeConstants intakeConstants = new IntakeConstants();
-    public VisionConstants visionConstants = new VisionConstants();
     public ControlConstants controlConstants = new ControlConstants();
+    public VisionConstants visionConstants = new VisionConstants();
     public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
 
-    // Example:
     public static class DrivetrainConstants {
         public double WHEEL_DIAMETER;
         public double WHEEL_BASE_WIDTH;
@@ -31,7 +31,7 @@ public abstract class RobotConstants extends RobotMap {
         public double TRIGGER_THRESHOLD_TIME;
     }
 
-    public static class TrigonDriveConstents {
+    public static class TrigonDriveConstants {
         public double SENSITIVITY;
         public double THRESHOLD;
     }
@@ -51,6 +51,21 @@ public abstract class RobotConstants extends RobotMap {
         public double kRampUpTime;
     }
 
+    public static class ShooterConstants {
+        public double WHEEL_RADIUS;
+        public double LEFT_UNITS_PER_ROTATION;
+        public double RIGHT_UNITS_PER_ROTATION;
+        public double RAMP_TIME;
+        public double LEFT_KF;
+        public double RIGHT_KF;
+        public double SHOOTING_BALL_ZONE;
+        public double WAIT_TIME_ZONE;
+        public boolean IS_LEFT_MOTOR_INVERTED;
+        public boolean IS_RIGHT_MOTOR_INVERTED;
+        public boolean IS_LEFT_ENCODER_INVERTED;
+        public boolean IS_RIGHT_ENCODER_INVERTED;
+    }
+
     public static class LoaderConstants {
         public double RAMP_RATE;
         public double CURRENT_LIMIT;
@@ -65,6 +80,8 @@ public abstract class RobotConstants extends RobotMap {
         public SimpleMotorFeedforward motionProfilingReverseSettings;
         public PIDSettings visionRotationSettings;
         public PIDSettings visionDistanceSettings;
+        public PIDSettings leftShooterSettings;
+        public PIDSettings rightShooterSettings;
         public PIDSettings loaderPidSettings;
         public SimpleMotorFeedforward loaderFeedforward;
     }

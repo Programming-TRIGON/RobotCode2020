@@ -27,10 +27,10 @@ public class RobotA extends RobotConstants {
         /* Trigon Drive Constants */
         TrigonDriveConstants.SENSITIVITY = 1;
         TrigonDriveConstants.THRESHOLD = 0.5;
-        
+
         /* Intake Constants */
         intakeConstants.kIntakeReversed = false;
-        /* Mixer Constants */ 
+        /* Mixer Constants */
         mixerConstants.kMixerMaxStall = 30;
         mixerConstants.kIsInverted = false;
         mixerConstants.kRampUpTime = 0;
@@ -42,6 +42,21 @@ public class RobotA extends RobotConstants {
         climbConstants.HOOK_THRESHOLD_LIMIT = 0;
         climbConstants.HOOK_CURRENT_TIMEOUT = 0;
         climbConstants.CLIMB_CURRENT_LIMIT = 0;
+
+        /* Shooter Constants */
+        shooterConstants.WHEEL_RADIUS = 1;
+        shooterConstants.LEFT_UNITS_PER_ROTATION = 1;
+        shooterConstants.RIGHT_UNITS_PER_ROTATION = 1;
+        shooterConstants.LEFT_KF = 0;
+        shooterConstants.RIGHT_KF = 0;
+        shooterConstants.SHOOTING_BALL_ZONE = 2000;
+        shooterConstants.WAIT_TIME_ZONE = 0;
+        shooterConstants.IS_LEFT_MOTOR_INVERTED = false;
+        shooterConstants.IS_RIGHT_MOTOR_INVERTED = false;
+        shooterConstants.IS_LEFT_ENCODER_INVERTED = false;
+        shooterConstants.IS_RIGHT_ENCODER_INVERTED = false;
+        controlConstants.leftShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
+        controlConstants.rightShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         /* Loader Constants */
         loaderConstants.RAMP_RATE = 0;
@@ -70,7 +85,6 @@ public class RobotA extends RobotConstants {
         visionConstants.LIMELIGHT_OFFSET_Y = 0;
         visionConstants.LIMELIGHT_ANGLE_OFFSET = 0;
         visionConstants.TARGET_NOT_FOUND_WAIT_TIME = 0.1;
-
         controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
         controlConstants.visionRotationSettings = new PIDSettings(0, 0, 0, 0, 0);
 
@@ -86,6 +100,10 @@ public class RobotA extends RobotConstants {
         can.DRIVETRAIN_RIGHT_REAR_TALON_FX = 6;
         can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER = 7;
         can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER = 8;
+        /* Shooter Map */
+        can.LEFT_SHOOTER_TALON_FX = 0;
+        can.RIGHT_SHOOTER_TALON_FX = 2;
+        dio.SWITCH_SHOOTER = 0;
         /* Intake Map */
         can.INTAKE_SPARK_MAX = 5;
         /* Mixer Map */
