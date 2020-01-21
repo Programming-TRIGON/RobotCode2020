@@ -27,7 +27,9 @@ public class RobotA extends RobotConstants {
         /* Trigon Drive Constants */
         TrigonDriveConstants.SENSITIVITY = 1;
         TrigonDriveConstants.THRESHOLD = 0.5;
-
+        
+        /* Intake Constants */
+        intakeConstants.kIntakeReversed = false;
         /* Mixer Constants */ 
         mixerConstants.kMixerMaxStall = 30;
         mixerConstants.kIsInverted = false;
@@ -69,6 +71,8 @@ public class RobotA extends RobotConstants {
         can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER = 7;
         can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER = 8;
         /* Mixer Map */
+
+        can.INTAKE_SPARK_MAX = 5;
         can.MIXER_TALON_SRX = 8;
     }
 }

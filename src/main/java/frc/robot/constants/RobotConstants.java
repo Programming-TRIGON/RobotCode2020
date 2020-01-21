@@ -13,6 +13,7 @@ public abstract class RobotConstants extends RobotMap {
     public VisionConstants visionConstants = new VisionConstants();
     public ControlConstants controlConstants = new ControlConstants();
     public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
+    public IntakeConstants intakeConstants = new IntakeConstants();
 
     // Example:
     public static class DrivetrainConstants {
@@ -60,11 +61,16 @@ public abstract class RobotConstants extends RobotMap {
     public static class VisionConstants {
         public double DISTANCE_CALCULATION_A_COEFFICIENT;
         public double DISTANCE_CALCULATION_B_COEFFICIENT;
-        // Offsets are measured from the robot's center of rotation to the limelight position.
+        // Offsets are measured from the robot's center of rotation to the limelight
+        // position.
         public double LIMELIGHT_OFFSET_X;
         public double LIMELIGHT_OFFSET_Y;
         public double LIMELIGHT_ANGLE_OFFSET;
         public double TARGET_NOT_FOUND_WAIT_TIME;
     }
+
     // More static class here!
+    public static class IntakeConstants {
+        public boolean kIntakeReversed;
+    }
 }

@@ -10,6 +10,7 @@ import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.utils.DashboardDataContainer;
 import frc.robot.vision.Limelight;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.mixer.Mixer;
 import frc.robot.subsystems.led.LED;
@@ -24,6 +25,7 @@ public class Robot extends TimedRobot {
   public static Limelight limelight;
   public static Drivetrain drivetrain;
   public static LED led;
+  public static Intake intake;
   public static Mixer mixer;
 
   @Override
@@ -33,6 +35,7 @@ public class Robot extends TimedRobot {
 
     // Subsystems:
     led = new LED();
+    intake = new Intake();
     drivetrain = new Drivetrain();
     mixer = new Mixer();
 

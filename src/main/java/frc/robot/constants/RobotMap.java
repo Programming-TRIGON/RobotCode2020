@@ -17,6 +17,7 @@ public abstract class RobotMap {
 
   // TODO: Set variables for hardware components
   public static class CAN {
+
     // Drivetrain ports
     public int DRIVETRAIN_LEFT_REAR_TALON_FX;
     public int DRIVETRAIN_LEFT_MIDDLE_TALON_FX;
@@ -28,6 +29,8 @@ public abstract class RobotMap {
     public int TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER;
     // Mixer ports
     public int MIXER_TALON_SRX;
+    // Intake ports
+    public int INTAKE_SPARK_MAX;
   }
 
   public static class PCM {
