@@ -8,6 +8,7 @@ import frc.robot.utils.PIDSettings;
  */
 public abstract class RobotConstants extends RobotMap {
     public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
+    public TrigonDriveConstents TrigonDriveConstants = new TrigonDriveConstents();
     public MixerConstants mixerConstants = new MixerConstants();
     public VisionConstants visionConstants = new VisionConstants();
     public ControlConstants controlConstants = new ControlConstants();
@@ -22,6 +23,15 @@ public abstract class RobotConstants extends RobotMap {
         public double ROBOT_WIDTH;
         public double LEFT_ENCODER_TICKS_PER_METER;
         public double RIGHT_ENCODER_TICKS_PER_METER;
+        public double RAMP_RATE;
+        public double CURRENT_LIMIT;
+        public double TRIGGER_THRESHOLD_CURRENT;
+        public double TRIGGER_THRESHOLD_TIME;
+    }
+
+    public static class TrigonDriveConstents {
+        public double SENSITIVITY;
+        public double THRESHOLD;
     }
 
     /** Control constants contain control value such as kp, kv for control loops */
