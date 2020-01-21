@@ -76,9 +76,9 @@ public class RobotA extends RobotConstants {
         can.DRIVETRAIN_RIGHT_REAR_TALON_FX = 6;
         can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER = 7;
         can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER = 8;
-        /* Mixer Map */
-        can.INTAKE_SPARK_MAX = 5;
         /* Intake Map */
+        can.INTAKE_SPARK_MAX = 5;
+        /* Mixer Map */
         can.MIXER_TALON_SRX = 8;
         /* Climb Map */
         can.LEFT_CLIMB_SPARK_MAX = 0;
