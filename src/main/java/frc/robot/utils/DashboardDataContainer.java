@@ -9,29 +9,31 @@ import frc.robot.subsystems.shooter.ShooterVelocity;
 import static frc.robot.Robot.shooter;
 
 /**
- * DashboardDataContainer contains all the data to be viewed or put in the dashboard.  
+ * DashboardDataContainer contains all the data to be viewed or put in the dashboard.
  */
 public class DashboardDataContainer {
-    private DashboardController dashboardController;
-    
-    public DashboardDataContainer() {
-        dashboardController = new DashboardController();
+	private DashboardController dashboardController;
 
-        // shooter data
-        dashboardController.addNumber("Shooter/ShooterVelocity", Robot.shooter::getAverageSpeed);
-        SmartDashboard.putNumber("Shooter/Shooting Velocity Setpoint", ShooterVelocity.kDefault.getVelocity());
-        SmartDashboard.putData("Shooter/Shoot ball", new SetShooterVelocity(
-                SmartDashboard.getNumber("Shooter/Shooting Velocity Setpoint", 0)));
-        SmartDashboard.putData("Shooter/Enable Tuning",
-                new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
-        // dashboardController.addBoolean(name, booleanSupplier);
-        // dashboardController.addNumber(name, numberSupplier);
-        // dashboardController.addString(name, stringSupplier);
-        // SmartDashboard.putData(key, data);
-        // etc.
-    }
+	public DashboardDataContainer() {
+		dashboardController = new DashboardController();
 
-    public void update() {
-        dashboardController.update();
-    }
+		// shooter data
+		dashboardController.addNumber("Shooter/ShooterVelocity", Robot.shooter::getAverageSpeed);
+		dashboardController.addNumber("Shooter/LeftShooterVelocity", Robot.shooter::getLeftSpeed);
+		dashboardController.addNumber("Shooter/RightShooterVelocity", Robot.shooter::getRightSpeed);
+		SmartDashboard.putNumber("Shooter/Shooting Velocity Setpoint", ShooterVelocity.kDefault.getVelocity());
+		SmartDashboard.putData("Shooter/Shoot ball", new SetShooterVelocity(() ->
+				SmartDashboard.getNumber("Shooter/Shooting Velocity Setpoint", 0)));
+		SmartDashboard.putData("Shooter/Enable Tuning",
+				new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
+		// dashboardController.addBoolean(name, booleanSupplier);
+		// dashboardController.addNumber(name, numberSupplier);
+		// dashboardController.addString(name, stringSupplier);
+		// SmartDashboard.putData(key, data);
+		// etc.
+	}
+
+	public void update() {
+		dashboardController.update();
+	}
 }

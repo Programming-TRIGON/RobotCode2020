@@ -47,15 +47,14 @@ public class RobotA extends RobotConstants {
         shooterConstants.RIGHT_UNITS_PER_ROTATION = 1;
         shooterConstants.LEFT_KF = 0;
         shooterConstants.RIGHT_KF = 0;
-        shooterConstants.TOLERANCE = 50;
         shooterConstants.SHOOTING_BALL_ZONE = 2000;
         shooterConstants.WAIT_TIME_ZONE = 0;
         shooterConstants.IS_LEFT_MOTOR_INVERTED = false;
         shooterConstants.IS_RIGHT_MOTOR_INVERTED = false;
         shooterConstants.IS_LEFT_ENCODER_INVERTED = false;
         shooterConstants.IS_RIGHT_ENCODER_INVERTED = false;
-        controlConstants.leftShooterSettings = new PIDSettings(0,0,0,0,0);
-        controlConstants.rightShooterSettings = new PIDSettings(0,0,0,0,0);
+        controlConstants.leftShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
+        controlConstants.rightShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         /* Robot Map */
         can.LEFT_SHOOTER_TALON_FX = 0;

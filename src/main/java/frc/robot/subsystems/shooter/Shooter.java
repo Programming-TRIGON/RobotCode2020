@@ -24,6 +24,8 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         //setting up the talon fx
         leftTalonFX = new WPI_TalonFX(robotConstants.can.LEFT_SHOOTER_TALON_FX);
         leftTalonFX.setNeutralMode(NeutralMode.Coast);
+        leftTalonFX.configClosedloopRamp(robotConstants.shooterConstants.RAMP_TIME);
+        leftTalonFX.configOpenloopRamp(robotConstants.shooterConstants.RAMP_TIME);
         leftTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
         leftTalonFX.config_kP(0, robotConstants.controlConstants.leftShooterSettings.getKP());
         leftTalonFX.config_kI(0, robotConstants.controlConstants.leftShooterSettings.getKI());
@@ -35,6 +37,8 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
 
         rightTalonFX = new WPI_TalonFX(robotConstants.can.RIGHT_SHOOTER_TALON_FX);
         rightTalonFX.setNeutralMode(NeutralMode.Coast);
+        rightTalonFX.configClosedloopRamp(robotConstants.shooterConstants.RAMP_TIME);
+        rightTalonFX.configOpenloopRamp(robotConstants.shooterConstants.RAMP_TIME);
         rightTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
         rightTalonFX.config_kP(0, robotConstants.controlConstants.rightShooterSettings.getKP());
         rightTalonFX.config_kI(0, robotConstants.controlConstants.rightShooterSettings.getKI());
@@ -55,12 +59,9 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         rightTalonFX.set(power);
     }
 
-    public void setLeftPower(double power) {
-        leftTalonFX.set(power);
-    }
-
-    public void setRightPower(double power) {
-        rightTalonFX.set(power);
+    public void setPower(double leftPower, double rightPower) {
+        leftTalonFX.set(leftPower);
+        rightTalonFX.set(rightPower);
     }
 
     public void setDefaultVelocity() {
@@ -70,7 +71,16 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
     /**
      * Starts using velocity PID instead of open-loop.
      *
-     * @param velocitySetpoint velocity to set the talons.
+     * @param velocitySetpoint velocity to set the talons in RPM.
+     */
+    public void setVelocity(ShooterVelocity velocitySetpoint) {
+        setVelocity(velocitySetpoint.getVelocity());
+    }
+
+    /**
+     * Starts using velocity PID instead of open-loop.
+     *
+     * @param velocitySetpoint velocity to set the talons in RPM.
      */
     public void setVelocity(double velocitySetpoint) {
         double leftVelocityInTalonUnits = velocitySetpoint * robotConstants.shooterConstants.LEFT_UNITS_PER_ROTATION
@@ -110,13 +120,6 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
     }
 
     /**
-     * @return the speed of the shooter in RPM.
-     */
-    public double getAverageSpeed() {
-        return (getLeftSpeed() + getRightSpeed()) / 2;
-    }
-
-    /**
      * @return the speed of the left shooter in RPM.
      */
     public double getLeftSpeed() {
@@ -129,7 +132,14 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
      */
     public double getRightSpeed() {
         return rightTalonFX.getSelectedSensorVelocity() * 600.0
-                / robotConstants.shooterConstants.LEFT_UNITS_PER_ROTATION;
+                / robotConstants.shooterConstants.RIGHT_UNITS_PER_ROTATION;
+    }
+
+    /**
+     * @return the speed of the shooter in RPM.
+     */
+    public double getAverageSpeed() {
+        return (getLeftSpeed() + getRightSpeed()) / 2;
     }
 
     public void resetEncoders() {
@@ -156,13 +166,23 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
                     "PID/RightShooter/kD", 0), 0);
             rightTalonFX.config_kF(0, SmartDashboard.getNumber(
                     "PID/RightShooter/kF", 0), 0);
-
         }
     }
 
     /**
-     * @param RPM Revolution per minute
-     * @return RPM in meter per second
+     * This calculation was taken from team 254 2017 robot code.
+     * @param rpm current velocity in rotations per minute
+     * @param voltage the current voltage
+     * @return kf estimated by to be used with talonFX
+     */
+    static double estimateKf(double rpm, double voltage) {
+        final double output = voltage / 12.0;
+        return output / rpm;
+    }
+
+    /**
+     * @param RPM revolutions per minute
+     * @return velocity in meters per second
      */
     public static double rpmToMeterPerSecond(double RPM) {
         return Units.rotationsPerMinuteToRadiansPerSecond(RPM) * robotConstants.shooterConstants.WHEEL_RADIUS;

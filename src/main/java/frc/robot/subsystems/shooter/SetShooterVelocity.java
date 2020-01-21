@@ -2,6 +2,7 @@ package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.robotConstants;
@@ -21,7 +22,8 @@ public class SetShooterVelocity extends CommandBase {
     private double kfSamplesAmount;
     private double leftKfSamplesSum;
     private double rightKfSamplesSum;
-    private double lastTimeOutsideZone;
+    private double firstTimeOutsideZone;
+    private double firstTimeInZone;
     private boolean isInZone;
     private int cellsShot;
 
@@ -89,6 +91,7 @@ public class SetShooterVelocity extends CommandBase {
         leftKfSamplesSum = 0;
         rightKfSamplesSum = 0;
         cellsShot = 0;
+        firstTimeOutsideZone = 0;
         isInZone = true;
         shooter.setVelocity(setpoint);
     }
@@ -105,7 +108,9 @@ public class SetShooterVelocity extends CommandBase {
 
     private void spinUpExecute() {
         shooter.setVelocity(setpoint);
-        boolean onTarget = Math.abs(shooter.getAverageSpeed() - setpoint) < robotConstants.shooterConstants.TOLERANCE;
+        // very important
+        boolean onTarget = Math.abs(shooter.getAverageSpeed() - setpoint) <
+                robotConstants.controlConstants.leftShooterSettings.getTolerance();
         if (onTarget)
             updateKf();
         else {
@@ -118,29 +123,30 @@ public class SetShooterVelocity extends CommandBase {
 
     private void holdExecute() {
         double leftFeedforward = setpoint * leftKfSamplesSum / kfSamplesAmount;
-        shooter.setLeftPower(leftFeedforward);
         double rightFeedforward = setpoint * rightKfSamplesSum / kfSamplesAmount;
-        shooter.setRightPower(rightFeedforward);
+        shooter.setPower(leftFeedforward, rightFeedforward);
         // The shooter might heat up after extended use so we need to make sure to update kF if the shooter too much fast.
         if (shooter.getAverageSpeed() > setpoint)
             updateKf();
         // If in auto, check how many cells were shot.
         if (isAuto) {
             if (!isInZone && shooter.getAverageSpeed() < robotConstants.shooterConstants.SHOOTING_BALL_ZONE &&
-                    Timer.getFPGATimestamp() - lastTimeOutsideZone > robotConstants.shooterConstants.WAIT_TIME_ZONE) {
+                    Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.WAIT_TIME_ZONE) {
                 isInZone = true;
+                firstTimeInZone = Timer.getFPGATimestamp();
                 cellsShot++;
             }
-            if (isInZone && shooter.getAverageSpeed() > robotConstants.shooterConstants.SHOOTING_BALL_ZONE) {
+            if (isInZone && shooter.getAverageSpeed() > robotConstants.shooterConstants.SHOOTING_BALL_ZONE &&
+            Timer.getFPGATimestamp() - firstTimeInZone > robotConstants.shooterConstants.WAIT_TIME_ZONE) {
                 isInZone = false;
-                lastTimeOutsideZone = Timer.getFPGATimestamp();
+                firstTimeOutsideZone = Timer.getFPGATimestamp();
             }
         }
     }
 
     private void updateKf() {
-        leftKfSamplesSum += estimateKf(shooter.getLeftSpeed(), shooter.getLeftVoltage());
-        rightKfSamplesSum += estimateKf(shooter.getRightSpeed(), shooter.getRightVoltage());
+        leftKfSamplesSum += Shooter.estimateKf(shooter.getLeftSpeed(), shooter.getLeftVoltage());
+        rightKfSamplesSum += Shooter.estimateKf(shooter.getRightSpeed(), shooter.getRightVoltage());
         kfSamplesAmount++;
     }
 
@@ -152,17 +158,5 @@ public class SetShooterVelocity extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         shooter.stopMove();
-    }
-
-    /**
-     * This calculation was taken from team 254 2017 robot code.
-     * @param rpm current velocity in rotations per minute
-     * @param voltage the current voltage
-     * @return kf estimated by to be used with talonFX
-     */
-    private static double estimateKf(double rpm, double voltage) {
-        final double speedInTicksPer100Ms = 4096.0 / 600.0 * rpm;
-        final double output = voltage / 12.0;
-        return output / speedInTicksPer100Ms;
     }
 }

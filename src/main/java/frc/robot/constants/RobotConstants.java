@@ -26,9 +26,9 @@ public abstract class RobotConstants extends RobotMap {
         public double WHEEL_RADIUS;
         public double LEFT_UNITS_PER_ROTATION;
         public double RIGHT_UNITS_PER_ROTATION;
+        public double RAMP_TIME;
         public double LEFT_KF;
         public double RIGHT_KF;
-        public double TOLERANCE;
         public double SHOOTING_BALL_ZONE;
         public double WAIT_TIME_ZONE;
         public boolean IS_LEFT_MOTOR_INVERTED;
