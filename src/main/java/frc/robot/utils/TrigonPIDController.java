@@ -10,6 +10,5 @@ public class TrigonPIDController extends PIDController {
 	public TrigonPIDController(PIDSettings pidSettings) {
 		super(pidSettings.getKP(), pidSettings.getKI(), pidSettings.getKD());
 		setTolerance(pidSettings.getTolerance());
-		reset();
 	}
 }
