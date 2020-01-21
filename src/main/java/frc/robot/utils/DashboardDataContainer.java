@@ -1,7 +1,5 @@
 package frc.robot.utils;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.climb.ClimbWithXbox;
 import frc.robot.utils.DashboardController;
 
 /**
