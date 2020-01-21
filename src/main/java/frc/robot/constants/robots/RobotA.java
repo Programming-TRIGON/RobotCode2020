@@ -10,7 +10,6 @@ import frc.robot.utils.PIDSettings;
  */
 public class RobotA extends RobotConstants {
     // TODO: Set constants
-
     public RobotA() {
         /* Robot Constants */
         /* Drivetrain Constants */
@@ -20,6 +19,29 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.ROBOT_WIDTH = 0;
         drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER = 1;
         drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER = 1;
+        drivetrainConstants.RAMP_RATE = 1;
+        drivetrainConstants.CURRENT_LIMIT = 1;
+        drivetrainConstants.TRIGGER_THRESHOLD_CURRENT = 1;
+        drivetrainConstants.TRIGGER_THRESHOLD_TIME = 1;
+
+        /* Trigon Drive Constants */
+        TrigonDriveConstants.SENSITIVITY = 1;
+        TrigonDriveConstants.THRESHOLD = 0.5;
+        
+        /* Intake Constants */
+        intakeConstants.kIntakeReversed = false;
+        /* Mixer Constants */ 
+        mixerConstants.kMixerMaxStall = 30;
+        mixerConstants.kIsInverted = false;
+        mixerConstants.kRampUpTime = 0;
+        mixerConstants.kStallWaitTime = 0.2;
+        mixerConstants.kBackwardsSpinTime = 0.2;
+
+        /* Climb Constants */
+        climbConstants.HOOK_CURRENT_LIMIT = 0;
+        climbConstants.HOOK_THRESHOLD_LIMIT = 0;
+        climbConstants.HOOK_CURRENT_TIMEOUT = 0;
+        climbConstants.CLIMB_CURRENT_LIMIT = 0;
 
         /* Loader Constants */
         loaderConstants.RAMP_RATE = 0;
@@ -55,6 +77,24 @@ public class RobotA extends RobotConstants {
         /* Robot Map */
         pwm.LED_CONTROLLER = 0;
         i2c.i2cPort = Port.kOnboard;
+        /* Drivetrain Map */
+        can.DRIVETRAIN_LEFT_FRONT_TALON_FX = 1;
+        can.DRIVETRAIN_LEFT_MIDDLE_TALON_FX = 2;
+        can.DRIVETRAIN_LEFT_REAR_TALON_FX = 3;
+        can.DRIVETRAIN_RIGHT_FRONT_TALON_FX = 4;
+        can.DRIVETRAIN_RIGHT_MIDDLE_TALON_FX = 5;
+        can.DRIVETRAIN_RIGHT_REAR_TALON_FX = 6;
+        can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER = 7;
+        can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER = 8;
+        /* Intake Map */
+        can.INTAKE_SPARK_MAX = 5;
+        /* Mixer Map */
+        can.MIXER_TALON_SRX = 8;
+        /* Climb Map */
+        can.LEFT_CLIMB_SPARK_MAX = 0;
+        can.RIGHT_CLIMB_SPARK_MAX = 1;
+        can.LEFT_HOOK_TALON_SRX = 2;
+        can.RIGHT_HOOK_TALON_SRX = 3;
 
         /* Loader Map */
         can.LOADER_TALON_SRX = 1;
