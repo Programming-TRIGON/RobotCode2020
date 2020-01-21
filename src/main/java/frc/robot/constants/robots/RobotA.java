@@ -21,6 +21,21 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER = 1;
         drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER = 1;
 
+        /* Shooter Constants */
+        shooterConstants.WHEEL_RADIUS = 1;
+        shooterConstants.LEFT_UNITS_PER_ROTATION = 1;
+        shooterConstants.RIGHT_UNITS_PER_ROTATION = 1;
+        shooterConstants.LEFT_KF = 0;
+        shooterConstants.RIGHT_KF = 0;
+        shooterConstants.SHOOTING_BALL_ZONE = 2000;
+        shooterConstants.WAIT_TIME_ZONE = 0;
+        shooterConstants.IS_LEFT_MOTOR_INVERTED = false;
+        shooterConstants.IS_RIGHT_MOTOR_INVERTED = false;
+        shooterConstants.IS_LEFT_ENCODER_INVERTED = false;
+        shooterConstants.IS_RIGHT_ENCODER_INVERTED = false;
+        controlConstants.leftShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
+        controlConstants.rightShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
+
         /* Motion Profiling Constants */
         motionProfilingConstants.MAX_VELOCITY = 0;
         motionProfilingConstants.MAX_ACCELERATION = 0;
@@ -41,24 +56,11 @@ public class RobotA extends RobotConstants {
         controlConstants.visionDistanceSettings = new PIDSettings(0,0,0,0,0);
         controlConstants.visionRotationSettings = new PIDSettings(0,0,0,0,0);
 
-        /* Shooter Constants */
-        shooterConstants.WHEEL_RADIUS = 1;
-        shooterConstants.LEFT_UNITS_PER_ROTATION = 1;
-        shooterConstants.RIGHT_UNITS_PER_ROTATION = 1;
-        shooterConstants.LEFT_KF = 0;
-        shooterConstants.RIGHT_KF = 0;
-        shooterConstants.SHOOTING_BALL_ZONE = 2000;
-        shooterConstants.WAIT_TIME_ZONE = 0;
-        shooterConstants.IS_LEFT_MOTOR_INVERTED = false;
-        shooterConstants.IS_RIGHT_MOTOR_INVERTED = false;
-        shooterConstants.IS_LEFT_ENCODER_INVERTED = false;
-        shooterConstants.IS_RIGHT_ENCODER_INVERTED = false;
-        controlConstants.leftShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
-        controlConstants.rightShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
-
         /* Robot Map */
         can.LEFT_SHOOTER_TALON_FX = 0;
         can.RIGHT_SHOOTER_TALON_FX = 2;
+        dio.LOW_SWITCH_SHOOTER = 0;
+        dio.HIGH_SWITCH_SHOOTER = 1;
         pwm.LED_CONTROLLER = 0;
         i2c.i2cPort = Port.kOnboard;
 

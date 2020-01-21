@@ -13,26 +13,27 @@ public abstract class RobotMap {
   public PCM pcm = new PCM();
   public DIO dio = new DIO();
   public PWM pwm = new PWM();
-  public I2C i2c = new I2C(); 
+  public I2C i2c = new I2C();
 
   // TODO: Set variables for hardware components
-  
+
   public static class CAN {
       public int LEFT_SHOOTER_TALON_FX;
       public int RIGHT_SHOOTER_TALON_FX;
   }
-    
+
   public static class PCM {
-      
+
   }
-  
+
   public static class DIO {
-      
+      public int LOW_SWITCH_SHOOTER;
+      public int HIGH_SWITCH_SHOOTER;
   }
 
   public static class PWM {
     public int LED_CONTROLLER;
-    
+
   }
 
   public static class I2C {

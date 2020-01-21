@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,6 +19,8 @@ import static frc.robot.Robot.robotConstants;
 public class Shooter extends SubsystemBase implements MoveableSubsystem {
     private WPI_TalonFX leftTalonFX;
     private WPI_TalonFX rightTalonFX;
+    private DigitalInput lowSwitch;
+    private DigitalInput highSwitch;
     private boolean isTuning;
 
     public Shooter() {
@@ -47,6 +50,9 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         rightTalonFX.selectProfileSlot(0, 0);
         rightTalonFX.setInverted(robotConstants.shooterConstants.IS_RIGHT_MOTOR_INVERTED);
         rightTalonFX.setSensorPhase(robotConstants.shooterConstants.IS_RIGHT_ENCODER_INVERTED);
+
+        highSwitch = new DigitalInput(robotConstants.dio.HIGH_SWITCH_SHOOTER);
+        lowSwitch = new DigitalInput(robotConstants.dio.LOW_SWITCH_SHOOTER);
         resetEncoders();
     }
 
@@ -99,6 +105,9 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         return rightTalonFX.getMotorOutputVoltage();
     }
 
+    public boolean isSwitchPressed() {
+        return highSwitch.get() || lowSwitch.get();
+    }
 
     public void enableTuning() {
         DriverStationLogger.logToDS("Shooter tuning enabled");

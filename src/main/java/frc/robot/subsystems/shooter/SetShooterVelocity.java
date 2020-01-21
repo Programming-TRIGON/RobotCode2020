@@ -130,17 +130,24 @@ public class SetShooterVelocity extends CommandBase {
             updateKf();
         // If in auto, check how many cells were shot.
         if (isAuto) {
-            if (!isInZone && shooter.getAverageSpeed() < robotConstants.shooterConstants.SHOOTING_BALL_ZONE &&
-                    Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.WAIT_TIME_ZONE) {
-                isInZone = true;
-                firstTimeInZone = Timer.getFPGATimestamp();
-                cellsShot++;
-            }
-            if (isInZone && shooter.getAverageSpeed() > robotConstants.shooterConstants.SHOOTING_BALL_ZONE &&
-            Timer.getFPGATimestamp() - firstTimeInZone > robotConstants.shooterConstants.WAIT_TIME_ZONE) {
-                isInZone = false;
-                firstTimeOutsideZone = Timer.getFPGATimestamp();
-            }
+            boolean isCellBeingShot = shooter.isSwitchPressed();
+            //We might want to use current in order to count the amount of shot cells instead of using limit switches
+            //boolean isCellBeingShot = shooter.getAverageSpeed() < robotConstants.shooterConstants.SHOOTING_BALL_ZONE;
+            countShotCells(isCellBeingShot);
+        }
+    }
+
+    private void countShotCells(boolean isCellBeingShot) {
+        if (!isInZone && isCellBeingShot &&
+                Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.WAIT_TIME_ZONE) {
+            isInZone = true;
+            firstTimeInZone = Timer.getFPGATimestamp();
+            cellsShot++;
+        }
+        else if (isInZone && !isCellBeingShot &&
+        Timer.getFPGATimestamp() - firstTimeInZone > robotConstants.shooterConstants.WAIT_TIME_ZONE) {
+            isInZone = false;
+            firstTimeOutsideZone = Timer.getFPGATimestamp();
         }
     }
 
