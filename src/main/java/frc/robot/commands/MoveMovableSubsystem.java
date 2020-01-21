@@ -11,7 +11,7 @@ public class MoveMovableSubsystem extends CommandBase {
   private DoubleSupplier power;
 
   /**
-   * This command can move any subsystem that implements MovableSubsytem without
+   * This command can move any subsystem that implements MovableSubsystem without
    * an isFinished
    */
   public MoveMovableSubsystem(MoveableSubsystem subsystem, DoubleSupplier power) {
@@ -19,7 +19,7 @@ public class MoveMovableSubsystem extends CommandBase {
   }
 
   /**
-   * This command can move any subsystem that implements MovableSubsytem, it uses
+   * This command can move any subsystem that implements MovableSubsystem, it uses
    * isFinished supplier is checked in the isFinished method for checking if the
    * command is done.
    */
