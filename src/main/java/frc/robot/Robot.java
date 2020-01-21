@@ -49,7 +49,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    led.stopEmergencyLED();
   }
 
   @Override
@@ -58,6 +57,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    led.stopEmergencyLED();
     autoCommand = autoChooser.getSelected();
 
     if (autoCommand != null) {
