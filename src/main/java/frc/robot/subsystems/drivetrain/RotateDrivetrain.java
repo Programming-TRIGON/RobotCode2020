@@ -1,12 +1,12 @@
 package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
+import java.util.function.DoubleSupplier;
 import frc.robot.utils.TrigonPIDController;
 
+import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.robotConstants;
 
-import java.util.function.DoubleSupplier;
 
 public class RotateDrivetrain extends CommandBase {
   TrigonPIDController pidController;
@@ -16,7 +16,7 @@ public class RotateDrivetrain extends CommandBase {
    * Rotates the drivetrain in place.
    */
   public RotateDrivetrain(DoubleSupplier angle) {
-    addRequirements(Robot.drivetrain);
+    addRequirements(drivetrain);
     pidController = new TrigonPIDController(robotConstants.controlConstants.drivetrainRotateSettings,
         angle.getAsDouble());
   }
@@ -28,12 +28,12 @@ public class RotateDrivetrain extends CommandBase {
 
   @Override
   public void execute() {
-    Robot.drivetrain.arcadeDrive(pidController.trigonCalculate(Robot.drivetrain.getAngle()), 0);
+    drivetrain.arcadeDrive(pidController.trigonCalculate(drivetrain.getAngle()), 0);
   }
 
   @Override
   public void end(boolean interrupted) {
-    Robot.drivetrain.stopMove();
+    drivetrain.stopMove();
   }
 
   @Override
