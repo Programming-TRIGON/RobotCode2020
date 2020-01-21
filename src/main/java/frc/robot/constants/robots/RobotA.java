@@ -56,6 +56,6 @@ public class RobotA extends RobotConstants {
         i2c.i2cPort = Port.kOnboard;
 
         /* Loader Map */
-        can.LOADER_TALONSRX = 1;
+        can.LOADER_TALON_SRX = 1;
     }
 }
