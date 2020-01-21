@@ -98,7 +98,7 @@ public class LED extends SubsystemBase {
     setControllerPower(getRandomPattern());
   }
 
-  public void startEmergencyLED(){
+  public void startEmergencyLED() {
     DriverStationLogger.logToDS("Starting emergency LED");
     setColor(LEDColor.BlinkingRed);
     isInEmergency = true;
