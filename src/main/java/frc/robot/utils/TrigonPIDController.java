@@ -6,8 +6,8 @@ import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class TrigonPIDController extends PIDController {
 	/**
-	 * This is TRIGONS PIDController class with a friendlier user interface for the
-	 * calculate and constructor.
+	 * This is TRIGON'S PIDController class with a friendlier UI for the calculate
+	 * and constructor.
 	 */
 	public TrigonPIDController(PIDSettings pidSettings) {
 		super(pidSettings.getKP(), pidSettings.getKI(), pidSettings.getKD());
@@ -15,8 +15,8 @@ public class TrigonPIDController extends PIDController {
 	}
 
 	/**
-	 * This is TRIGONS PIDController class with a friendlier user interface for the
-	 * calculate and constructor.
+	 * This is TRIGON'S PIDController class with a friendlier UI for the calculate
+	 * and constructor.
 	 */
 	public TrigonPIDController(PIDSettings pidSettings, double setpoint) {
 		this(pidSettings);
@@ -24,8 +24,8 @@ public class TrigonPIDController extends PIDController {
 	}
 
 	/**
-	 * This is TRIGONS PIDController class with a friendlier user interface for the
-	 * calculate and constructor. This constructor is used to tune the PID values.
+	 * This is TRIGON'S PIDController class with a friendlier UI for the calculate
+	 * and constructor. This constructor is used to tune the PID values.
 	 * 
 	 * @param dashboardKey This is the key the will be attached to the pidController
 	 *                     in the smart dashboard
@@ -36,22 +36,25 @@ public class TrigonPIDController extends PIDController {
 	}
 
 	/**
-	 * This method calculates the pid in a case that the sepoint is changes.
+	 * Returns the next output of the PID controller inside a specified range.
 	 * 
 	 * @param measurement The current measurement of the process variable.
-	 * @param setpoint    The new setpoint of the controller.
+	 * @param minOutput   The minimum value the method will return.
+	 * @param maxOutput   The maximum value the method will return.
 	 */
-	public double trigonCalculate(double measurement, double setpoint) {
-		return MathUtil.clamp(calculate(measurement, setpoint), -1, 1);
+	public double calculate(double measurement, double minOutput, double maxOutput) {
+		return MathUtil.clamp(calculate(measurement), minOutput, maxOutput);
 	}
 
 	/**
-	 * This method calculates the pid in a case that the sepoint is set and doesn't
-	 * change.
+	 * Returns the next output of the PID controller inside a specified range.
 	 * 
 	 * @param measurement The current measurement of the process variable.
+	 * @param setpoint    The new setpoint of the controller.
+	 * @param minOutput   The minimum value the method will return.
+	 * @param maxOutput   The maximum value the method will return.
 	 */
-	public double trigonCalculate(double measurement) {
-		return MathUtil.clamp(calculate(measurement), -1, 1);
+	public double calculate(double measurement, double setpoint, double minOutput, double maxOutput) {
+		return MathUtil.clamp(calculate(measurement, setpoint), minOutput, maxOutput);
 	}
 }
