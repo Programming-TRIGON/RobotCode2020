@@ -1,12 +1,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.MoveableSubsystem;
+import frc.robot.subsystems.MovableSubsystem;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class MoveMovableSubsystem extends CommandBase {
-    private MoveableSubsystem subsystem;
+    private MovableSubsystem subsystem;
     private BooleanSupplier isFinished;
     private DoubleSupplier power;
 
@@ -14,7 +14,7 @@ public class MoveMovableSubsystem extends CommandBase {
      * This command can move any subsystem that implements MovableSubsystem and runs
      * forever.
      */
-    public MoveMovableSubsystem(MoveableSubsystem subsystem, DoubleSupplier power) {
+    public MoveMovableSubsystem(MovableSubsystem subsystem, DoubleSupplier power) {
         this(subsystem, power, () -> false);
     }
 
@@ -23,7 +23,7 @@ public class MoveMovableSubsystem extends CommandBase {
      * isFinished supplier is checked in the isFinished method for checking if the
      * command is done.
      */
-    public MoveMovableSubsystem(MoveableSubsystem subsystem, DoubleSupplier power, BooleanSupplier isFinished) {
+    public MoveMovableSubsystem(MovableSubsystem subsystem, DoubleSupplier power, BooleanSupplier isFinished) {
         this.subsystem = subsystem;
         this.power = power;
         this.isFinished = isFinished;

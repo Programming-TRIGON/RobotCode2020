@@ -31,6 +31,7 @@ public class RobotA extends RobotConstants {
 
         // Intake Constants
         intakeConstants.kIntakeReversed = false;
+        intakeConstants.kIntakeDefaultPower = 0.3;
 
         // Mixer Constants
         mixerConstants.kMixerMaxStall = 30;
@@ -38,6 +39,7 @@ public class RobotA extends RobotConstants {
         mixerConstants.kRampUpTime = 0;
         mixerConstants.kStallWaitTime = 0.2;
         mixerConstants.kBackwardsSpinTime = 0.2;
+        mixerConstants.kDefaultPower = 0.5;
 
         // Climb Constants
         climbConstants.kHookCurrentLimit = 0;
@@ -64,6 +66,7 @@ public class RobotA extends RobotConstants {
         loaderConstants.kThresholdLimit = 0;
         loaderConstants.kTimeout = 0;
         loaderConstants.kTicksPerRotation = 1;
+        loaderConstants.kDefaultVelocity = 0.5;
         loaderConstants.kSpinBackwardsTime = 1;
         controlConstants.loaderFeedforward = new SimpleMotorFeedforward(0, 0, 0);
         controlConstants.loaderPidSettings = new PIDSettings(0, 0, 0, 0, 0);

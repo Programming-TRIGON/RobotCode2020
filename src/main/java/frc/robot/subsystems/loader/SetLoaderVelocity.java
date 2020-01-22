@@ -23,6 +23,23 @@ public class SetLoaderVelocity extends CommandBase {
 
     /**
      * This class accelerates the loader subsystem to the desired velocity using PID
+     * This constructor uses {@link frc.robot.constants.RobotConstants.LoaderConstants#kDefaultVelocity} as the desired velocity.
+     */
+    public SetLoaderVelocity() {
+        this(robotConstants.loaderConstants.kDefaultVelocity);
+    }
+
+    /**
+     * This class accelerates the loader subsystem to the desired velocity using PID
+     *
+     * @param desiredVelocity in rotation per minute
+     */
+    public SetLoaderVelocity(double desiredVelocity) {
+        this(() -> desiredVelocity);
+    }
+
+    /**
+     * This class accelerates the loader subsystem to the desired velocity using PID
      *
      * @param desiredVelocity in rotation per minute
      */

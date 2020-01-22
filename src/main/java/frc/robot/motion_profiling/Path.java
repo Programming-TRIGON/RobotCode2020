@@ -19,8 +19,8 @@ import static frc.robot.Robot.robotConstants;
  * Class for creating a new path for motion profiling path following.
  */
 public class Path {
-    private static final double DEFAULT_START_PATH_VELOCITY = 0.0;
-    private static final double DEFAULT_END_PATH_VELOCITY = 0.0;
+    private static final double kDefaultStartPathVelocity = 0.0;
+    private static final double kDefaultEndPathVelocity = 0.0;
     private Trajectory trajectory;
     private boolean reversed;
 
@@ -30,7 +30,7 @@ public class Path {
      * @param waypoints the path waypoints
      */
     public Path(Waypoint... waypoints) {
-        this(false, DEFAULT_START_PATH_VELOCITY, DEFAULT_END_PATH_VELOCITY, waypoints);
+        this(false, kDefaultStartPathVelocity, kDefaultEndPathVelocity, waypoints);
     }
 
     /**
@@ -40,7 +40,7 @@ public class Path {
      * @param waypoints the path waypoints
      */
     public Path(boolean reversed, Waypoint... waypoints) {
-        this(reversed, DEFAULT_START_PATH_VELOCITY, DEFAULT_END_PATH_VELOCITY, waypoints);
+        this(reversed, kDefaultStartPathVelocity, kDefaultEndPathVelocity, waypoints);
     }
 
     /**
@@ -51,7 +51,7 @@ public class Path {
      * @param waypoints   the path waypoints
      */
     public Path(boolean reversed, double endVelocity, Waypoint... waypoints) {
-        this(reversed, DEFAULT_START_PATH_VELOCITY, endVelocity, waypoints);
+        this(reversed, kDefaultStartPathVelocity, endVelocity, waypoints);
     }
 
     /**

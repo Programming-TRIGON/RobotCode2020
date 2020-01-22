@@ -8,8 +8,8 @@ import java.util.function.Supplier;
 import static frc.robot.Robot.drivetrain;
 
 public class CalibrateVisionDistance extends CommandBase {
-    private static final int DEFAULT_DELTA_DISTANCE = 30;
-    private static final int DEFAULT_AMOUNT_OF_LOGS = 12;
+    private static final int kDefaultDeltaDistance = 30;
+    private static final int kDefaultAmountOfLogs = 12;
     private double currentDistance = 0;
     private boolean isPressed;
     private Supplier<Boolean> logButton;
@@ -21,7 +21,7 @@ public class CalibrateVisionDistance extends CommandBase {
      * @param logButton whenever the supplier toggles to true - log the values.
      */
     public CalibrateVisionDistance(Supplier<Boolean> logButton) {
-        this(logButton, DEFAULT_DELTA_DISTANCE);
+        this(logButton, kDefaultDeltaDistance);
     }
 
     /**
@@ -29,7 +29,7 @@ public class CalibrateVisionDistance extends CommandBase {
      * @param deltaDistance the distance between each log.
      */
     public CalibrateVisionDistance(Supplier<Boolean> logButton, double deltaDistance) {
-        this(logButton, deltaDistance, DEFAULT_AMOUNT_OF_LOGS);
+        this(logButton, deltaDistance, kDefaultAmountOfLogs);
     }
 
     /**
