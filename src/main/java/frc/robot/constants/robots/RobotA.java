@@ -31,6 +31,7 @@ public class RobotA extends RobotConstants {
 
         // Intake Constants
         intakeConstants.kIntakeReversed = false;
+        intakeConstants.kIntakeDefaultPower = 0.3;
 
         // Mixer Constants
         mixerConstants.kMixerMaxStall = 30;
