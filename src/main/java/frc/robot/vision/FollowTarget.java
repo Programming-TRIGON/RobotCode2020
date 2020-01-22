@@ -60,7 +60,7 @@ public class FollowTarget extends CommandBase {
     @Override
     public boolean isFinished() {
         return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.kTargetNotFoundWaitTime)
-                || (rotationPIDController.atSetpoint() && distancePIDController.atSetpoint());
+            || (rotationPIDController.atSetpoint() && distancePIDController.atSetpoint());
     }
 
     @Override

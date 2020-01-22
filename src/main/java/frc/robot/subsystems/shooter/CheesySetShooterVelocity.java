@@ -111,7 +111,7 @@ public class CheesySetShooterVelocity extends CommandBase {
         shooter.setVelocity(setpoint);
         // very important - we use left shooter settings tolerance
         boolean onTarget = Math.abs(shooter.getAverageSpeed() - setpoint) <
-                robotConstants.controlConstants.leftShooterSettings.getTolerance();
+            robotConstants.controlConstants.leftShooterSettings.getTolerance();
         if (onTarget)
             updateKf();
         else {
@@ -140,12 +140,12 @@ public class CheesySetShooterVelocity extends CommandBase {
 
     private void countShotCells(boolean isCellBeingShot) {
         if (!isInZone && isCellBeingShot &&
-                Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.kWaitTimeZone) {
+            Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.kWaitTimeZone) {
             isInZone = true;
             firstTimeInZone = Timer.getFPGATimestamp();
             cellsShot++;
         } else if (isInZone && !isCellBeingShot &&
-                Timer.getFPGATimestamp() - firstTimeInZone > robotConstants.shooterConstants.kWaitTimeZone) {
+            Timer.getFPGATimestamp() - firstTimeInZone > robotConstants.shooterConstants.kWaitTimeZone) {
             isInZone = false;
             firstTimeOutsideZone = Timer.getFPGATimestamp();
         }
