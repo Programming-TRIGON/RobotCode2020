@@ -17,6 +17,55 @@ public class TrigonXboxController extends XboxController {
 
     public TrigonXboxController(int port) {
         super(port);
-     //   buttonA = new JoystickButton(this, Button.kA.)
+        buttonA = new JoystickButton(this, Button.kA.value);
+        buttonB = new JoystickButton(this, Button.kB.value);
+        buttonX = new JoystickButton(this, Button.kX.value);
+        buttonY = new JoystickButton(this, Button.kY.value);
+        leftBumper = new JoystickButton(this, Button.kBumperLeft.value);
+        rightBumper = new JoystickButton(this, Button.kBumperRight.value);
+        leftStickButton = new JoystickButton(this, Button.kStickLeft.value);
+        rightStickButton = new JoystickButton(this, Button.kStickRight.value);
+        backButton = new JoystickButton(this, Button.kBack.value);
+        startButton = new JoystickButton(this, Button.kStart.value);
+    }
+
+    public JoystickButton getButtonA() {
+        return this.buttonA;
+    }
+
+    public JoystickButton getButtonB() {
+        return this.buttonB;
+    }
+
+    public JoystickButton getButtonX() {
+        return this.buttonX;
+    }
+
+    public JoystickButton getButtonY() {
+        return this.buttonY;
+    }
+
+    public JoystickButton getLeftBumper() {
+        return this.leftBumper;
+    }
+
+    public JoystickButton getRightBumper() {
+        return this.rightBumper;
+    }
+
+    public JoystickButton getLeftStickButton() {
+        return this.leftStickButton;
+    }
+
+    public JoystickButton getRightStickButton() {
+        return this.rightStickButton;
+    }
+
+    public JoystickButton getBackXboxButton() {
+        return this.backButton;
+    }
+
+    public JoystickButton getStartXboxButton() {
+        return this.startButton;
     }
 }
