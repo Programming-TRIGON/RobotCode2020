@@ -29,10 +29,6 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         leftTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
         leftTalonFX.configOpenloopRamp(robotConstants.shooterConstants.kRampTime);
         leftTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
-        leftTalonFX.config_kP(0, robotConstants.controlConstants.leftShooterSettings.getKP());
-        leftTalonFX.config_kI(0, robotConstants.controlConstants.leftShooterSettings.getKI());
-        leftTalonFX.config_kD(0, robotConstants.controlConstants.leftShooterSettings.getKD());
-        leftTalonFX.config_kF(0, robotConstants.shooterConstants.kLeftKf);
         leftTalonFX.selectProfileSlot(0, 0);
         leftTalonFX.setInverted(robotConstants.shooterConstants.kIsLeftMotorInverted);
         leftTalonFX.setSensorPhase(robotConstants.shooterConstants.kIsLeftEncoderInverted);
@@ -42,14 +38,11 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         rightTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
         rightTalonFX.configOpenloopRamp(robotConstants.shooterConstants.kRampTime);
         rightTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
-        rightTalonFX.config_kP(0, robotConstants.controlConstants.rightShooterSettings.getKP());
-        rightTalonFX.config_kI(0, robotConstants.controlConstants.rightShooterSettings.getKI());
-        rightTalonFX.config_kD(0, robotConstants.controlConstants.rightShooterSettings.getKD());
-        rightTalonFX.config_kF(0, robotConstants.shooterConstants.kRightKf);
         rightTalonFX.selectProfileSlot(0, 0);
         rightTalonFX.setInverted(robotConstants.shooterConstants.kIsRightMotorInverted);
         rightTalonFX.setSensorPhase(robotConstants.shooterConstants.kIsRightEncoderInverted);
 
+        configPIDGains();
         microSwitch = new DigitalInput(robotConstants.dio.SWITCH_SHOOTER);
         resetEncoders();
     }
@@ -111,15 +104,9 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         DriverStationLogger.logToDS("Shooter tuning enabled");
         isTuning = true;
         // left shooter gains
-        SmartDashboard.putNumber("PID/LeftShooter/kP", 0);
-        SmartDashboard.putNumber("PID/LeftShooter/kI", 0);
-        SmartDashboard.putNumber("PID/LeftShooter/kD", 0);
-        SmartDashboard.putNumber("PID/LeftShooter/kF", 0);
+        SmartDashboard.putData("PID/LeftShooterSettings", robotConstants.controlConstants.leftShooterSettings);
         // right shooter gains
-        SmartDashboard.putNumber("PID/RightShooter/kP", 0);
-        SmartDashboard.putNumber("PID/RightShooter/kI", 0);
-        SmartDashboard.putNumber("PID/RightShooter/kD", 0);
-        SmartDashboard.putNumber("PID/RightShooter/kF", 0);
+        SmartDashboard.putData("PID/RightShooterSettings", robotConstants.controlConstants.rightShooterSettings);
     }
 
     public void disableTuning() {
@@ -156,24 +143,18 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
 
     @Override
     public void periodic() {
-        if (isTuning) {
-            leftTalonFX.config_kP(0, SmartDashboard.getNumber(
-                "PID/LeftShooter/kP", 0), 0);
-            leftTalonFX.config_kI(0, SmartDashboard.getNumber(
-                "PID/LeftShooter/kI", 0), 0);
-            leftTalonFX.config_kD(0, SmartDashboard.getNumber(
-                "PID/LeftShooter/kD", 0), 0);
-            leftTalonFX.config_kF(0, SmartDashboard.getNumber(
-                "PID/LeftShooter/kF", 0), 0);
-            rightTalonFX.config_kP(0, SmartDashboard.getNumber(
-                "PID/RightShooter/kP", 0), 0);
-            rightTalonFX.config_kI(0, SmartDashboard.getNumber(
-                "PID/RightShooter/kI", 0), 0);
-            rightTalonFX.config_kD(0, SmartDashboard.getNumber(
-                "PID/RightShooter/kD", 0), 0);
-            rightTalonFX.config_kF(0, SmartDashboard.getNumber(
-                "PID/RightShooter/kF", 0), 0);
-        }
+        if (isTuning) configPIDGains();
+    }
+
+    private void configPIDGains() {
+        leftTalonFX.config_kP(0, robotConstants.controlConstants.leftShooterSettings.getKP());
+        leftTalonFX.config_kI(0, robotConstants.controlConstants.leftShooterSettings.getKI());
+        leftTalonFX.config_kD(0, robotConstants.controlConstants.leftShooterSettings.getKD());
+        leftTalonFX.config_kF(0, robotConstants.controlConstants.leftShooterSettings.getKF());
+        rightTalonFX.config_kP(0, robotConstants.controlConstants.rightShooterSettings.getKP());
+        rightTalonFX.config_kI(0, robotConstants.controlConstants.rightShooterSettings.getKI());
+        rightTalonFX.config_kD(0, robotConstants.controlConstants.rightShooterSettings.getKD());
+        rightTalonFX.config_kF(0, robotConstants.controlConstants.rightShooterSettings.getKF());
     }
 
     /**
@@ -183,7 +164,7 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
      * @param voltage the current voltage
      * @return kf estimated by to be used with talonFX
      */
-    static double estimateKf(double rpm, double voltage) {
+    public static double estimateKf(double rpm, double voltage) {
         final double output = voltage / 12.0;
         return output / rpm;
     }
