@@ -55,8 +55,8 @@ public class RobotA extends RobotConstants {
         shooterConstants.IS_RIGHT_MOTOR_INVERTED = false;
         shooterConstants.IS_LEFT_ENCODER_INVERTED = false;
         shooterConstants.IS_RIGHT_ENCODER_INVERTED = false;
-        controlConstants.leftShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
-        controlConstants.rightShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
+        controlConstants.leftShooterSettings = PIDSettings.fromTalonSettings(0, 0, 0, 0, 0);
+        controlConstants.rightShooterSettings = PIDSettings.fromTalonSettings(0, 0, 0, 0, 0);
 
         /* Loader Constants */
         loaderConstants.RAMP_RATE = 0;
