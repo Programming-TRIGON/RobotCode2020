@@ -1,7 +1,6 @@
 package frc.robot.subsystems.led;
 
 import java.util.Random;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Spark;
@@ -11,7 +10,7 @@ import frc.robot.Robot;
 import frc.robot.utils.DriverStationLogger;
 
 public class LED extends SubsystemBase {
-  private static final double BLINK_TIME = 0.1;
+  private static final double BLINK_TIME = 0.15;
   private Spark ledController;
   private LEDColor currentColor;
   private LEDColor blinkColor;
@@ -22,7 +21,8 @@ public class LED extends SubsystemBase {
   private boolean isInEmergency;
 
   /**
-   * Creates a new LED subsystem for Rev robotics Led controller and color changing.
+   * Creates a new LED subsystem for Rev robotics Led controller and color
+   * changing.
    */
   public LED() {
     ledController = new Spark(Robot.robotConstants.pwm.LED_CONTROLLER);
@@ -56,7 +56,8 @@ public class LED extends SubsystemBase {
 
   /**
    * Blinks the LED with a certain color for several times.
-   * @param color the color to blink
+   * 
+   * @param color    the color to blink
    * @param quantity the number of times to blink
    */
   public void blinkColor(LEDColor color, int quantity) {
@@ -73,9 +74,9 @@ public class LED extends SubsystemBase {
   public void notifierPeriodic() {
     if (blinkingAmount == 0)
       setColor(lastColorBeforeBlink);
-    if(blinkingAmount > 0) {
+    if (blinkingAmount > 0) {
       LEDColor colorToSet;
-      if(blinkingAmount % 2 == 1)
+      if (blinkingAmount % 2 == 1)
         colorToSet = LEDColor.Off;
       else
         colorToSet = blinkColor;
@@ -86,7 +87,7 @@ public class LED extends SubsystemBase {
   }
 
   public void setAllianceColor() {
-    if(DriverStation.getInstance().getAlliance().equals(Alliance.Blue))
+    if (DriverStation.getInstance().getAlliance().equals(Alliance.Blue))
       setColor(LEDColor.Blue);
     else
       setColor(LEDColor.Red);
@@ -117,7 +118,7 @@ public class LED extends SubsystemBase {
   private double getRandomPattern() {
     double rand = 0.1 * this.rand.nextInt(10);
     int odd = randomOddNumber();
-    while(odd<5 && rand==0.0) {
+    while (odd < 5 && rand == 0.0) {
       odd = randomOddNumber();
     }
     return -(rand + odd * 0.01);
@@ -131,4 +132,3 @@ public class LED extends SubsystemBase {
     return rand % 2 == 0 ? rand + 1 : rand;
   }
 }
-

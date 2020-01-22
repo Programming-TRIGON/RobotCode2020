@@ -10,9 +10,10 @@ import frc.robot.utils.PIDSettings;
  */
 public class RobotA extends RobotConstants {
     // TODO: Set constants
+    
     public RobotA() {
         /* Robot Constants */
-        /* Drivetrain Constants */
+        // Drivetrain Constants
         drivetrainConstants.WHEEL_DIAMETER = 0;
         drivetrainConstants.WHEEL_BASE_WIDTH = 0;
         drivetrainConstants.ROBOT_LENGTH = 0;
@@ -24,26 +25,27 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.TRIGGER_THRESHOLD_CURRENT = 1;
         drivetrainConstants.TRIGGER_THRESHOLD_TIME = 1;
 
-        /* Trigon Drive Constants */
+        // Trigon Drive Constants
         TrigonDriveConstants.SENSITIVITY = 1;
         TrigonDriveConstants.THRESHOLD = 0.5;
 
-        /* Intake Constants */
+        // Intake Constants
         intakeConstants.kIntakeReversed = false;
-        /* Mixer Constants */
+
+        // Mixer Constants
         mixerConstants.kMixerMaxStall = 30;
         mixerConstants.kIsInverted = false;
         mixerConstants.kRampUpTime = 0;
         mixerConstants.kStallWaitTime = 0.2;
         mixerConstants.kBackwardsSpinTime = 0.2;
 
-        /* Climb Constants */
+        // Climb Constants
         climbConstants.HOOK_CURRENT_LIMIT = 0;
         climbConstants.HOOK_THRESHOLD_LIMIT = 0;
         climbConstants.HOOK_CURRENT_TIMEOUT = 0;
         climbConstants.CLIMB_CURRENT_LIMIT = 0;
 
-        /* Shooter Constants */
+        // Shooter Constants
         shooterConstants.WHEEL_RADIUS = 1;
         shooterConstants.LEFT_UNITS_PER_ROTATION = 1;
         shooterConstants.RIGHT_UNITS_PER_ROTATION = 1;
@@ -58,27 +60,25 @@ public class RobotA extends RobotConstants {
         controlConstants.leftShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
         controlConstants.rightShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
 
-        /* Loader Constants */
+        // Loader Constants
         loaderConstants.RAMP_RATE = 0;
         loaderConstants.CURRENT_LIMIT = 0;
         loaderConstants.THRESHOLD_LIMIT = 0;
         loaderConstants.TIMEOUT = 0;
         loaderConstants.TICKS_PER_ROTATION = 1;
-
         controlConstants.loaderFeedforward  = new SimpleMotorFeedforward(0, 0, 0);
         controlConstants.loaderPidSettings = new PIDSettings(0, 0, 0, 0, 0);
 
-        /* Motion Profiling Constants */
+        // Motion Profiling Constants
         motionProfilingConstants.MAX_VELOCITY = 0;
         motionProfilingConstants.MAX_ACCELERATION = 0;
         motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION = 0;
         motionProfilingConstants.KP = 0;
         motionProfilingConstants.REVERSE_KP = 0;
-
         controlConstants.motionProfilingSettings = new SimpleMotorFeedforward(0, 0, 0);
         controlConstants.motionProfilingReverseSettings = new SimpleMotorFeedforward(0, 0, 0);
 
-        /* Vision Constants */
+        // Vision Constants 
         visionConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 0;
         visionConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 0;
         visionConstants.LIMELIGHT_OFFSET_X = 0;
@@ -89,9 +89,7 @@ public class RobotA extends RobotConstants {
         controlConstants.visionRotationSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         /* Robot Map */
-        pwm.LED_CONTROLLER = 0;
-        i2c.i2cPort = Port.kOnboard;
-        /* Drivetrain Map */
+        // Drivetrain Map
         can.DRIVETRAIN_LEFT_FRONT_TALON_FX = 1;
         can.DRIVETRAIN_LEFT_MIDDLE_TALON_FX = 2;
         can.DRIVETRAIN_LEFT_REAR_TALON_FX = 3;
@@ -100,21 +98,22 @@ public class RobotA extends RobotConstants {
         can.DRIVETRAIN_RIGHT_REAR_TALON_FX = 6;
         can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER = 7;
         can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER = 8;
-        /* Shooter Map */
-        can.LEFT_SHOOTER_TALON_FX = 0;
-        can.RIGHT_SHOOTER_TALON_FX = 2;
+        // Intake Map
+        can.INTAKE_SPARK_MAX = 11;
+        // Mixer Map
+        can.MIXER_TALON_SRX = 12;
+        // Loader Map
+        can.LOADER_TALON_SRX = 15;
+        // Shooter Map
+        can.LEFT_SHOOTER_TALON_FX = 9;
+        can.RIGHT_SHOOTER_TALON_FX = 10;
         dio.SWITCH_SHOOTER = 0;
-        /* Intake Map */
-        can.INTAKE_SPARK_MAX = 5;
-        /* Mixer Map */
-        can.MIXER_TALON_SRX = 8;
-        /* Climb Map */
-        can.LEFT_CLIMB_SPARK_MAX = 0;
-        can.RIGHT_CLIMB_SPARK_MAX = 1;
-        can.LEFT_HOOK_TALON_SRX = 2;
-        can.RIGHT_HOOK_TALON_SRX = 3;
-
-        /* Loader Map */
-        can.LOADER_TALON_SRX = 1;
+        // Climb Map
+        can.HOOK_TALON_SRX = 13;
+        can.CLIMB_SPARK_MAX = 14;
+        // PWM Map
+        pwm.LED_CONTROLLER = 0;
+        // I2C Port
+        i2c.i2cPort = Port.kOnboard;
     }
 }

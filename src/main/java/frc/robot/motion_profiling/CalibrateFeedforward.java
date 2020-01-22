@@ -12,7 +12,7 @@ public class CalibrateFeedforward extends CommandBase {
   private NetworkTableEntry autoSpeedEntry;
   private NetworkTableEntry telemetryEntry;
   private NetworkTableEntry rotateEntry; 
-  private Number numberArray[];
+  private Number[] numberArray;
   private static final double UPDATE_RATE = 0.01;
 
   /**

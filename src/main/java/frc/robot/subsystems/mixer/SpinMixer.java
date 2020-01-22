@@ -2,14 +2,13 @@ package frc.robot.subsystems.mixer;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.RobotConstants.MixerConstants;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.mixer;
 import static frc.robot.Robot.robotConstants;
 
 /**
- * Spins the mixer during the game for putting balls in the ejector, if the
+ * Spins the mixer during the game for putting balls in the loader, if the
  * current is too big the motor power flips.
  */
 public class SpinMixer extends CommandBase {

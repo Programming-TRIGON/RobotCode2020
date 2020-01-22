@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * for multiple subsystems.           
  */
 public interface MoveableSubsystem extends Subsystem {
-    public void move(double power);
+    void move(double power);
     
     default void stopMove() {
         move(0);

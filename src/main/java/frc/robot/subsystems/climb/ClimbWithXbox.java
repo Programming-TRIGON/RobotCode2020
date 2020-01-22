@@ -1,7 +1,6 @@
 package frc.robot.subsystems.climb;
 
 import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 
@@ -25,8 +24,8 @@ public class ClimbWithXbox extends CommandBase {
 
   @Override
   public void execute() {
-      Robot.climb.setClimbPower(climbPower.getAsDouble());
-      Robot.climb.setHookPower(hookPower.getAsDouble());
+    Robot.climb.setClimbPower(climbPower.getAsDouble());
+    Robot.climb.setHookPower(hookPower.getAsDouble());
   }
 
   @Override

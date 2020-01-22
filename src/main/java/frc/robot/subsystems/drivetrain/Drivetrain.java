@@ -17,12 +17,12 @@ import frc.robot.subsystems.MoveableSubsystem;
 import static frc.robot.Robot.robotConstants;
 
 public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
-  private WPI_TalonFX leftRearTalonFX;
-  private WPI_TalonFX leftMiddleTalonFX;
-  private WPI_TalonFX leftFrontTalonFX;
-  private WPI_TalonFX rightRearTalonFX;
-  private WPI_TalonFX rightMiddleTalonFX;
-  private WPI_TalonFX rightFrontTalonFX;
+  private WPI_TalonFX leftRear;
+  private WPI_TalonFX leftMiddle;
+  private WPI_TalonFX leftFront;
+  private WPI_TalonFX rightRear;
+  private WPI_TalonFX rightMiddle;
+  private WPI_TalonFX rightFront;
 
   private TrigonDrive drivetrain;
 
@@ -37,21 +37,21 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
    * This is the subsystem of the drivetrain
    */
   public Drivetrain() {
-    leftRearTalonFX = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON_FX);
-    leftMiddleTalonFX = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_MIDDLE_TALON_FX);
-    leftFrontTalonFX = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_FRONT_TALON_FX);
-    rightRearTalonFX = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_REAR_TALON_FX);
-    rightMiddleTalonFX = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_MIDDLE_TALON_FX);
-    rightFrontTalonFX = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_FRONT_TALON_FX);
+    leftRear = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON_FX);
+    leftMiddle = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_MIDDLE_TALON_FX);
+    leftFront = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_FRONT_TALON_FX);
+    rightRear = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_REAR_TALON_FX);
+    rightMiddle = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_MIDDLE_TALON_FX);
+    rightFront = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_FRONT_TALON_FX);
 
-    configTalonFX(leftRearTalonFX, leftFrontTalonFX);
-    configTalonFX(leftMiddleTalonFX, leftFrontTalonFX);
-    configTalonFX(leftFrontTalonFX, leftFrontTalonFX);
-    configTalonFX(rightRearTalonFX, rightFrontTalonFX);
-    configTalonFX(rightMiddleTalonFX, rightFrontTalonFX);
-    configTalonFX(rightFrontTalonFX, rightFrontTalonFX);
+    configTalonFX(leftRear, leftFront);
+    configTalonFX(leftMiddle, leftFront);
+    configTalonFX(leftFront, leftFront);
+    configTalonFX(rightRear, rightFront);
+    configTalonFX(rightMiddle, rightFront);
+    configTalonFX(rightFront, rightFront);
 
-    drivetrain = new TrigonDrive(leftFrontTalonFX, rightFrontTalonFX);
+    drivetrain = new TrigonDrive(leftFront, rightFront);
     drivetrain.setDeadband(0);
 
     // TODO: set correct talons for encoders.
@@ -150,13 +150,13 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
   /** @return meters per second */
   public double getRightVelocity() {
     return rightEncoder.getSelectedSensorVelocity() * 10
-        / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER;
+      / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER;
   }
 
   /** @return meters per second */
   public double getLeftVelocity() {
     return leftEncoder.getSelectedSensorVelocity() * 10
-        / robotConstants.drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER;
+      / robotConstants.drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER;
   }
 
   public double getAverageVelocity() {
@@ -187,11 +187,11 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
   }
 
   public double getLeftMotorOutputVoltage() {
-    return leftFrontTalonFX.getMotorOutputVoltage();
+    return leftFront.getMotorOutputVoltage();
   }
 
   public double getRightMotorOutputVoltage() {
-    return rightFrontTalonFX.getMotorOutputVoltage();
+    return rightFront.getMotorOutputVoltage();
   }
 
   public void setTrigonDriveSensitivity(double sensitivity) {
@@ -215,11 +215,12 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
   }
 
   private void configTalonFX(WPI_TalonFX motor, WPI_TalonFX master) {
-    motor.follow(master);
+    if(motor != master)
+      motor.follow(master);
     motor.setNeutralMode(NeutralMode.Coast);
     motor.configClosedloopRamp(robotConstants.drivetrainConstants.RAMP_RATE);
     motor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true,
-        robotConstants.drivetrainConstants.CURRENT_LIMIT, robotConstants.drivetrainConstants.TRIGGER_THRESHOLD_CURRENT,
-        robotConstants.drivetrainConstants.TRIGGER_THRESHOLD_TIME));
+      robotConstants.drivetrainConstants.CURRENT_LIMIT, robotConstants.drivetrainConstants.TRIGGER_THRESHOLD_CURRENT,
+      robotConstants.drivetrainConstants.TRIGGER_THRESHOLD_TIME));
   }
 }

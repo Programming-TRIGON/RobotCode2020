@@ -23,7 +23,6 @@ public class FollowTarget extends CommandBase {
 
   /**
    * @param target The target the robot will follow
-   * @param output accepts rotation output and distance output.
    */
   public FollowTarget(Target target) {
     addRequirements(Robot.drivetrain);
@@ -62,7 +61,7 @@ public class FollowTarget extends CommandBase {
   @Override
   public boolean isFinished() {
     return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.TARGET_NOT_FOUND_WAIT_TIME)
-            || (rotationPIDController.atSetpoint() && distancePIDController.atSetpoint());
+      || (rotationPIDController.atSetpoint() && distancePIDController.atSetpoint());
   }
 
   @Override

@@ -20,8 +20,8 @@ public class Loader extends SubsystemBase implements MoveableSubsystem {
     talonSRX.configClosedloopRamp(robotConstants.loaderConstants.RAMP_RATE);
     talonSRX.setNeutralMode(NeutralMode.Coast);
     talonSRX.configSupplyCurrentLimit(
-        new SupplyCurrentLimitConfiguration(true, robotConstants.loaderConstants.CURRENT_LIMIT,
-            robotConstants.loaderConstants.THRESHOLD_LIMIT, robotConstants.loaderConstants.TIMEOUT));
+      new SupplyCurrentLimitConfiguration(true, robotConstants.loaderConstants.CURRENT_LIMIT,
+      robotConstants.loaderConstants.THRESHOLD_LIMIT, robotConstants.loaderConstants.TIMEOUT));
   }
 
   /** @return Rotations per minute */

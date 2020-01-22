@@ -12,7 +12,6 @@ import static frc.robot.Robot.robotConstants;
  * POWER CELLS in the robot for shooting.
  */
 public class Mixer extends SubsystemBase implements MoveableSubsystem {
-
   private final WPI_TalonSRX talonSRX;
 
   public Mixer() {
