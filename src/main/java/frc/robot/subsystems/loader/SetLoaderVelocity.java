@@ -3,14 +3,13 @@ package frc.robot.subsystems.loader;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utils.TrigonPIDController;
+import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.loader;
 import static frc.robot.Robot.robotConstants;
 
 public class SetLoaderVelocity extends CommandBase {
-    private PIDController pidController;
-    private DoubleSupplier desiredVelocity;
-    private boolean isTuning;
+    private TrigonPIDController pidController;
     private SimpleMotorFeedforward feedforward;
 
     /**
