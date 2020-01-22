@@ -164,7 +164,7 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
      * @param voltage the current voltage
      * @return kf estimated by to be used with talonFX
      */
-    static double estimateKf(double rpm, double voltage) {
+    public static double estimateKf(double rpm, double voltage) {
         final double output = voltage / 12.0;
         return output / rpm;
     }
