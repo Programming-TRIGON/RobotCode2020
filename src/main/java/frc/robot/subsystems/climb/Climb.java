@@ -11,35 +11,35 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import static frc.robot.Robot.robotConstants;
 
 public class Climb extends SubsystemBase {
-  private WPI_TalonSRX hookTalonSRX;
-  private CANSparkMax climbSparkMax;
+	private WPI_TalonSRX hookTalonSRX;
+	private CANSparkMax climbSparkMax;
 
-  /**
-   * The climb holds all the methods used for the robots climb in the endgame.
-   * Climb is the system that pulls the rope to make the robot levitate. Hook is
-   * the system that extends to hang on the climb.
-   */
-  public Climb() {
-    hookTalonSRX = new WPI_TalonSRX(robotConstants.can.HOOK_TALON_SRX);
-    climbSparkMax = new CANSparkMax(robotConstants.can.CLIMB_SPARK_MAX, MotorType.kBrushless);
+	/**
+	 * The climb holds all the methods used for the robots climb in the endgame.
+	 * Climb is the system that pulls the rope to make the robot levitate. Hook is
+	 * the system that extends to hang on the climb.
+	 */
+	public Climb() {
+		hookTalonSRX = new WPI_TalonSRX(robotConstants.can.HOOK_TALON_SRX);
+		climbSparkMax = new CANSparkMax(robotConstants.can.CLIMB_SPARK_MAX, MotorType.kBrushless);
 
-    hookTalonSRX.configSupplyCurrentLimit(
-      new SupplyCurrentLimitConfiguration(true, robotConstants.climbConstants.kHookCurrentLimit,
-      robotConstants.climbConstants.kHookThresholdLimit, robotConstants.climbConstants.kHookCurrentTimeout));
-    
-    climbSparkMax.setSmartCurrentLimit(robotConstants.climbConstants.kClimbCurrentLimit);
-    
-    hookTalonSRX.setNeutralMode(NeutralMode.Coast);    
-    climbSparkMax.setIdleMode(IdleMode.kCoast);
+		hookTalonSRX.configSupplyCurrentLimit(
+				new SupplyCurrentLimitConfiguration(true, robotConstants.climbConstants.kHookCurrentLimit,
+						robotConstants.climbConstants.kHookThresholdLimit, robotConstants.climbConstants.kHookCurrentTimeout));
 
-    climbSparkMax.burnFlash();
-  }
+		climbSparkMax.setSmartCurrentLimit(robotConstants.climbConstants.kClimbCurrentLimit);
 
-  public void setHookPower(double power) {
-    hookTalonSRX.set(power);
-  }
+		hookTalonSRX.setNeutralMode(NeutralMode.Coast);
+		climbSparkMax.setIdleMode(IdleMode.kCoast);
 
-  public void setClimbPower(double power) {
-    climbSparkMax.set(power);
-  }
+		climbSparkMax.burnFlash();
+	}
+
+	public void setHookPower(double power) {
+		hookTalonSRX.set(power);
+	}
+
+	public void setClimbPower(double power) {
+		climbSparkMax.set(power);
+	}
 }
