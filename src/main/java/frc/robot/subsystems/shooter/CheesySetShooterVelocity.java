@@ -110,9 +110,7 @@ public class CheesySetShooterVelocity extends CommandBase {
     private void spinUpExecute() {
         shooter.setVelocity(setpoint);
         // very important - we use left shooter settings tolerance
-        boolean onTarget = Math.abs(shooter.getAverageSpeed() - setpoint) <
-            robotConstants.controlConstants.leftShooterSettings.getTolerance();
-        if (onTarget)
+        if (isOnTarget())
             updateKf();
         else {
             // reset kF since we are to far
@@ -164,6 +162,17 @@ public class CheesySetShooterVelocity extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        shooter.stopMove();
+        if (!interrupted)
+            shooter.stopMove();
     }
+
+    /**
+     * @return whether the shooter is on target velocity.
+     * Tolerance is taken from {@link frc.robot.constants.RobotConstants.ControlConstants#leftShooterSettings}
+     */
+    public boolean isOnTarget() {
+        return Math.abs(shooter.getAverageSpeed() - setpoint) <
+            robotConstants.controlConstants.leftShooterSettings.getTolerance();
+    }
+
 }
