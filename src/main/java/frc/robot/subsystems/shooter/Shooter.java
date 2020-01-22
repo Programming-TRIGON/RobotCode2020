@@ -104,11 +104,8 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         DriverStationLogger.logToDS("Shooter tuning enabled");
         isTuning = true;
         // left shooter gains
-        robotConstants.controlConstants.leftShooterSettings.setKF(robotConstants.shooterConstants.LEFT_KF);
         SmartDashboard.putData("PID/LeftShooterSettings", robotConstants.controlConstants.leftShooterSettings);
-
         // right shooter gains
-        robotConstants.controlConstants.rightShooterSettings.setKF(robotConstants.shooterConstants.RIGHT_KF);
         SmartDashboard.putData("PID/RightShooterSettings", robotConstants.controlConstants.rightShooterSettings);
     }
 
@@ -157,7 +154,7 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
         rightTalonFX.config_kP(0, robotConstants.controlConstants.rightShooterSettings.getKP());
         rightTalonFX.config_kI(0, robotConstants.controlConstants.rightShooterSettings.getKI());
         rightTalonFX.config_kD(0, robotConstants.controlConstants.rightShooterSettings.getKD());
-        leftTalonFX.config_kF(0, robotConstants.controlConstants.rightShooterSettings.getKF());
+        rightTalonFX.config_kF(0, robotConstants.controlConstants.rightShooterSettings.getKF());
     }
 
     /**

@@ -49,8 +49,6 @@ public class RobotA extends RobotConstants {
         shooterConstants.kWheelRadius = 1;
         shooterConstants.kLeftUnitsPerRotation = 1;
         shooterConstants.kRightUnitsPerRotation = 1;
-        shooterConstants.kLeftKf = 0;
-        shooterConstants.kRightKf = 0;
         shooterConstants.kShootingBallZone = 2000;
         shooterConstants.kWaitTimeZone = 0;
         shooterConstants.kIsLeftMotorInverted = false;
