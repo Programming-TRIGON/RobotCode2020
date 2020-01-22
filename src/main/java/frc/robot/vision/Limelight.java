@@ -4,9 +4,6 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.Vector2d;
-import frc.robot.vision.CamMode;
-import frc.robot.vision.LedMode;
-import frc.robot.vision.Target;
 
 import static frc.robot.Robot.robotConstants;
 
@@ -77,8 +74,8 @@ public class Limelight {
   //TODO: set real function
   public double getDistanceFromLimelight() {
     double x = getTy();
-    return robotConstants.visionConstants.DISTANCE_CALCULATION_A_COEFFICIENT * Math.pow(x, 2) +
-            robotConstants.visionConstants.DISTANCE_CALCULATION_B_COEFFICIENT * x;
+    return robotConstants.visionConstants.kDistanceCalculationACoefficient * Math.pow(x, 2) +
+            robotConstants.visionConstants.kDistanceCalculationBCoefficient * x;
   }
 
   /**
@@ -201,8 +198,8 @@ public class Limelight {
   private Vector2d calculateVector() {
     //This is the vector from the limelight to the target.
     Vector2d limelightToTarget = new Vector2d(getDistanceFromLimelight(), 0);
-    limelightToTarget.rotate(getTx() + robotConstants.visionConstants.LIMELIGHT_ANGLE_OFFSET);
+    limelightToTarget.rotate(getTx() + robotConstants.visionConstants.kLimelightAngleOffset);
     // The offset is subtracted from the limelightToTarget vector in order to get the final vector.
-    return new Vector2d(limelightToTarget.x - robotConstants.visionConstants.LIMELIGHT_OFFSET_X, limelightToTarget.y - robotConstants.visionConstants.LIMELIGHT_OFFSET_Y);
+    return new Vector2d(limelightToTarget.x - robotConstants.visionConstants.kLimelightOffsetX, limelightToTarget.y - robotConstants.visionConstants.kLimelightOffsetY);
   }
 }

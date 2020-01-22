@@ -24,10 +24,10 @@ public class Climb extends SubsystemBase {
     climbSparkMax = new CANSparkMax(robotConstants.can.CLIMB_SPARK_MAX, MotorType.kBrushless);
 
     hookTalonSRX.configSupplyCurrentLimit(
-      new SupplyCurrentLimitConfiguration(true, robotConstants.climbConstants.HOOK_CURRENT_LIMIT,
-      robotConstants.climbConstants.HOOK_THRESHOLD_LIMIT, robotConstants.climbConstants.HOOK_CURRENT_TIMEOUT));
+      new SupplyCurrentLimitConfiguration(true, robotConstants.climbConstants.kHookCurrentLimit,
+      robotConstants.climbConstants.kHookThresholdLimit, robotConstants.climbConstants.kHookCurrentTimeout));
     
-    climbSparkMax.setSmartCurrentLimit(robotConstants.climbConstants.CLIMB_CURRENT_LIMIT);
+    climbSparkMax.setSmartCurrentLimit(robotConstants.climbConstants.kClimbCurrentLimit);
     
     hookTalonSRX.setNeutralMode(NeutralMode.Coast);    
     climbSparkMax.setIdleMode(IdleMode.kCoast);

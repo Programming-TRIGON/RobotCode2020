@@ -17,16 +17,16 @@ public class Loader extends SubsystemBase implements MoveableSubsystem {
    */
   public Loader() {
     talonSRX = new WPI_TalonSRX(robotConstants.can.LOADER_TALON_SRX);
-    talonSRX.configClosedloopRamp(robotConstants.loaderConstants.RAMP_RATE);
+    talonSRX.configClosedloopRamp(robotConstants.loaderConstants.kRampRate);
     talonSRX.setNeutralMode(NeutralMode.Coast);
     talonSRX.configSupplyCurrentLimit(
-      new SupplyCurrentLimitConfiguration(true, robotConstants.loaderConstants.CURRENT_LIMIT,
-      robotConstants.loaderConstants.THRESHOLD_LIMIT, robotConstants.loaderConstants.TIMEOUT));
+      new SupplyCurrentLimitConfiguration(true, robotConstants.loaderConstants.kCurrentLimit,
+      robotConstants.loaderConstants.kThresholdLimit, robotConstants.loaderConstants.kTimeout));
   }
 
   /** @return Rotations per minute */
   public double getVelocity() {
-    return talonSRX.getSelectedSensorVelocity() * 600 / robotConstants.loaderConstants.TICKS_PER_ROTATION;
+    return talonSRX.getSelectedSensorVelocity() * 600 / robotConstants.loaderConstants.kTicksPerRotation;
   }
 
   public void setVoltage(double voltage) {

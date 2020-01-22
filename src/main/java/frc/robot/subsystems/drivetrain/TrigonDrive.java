@@ -19,8 +19,8 @@ public class TrigonDrive extends DifferentialDrive {
 
     public TrigonDrive(SpeedController leftMotor, SpeedController rightMotor) {
         super(leftMotor, rightMotor);
-        this.sensitivity = robotConstants.trigonDriveConstants.SENSITIVITY;
-        this.threshold = robotConstants.trigonDriveConstants.THRESHOLD;
+        this.sensitivity = robotConstants.trigonDriveConstants.kSensitivity;
+        this.threshold = robotConstants.trigonDriveConstants.kThreshold;
     }
 
     /**

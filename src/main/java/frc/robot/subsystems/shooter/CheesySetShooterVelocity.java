@@ -133,19 +133,19 @@ public class CheesySetShooterVelocity extends CommandBase {
 		if (isAuto) {
 			boolean isCellBeingShot = shooter.isSwitchPressed();
 			//We might want to use current in order to count the amount of shot cells instead of using limit switches
-			//boolean isCellBeingShot = shooter.getAverageSpeed() < robotConstants.shooterConstants.SHOOTING_BALL_ZONE;
+			//boolean isCellBeingShot = shooter.getAverageSpeed() < robotConstants.shooterConstants.kShootingBallZone;
 			countShotCells(isCellBeingShot);
 		}
 	}
 
 	private void countShotCells(boolean isCellBeingShot) {
 		if (!isInZone && isCellBeingShot &&
-				Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.WAIT_TIME_ZONE) {
+				Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.kWaitTimeZone) {
 			isInZone = true;
 			firstTimeInZone = Timer.getFPGATimestamp();
 			cellsShot++;
 		} else if (isInZone && !isCellBeingShot &&
-				Timer.getFPGATimestamp() - firstTimeInZone > robotConstants.shooterConstants.WAIT_TIME_ZONE) {
+				Timer.getFPGATimestamp() - firstTimeInZone > robotConstants.shooterConstants.kWaitTimeZone) {
 			isInZone = false;
 			firstTimeOutsideZone = Timer.getFPGATimestamp();
 		}

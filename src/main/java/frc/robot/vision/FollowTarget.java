@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.vision.Target;
 import frc.robot.utils.PIDSettings;
 
 import static frc.robot.Robot.limelight;
@@ -60,7 +59,7 @@ public class FollowTarget extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.TARGET_NOT_FOUND_WAIT_TIME)
+    return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.kTargetNotFoundWaitTime)
       || (rotationPIDController.atSetpoint() && distancePIDController.atSetpoint());
   }
 

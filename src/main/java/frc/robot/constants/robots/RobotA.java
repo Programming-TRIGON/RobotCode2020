@@ -18,16 +18,16 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.kWheelBaseWidth = 0;
         drivetrainConstants.kRobotLength = 0;
         drivetrainConstants.kRobotWidth = 0;
-        drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER = 1;
-        drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER = 1;
-        drivetrainConstants.RAMP_RATE = 1;
-        drivetrainConstants.CURRENT_LIMIT = 1;
-        drivetrainConstants.TRIGGER_THRESHOLD_CURRENT = 1;
-        drivetrainConstants.TRIGGER_THRESHOLD_TIME = 1;
+        drivetrainConstants.kLeftEncoderTicksPerMeter = 1;
+        drivetrainConstants.kRightEncoderTicksPerMeter = 1;
+        drivetrainConstants.kRampRate = 1;
+        drivetrainConstants.kCurrentLimit = 1;
+        drivetrainConstants.kTriggerThresholdCurrent = 1;
+        drivetrainConstants.kTriggerThresholdTime = 1;
 
         // Trigon Drive Constants
-        trigonDriveConstants.SENSITIVITY = 1;
-        trigonDriveConstants.THRESHOLD = 0.5;
+        trigonDriveConstants.kSensitivity = 1;
+        trigonDriveConstants.kThreshold = 0.5;
 
         // Intake Constants
         intakeConstants.kIntakeReversed = false;
@@ -40,51 +40,51 @@ public class RobotA extends RobotConstants {
         mixerConstants.kBackwardsSpinTime = 0.2;
 
         // Climb Constants
-        climbConstants.HOOK_CURRENT_LIMIT = 0;
-        climbConstants.HOOK_THRESHOLD_LIMIT = 0;
-        climbConstants.HOOK_CURRENT_TIMEOUT = 0;
-        climbConstants.CLIMB_CURRENT_LIMIT = 0;
+        climbConstants.kHookCurrentLimit = 0;
+        climbConstants.kHookThresholdLimit = 0;
+        climbConstants.kHookCurrentTimeout = 0;
+        climbConstants.kClimbCurrentLimit = 0;
 
         // Shooter Constants
-        shooterConstants.WHEEL_RADIUS = 1;
-        shooterConstants.LEFT_UNITS_PER_ROTATION = 1;
-        shooterConstants.RIGHT_UNITS_PER_ROTATION = 1;
-        shooterConstants.LEFT_KF = 0;
-        shooterConstants.RIGHT_KF = 0;
-        shooterConstants.SHOOTING_BALL_ZONE = 2000;
-        shooterConstants.WAIT_TIME_ZONE = 0;
-        shooterConstants.IS_LEFT_MOTOR_INVERTED = false;
-        shooterConstants.IS_RIGHT_MOTOR_INVERTED = false;
-        shooterConstants.IS_LEFT_ENCODER_INVERTED = false;
-        shooterConstants.IS_RIGHT_ENCODER_INVERTED = false;
+        shooterConstants.kWheelRadius = 1;
+        shooterConstants.kLeftUnitsPerRotation = 1;
+        shooterConstants.kRightUnitsPerRotation = 1;
+        shooterConstants.kLeftKf = 0;
+        shooterConstants.kRightKf = 0;
+        shooterConstants.kShootingBallZone = 2000;
+        shooterConstants.kWaitTimeZone = 0;
+        shooterConstants.kIsLeftMotorInverted = false;
+        shooterConstants.kIsRightMotorInverted = false;
+        shooterConstants.kIsLeftEncoderInverted = false;
+        shooterConstants.kIsRightEncoderInverted = false;
         controlConstants.leftShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
         controlConstants.rightShooterSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         // Loader Constants
-        loaderConstants.RAMP_RATE = 0;
-        loaderConstants.CURRENT_LIMIT = 0;
-        loaderConstants.THRESHOLD_LIMIT = 0;
-        loaderConstants.TIMEOUT = 0;
-        loaderConstants.TICKS_PER_ROTATION = 1;
+        loaderConstants.kRampRate = 0;
+        loaderConstants.kCurrentLimit = 0;
+        loaderConstants.kThresholdLimit = 0;
+        loaderConstants.kTimeout = 0;
+        loaderConstants.kTicksPerRotation = 1;
         controlConstants.loaderFeedforward  = new SimpleMotorFeedforward(0, 0, 0);
         controlConstants.loaderPidSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         // Motion Profiling Constants
-        motionProfilingConstants.MAX_VELOCITY = 0;
-        motionProfilingConstants.MAX_ACCELERATION = 0;
-        motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION = 0;
-        motionProfilingConstants.KP = 0;
-        motionProfilingConstants.REVERSE_KP = 0;
+        motionProfilingConstants.kMaxVelocity = 0;
+        motionProfilingConstants.kMaxAcceleration = 0;
+        motionProfilingConstants.kMaxCentripetalAcceleration = 0;
+        motionProfilingConstants.kP = 0;
+        motionProfilingConstants.kReverseKp = 0;
         controlConstants.motionProfilingSettings = new SimpleMotorFeedforward(0, 0, 0);
         controlConstants.motionProfilingReverseSettings = new SimpleMotorFeedforward(0, 0, 0);
 
         // Vision Constants 
-        visionConstants.DISTANCE_CALCULATION_A_COEFFICIENT = 0;
-        visionConstants.DISTANCE_CALCULATION_B_COEFFICIENT = 0;
-        visionConstants.LIMELIGHT_OFFSET_X = 0;
-        visionConstants.LIMELIGHT_OFFSET_Y = 0;
-        visionConstants.LIMELIGHT_ANGLE_OFFSET = 0;
-        visionConstants.TARGET_NOT_FOUND_WAIT_TIME = 0.1;
+        visionConstants.kDistanceCalculationACoefficient = 0;
+        visionConstants.kDistanceCalculationBCoefficient = 0;
+        visionConstants.kLimelightOffsetX = 0;
+        visionConstants.kLimelightOffsetY = 0;
+        visionConstants.kLimelightAngleOffset = 0;
+        visionConstants.kTargetNotFoundWaitTime = 0.1;
         controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
         controlConstants.visionRotationSettings = new PIDSettings(0, 0, 0, 0, 0);
 

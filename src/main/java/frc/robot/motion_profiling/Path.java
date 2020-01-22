@@ -1,9 +1,5 @@
 package frc.robot.motion_profiling;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
@@ -11,9 +7,13 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstraint;
 import frc.robot.utils.DriverStationLogger;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 
+import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.robotConstants;
-import static frc.robot.Robot.drivetrain;;
 
 /**
  * Class for creating a new path for motion profiling path following.  
@@ -60,8 +60,8 @@ public class Path {
      */
     public Path(boolean reversed, double startVelocity, double endVelocity, Waypoint... waypoints) {
         this.reversed = reversed;
-        TrajectoryConfig config = new TrajectoryConfig(robotConstants.motionProfilingConstants.MAX_VELOCITY, robotConstants.motionProfilingConstants.MAX_ACCELERATION)
-            .addConstraint(new CentripetalAccelerationConstraint(robotConstants.motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION))
+        TrajectoryConfig config = new TrajectoryConfig(robotConstants.motionProfilingConstants.kMaxVelocity, robotConstants.motionProfilingConstants.kMaxAcceleration)
+            .addConstraint(new CentripetalAccelerationConstraint(robotConstants.motionProfilingConstants.kMaxCentripetalAcceleration))
             .setKinematics(drivetrain.getKinematics())
             .setReversed(reversed)
             .setStartVelocity(startVelocity)

@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
-import frc.robot.motion_profiling.AutoPath;
 
 import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.robotConstants;
@@ -35,10 +34,10 @@ public class FollowPath extends CommandBase {
    * @param isTuning whether the PID values should be set by SmartDashboard.
    */
   public FollowPath(Path path, boolean isTuning) {
-    leftController = new PIDController(path.isReversed() ? robotConstants.motionProfilingConstants.REVERSE_KP :
-      robotConstants.motionProfilingConstants.KP, 0, 0);
-    rightController = new PIDController(path.isReversed() ? robotConstants.motionProfilingConstants.REVERSE_KP :
-      robotConstants.motionProfilingConstants.KP, 0, 0);
+    leftController = new PIDController(path.isReversed() ? robotConstants.motionProfilingConstants.kReverseKp :
+      robotConstants.motionProfilingConstants.kP, 0, 0);
+    rightController = new PIDController(path.isReversed() ? robotConstants.motionProfilingConstants.kReverseKp :
+      robotConstants.motionProfilingConstants.kP, 0, 0);
     
     this.isTuning = isTuning;
     if(isTuning) 

@@ -135,12 +135,12 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
 
   /** @return meters */
   public double getLeftDistance() {
-    return getLeftTicks() / robotConstants.drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER;
+    return getLeftTicks() / robotConstants.drivetrainConstants.kLeftEncoderTicksPerMeter;
   }
 
   /** @return meters */
   public double getRightDistance() {
-    return getRightTicks() / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER;
+    return getRightTicks() / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
   }
 
   public double getAverageDistance() {
@@ -150,13 +150,13 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
   /** @return meters per second */
   public double getRightVelocity() {
     return rightEncoder.getSelectedSensorVelocity() * 10
-      / robotConstants.drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER;
+      / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
   }
 
   /** @return meters per second */
   public double getLeftVelocity() {
     return leftEncoder.getSelectedSensorVelocity() * 10
-      / robotConstants.drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER;
+      / robotConstants.drivetrainConstants.kLeftEncoderTicksPerMeter;
   }
 
   public double getAverageVelocity() {
@@ -218,9 +218,9 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
     if(motor != master)
       motor.follow(master);
     motor.setNeutralMode(NeutralMode.Coast);
-    motor.configClosedloopRamp(robotConstants.drivetrainConstants.RAMP_RATE);
+    motor.configClosedloopRamp(robotConstants.drivetrainConstants.kRampRate);
     motor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true,
-      robotConstants.drivetrainConstants.CURRENT_LIMIT, robotConstants.drivetrainConstants.TRIGGER_THRESHOLD_CURRENT,
-      robotConstants.drivetrainConstants.TRIGGER_THRESHOLD_TIME));
+      robotConstants.drivetrainConstants.kCurrentLimit, robotConstants.drivetrainConstants.kTriggerThresholdCurrent,
+      robotConstants.drivetrainConstants.kTriggerThresholdTime));
   }
 }
