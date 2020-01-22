@@ -2,7 +2,7 @@ package frc.robot.vision;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.MoveableSubsystem;
+import frc.robot.subsystems.MovableSubsystem;
 import frc.robot.utils.PIDSettings;
 import frc.robot.utils.TrigonPIDController;
 
@@ -14,7 +14,7 @@ import static frc.robot.Robot.robotConstants;
  * probably changed according the game and the robot.
  */
 public class TurnToTarget extends CommandBase {
-    private MoveableSubsystem subsystem;
+    private MovableSubsystem subsystem;
     private Target target;
     private TrigonPIDController rotationPIDController;
     private double lastTimeSeenTarget;
@@ -23,7 +23,7 @@ public class TurnToTarget extends CommandBase {
      * @param target    The target the robot will follow
      * @param subsystem The subsystem to require
      */
-    public TurnToTarget(Target target, MoveableSubsystem subsystem) {
+    public TurnToTarget(Target target, MovableSubsystem subsystem) {
         addRequirements(subsystem);
         this.target = target;
         this.subsystem = subsystem;

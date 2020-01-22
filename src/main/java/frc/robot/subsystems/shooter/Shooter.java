@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.MoveableSubsystem;
+import frc.robot.subsystems.MovableSubsystem;
 import frc.robot.utils.DriverStationLogger;
 
 import static frc.robot.Robot.robotConstants;
@@ -16,7 +16,7 @@ import static frc.robot.Robot.robotConstants;
 /**
  * This subsystem handles shooting power cells into the outer and inner ports.
  */
-public class Shooter extends SubsystemBase implements MoveableSubsystem {
+public class Shooter extends SubsystemBase implements MovableSubsystem {
     private WPI_TalonFX leftTalonFX;
     private WPI_TalonFX rightTalonFX;
     private DigitalInput microSwitch;

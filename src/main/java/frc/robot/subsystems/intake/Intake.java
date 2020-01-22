@@ -4,7 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.MoveableSubsystem;
+import frc.robot.subsystems.MovableSubsystem;
 
 import static frc.robot.Robot.robotConstants;
 
@@ -12,7 +12,7 @@ import static frc.robot.Robot.robotConstants;
  * This class holds all the methods for the intake which collects POWER CELLS
  * into the robot.
  */
-public class Intake extends SubsystemBase implements MoveableSubsystem {
+public class Intake extends SubsystemBase implements MovableSubsystem {
     private CANSparkMax sparkMax;
 
     public Intake() {

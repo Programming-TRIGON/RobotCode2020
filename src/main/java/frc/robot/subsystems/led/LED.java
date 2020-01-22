@@ -10,7 +10,7 @@ import frc.robot.utils.DriverStationLogger;
 import java.util.Random;
 
 public class LED extends SubsystemBase {
-    private static final double BLINK_TIME = 0.15;
+    private static final double kBlinkTime = 0.15;
     private Spark ledController;
     private LEDColor currentColor;
     private LEDColor blinkColor;
@@ -31,7 +31,7 @@ public class LED extends SubsystemBase {
         notifier = new Notifier(this::notifierPeriodic);
         rand = new Random();
 
-        notifier.startPeriodic(BLINK_TIME);
+        notifier.startPeriodic(kBlinkTime);
     }
 
     public void setColor(LEDColor color) {

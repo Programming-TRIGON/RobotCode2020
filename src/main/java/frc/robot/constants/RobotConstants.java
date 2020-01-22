@@ -38,6 +38,7 @@ public abstract class RobotConstants extends RobotMap {
 
     public static class IntakeConstants {
         public boolean kIntakeReversed;
+        public double kIntakeDefaultPower;
     }
 
     public static class MixerConstants {
@@ -46,6 +47,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kStallWaitTime;
         public double kBackwardsSpinTime;
         public double kRampUpTime;
+        public double kDefaultPower;
     }
 
     public static class LoaderConstants {
@@ -54,6 +56,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kThresholdLimit;
         public double kTimeout;
         public double kTicksPerRotation;
+        public double kDefaultVelocity;
     }
 
     public static class ShooterConstants {
