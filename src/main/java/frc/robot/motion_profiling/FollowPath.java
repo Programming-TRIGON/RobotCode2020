@@ -29,8 +29,7 @@ public class FollowPath extends CommandBase {
     }
 
     /**
-     * This comma
-     * nd gets path and makes the robot follow it,
+     * This command gets path and makes the robot follow it,
      * also gets if the PID values should be set by SmartDashboard values.
      *
      * @param path     the path to follow
