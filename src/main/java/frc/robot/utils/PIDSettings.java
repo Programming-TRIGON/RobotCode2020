@@ -93,7 +93,7 @@ public class PIDSettings implements Sendable {
         builder.addDoubleProperty("kP", this::getKP, this::setKP);
         builder.addDoubleProperty("kI", this::getKI, this::setKI);
         builder.addDoubleProperty("kD", this::getKD, this::setKD);
-        builder.addDoubleProperty("kF", this::getKD, this::setKD);
+        builder.addDoubleProperty("kF", this::getKF, this::setKF);
         builder.addDoubleProperty("tolerance", this::getTolerance, this::setTolerance);
         builder.addDoubleProperty("delta tolerance", this::getDeltaTolerance, this::setDeltaTolerance);
     }
