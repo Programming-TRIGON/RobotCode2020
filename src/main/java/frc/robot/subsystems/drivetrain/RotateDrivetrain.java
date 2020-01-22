@@ -8,8 +8,8 @@ import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.robotConstants;
 
 public class RotateDrivetrain extends CommandBase {
-  TrigonPIDController pidController;
-  DoubleSupplier desiredAngle;
+  private TrigonPIDController pidController;
+  private DoubleSupplier desiredAngle;
 
   /**
    * Rotates the drivetrain in place.
@@ -37,16 +37,16 @@ public class RotateDrivetrain extends CommandBase {
 
   @Override
   public void execute() {
-    drivetrain.arcadeDrive(pidController.trigonCalculate(drivetrain.getAngle(), desiredAngle.getAsDouble()), 0);
-  }
-
-  @Override
-  public void end(boolean interrupted) {
-    drivetrain.stopMove();
+    drivetrain.move(pidController.calculate(drivetrain.getAngle(), desiredAngle.getAsDouble()));
   }
 
   @Override
   public boolean isFinished() {
     return pidController.atSetpoint();
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    drivetrain.stopMove();
   }
 }

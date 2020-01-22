@@ -1,6 +1,7 @@
 package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.utils.DashboardController;
 
@@ -17,6 +18,7 @@ public class DashboardDataContainer {
         SmartDashboard.putNumber("Mixer/Mixer Power", 0.0);
         SmartDashboard.putData("Mixer/Spin Mixer",
                 new SpinMixer(() -> SmartDashboard.getNumber("Mixer/Mixer Power", 0.0)));
+        SmartDashboard.putData("Rotate drivetrain PID tuning ", new RotateDrivetrain());
         // dashboardController.addBoolean(name, booleanSupplier);
         // dashboardController.addNumber(name, numberSupplier);
         // dashboardController.addString(name, stringSupplier);
