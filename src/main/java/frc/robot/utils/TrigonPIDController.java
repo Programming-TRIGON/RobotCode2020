@@ -42,6 +42,7 @@ public class TrigonPIDController extends PIDController {
      *
      * @param dashboardKey This is the key the will be attached to the pidController
      *                     in the smart dashboard
+     * @param defaultSetpoint The default setpoint to use if there setpoint isn't changes from the dashboard
      */
     public TrigonPIDController(String dashboardKey, double defaultSetpoint) {
         super(0, 0, 0);
