@@ -39,6 +39,10 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
 
+        // Constants:
+        robotConstants = new RobotA();
+        fieldConstants = new HomeField();
+
         // Subsystems:
         drivetrain = new Drivetrain();
         intake = new Intake();
@@ -51,10 +55,6 @@ public class Robot extends TimedRobot {
         // Utils:
         dashboardDataContainer = new DashboardDataContainer();
         limelight = new Limelight();
-
-        // Constants:
-        robotConstants = new RobotA();
-        fieldConstants = new HomeField();
 
         autoChooser = new SendableChooser<>();
         // autoChooser.setDefaultOption(name, object);

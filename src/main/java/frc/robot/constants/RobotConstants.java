@@ -63,8 +63,6 @@ public abstract class RobotConstants extends RobotMap {
         public double kLeftUnitsPerRotation;
         public double kRightUnitsPerRotation;
         public double kRampTime;
-        public double kLeftKf;
-        public double kRightKf;
         public double kShootingBallZone;
         public double kWaitTimeZone;
         public boolean kIsLeftMotorInverted;
