@@ -20,12 +20,11 @@ The code is written in Java and is based of WPILib Java control system.
 ### Basic Gradle Commands
 * Run `./gradlew deploy` to deploy to the robot in Terminal (*nix) or Powershell (Windows)
 * Run `./gradlew build` to build the code.  Use the `--info` flag for more details
-* Run `./gradlew test` to run all of the JUnit tests
 
 ## Package Functions
 - [`frc.robot`](src/main/java/frc/robot)
 
-    Contains the robot's central functions and runs the robot main loop. It also contains control for the drivers
+    Contains the robot's central functions and runs the robot main loop. It also contains control for the drivers.
 
 - [`frc.robot.subsystems`](src/main/java/frc/robot/subsystems)
 
