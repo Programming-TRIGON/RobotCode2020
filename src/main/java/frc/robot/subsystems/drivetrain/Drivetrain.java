@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
-import frc.robot.subsystems.MoveableSubsystem;
+import frc.robot.subsystems.MovableSubsystem;
 
 import static frc.robot.Robot.robotConstants;
 
-public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
+public class Drivetrain extends SubsystemBase implements MovableSubsystem {
     private WPI_TalonFX leftRear;
     private WPI_TalonFX leftMiddle;
     private WPI_TalonFX leftFront;

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
  * It is also used for dependency injection with commands that works the same way,
  * for multiple subsystems.
  */
-public interface MoveableSubsystem extends Subsystem {
+public interface MovableSubsystem extends Subsystem {
     void move(double power);
 
     default void stopMove() {

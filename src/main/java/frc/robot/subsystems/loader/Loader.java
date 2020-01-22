@@ -4,11 +4,11 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.MoveableSubsystem;
+import frc.robot.subsystems.MovableSubsystem;
 
 import static frc.robot.Robot.robotConstants;
 
-public class Loader extends SubsystemBase implements MoveableSubsystem {
+public class Loader extends SubsystemBase implements MovableSubsystem {
     private WPI_TalonSRX talonSRX;
 
     /**
