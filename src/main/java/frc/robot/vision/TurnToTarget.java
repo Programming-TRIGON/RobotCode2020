@@ -39,7 +39,7 @@ public class TurnToTarget extends CommandBase {
      * @param dashboardKey This is the key the will be attached to the pidController
      *                     in the smart dashboard
      */
-    public TurnToTarget(Target target, MoveableSubsystem subsystem, String dashboardKey) {
+    public TurnToTarget(Target target, MovableSubsystem subsystem, String dashboardKey) {
         addRequirements(subsystem);
         this.target = target;
         this.subsystem = subsystem;
