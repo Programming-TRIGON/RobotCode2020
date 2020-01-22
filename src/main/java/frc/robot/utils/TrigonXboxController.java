@@ -68,4 +68,28 @@ public class TrigonXboxController extends XboxController {
     public JoystickButton getStartXboxButton() {
         return this.startButton;
     }
+
+    /**
+     * This method returns the positive trigger minus the negative trigger. This is
+     * used for the feedforward in the driver as it was requested by our driver.
+     * 
+     * @param positiveHand The hand that is positive, the outher will be negative.
+     * @return positive trigger value - other trigger value.
+     */
+    public double getDeltaTriggers(Hand positiveHand) {
+        if (positiveHand == Hand.kRight)
+            return getTriggerAxis(Hand.kRight) - getTriggerAxis(Hand.kLeft);
+        else
+            return getTriggerAxis(Hand.kLeft) - getTriggerAxis(Hand.kRight);
+    }
+
+    /**
+     * This method returns the right trigger minus the left trigger. This is used
+     * for the feedforward in the driver as it was requested by our driver.
+     *
+     * @return right trigger value - left trigger value.
+     */
+    public double getDeltaTriggers() {
+        return getTriggerAxis(Hand.kRight) - getTriggerAxis(Hand.kLeft);
+    }
 }
