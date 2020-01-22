@@ -38,6 +38,7 @@ public abstract class RobotConstants extends RobotMap {
 
     public static class IntakeConstants {
         public boolean kIntakeReversed;
+        public double kIntakeDefaultPower;
     }
 
     public static class MixerConstants {
