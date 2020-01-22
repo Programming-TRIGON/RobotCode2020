@@ -100,7 +100,7 @@ public class Limelight {
    * @return the cam mode in the NetworkTable.
    */
   public CamMode getCamMode() {
-    return camMode.getDouble(0) == 0 ? CamMode.vision : CamMode.driver;
+    return camMode.getDouble(0) == 0 ? CamMode.Vision : CamMode.Driver;
   }
 
   /**
@@ -119,10 +119,10 @@ public class Limelight {
   }
 
   public void toggleLedMode() {
-    if (getLedMode().equals(LedMode.off))
-      setLedMode(LedMode.on);
+    if (getLedMode().equals(LedMode.Off))
+      setLedMode(LedMode.On);
     else
-      setLedMode(LedMode.off);
+      setLedMode(LedMode.Off);
   }
 
   /**
@@ -183,16 +183,16 @@ public class Limelight {
 
   public void startVision(Target target) {
     setPipeline(target);
-    setCamMode(CamMode.vision);
-    setLedMode(LedMode.on);
+    setCamMode(CamMode.Vision);
+    setLedMode(LedMode.On);
   }
 
   /**
    * Stops the vision calculation, turns off led and change the camera to driver mode.
    */
   public void stopVision() {
-    setCamMode(CamMode.driver);
-    setLedMode(LedMode.off);
+    setCamMode(CamMode.Driver);
+    setLedMode(LedMode.Off);
   }
 
   /**
