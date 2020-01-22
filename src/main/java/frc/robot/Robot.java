@@ -10,6 +10,7 @@ import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.utils.DashboardDataContainer;
+import frc.robot.utils.DriverStationLogger;
 import frc.robot.vision.Limelight;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.intake.Intake;
@@ -19,42 +20,47 @@ import frc.robot.subsystems.led.LED;
 import frc.robot.subsystems.loader.Loader;
 
 public class Robot extends TimedRobot {
+  
   private Command autoCommand;
   private SendableChooser<Command> autoChooser;
   private DashboardDataContainer dashboardDataContainer;
 
-  public static RobotConstants robotConstants;
-  public static FieldConstants fieldConstants;
-  public static Limelight limelight;
   public static Drivetrain drivetrain;
-  public static LED led;
-  public static Shooter shooter;
-  public static Climb climb;
   public static Intake intake;
   public static Mixer mixer;
   public static Loader loader;
+  public static Shooter shooter;
+  public static Climb climb;
+  public static LED led;
+  public static Limelight limelight;
+  public static RobotConstants robotConstants;
+  public static FieldConstants fieldConstants;
 
   @Override
   public void robotInit() {
-    robotConstants = new RobotA();
-    fieldConstants = new HomeField();
 
     // Subsystems:
-    led = new LED();
-    intake = new Intake();
     drivetrain = new Drivetrain();
+    intake = new Intake();
     mixer = new Mixer();
-    climb = new Climb();
-    shooter = new Shooter();
     loader = new Loader();
+    shooter = new Shooter();
+    climb = new Climb();
+    led = new LED();
 
     // Utils:
     dashboardDataContainer = new DashboardDataContainer();
     limelight = new Limelight();
 
+    // Constants:
+    robotConstants = new RobotA();
+    fieldConstants = new HomeField();
+
     autoChooser = new SendableChooser<>();
     // autoChooser.setDefaultOption(name, object);
     // autoChooser.addOption(name, object);
+
+    DriverStationLogger.logToDS("Robot initialization complete");
   }
 
   @Override
@@ -73,9 +79,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    DriverStationLogger.logToDS("Autonomous starting");
     led.stopEmergencyLED();
+    
     autoCommand = autoChooser.getSelected();
-
     if (autoCommand != null) {
       autoCommand.schedule();
     }
@@ -87,6 +94,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    DriverStationLogger.logToDS("Teleop starting");
     if (autoCommand != null) {
       autoCommand.cancel();
     }
