@@ -8,8 +8,8 @@ import static frc.robot.Robot.loader;
 import static frc.robot.Robot.robotConstants;
 
 public class setLoaderVelocity extends CommandBase {
-    private SimpleMotorFeedforward feedforward;
     private TrigonPIDController pidController;
+    private SimpleMotorFeedforward feedforward;
 
     /**
      * This class accelerates the loader subsystem to the desired velocity using PID.

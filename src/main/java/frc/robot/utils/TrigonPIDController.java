@@ -25,13 +25,27 @@ public class TrigonPIDController extends PIDController {
 
     /**
      * This is TRIGON's PIDController class with a friendlier UI for the calculate
-     * and constructor. This constructor is used to tune the PID values.
+     * and constructor. This constructor is used to tune the PID values. 0 set to
+     * all values by default.
      *
      * @param dashboardKey This is the key the will be attached to the pidController
      *                     in the smart dashboard
      */
     public TrigonPIDController(String dashboardKey) {
+        this(dashboardKey, 0);
+    }
+
+    /**
+     * This is TRIGON's PIDController class with a friendlier UI for the calculate
+     * and constructor. This constructor is used to tune the PID values. 0 set to
+     * all values except setpoint by default.
+     *
+     * @param dashboardKey This is the key the will be attached to the pidController
+     *                     in the smart dashboard
+     */
+    public TrigonPIDController(String dashboardKey, double defaultSetpoint) {
         super(0, 0, 0);
+        setSetpoint(defaultSetpoint);
         SmartDashboard.putData("PID/" + dashboardKey, this);
     }
 

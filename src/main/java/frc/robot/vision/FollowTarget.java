@@ -9,8 +9,8 @@ import static frc.robot.Robot.limelight;
 import static frc.robot.Robot.robotConstants;
 
 /**
- * this is just template for a target follow command.
- * It will be probably changed according the game and the robot.
+ * this is just template for a target follow command. It will be probably
+ * changed according the game and the robot.
  */
 public class FollowTarget extends CommandBase {
     private Target target;
@@ -24,8 +24,9 @@ public class FollowTarget extends CommandBase {
     public FollowTarget(Target target) {
         addRequirements(Robot.drivetrain);
         this.target = target;
-        distancePIDController = new TrigonPIDController(robotConstants.controlConstants.visionDistanceSettings);
-        rotationPIDController = new TrigonPIDController(robotConstants.controlConstants.visionRotationSettings);
+        distancePIDController = new TrigonPIDController(robotConstants.controlConstants.visionDistanceSettings,
+        target.getDistance());
+        rotationPIDController = new TrigonPIDController(robotConstants.controlConstants.visionRotationSettings, 0);
     }
 
     /**
@@ -36,8 +37,8 @@ public class FollowTarget extends CommandBase {
     public FollowTarget(Target target, String dashboardKey) {
         addRequirements(Robot.drivetrain);
         this.target = target;
-        distancePIDController = new TrigonPIDController(dashboardKey);
-        rotationPIDController = new TrigonPIDController(dashboardKey);
+        distancePIDController = new TrigonPIDController(dashboardKey, target.getDistance());
+        rotationPIDController = new TrigonPIDController(dashboardKey, 0);
     }
 
     @Override
