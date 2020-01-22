@@ -29,20 +29,20 @@ public class TurnToTarget extends CommandBase {
         this.subsystem = subsystem;
         PIDSettings rotationSettings = robotConstants.controlConstants.visionRotationSettings;
         rotationPIDController = new TrigonPIDController(rotationSettings, 0);
-  }
+    }
 
-  /**
-   * This constructor is used for PID tuning
-   *
-   * @param target       The target the robot will follow
-   * @param subsystem    The subsystem to require
-   * @param dashboardKey This is the key the will be attached to the pidController
-   *                     in the smart dashboard
-   */
-  public TurnToTarget(Target target, MoveableSubsystem subsystem, String dashboardKey) {
-    addRequirements(subsystem);
-    this.target = target;
-    this.subsystem = subsystem;
+    /**
+     * This constructor is used for PID tuning
+     *
+     * @param target       The target the robot will follow
+     * @param subsystem    The subsystem to require
+     * @param dashboardKey This is the key the will be attached to the pidController
+     *                     in the smart dashboard
+     */
+    public TurnToTarget(Target target, MoveableSubsystem subsystem, String dashboardKey) {
+        addRequirements(subsystem);
+        this.target = target;
+        this.subsystem = subsystem;
         rotationPIDController = new TrigonPIDController(dashboardKey);
     }
 
@@ -50,9 +50,9 @@ public class TurnToTarget extends CommandBase {
     public void initialize() {
         rotationPIDController.reset();
         lastTimeSeenTarget = Timer.getFPGATimestamp();
-    // Configure the limelight to start computing vision.
-    limelight.startVision(target);
-  }
+        // Configure the limelight to start computing vision.
+        limelight.startVision(target);
+    }
 
     @Override
     public void execute() {
@@ -67,12 +67,12 @@ public class TurnToTarget extends CommandBase {
     @Override
     public boolean isFinished() {
         return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.kTargetNotFoundWaitTime)
-        || rotationPIDController.atSetpoint();
+            || rotationPIDController.atSetpoint();
     }
 
-  @Override
-  public void end(boolean interrupted) {
-    subsystem.stopMove();
-    limelight.stopVision();
-  }
+    @Override
+    public void end(boolean interrupted) {
+        subsystem.stopMove();
+        limelight.stopVision();
+    }
 }
