@@ -1,7 +1,6 @@
 package frc.robot.vision;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.MoveableSubsystem;
 import frc.robot.utils.PIDSettings;
@@ -17,7 +16,7 @@ import static frc.robot.Robot.robotConstants;
 public class TurnToTarget extends CommandBase {
   private MoveableSubsystem subsystem;
   private Target target;
-  private PIDController rotationPIDController;
+  private TrigonPIDController rotationPIDController;
   private double lastTimeSeenTarget;
 
   /**

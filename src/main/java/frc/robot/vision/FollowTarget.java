@@ -1,8 +1,6 @@
 package frc.robot.vision;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.vision.Target;
@@ -17,8 +15,8 @@ import static frc.robot.Robot.robotConstants;
  */
 public class FollowTarget extends CommandBase {
   private Target target;
-  private PIDController rotationPIDController;
-  private PIDController distancePIDController;
+  private TrigonPIDController rotationPIDController;
+  private TrigonPIDController distancePIDController;
   private double lastTimeSeenTarget;
 
   /**
