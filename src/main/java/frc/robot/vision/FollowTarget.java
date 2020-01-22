@@ -1,47 +1,50 @@
 package frc.robot.vision;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.vision.Target;
-import frc.robot.utils.PIDSettings;
+import frc.robot.utils.TrigonPIDController;
 
 import static frc.robot.Robot.limelight;
 import static frc.robot.Robot.robotConstants;
 
 /**
- * this is just template for a target follow command.
- * It will be probably changed according the game and the robot.
+ * this is just template for a target follow command. It will be probably
+ * changed according the game and the robot.
  */
 public class FollowTarget extends CommandBase {
   private Target target;
-  private PIDController rotationPIDController;
-  private PIDController distancePIDController;
+  private TrigonPIDController rotationPIDController;
+  private TrigonPIDController distancePIDController;
   private double lastTimeSeenTarget;
 
   /**
    * @param target The target the robot will follow
-   * @param output accepts rotation output and distance output.
    */
   public FollowTarget(Target target) {
     addRequirements(Robot.drivetrain);
     this.target = target;
-    PIDSettings distanceSettings = robotConstants.controlConstants.visionDistanceSettings;
-    PIDSettings rotationSettings = robotConstants.controlConstants.visionRotationSettings;
-    distancePIDController = new PIDController(distanceSettings.getKP(), distanceSettings.getKI(), distanceSettings.getKD());
-    distancePIDController.setTolerance(distanceSettings.getTolerance(), distanceSettings.getDeltaTolerance());
-    rotationPIDController = new PIDController(rotationSettings.getKP(), rotationSettings.getKI(), rotationSettings.getKD());
-    rotationPIDController.setTolerance(rotationSettings.getTolerance(), rotationSettings.getDeltaTolerance());
+    distancePIDController = new TrigonPIDController(robotConstants.controlConstants.visionDistanceSettings);
+    rotationPIDController = new TrigonPIDController(robotConstants.controlConstants.visionRotationSettings);
+  }
+
+  /**
+   * @param target       The target the robot will follow
+   * @param dashboardKey This is the key the will be attached to the pidController
+   *                     in the smart dashboard
+   */
+  public FollowTarget(Target target, String dashboardKey) {
+    addRequirements(Robot.drivetrain);
+    this.target = target;
+    distancePIDController = new TrigonPIDController(dashboardKey);
+    rotationPIDController = new TrigonPIDController(dashboardKey);
   }
 
   @Override
   public void initialize() {
     distancePIDController.reset();
     rotationPIDController.reset();
-    distancePIDController.setSetpoint(target.getDistance());
-    rotationPIDController.setSetpoint(0);
     lastTimeSeenTarget = Timer.getFPGATimestamp();
     // Configure the limelight to start computing vision.
     limelight.startVision(target);
@@ -62,17 +65,12 @@ public class FollowTarget extends CommandBase {
   @Override
   public boolean isFinished() {
     return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.TARGET_NOT_FOUND_WAIT_TIME)
-            || (rotationPIDController.atSetpoint() && distancePIDController.atSetpoint());
+        || (rotationPIDController.atSetpoint() && distancePIDController.atSetpoint());
   }
 
   @Override
   public void end(boolean interrupted) {
     Robot.drivetrain.stopMove();
     limelight.stopVision();
-  }
-
-  public void enableTuning() {
-    SmartDashboard.putData("PID/visionRotation", rotationPIDController);
-    SmartDashboard.putData("PID/visionDistance", distancePIDController);
   }
 }
