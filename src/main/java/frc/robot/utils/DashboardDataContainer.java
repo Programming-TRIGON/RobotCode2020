@@ -22,7 +22,7 @@ public class DashboardDataContainer {
         // Mixer dashboard data:
         SmartDashboard.putNumber("Mixer/Mixer power", 0.0);
         SmartDashboard.putData("Mixer/Spin mixer",
-                new SpinMixer(() -> SmartDashboard.getNumber("Mixer/Mixer power", 0.0)));
+            new SpinMixer(() -> SmartDashboard.getNumber("Mixer/Mixer power", 0.0)));
 
         // Shooter dashboard data:
         dashboardController.addNumber("Shooter/Average shooter velocity", shooter::getAverageSpeed);
@@ -30,9 +30,9 @@ public class DashboardDataContainer {
         dashboardController.addNumber("Shooter/Right shooter velocity", shooter::getRightSpeed);
         SmartDashboard.putNumber("Shooter/Shooting velocity setpoint", ShooterVelocity.kDefault.getVelocity());
         SmartDashboard.putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() ->
-                SmartDashboard.getNumber("Shooter/Shooting velocity setpoint", 0)));
+            SmartDashboard.getNumber("Shooter/Shooting velocity setpoint", 0)));
         SmartDashboard.putData("Shooter/Set shooting velocity", new SetShooterVelocity(() ->
-                SmartDashboard.getNumber("Shooter/Shooting Velocity Setpoint", 0)));
+            SmartDashboard.getNumber("Shooter/Shooting Velocity Setpoint", 0)));
         SmartDashboard.putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
 
         // dashboardController.addBoolean(name, booleanSupplier);

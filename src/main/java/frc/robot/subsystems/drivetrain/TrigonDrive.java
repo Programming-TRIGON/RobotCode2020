@@ -66,6 +66,6 @@ public class TrigonDrive extends DifferentialDrive {
         double x = xInputCalculation(xInput);
         double y = yInputCalculation(yInput);
         curvatureDrive(sensitivity * y, sensitivity * x,
-                Math.sqrt(y * y + x * x) < threshold || Math.abs(y) < Math.abs(x));
+            Math.sqrt(y * y + x * x) < threshold || Math.abs(y) < Math.abs(x));
     }
 }

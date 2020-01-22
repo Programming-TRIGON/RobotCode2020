@@ -37,9 +37,9 @@ public class FollowPath extends CommandBase {
      */
     public FollowPath(Path path, boolean isTuning) {
         leftController = new PIDController(path.isReversed() ? robotConstants.motionProfilingConstants.kReverseKp :
-                robotConstants.motionProfilingConstants.kP, 0, 0);
+            robotConstants.motionProfilingConstants.kP, 0, 0);
         rightController = new PIDController(path.isReversed() ? robotConstants.motionProfilingConstants.kReverseKp :
-                robotConstants.motionProfilingConstants.kP, 0, 0);
+            robotConstants.motionProfilingConstants.kP, 0, 0);
 
         this.isTuning = isTuning;
         if (isTuning)
@@ -48,20 +48,20 @@ public class FollowPath extends CommandBase {
         trajectory = path.getTrajectory();
 
         ramseteCommand = new RamseteCommand(path.getTrajectory(),
-                drivetrain::getPose,
-                new RamseteController(),
-                path.isReversed() ?
-                        new SimpleMotorFeedforward(robotConstants.controlConstants.motionProfilingReverseSettings.ks,
-                                robotConstants.controlConstants.motionProfilingReverseSettings.kv,
-                                robotConstants.controlConstants.motionProfilingReverseSettings.ka) :
-                        new SimpleMotorFeedforward(robotConstants.controlConstants.motionProfilingSettings.ks,
-                                robotConstants.controlConstants.motionProfilingSettings.kv,
-                                robotConstants.controlConstants.motionProfilingSettings.ka),
-                drivetrain.getKinematics(),
-                drivetrain::getWheelSpeeds,
-                leftController,
-                rightController,
-                drivetrain::voltageTankDrive);
+            drivetrain::getPose,
+            new RamseteController(),
+            path.isReversed() ?
+                new SimpleMotorFeedforward(robotConstants.controlConstants.motionProfilingReverseSettings.ks,
+                    robotConstants.controlConstants.motionProfilingReverseSettings.kv,
+                    robotConstants.controlConstants.motionProfilingReverseSettings.ka) :
+                new SimpleMotorFeedforward(robotConstants.controlConstants.motionProfilingSettings.ks,
+                    robotConstants.controlConstants.motionProfilingSettings.kv,
+                    robotConstants.controlConstants.motionProfilingSettings.ka),
+            drivetrain.getKinematics(),
+            drivetrain::getWheelSpeeds,
+            leftController,
+            rightController,
+            drivetrain::voltageTankDrive);
         addRequirements(drivetrain);
     }
 

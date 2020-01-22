@@ -65,11 +65,11 @@ public class Path {
     public Path(boolean reversed, double startVelocity, double endVelocity, Waypoint... waypoints) {
         this.reversed = reversed;
         TrajectoryConfig config = new TrajectoryConfig(robotConstants.motionProfilingConstants.kMaxVelocity, robotConstants.motionProfilingConstants.kMaxAcceleration)
-                .addConstraint(new CentripetalAccelerationConstraint(robotConstants.motionProfilingConstants.kMaxCentripetalAcceleration))
-                .setKinematics(drivetrain.getKinematics())
-                .setReversed(reversed)
-                .setStartVelocity(startVelocity)
-                .setEndVelocity(endVelocity);
+            .addConstraint(new CentripetalAccelerationConstraint(robotConstants.motionProfilingConstants.kMaxCentripetalAcceleration))
+            .setKinematics(drivetrain.getKinematics())
+            .setReversed(reversed)
+            .setStartVelocity(startVelocity)
+            .setEndVelocity(endVelocity);
 
         trajectory = TrajectoryGenerator.generateTrajectory(Arrays.asList(waypoints), config);
     }
@@ -79,12 +79,12 @@ public class Path {
      */
     public Path(String pathName) {
         var path = Paths.get(Filesystem.getDeployDirectory() +
-                "/paths/" + pathName);
+            "/paths/" + pathName);
         try {
             trajectory = TrajectoryUtil.fromPathweaverJson(path);
         } catch (IOException e) {
             DriverStationLogger.logErrorToDS("Could not load " + pathName + " path from: " + path.toString()
-                    + "\nInitializing with an empty path");
+                + "\nInitializing with an empty path");
             trajectory = new Trajectory(List.of(new Trajectory.State()));
         }
     }
