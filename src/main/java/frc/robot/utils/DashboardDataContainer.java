@@ -25,7 +25,7 @@ public class DashboardDataContainer {
         SmartDashboard.putData("Mixer/Spin mixer",
             new SpinMixer(() -> SmartDashboard.getNumber("Mixer/Mixer power", 0.0)));
         // drivetrain dashboard data
-        SmartDashboard.putData("Rotate drivetrain PID tuning ", new RotateDrivetrain());
+        SmartDashboard.putData("Drivetrain/Tune drivetrain rotate PID", new RotateDrivetrain());
         // Shooter dashboard data:
         dashboardController.addNumber("Shooter/Average shooter velocity", shooter::getAverageSpeed);
         dashboardController.addNumber("Shooter/Left shooter velocity", shooter::getLeftSpeed);
