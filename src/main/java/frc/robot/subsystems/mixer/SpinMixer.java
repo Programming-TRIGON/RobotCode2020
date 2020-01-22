@@ -39,7 +39,7 @@ public class SpinMixer extends CommandBase {
     this.power = power;
   }
 
-	@Override
+  @Override
   public void initialize() {
     lastTimeNotOnStall = Timer.getFPGATimestamp();
     backwardsSpinStartTime = 0;

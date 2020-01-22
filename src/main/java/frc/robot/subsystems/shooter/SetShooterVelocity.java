@@ -131,6 +131,6 @@ public class SetShooterVelocity extends CommandBase {
 	 */
 	public boolean isOnTarget() {
 		return Math.abs(shooter.getAverageSpeed() - setpoint) <
-				robotConstants.controlConstants.leftShooterSettings.getTolerance();
+			robotConstants.controlConstants.leftShooterSettings.getTolerance();
 	}
 }
