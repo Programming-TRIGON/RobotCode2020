@@ -38,7 +38,7 @@ public class AutoShoot extends ParallelCommandGroup {
             sequence(
                 new TurnToTarget(Target.PowerPort, drivetrain),
                 new WaitUntilCommand(setShooterVelocity::isOnTarget),
-                new SetLoaderVelocity()
+                SetLoaderVelocity.defaultSetLoaderVelocityCommand()
             )
         );
     }
