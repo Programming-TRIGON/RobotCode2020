@@ -2,6 +2,7 @@ package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
@@ -23,7 +24,8 @@ public class DashboardDataContainer {
         SmartDashboard.putNumber("Mixer/Mixer power", 0.0);
         SmartDashboard.putData("Mixer/Spin mixer",
             new SpinMixer(() -> SmartDashboard.getNumber("Mixer/Mixer power", 0.0)));
-
+        // drivetrain dashboard data
+        SmartDashboard.putData("Drivetrain/Tune drivetrain rotate PID", new RotateDrivetrain());
         // Shooter dashboard data:
         dashboardController.addNumber("Shooter/Average shooter velocity", shooter::getAverageSpeed);
         dashboardController.addNumber("Shooter/Left shooter velocity", shooter::getLeftSpeed);

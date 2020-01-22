@@ -23,8 +23,8 @@ public class setLoaderVelocity extends CommandBase {
     }
 
     /**
-     * This class accelerates the loader subsystem to the desired velocity using
-     * PID. this constructor is used for tuning PID using the dashboard
+     * This class accelerates the loader subsystem to the desired velocity using PID.
+     * This constructor is used for tuning PID using the dashboard
      */
     public setLoaderVelocity() {
         addRequirements(loader);
