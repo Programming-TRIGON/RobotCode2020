@@ -110,8 +110,7 @@ public class CheesySetShooterVelocity extends CommandBase {
     private void spinUpExecute() {
         shooter.setVelocity(setpoint);
         // very important - we use left shooter settings tolerance
-        boolean onTarget = isOnTarget();
-        if (onTarget)
+        if (isOnTarget())
             updateKf();
         else {
             // reset kF since we are to far
