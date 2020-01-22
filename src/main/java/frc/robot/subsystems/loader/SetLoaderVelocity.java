@@ -59,22 +59,22 @@ public class SetLoaderVelocity extends CommandBase {
         robotConstants.controlConstants.loaderPidSettings.getKD());
   }
 
-  @Override
-  public void initialize() {
-    if (isTuning)
-      SmartDashboard.putData("Loader pid controller", pidController);
-    pidController.reset();
-  }
+    @Override
+    public void initialize() {
+        if (isTuning)
+            SmartDashboard.putData("Loader pid controller", pidController);
+        pidController.reset();
+    }
 
-  @Override
-  public void execute() {
-    loader.setVoltage(MathUtil.clamp(
+    @Override
+    public void execute() {
+        loader.setVoltage(MathUtil.clamp(
             pidController.calculate(loader.getVelocity(), desiredVelocity.getAsDouble()), -6, 6)
             + feedforward.calculate(desiredVelocity.getAsDouble()));
-  }
+    }
 
-  @Override
-  public void end(boolean interrupted) {
-    loader.stopMove();
-  }
+    @Override
+    public void end(boolean interrupted) {
+        loader.stopMove();
+    }
 }
