@@ -43,6 +43,6 @@ public class Loader extends SubsystemBase implements MoveableSubsystem {
     }
 
   public boolean getIsInStall() {
-    return talonSRX.getStatorCurrent() > robotConstants.loaderConstants.THRESHOLD_LIMIT;
+    return talonSRX.getStatorCurrent() > robotConstants.loaderConstants.kThresholdLimit;
   }
 }

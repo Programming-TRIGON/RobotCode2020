@@ -14,12 +14,12 @@ import static frc.robot.Robot.loader;
 import static frc.robot.Robot.robotConstants;
 
 public class SetLoaderVelocity extends CommandBase {
-  private PIDController pidController;
-  private DoubleSupplier desiredVelocity;
-  private boolean isTuning;
-  private SimpleMotorFeedforward feedforward;
-  private boolean inStall;
-  private double firstStallTimestamp;
+    private PIDController pidController;
+    private DoubleSupplier desiredVelocity;
+    private boolean isTuning;
+    private SimpleMotorFeedforward feedforward;
+    private boolean inStall;
+    private double firstStallTimestamp;
 
     /**
      * This class accelerates the loader subsystem to the desired velocity using PID
@@ -47,34 +47,33 @@ public class SetLoaderVelocity extends CommandBase {
             robotConstants.controlConstants.loaderPidSettings.getKD());
     }
 
-  @Override
-  public void initialize() {
-    if (isTuning)
-      SmartDashboard.putData("Loader pid controller", pidController);
-    pidController.reset();
-    inStall = false;
-    firstStallTimestamp = 0;
-  }
+    @Override
+    public void initialize() {
+        if (isTuning)
+            SmartDashboard.putData("PID/Loader PID controller", pidController);
+        pidController.reset();
+        inStall = false;
+        firstStallTimestamp = 0;
+    }
 
     @Override
     public void execute() {
-        if(Timer.getFPGATimestamp() - firstStallTimestamp < robotConstants.loaderConstants.kSpinBackwardsTime) {
-      loader.move(-feedforward.calculate(desiredVelocity.getAsDouble()));
-      inStall = false;
-      return;
+        if (Timer.getFPGATimestamp() - firstStallTimestamp < robotConstants.loaderConstants.kSpinBackwardsTime) {
+            loader.move(-feedforward.calculate(desiredVelocity.getAsDouble()));
+            inStall = false;
+            return;
+        }
+        if (!inStall && loader.getIsInStall() && CommandScheduler.getInstance().timeSinceScheduled(this) >
+            robotConstants.loaderConstants.kTimeout) {
+            DriverStationLogger.logToDS("A cell got stuck in the loader. Trying to unjam it now");
+            inStall = true;
+            firstStallTimestamp = Timer.getFPGATimestamp();
+            loader.move(-feedforward.calculate(desiredVelocity.getAsDouble()));
+        } else
+            loader.setVoltage(MathUtil.clamp(
+                pidController.calculate(loader.getVelocity(), desiredVelocity.getAsDouble()), -6, 6)
+                + feedforward.calculate(desiredVelocity.getAsDouble()));
     }
-    if (!inStall && loader.getIsInStall() && CommandScheduler.getInstance().timeSinceScheduled(this) >
-            robotConstants.loaderConstants.TIMEOUT) {
-      DriverStationLogger.logToDS("A cell got stuck in the loader. Trying to unjam it now");
-      inStall = true;
-      firstStallTimestamp = Timer.getFPGATimestamp();
-      loader.move(-feedforward.calculate(desiredVelocity.getAsDouble()));
-    }
-    else
-      loader.setVoltage(MathUtil.clamp(
-              pidController.calculate(loader.getVelocity(), desiredVelocity.getAsDouble()), -6, 6)
-              + feedforward.calculate(desiredVelocity.getAsDouble()));
-  }
 
     @Override
     public void end(boolean interrupted) {
