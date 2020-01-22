@@ -13,7 +13,7 @@ public class CalibrateFeedforward extends CommandBase {
     private NetworkTableEntry telemetryEntry;
     private NetworkTableEntry rotateEntry;
     private Number[] numberArray;
-    private static final double UPDATE_RATE = 0.01;
+    private static final double kUpdateRate = 0.01;
 
     /**
      * Calibrate feed-forward values for the motion profiling.
@@ -29,7 +29,7 @@ public class CalibrateFeedforward extends CommandBase {
 
     @Override
     public void initialize() {
-        NetworkTableInstance.getDefault().setUpdateRate(UPDATE_RATE);
+        NetworkTableInstance.getDefault().setUpdateRate(kUpdateRate);
     }
 
     @Override

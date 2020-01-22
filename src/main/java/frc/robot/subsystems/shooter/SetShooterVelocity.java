@@ -13,7 +13,7 @@ import static frc.robot.Robot.shooter;
  */
 public class SetShooterVelocity extends CommandBase {
 
-    private static final int LOADED_CELLS_IN_AUTO = 3;
+    private static final int kLoadedCellsInAuto = 3;
     private DoubleSupplier velocitySetpoint;
     private boolean isAuto;
     private double setpoint;
@@ -117,7 +117,7 @@ public class SetShooterVelocity extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return isAuto && cellsShot >= LOADED_CELLS_IN_AUTO;
+        return isAuto && cellsShot >= kLoadedCellsInAuto;
     }
 
     @Override

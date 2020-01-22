@@ -9,7 +9,7 @@ import static frc.robot.Robot.robotConstants;
 
 public class Limelight {
 
-    public static final String DEFAULT_TABLE_KEY = "limelight";
+    public static final String defaultTableKey = "limelight";
     private final NetworkTableEntry tv, tx, ty, ta, ts, ledMode, camMode, pipeline, snapshot;
 
     /**
@@ -30,7 +30,7 @@ public class Limelight {
     }
 
     public Limelight() {
-        this(DEFAULT_TABLE_KEY);
+        this(defaultTableKey);
     }
 
     /**

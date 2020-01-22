@@ -13,8 +13,8 @@ import static frc.robot.Robot.shooter;
  */
 public class CheesySetShooterVelocity extends CommandBase {
 
-    private static final int LOADED_CELLS_IN_AUTO = 3;
-    private static final int MINIMUM_KF_SAMPLES = 20;
+    private static final int kLoadedCellsInAuto = 3;
+    private static final int kMinimumKfSamples = 20;
     private DoubleSupplier velocitySetpoint;
     private boolean isAuto;
     private double setpoint;
@@ -99,7 +99,7 @@ public class CheesySetShooterVelocity extends CommandBase {
 
     @Override
     public void execute() {
-        if (kfSamplesAmount < MINIMUM_KF_SAMPLES)
+        if (kfSamplesAmount < kMinimumKfSamples)
             // reach target velocity in closed loop and calculate kF
             spinUpExecute();
         else
@@ -157,7 +157,7 @@ public class CheesySetShooterVelocity extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return isAuto && cellsShot >= LOADED_CELLS_IN_AUTO;
+        return isAuto && cellsShot >= kLoadedCellsInAuto;
     }
 
     @Override

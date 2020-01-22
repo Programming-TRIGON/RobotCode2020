@@ -10,10 +10,10 @@ import static frc.robot.Robot.robotConstants;
  * own based on our drivers request
  */
 public class TrigonDrive extends DifferentialDrive {
-    private static final double Y_LINEAR_THRESHOLD = 0.25;
-    private static final double Y_LINEAR_COEFFICIENT = 2;
-    private static final double X_LINEAR_THRESHOLD = 0.5;
-    private static final double X_LINEAR_COEFFICIENT = 0.5;
+    private static final double kYLinearThreshold = 0.25;
+    private static final double kYLinearCoefficient = 2;
+    private static final double kXLinearThreshold = 0.5;
+    private static final double kXLinearCoefficient = 0.5;
     private double sensitivity;
     private double threshold;
 
@@ -49,8 +49,8 @@ public class TrigonDrive extends DifferentialDrive {
      * the driver requests.
      */
     public double yInputCalculation(double value) {
-        boolean isLinear = Math.abs(value) <= Y_LINEAR_THRESHOLD;
-        return isLinear ? Y_LINEAR_COEFFICIENT * value : Math.signum(value) * Math.sqrt(Math.abs(value));
+        boolean isLinear = Math.abs(value) <= kYLinearThreshold;
+        return isLinear ? kYLinearCoefficient * value : Math.signum(value) * Math.sqrt(Math.abs(value));
     }
 
     /**
@@ -58,8 +58,8 @@ public class TrigonDrive extends DifferentialDrive {
      * the driver requests.
      */
     public double xInputCalculation(double value) {
-        boolean isLinear = Math.abs(value) <= X_LINEAR_THRESHOLD;
-        return isLinear ? X_LINEAR_COEFFICIENT * value : Math.signum(value) * Math.pow(value, 2);
+        boolean isLinear = Math.abs(value) <= kXLinearThreshold;
+        return isLinear ? kXLinearCoefficient * value : Math.signum(value) * Math.pow(value, 2);
     }
 
     public void trigonCurvatureDrive(double xInput, double yInput) {
