@@ -21,31 +21,31 @@ public class SetLoaderVelocity extends CommandBase {
   private boolean inStall;
   private double firstStallTimestamp;
 
-  /**
-   * This class accelerates the loader subsystem to the desired velocity using PID
-   *
-   * @param desiredVelocity in rotation per minute
-   */
-  public SetLoaderVelocity(DoubleSupplier desiredVelocity) {
-    this(desiredVelocity, false);
-  }
+    /**
+     * This class accelerates the loader subsystem to the desired velocity using PID
+     *
+     * @param desiredVelocity in rotation per minute
+     */
+    public SetLoaderVelocity(DoubleSupplier desiredVelocity) {
+        this(desiredVelocity, false);
+    }
 
-  /**
-   * This class accelerates the loader subsystem to the desired velocity using PID
-   *
-   * @param desiredVelocity in rotation per minute
-   * @param isTuning        if true the pid gets its values from the smart
-   *                        dashboard allowing the user to tune the PID values
-   */
-  public SetLoaderVelocity(DoubleSupplier desiredVelocity, boolean isTuning) {
-    addRequirements(loader);
-    this.desiredVelocity = desiredVelocity;
-    this.isTuning = isTuning;
-    feedforward = robotConstants.controlConstants.loaderFeedforward;
-    pidController = new PIDController(robotConstants.controlConstants.loaderPidSettings.getKP(),
-        robotConstants.controlConstants.loaderPidSettings.getKI(),
-        robotConstants.controlConstants.loaderPidSettings.getKD());
-  }
+    /**
+     * This class accelerates the loader subsystem to the desired velocity using PID
+     *
+     * @param desiredVelocity in rotation per minute
+     * @param isTuning        if true the pid gets its values from the smart
+     *                        dashboard allowing the user to tune the PID values
+     */
+    public SetLoaderVelocity(DoubleSupplier desiredVelocity, boolean isTuning) {
+        addRequirements(loader);
+        this.desiredVelocity = desiredVelocity;
+        this.isTuning = isTuning;
+        feedforward = robotConstants.controlConstants.loaderFeedforward;
+        pidController = new PIDController(robotConstants.controlConstants.loaderPidSettings.getKP(),
+            robotConstants.controlConstants.loaderPidSettings.getKI(),
+            robotConstants.controlConstants.loaderPidSettings.getKD());
+    }
 
   @Override
   public void initialize() {
@@ -56,9 +56,9 @@ public class SetLoaderVelocity extends CommandBase {
     firstStallTimestamp = 0;
   }
 
-  @Override
-  public void execute() {
-    if(Timer.getFPGATimestamp() - firstStallTimestamp < robotConstants.loaderConstants.kSpinBackwardsTime) {
+    @Override
+    public void execute() {
+        if(Timer.getFPGATimestamp() - firstStallTimestamp < robotConstants.loaderConstants.kSpinBackwardsTime) {
       loader.move(-feedforward.calculate(desiredVelocity.getAsDouble()));
       inStall = false;
       return;
@@ -76,8 +76,8 @@ public class SetLoaderVelocity extends CommandBase {
               + feedforward.calculate(desiredVelocity.getAsDouble()));
   }
 
-  @Override
-  public void end(boolean interrupted) {
-    loader.stopMove();
-  }
+    @Override
+    public void end(boolean interrupted) {
+        loader.stopMove();
+    }
 }
