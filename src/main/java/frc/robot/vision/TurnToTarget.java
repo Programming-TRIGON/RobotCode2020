@@ -10,8 +10,8 @@ import static frc.robot.Robot.limelight;
 import static frc.robot.Robot.robotConstants;
 
 /**
- * this is just template for a subsystem turn to target command.
- * It will be probably changed according the game and the robot.
+ * this is just template for a subsystem turn to target command. It will be
+ * probably changed according the game and the robot.
  */
 public class TurnToTarget extends CommandBase {
     private MoveableSubsystem subsystem;
