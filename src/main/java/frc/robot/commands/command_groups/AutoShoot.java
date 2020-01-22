@@ -21,33 +21,33 @@ import static frc.robot.Robot.shooter;
  */
 public class AutoShoot extends ParallelCommandGroup {
 
-	/**
-	 * @param speedSupplier supplier of the desired speed
-	 */
-	public AutoShoot(Supplier<ShooterVelocity> speedSupplier) {
-		this(() -> speedSupplier.get().getVelocity());
-	}
+    /**
+     * @param speedSupplier supplier of the desired speed
+     */
+    public AutoShoot(Supplier<ShooterVelocity> speedSupplier) {
+        this(() -> speedSupplier.get().getVelocity());
+    }
 
-	/**
-	 * @param speedSupplier supplier of the desired speed in RPM
-	 */
-	public AutoShoot(DoubleSupplier speedSupplier) {
-		CheesySetShooterVelocity setShooterVelocity = new CheesySetShooterVelocity(speedSupplier);
-		addCommands(
-				setShooterVelocity,
-				new SpinMixer(),
-				sequence(
-						new TurnToTarget(Target.PowerPort, drivetrain),
-						new WaitUntilCommand(setShooterVelocity::isOnTarget),
-						new SetLoaderVelocity()
-				)
-		);
-	}
+    /**
+     * @param speedSupplier supplier of the desired speed in RPM
+     */
+    public AutoShoot(DoubleSupplier speedSupplier) {
+        CheesySetShooterVelocity setShooterVelocity = new CheesySetShooterVelocity(speedSupplier);
+        addCommands(
+            setShooterVelocity,
+            new SpinMixer(),
+            sequence(
+                new TurnToTarget(Target.PowerPort, drivetrain),
+                new WaitUntilCommand(setShooterVelocity::isOnTarget),
+                new SetLoaderVelocity()
+            )
+        );
+    }
 
-	@Override
-	public void end(boolean interrupted) {
-		super.end(interrupted);
-		// We stop the shooter since the SetShooterCommand does not stop the motors.
-		shooter.stopMove();
-	}
+    @Override
+    public void end(boolean interrupted) {
+        super.end(interrupted);
+        // We stop the shooter since the SetShooterCommand does not stop the motors.
+        shooter.stopMove();
+    }
 }
