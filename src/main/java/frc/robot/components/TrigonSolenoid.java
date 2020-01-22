@@ -7,26 +7,26 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  * solenoid class
  */
 public class TrigonSolenoid extends DoubleSolenoid {
-	public TrigonSolenoid(final int forwardChannel, final int reverseChannel) {
-		super(forwardChannel, reverseChannel);
-	}
+    public TrigonSolenoid(final int forwardChannel, final int reverseChannel) {
+        super(forwardChannel, reverseChannel);
+    }
 
-	/**
-	 * @param state pushes the solenoid forward if true else it pulls it
-	 */
-	public void set(boolean state) {
-		set(state ? Value.kForward : Value.kReverse);
-	}
+    /**
+     * @param state pushes the solenoid forward if true else it pulls it
+     */
+    public void set(boolean state) {
+        set(state ? Value.kForward : Value.kReverse);
+    }
 
-	public boolean isOn() {
-		return get() != Value.kOff;
-	}
+    public boolean isOn() {
+        return get() != Value.kOff;
+    }
 
-	public boolean isPushed() {
-		return get() == Value.kForward;
-	}
+    public boolean isPushed() {
+        return get() == Value.kForward;
+    }
 
-	public void off() {
-		set(Value.kOff);
-	}
+    public void off() {
+        set(Value.kOff);
+    }
 }

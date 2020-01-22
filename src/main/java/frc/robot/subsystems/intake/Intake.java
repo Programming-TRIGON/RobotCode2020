@@ -13,17 +13,17 @@ import static frc.robot.Robot.robotConstants;
  * into the robot.
  */
 public class Intake extends SubsystemBase implements MoveableSubsystem {
-	private CANSparkMax sparkMax;
+    private CANSparkMax sparkMax;
 
-	public Intake() {
-		sparkMax = new CANSparkMax(robotConstants.can.INTAKE_SPARK_MAX, MotorType.kBrushless);
-		sparkMax.setInverted(robotConstants.intakeConstants.kIntakeReversed);
-		sparkMax.setIdleMode(IdleMode.kCoast);
-		sparkMax.burnFlash();
-	}
+    public Intake() {
+        sparkMax = new CANSparkMax(robotConstants.can.INTAKE_SPARK_MAX, MotorType.kBrushless);
+        sparkMax.setInverted(robotConstants.intakeConstants.kIntakeReversed);
+        sparkMax.setIdleMode(IdleMode.kCoast);
+        sparkMax.burnFlash();
+    }
 
-	@Override
-	public void move(double power) {
-		sparkMax.set(power);
-	}
+    @Override
+    public void move(double power) {
+        sparkMax.set(power);
+    }
 }

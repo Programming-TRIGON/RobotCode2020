@@ -10,12 +10,12 @@ import static frc.robot.Robot.led;
  */
 public class DriverStationLogger {
 
-	public static void logToDS(String log) {
-		System.out.println("DS log: " + log);
-	}
+    public static void logToDS(String log) {
+        System.out.println("DS log: " + log);
+    }
 
-	public static void logErrorToDS(String errorLog) {
-		led.startEmergencyLED();
-		System.err.println("!!!!!!!!!!!!!!!!!!! DS error log: " + errorLog + " !!!!!!!!!!!!!!!!!!!");
-	}
+    public static void logErrorToDS(String errorLog) {
+        led.startEmergencyLED();
+        System.err.println("!!!!!!!!!!!!!!!!!!! DS error log: " + errorLog + " !!!!!!!!!!!!!!!!!!!");
+    }
 }

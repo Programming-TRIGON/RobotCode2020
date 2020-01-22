@@ -5,7 +5,7 @@ package frc.robot;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-	public OI() {
+    public OI() {
 
-	}
+    }
 }

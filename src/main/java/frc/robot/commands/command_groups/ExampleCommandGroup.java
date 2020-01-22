@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
  * For example, this parallel command group.
  */
 public class ExampleCommandGroup extends ParallelCommandGroup {
-	/**
-	 * Creates a new ExampleCommandGroup.
-	 */
-	public ExampleCommandGroup() {
-	}
+    /**
+     * Creates a new ExampleCommandGroup.
+     */
+    public ExampleCommandGroup() {
+    }
 }

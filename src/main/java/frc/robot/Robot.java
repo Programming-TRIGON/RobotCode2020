@@ -21,96 +21,96 @@ import frc.robot.vision.Limelight;
 
 public class Robot extends TimedRobot {
 
-	private Command autoCommand;
-	private SendableChooser<Command> autoChooser;
-	private DashboardDataContainer dashboardDataContainer;
+    private Command autoCommand;
+    private SendableChooser<Command> autoChooser;
+    private DashboardDataContainer dashboardDataContainer;
 
-	public static Drivetrain drivetrain;
-	public static Intake intake;
-	public static Mixer mixer;
-	public static Loader loader;
-	public static Shooter shooter;
-	public static Climb climb;
-	public static LED led;
-	public static Limelight limelight;
-	public static RobotConstants robotConstants;
-	public static FieldConstants fieldConstants;
+    public static Drivetrain drivetrain;
+    public static Intake intake;
+    public static Mixer mixer;
+    public static Loader loader;
+    public static Shooter shooter;
+    public static Climb climb;
+    public static LED led;
+    public static Limelight limelight;
+    public static RobotConstants robotConstants;
+    public static FieldConstants fieldConstants;
 
-	@Override
-	public void robotInit() {
+    @Override
+    public void robotInit() {
 
-		// Subsystems:
-		drivetrain = new Drivetrain();
-		intake = new Intake();
-		mixer = new Mixer();
-		loader = new Loader();
-		shooter = new Shooter();
-		climb = new Climb();
-		led = new LED();
+        // Subsystems:
+        drivetrain = new Drivetrain();
+        intake = new Intake();
+        mixer = new Mixer();
+        loader = new Loader();
+        shooter = new Shooter();
+        climb = new Climb();
+        led = new LED();
 
-		// Utils:
-		dashboardDataContainer = new DashboardDataContainer();
-		limelight = new Limelight();
+        // Utils:
+        dashboardDataContainer = new DashboardDataContainer();
+        limelight = new Limelight();
 
-		// Constants:
-		robotConstants = new RobotA();
-		fieldConstants = new HomeField();
+        // Constants:
+        robotConstants = new RobotA();
+        fieldConstants = new HomeField();
 
-		autoChooser = new SendableChooser<>();
-		// autoChooser.setDefaultOption(name, object);
-		// autoChooser.addOption(name, object);
+        autoChooser = new SendableChooser<>();
+        // autoChooser.setDefaultOption(name, object);
+        // autoChooser.addOption(name, object);
 
-		DriverStationLogger.logToDS("Robot initialization complete");
-	}
+        DriverStationLogger.logToDS("Robot initialization complete");
+    }
 
-	@Override
-	public void robotPeriodic() {
-		CommandScheduler.getInstance().run();
-		dashboardDataContainer.update();
-	}
+    @Override
+    public void robotPeriodic() {
+        CommandScheduler.getInstance().run();
+        dashboardDataContainer.update();
+    }
 
-	@Override
-	public void disabledInit() {
-	}
+    @Override
+    public void disabledInit() {
+    }
 
-	@Override
-	public void disabledPeriodic() {
-	}
+    @Override
+    public void disabledPeriodic() {
+    }
 
-	@Override
-	public void autonomousInit() {
-		DriverStationLogger.logToDS("Autonomous starting");
-		led.stopEmergencyLED();
+    @Override
+    public void autonomousInit() {
+        DriverStationLogger.logToDS("Autonomous starting");
+        led.stopEmergencyLED();
 
-		autoCommand = autoChooser.getSelected();
-		if (autoCommand != null) {
-			autoCommand.schedule();
-		}
-	}
+        autoCommand = autoChooser.getSelected();
+        if (autoCommand != null) {
+            autoCommand.schedule();
+        }
+    }
 
-	@Override
-	public void autonomousPeriodic() {
-	}
+    @Override
+    public void autonomousPeriodic() {
+    }
 
-	@Override
-	public void teleopInit() {
-		DriverStationLogger.logToDS("Teleop starting");
-		if (autoCommand != null) {
-			autoCommand.cancel();
-		}
-	}
+    @Override
+    public void teleopInit() {
+        DriverStationLogger.logToDS("Teleop starting");
+        if (autoCommand != null) {
+            autoCommand.cancel();
+        }
+    }
 
-	@Override
-	public void teleopPeriodic() {
-	}
+    @Override
+    public void teleopPeriodic() {
+    }
 
-	@Override
-	public void testInit() {
-		// Cancels all running commands at the start of test mode.
-		CommandScheduler.getInstance().cancelAll();
-	}
+    @Override
+    public void testInit() {
+        // Cancels all running commands at the start of test mode.
+        CommandScheduler.getInstance().cancelAll();
+    }
 
-	@Override
-	public void testPeriodic() {
-	}
+    @Override
+    public void testPeriodic() {
+    }
 }
