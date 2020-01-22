@@ -107,19 +107,19 @@ public class CheesySetShooterVelocity extends CommandBase {
             holdExecute();
     }
 
-	private void spinUpExecute() {
-		shooter.setVelocity(setpoint);
-		// very important - we use left shooter settings tolerance
-		boolean onTarget = isOnTarget();
-		if (onTarget)
-			updateKf();
-		else {
-			// reset kF since we are to far
-			kfSamplesAmount = 0;
-			leftKfSamplesSum = 0;
-			rightKfSamplesSum = 0;
-		}
-	}
+    private void spinUpExecute() {
+        shooter.setVelocity(setpoint);
+        // very important - we use left shooter settings tolerance
+        boolean onTarget = isOnTarget();
+        if (onTarget)
+            updateKf();
+        else {
+            // reset kF since we are to far
+            kfSamplesAmount = 0;
+            leftKfSamplesSum = 0;
+            rightKfSamplesSum = 0;
+        }
+    }
 
     private void holdExecute() {
         double leftFeedforward = setpoint * leftKfSamplesSum / kfSamplesAmount;
@@ -161,19 +161,19 @@ public class CheesySetShooterVelocity extends CommandBase {
         return isAuto && cellsShot >= LOADED_CELLS_IN_AUTO;
     }
 
-	@Override
-	public void end(boolean interrupted) {
-		if (!interrupted)
-			shooter.stopMove();
-	}
+    @Override
+    public void end(boolean interrupted) {
+        if (!interrupted)
+            shooter.stopMove();
+    }
 
-	/**
-	 * @return whether the shooter is on target velocity.
-	 * Tolerance is taken from {@link frc.robot.constants.RobotConstants.ControlConstants#leftShooterSettings}
-	 */
-	public boolean isOnTarget() {
-		return Math.abs(shooter.getAverageSpeed() - setpoint) <
-				robotConstants.controlConstants.leftShooterSettings.getTolerance();
-	}
+    /**
+     * @return whether the shooter is on target velocity.
+     * Tolerance is taken from {@link frc.robot.constants.RobotConstants.ControlConstants#leftShooterSettings}
+     */
+    public boolean isOnTarget() {
+        return Math.abs(shooter.getAverageSpeed() - setpoint) <
+            robotConstants.controlConstants.leftShooterSettings.getTolerance();
+    }
 
 }

@@ -16,13 +16,13 @@ public class SpinMixer extends CommandBase {
     private double lastTimeNotOnStall;
     private double backwardsSpinStartTime;
 
-  /**
-   * This constructor creates the command that spins
-   * the mixer at the power of {@link frc.robot.constants.RobotConstants.MixerConstants#kDefaultPower}
-   */
-  public SpinMixer() {
-    this(robotConstants.mixerConstants.kDefaultPower);
-  }
+    /**
+     * This constructor creates the command that spins
+     * the mixer at the power of {@link frc.robot.constants.RobotConstants.MixerConstants#kDefaultPower}
+     */
+    public SpinMixer() {
+        this(robotConstants.mixerConstants.kDefaultPower);
+    }
 
     /**
      * gets a double for motor power

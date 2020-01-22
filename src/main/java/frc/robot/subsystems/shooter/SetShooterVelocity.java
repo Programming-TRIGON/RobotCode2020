@@ -120,18 +120,18 @@ public class SetShooterVelocity extends CommandBase {
         return isAuto && cellsShot >= LOADED_CELLS_IN_AUTO;
     }
 
-	@Override
-	public void end(boolean interrupted) {
-		if (!interrupted)
-			shooter.stopMove();
-	}
+    @Override
+    public void end(boolean interrupted) {
+        if (!interrupted)
+            shooter.stopMove();
+    }
 
-	/**
-	 * @return whether the shooter is on target velocity.
-	 * Tolerance is taken from {@link frc.robot.constants.RobotConstants.ControlConstants#leftShooterSettings}
-	 */
-	public boolean isOnTarget() {
-		return Math.abs(shooter.getAverageSpeed() - setpoint) <
-			robotConstants.controlConstants.leftShooterSettings.getTolerance();
-	}
+    /**
+     * @return whether the shooter is on target velocity.
+     * Tolerance is taken from {@link frc.robot.constants.RobotConstants.ControlConstants#leftShooterSettings}
+     */
+    public boolean isOnTarget() {
+        return Math.abs(shooter.getAverageSpeed() - setpoint) <
+            robotConstants.controlConstants.leftShooterSettings.getTolerance();
+    }
 }
