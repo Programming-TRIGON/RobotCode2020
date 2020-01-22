@@ -17,7 +17,6 @@ import static frc.robot.Robot.shooter;
 /**
  * This command group responsible for spinning the mixer, rotating the drivetrain to target, spinning the shooter in the desired speed,
  * and loading and shooting the cells once it reaches the desired speed.
- *
  */
 public class AutoShoot extends ParallelCommandGroup {
 
