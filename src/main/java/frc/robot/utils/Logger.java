@@ -1,8 +1,6 @@
-
 package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.Filesystem;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,7 +19,7 @@ public class Logger {
     private StringBuilder data;
 
     /**
-     * @param name the name of the file. Should end with .csv
+     * @param name    the name of the file. Should end with .csv
      * @param columns the columns name (ex. velocity, acceleration)
      */
     public Logger(String name, String... columns) {
@@ -46,7 +44,7 @@ public class Logger {
      * @param values The values that the logger will log. Each value is logged in it's respective column.
      *               Make sure to enter the values in the same order column names have been entered in the constructor.
      */
-    public void log(double ... values) {
+    public void log(double... values) {
         String[] array = new String[values.length];
         for (int i = 0; i < values.length; i++) {
             array[i] = Double.toString(values[i]);

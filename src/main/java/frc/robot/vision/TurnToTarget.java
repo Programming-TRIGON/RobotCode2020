@@ -10,30 +10,30 @@ import static frc.robot.Robot.limelight;
 import static frc.robot.Robot.robotConstants;
 
 /**
- * this is just template for a subsystem turn to target command. It will be
- * probably changed according the game and the robot.
+ * this is just template for a subsystem turn to target command.
+ * It will be probably changed according the game and the robot.
  */
 public class TurnToTarget extends CommandBase {
-  private MoveableSubsystem subsystem;
-  private Target target;
-  private TrigonPIDController rotationPIDController;
-  private double lastTimeSeenTarget;
+    private MoveableSubsystem subsystem;
+    private Target target;
+    private TrigonPIDController rotationPIDController;
+    private double lastTimeSeenTarget;
 
-  /**
-   * @param target    The target the robot will follow
-   * @param subsystem The subsystem to require
-   */
-  public TurnToTarget(Target target, MoveableSubsystem subsystem) {
-    addRequirements(subsystem);
-    this.target = target;
-    this.subsystem = subsystem;
-    PIDSettings rotationSettings = robotConstants.controlConstants.visionRotationSettings;
-    rotationPIDController = new TrigonPIDController(rotationSettings, 0);
+    /**
+     * @param target    The target the robot will follow
+     * @param subsystem The subsystem to require
+     */
+    public TurnToTarget(Target target, MoveableSubsystem subsystem) {
+        addRequirements(subsystem);
+        this.target = target;
+        this.subsystem = subsystem;
+        PIDSettings rotationSettings = robotConstants.controlConstants.visionRotationSettings;
+        rotationPIDController = new TrigonPIDController(rotationSettings, 0);
   }
 
   /**
    * This constructor is used for PID tuning
-   * 
+   *
    * @param target       The target the robot will follow
    * @param subsystem    The subsystem to require
    * @param dashboardKey This is the key the will be attached to the pidController
@@ -43,32 +43,32 @@ public class TurnToTarget extends CommandBase {
     addRequirements(subsystem);
     this.target = target;
     this.subsystem = subsystem;
-    rotationPIDController = new TrigonPIDController(dashboardKey);
-  }
+        rotationPIDController = new TrigonPIDController(dashboardKey);
+    }
 
-  @Override
-  public void initialize() {
-    rotationPIDController.reset();
-    lastTimeSeenTarget = Timer.getFPGATimestamp();
+    @Override
+    public void initialize() {
+        rotationPIDController.reset();
+        lastTimeSeenTarget = Timer.getFPGATimestamp();
     // Configure the limelight to start computing vision.
     limelight.startVision(target);
   }
 
-  @Override
-  public void execute() {
-    if (limelight.getTv()) {
-      subsystem.move(rotationPIDController.calculate(limelight.getAngle()));
-      lastTimeSeenTarget = Timer.getFPGATimestamp();
-    } else
-      // The target wasn't found
-      subsystem.stopMove();
-  }
+    @Override
+    public void execute() {
+        if (limelight.getTv()) {
+            subsystem.move(rotationPIDController.calculate(limelight.getAngle()));
+            lastTimeSeenTarget = Timer.getFPGATimestamp();
+        } else
+            // The target wasn't found
+            subsystem.stopMove();
+    }
 
-  @Override
-  public boolean isFinished() {
-    return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.TARGET_NOT_FOUND_WAIT_TIME)
+    @Override
+    public boolean isFinished() {
+        return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.kTargetNotFoundWaitTime)
         || rotationPIDController.atSetpoint();
-  }
+    }
 
   @Override
   public void end(boolean interrupted) {
