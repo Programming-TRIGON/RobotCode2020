@@ -163,7 +163,8 @@ public class CheesySetShooterVelocity extends CommandBase {
 
 	@Override
 	public void end(boolean interrupted) {
-		shooter.stopMove();
+		if (!interrupted)
+			shooter.stopMove();
 	}
 
 	/**

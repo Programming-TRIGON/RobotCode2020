@@ -46,6 +46,7 @@ public class AutoShoot extends ParallelCommandGroup {
 
 	@Override
 	public void end(boolean interrupted) {
+		super.end(interrupted);
 		// We stop the shooter since the SetShooterCommand does not stop the motors.
 		shooter.stopMove();
 	}
