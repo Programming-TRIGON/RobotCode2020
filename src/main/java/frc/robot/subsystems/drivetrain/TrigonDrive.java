@@ -10,31 +10,28 @@ import static frc.robot.Robot.robotConstants;
  * own based on our drivers request
  */
 public class TrigonDrive extends DifferentialDrive {
-    private double sensitivity;
-    private double threshold;
     private static final double Y_LINEAR_THRESHOLD = 0.25;
     private static final double Y_LINEAR_COEFFICIENT = 2;
     private static final double X_LINEAR_THRESHOLD = 0.5;
     private static final double X_LINEAR_COEFFICIENT = 0.5;
+    private double sensitivity;
+    private double threshold;
 
     public TrigonDrive(SpeedController leftMotor, SpeedController rightMotor) {
         super(leftMotor, rightMotor);
-        this.sensitivity = robotConstants.TrigonDriveConstants.SENSITIVITY;
-        this.threshold = robotConstants.TrigonDriveConstants.THRESHOLD;
+        this.sensitivity = robotConstants.trigonDriveConstants.kSensitivity;
+        this.threshold = robotConstants.trigonDriveConstants.kThreshold;
     }
 
     /**
      * sets the sensitivity of the joystick to multiply it by the input given later.
-     * 
+     *
      * @param sensitivity the sensitivity to of the joystick.
      */
     public void setSensitivity(double sensitivity) {
         this.sensitivity = sensitivity;
     }
 
-    /**
-     * gets the sensitivity of the joystick to multiply it by the input given later.
-     */
     public double getSensitivity() {
         return sensitivity;
     }
@@ -69,6 +66,6 @@ public class TrigonDrive extends DifferentialDrive {
         double x = xInputCalculation(xInput);
         double y = yInputCalculation(yInput);
         curvatureDrive(sensitivity * y, sensitivity * x,
-                Math.sqrt(y * y + x * x) < threshold || Math.abs(y) < Math.abs(x));
+            Math.sqrt(y * y + x * x) < threshold || Math.abs(y) < Math.abs(x));
     }
 }
