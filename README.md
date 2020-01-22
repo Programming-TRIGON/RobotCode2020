@@ -48,5 +48,4 @@ The code is written in Java and is based of WPILib Java control system.
 - [`frc.robot.vision`](src/main/java/frc/robot/vision)
 
     Contains various classes that help with tracking and following vision targets using limelight 2.
-
-![logo](images/TrigonLogo.png | width=100)
+![logo](images/TrigonLogo.png)
