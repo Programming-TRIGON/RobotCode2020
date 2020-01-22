@@ -60,7 +60,7 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
     // TODO: set correct port for pigeon gyro.
     gyro = new Pigeon(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON_FX);
 
-    kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.WHEEL_BASE_WIDTH);
+    kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.kWheelBaseWidth);
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
   }
 

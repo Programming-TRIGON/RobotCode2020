@@ -14,10 +14,10 @@ public class RobotA extends RobotConstants {
     public RobotA() {
         /* Robot Constants */
         // Drivetrain Constants
-        drivetrainConstants.WHEEL_DIAMETER = 0;
-        drivetrainConstants.WHEEL_BASE_WIDTH = 0;
-        drivetrainConstants.ROBOT_LENGTH = 0;
-        drivetrainConstants.ROBOT_WIDTH = 0;
+        drivetrainConstants.kWheelDiameter = 0;
+        drivetrainConstants.kWheelBaseWidth = 0;
+        drivetrainConstants.kRobotLength = 0;
+        drivetrainConstants.kRobotWidth = 0;
         drivetrainConstants.LEFT_ENCODER_TICKS_PER_METER = 1;
         drivetrainConstants.RIGHT_ENCODER_TICKS_PER_METER = 1;
         drivetrainConstants.RAMP_RATE = 1;
@@ -26,8 +26,8 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.TRIGGER_THRESHOLD_TIME = 1;
 
         // Trigon Drive Constants
-        TrigonDriveConstants.SENSITIVITY = 1;
-        TrigonDriveConstants.THRESHOLD = 0.5;
+        trigonDriveConstants.SENSITIVITY = 1;
+        trigonDriveConstants.THRESHOLD = 0.5;
 
         // Intake Constants
         intakeConstants.kIntakeReversed = false;
