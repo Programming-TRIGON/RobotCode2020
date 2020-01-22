@@ -72,6 +72,7 @@ public abstract class RobotConstants extends RobotMap {
         public double THRESHOLD_LIMIT;
         public double TIMEOUT;
         public double TICKS_PER_ROTATION;
+        public double kSpinBackwardsTime;
     }
 
     /** Control constants contain control value such as kp, kv for control loops */
