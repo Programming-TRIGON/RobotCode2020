@@ -1,10 +1,9 @@
 package frc.robot.utils;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
-
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * DashboardController posts data on the dashboard with given suppliers.
