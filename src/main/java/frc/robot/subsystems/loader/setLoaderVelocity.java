@@ -9,38 +9,38 @@ import static frc.robot.Robot.robotConstants;
 
 public class setLoaderVelocity extends CommandBase {
     private SimpleMotorFeedforward feedforward;
-  private TrigonPIDController pidController;
+    private TrigonPIDController pidController;
 
-  /**
-   * This class accelerates the loader subsystem to the desired velocity using PID.
+    /**
+     * This class accelerates the loader subsystem to the desired velocity using PID.
      *
      * @param desiredVelocity in rotation per minute
      */
     public setLoaderVelocity(double desiredVelocity) {
         addRequirements(loader);
-    feedforward = robotConstants.controlConstants.loaderFeedforward;
-    pidController = new TrigonPIDController(robotConstants.controlConstants.loaderPidSettings, desiredVelocity);
+        feedforward = robotConstants.controlConstants.loaderFeedforward;
+        pidController = new TrigonPIDController(robotConstants.controlConstants.loaderPidSettings, desiredVelocity);
     }
 
-  /**
-   * This class accelerates the loader subsystem to the desired velocity using PID.
-   * This constructor is used for tuning PID using the dashboard
+    /**
+     * This class accelerates the loader subsystem to the desired velocity using PID.
+     * This constructor is used for tuning PID using the dashboard
      */
     public setLoaderVelocity() {
         addRequirements(loader);
         feedforward = robotConstants.controlConstants.loaderFeedforward;
-    pidController = new TrigonPIDController("Loader pid controller");
+        pidController = new TrigonPIDController("Loader pid controller");
     }
 
     @Override
     public void initialize() {
         pidController.reset();
-  }
+    }
 
     @Override
     public void execute() {
         loader.setVoltage(
-        pidController.calculate(loader.getVelocity(), -6, 6) + feedforward.calculate(pidController.getSetpoint()));
+            pidController.calculate(loader.getVelocity(), -6, 6) + feedforward.calculate(pidController.getSetpoint()));
     }
 
     @Override

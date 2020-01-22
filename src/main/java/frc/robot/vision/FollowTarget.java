@@ -18,26 +18,26 @@ public class FollowTarget extends CommandBase {
     private TrigonPIDController distancePIDController;
     private double lastTimeSeenTarget;
 
-  /**
-   * @param target The target the robot will follow
-   */
+    /**
+     * @param target The target the robot will follow
+     */
     public FollowTarget(Target target) {
         addRequirements(Robot.drivetrain);
         this.target = target;
         distancePIDController = new TrigonPIDController(robotConstants.controlConstants.visionDistanceSettings);
         rotationPIDController = new TrigonPIDController(robotConstants.controlConstants.visionRotationSettings);
-  }
+    }
 
-  /**
-   * @param target       The target the robot will follow
-   * @param dashboardKey This is the key the will be attached to the pidController
-   *                     in the smart dashboard
-   */
-  public FollowTarget(Target target, String dashboardKey) {
-    addRequirements(Robot.drivetrain);
-    this.target = target;
-    distancePIDController = new TrigonPIDController(dashboardKey);
-    rotationPIDController = new TrigonPIDController(dashboardKey);
+    /**
+     * @param target       The target the robot will follow
+     * @param dashboardKey This is the key the will be attached to the pidController
+     *                     in the smart dashboard
+     */
+    public FollowTarget(Target target, String dashboardKey) {
+        addRequirements(Robot.drivetrain);
+        this.target = target;
+        distancePIDController = new TrigonPIDController(dashboardKey);
+        rotationPIDController = new TrigonPIDController(dashboardKey);
     }
 
     @Override
@@ -45,9 +45,9 @@ public class FollowTarget extends CommandBase {
         distancePIDController.reset();
         rotationPIDController.reset();
         lastTimeSeenTarget = Timer.getFPGATimestamp();
-    // Configure the limelight to start computing vision.
-    limelight.startVision(target);
-  }
+        // Configure the limelight to start computing vision.
+        limelight.startVision(target);
+    }
 
     @Override
     public void execute() {
@@ -64,12 +64,12 @@ public class FollowTarget extends CommandBase {
     @Override
     public boolean isFinished() {
         return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.kTargetNotFoundWaitTime)
-        || (rotationPIDController.atSetpoint() && distancePIDController.atSetpoint());
+            || (rotationPIDController.atSetpoint() && distancePIDController.atSetpoint());
     }
 
-  @Override
-  public void end(boolean interrupted) {
-    Robot.drivetrain.stopMove();
-    limelight.stopVision();
-  }
+    @Override
+    public void end(boolean interrupted) {
+        Robot.drivetrain.stopMove();
+        limelight.stopVision();
+    }
 }
