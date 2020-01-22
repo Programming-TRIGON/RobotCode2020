@@ -10,19 +10,19 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstraint;
-import frc.robot.Robot;
 import frc.robot.utils.DriverStationLogger;
 
 import static frc.robot.Robot.robotConstants;
+import static frc.robot.Robot.drivetrain;;
 
 /**
  * Class for creating a new path for motion profiling path following.  
  */
 public class Path {
-    private Trajectory trajectory;
-    private boolean reversed;
     private static final double DEFAULT_START_PATH_VELOCITY = 0.0;
     private static final double DEFAULT_END_PATH_VELOCITY = 0.0;
+    private Trajectory trajectory;
+    private boolean reversed;
 
     /**
      * Creates new path for motion profiling with default configuration. 
@@ -61,11 +61,11 @@ public class Path {
     public Path(boolean reversed, double startVelocity, double endVelocity, Waypoint... waypoints) {
         this.reversed = reversed;
         TrajectoryConfig config = new TrajectoryConfig(robotConstants.motionProfilingConstants.MAX_VELOCITY, robotConstants.motionProfilingConstants.MAX_ACCELERATION)
-                .addConstraint(new CentripetalAccelerationConstraint(robotConstants.motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION))
-                .setKinematics(Robot.drivetrain.getKinematics())
-                .setReversed(reversed)
-                .setStartVelocity(startVelocity)
-                .setEndVelocity(endVelocity);
+            .addConstraint(new CentripetalAccelerationConstraint(robotConstants.motionProfilingConstants.MAX_CENTRIPETAL_ACCELERATION))
+            .setKinematics(drivetrain.getKinematics())
+            .setReversed(reversed)
+            .setStartVelocity(startVelocity)
+            .setEndVelocity(endVelocity);
 
         trajectory = TrajectoryGenerator.generateTrajectory(Arrays.asList(waypoints), config);
     }
@@ -75,12 +75,12 @@ public class Path {
      */
     public Path(String pathName) {
         var path = Paths.get(Filesystem.getDeployDirectory() +
-                "/paths/" + pathName);
+            "/paths/" + pathName);
         try {
             trajectory = TrajectoryUtil.fromPathweaverJson(path);
         } catch (IOException e) {
             DriverStationLogger.logErrorToDS("Could not load " + pathName + " path from: " + path.toString()
-                    + "\nInitializing with an empty path");        
+                + "\nInitializing with an empty path");        
             trajectory = new Trajectory(List.of(new Trajectory.State()));
         }
     }
