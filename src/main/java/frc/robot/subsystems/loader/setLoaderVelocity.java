@@ -38,8 +38,8 @@ public class setLoaderVelocity extends CommandBase {
         this.isTuning = isTuning;
         feedforward = robotConstants.controlConstants.loaderFeedforward;
         pidController = new PIDController(robotConstants.controlConstants.loaderPidSettings.getKP(),
-            robotConstants.controlConstants.loaderPidSettings.getKI(),
-            robotConstants.controlConstants.loaderPidSettings.getKD());
+                robotConstants.controlConstants.loaderPidSettings.getKI(),
+                robotConstants.controlConstants.loaderPidSettings.getKD());
     }
 
     @Override
@@ -52,8 +52,8 @@ public class setLoaderVelocity extends CommandBase {
     @Override
     public void execute() {
         loader.setVoltage(MathUtil.clamp(
-            pidController.calculate(loader.getVelocity(), desiredVelocity.getAsDouble()), -6, 6)
-            + feedforward.calculate(desiredVelocity.getAsDouble()));
+                pidController.calculate(loader.getVelocity(), desiredVelocity.getAsDouble()), -6, 6)
+                + feedforward.calculate(desiredVelocity.getAsDouble()));
     }
 
     @Override

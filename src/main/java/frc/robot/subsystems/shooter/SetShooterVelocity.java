@@ -104,12 +104,12 @@ public class SetShooterVelocity extends CommandBase {
 
     private void countShotCells(boolean isCellBeingShot) {
         if (!isInZone && isCellBeingShot &&
-            Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.kWaitTimeZone) {
+                Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.kWaitTimeZone) {
             isInZone = true;
             firstTimeInZone = Timer.getFPGATimestamp();
             cellsShot++;
         } else if (isInZone && !isCellBeingShot &&
-            Timer.getFPGATimestamp() - firstTimeInZone > robotConstants.shooterConstants.kWaitTimeZone) {
+                Timer.getFPGATimestamp() - firstTimeInZone > robotConstants.shooterConstants.kWaitTimeZone) {
             isInZone = false;
             firstTimeOutsideZone = Timer.getFPGATimestamp();
         }

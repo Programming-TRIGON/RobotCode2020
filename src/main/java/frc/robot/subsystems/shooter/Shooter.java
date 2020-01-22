@@ -88,9 +88,9 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
      */
     public void setVelocity(double velocitySetpoint) {
         double leftVelocityInTalonUnits = velocitySetpoint * robotConstants.shooterConstants.kLeftUnitsPerRotation
-            / 600;
+                / 600;
         double rightVelocityInTalonUnits = velocitySetpoint * robotConstants.shooterConstants.kRightUnitsPerRotation
-            / 600;
+                / 600;
         leftTalonFX.set(TalonFXControlMode.Velocity, leftVelocityInTalonUnits);
         rightTalonFX.set(TalonFXControlMode.Velocity, rightVelocityInTalonUnits);
     }
@@ -131,7 +131,7 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
      */
     public double getLeftSpeed() {
         return leftTalonFX.getSelectedSensorVelocity() * 600.0
-            / robotConstants.shooterConstants.kLeftUnitsPerRotation;
+                / robotConstants.shooterConstants.kLeftUnitsPerRotation;
     }
 
     /**
@@ -139,7 +139,7 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
      */
     public double getRightSpeed() {
         return rightTalonFX.getSelectedSensorVelocity() * 600.0
-            / robotConstants.shooterConstants.kRightUnitsPerRotation;
+                / robotConstants.shooterConstants.kRightUnitsPerRotation;
     }
 
     /**
@@ -158,21 +158,21 @@ public class Shooter extends SubsystemBase implements MoveableSubsystem {
     public void periodic() {
         if (isTuning) {
             leftTalonFX.config_kP(0, SmartDashboard.getNumber(
-                "PID/LeftShooter/kP", 0), 0);
+                    "PID/LeftShooter/kP", 0), 0);
             leftTalonFX.config_kI(0, SmartDashboard.getNumber(
-                "PID/LeftShooter/kI", 0), 0);
+                    "PID/LeftShooter/kI", 0), 0);
             leftTalonFX.config_kD(0, SmartDashboard.getNumber(
-                "PID/LeftShooter/kD", 0), 0);
+                    "PID/LeftShooter/kD", 0), 0);
             leftTalonFX.config_kF(0, SmartDashboard.getNumber(
-                "PID/LeftShooter/kF", 0), 0);
+                    "PID/LeftShooter/kF", 0), 0);
             rightTalonFX.config_kP(0, SmartDashboard.getNumber(
-                "PID/RightShooter/kP", 0), 0);
+                    "PID/RightShooter/kP", 0), 0);
             rightTalonFX.config_kI(0, SmartDashboard.getNumber(
-                "PID/RightShooter/kI", 0), 0);
+                    "PID/RightShooter/kI", 0), 0);
             rightTalonFX.config_kD(0, SmartDashboard.getNumber(
-                "PID/RightShooter/kD", 0), 0);
+                    "PID/RightShooter/kD", 0), 0);
             rightTalonFX.config_kF(0, SmartDashboard.getNumber(
-                "PID/RightShooter/kF", 0), 0);
+                    "PID/RightShooter/kF", 0), 0);
         }
     }
 

@@ -55,7 +55,7 @@ public class TurnToTarget extends CommandBase {
     @Override
     public boolean isFinished() {
         return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.kTargetNotFoundWaitTime)
-            || rotationPIDController.atSetpoint();
+                || rotationPIDController.atSetpoint();
     }
 
     @Override

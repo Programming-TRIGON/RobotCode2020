@@ -75,7 +75,7 @@ public class Limelight {
     public double getDistanceFromLimelight() {
         double x = getTy();
         return robotConstants.visionConstants.kDistanceCalculationACoefficient * Math.pow(x, 2) +
-            robotConstants.visionConstants.kDistanceCalculationBCoefficient * x;
+                robotConstants.visionConstants.kDistanceCalculationBCoefficient * x;
     }
 
     /**

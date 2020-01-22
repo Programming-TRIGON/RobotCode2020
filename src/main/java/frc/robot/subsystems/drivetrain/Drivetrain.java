@@ -160,7 +160,7 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
      */
     public double getRightVelocity() {
         return rightEncoder.getSelectedSensorVelocity() * 10
-            / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
+                / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
     }
 
     /**
@@ -168,7 +168,7 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
      */
     public double getLeftVelocity() {
         return leftEncoder.getSelectedSensorVelocity() * 10
-            / robotConstants.drivetrainConstants.kLeftEncoderTicksPerMeter;
+                / robotConstants.drivetrainConstants.kLeftEncoderTicksPerMeter;
     }
 
     public double getAverageVelocity() {
@@ -232,7 +232,7 @@ public class Drivetrain extends SubsystemBase implements MoveableSubsystem {
         motor.setNeutralMode(NeutralMode.Coast);
         motor.configClosedloopRamp(robotConstants.drivetrainConstants.kRampRate);
         motor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true,
-            robotConstants.drivetrainConstants.kCurrentLimit, robotConstants.drivetrainConstants.kTriggerThresholdCurrent,
-            robotConstants.drivetrainConstants.kTriggerThresholdTime));
+                robotConstants.drivetrainConstants.kCurrentLimit, robotConstants.drivetrainConstants.kTriggerThresholdCurrent,
+                robotConstants.drivetrainConstants.kTriggerThresholdTime));
     }
 }
