@@ -6,7 +6,7 @@ import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class TrigonPIDController extends PIDController {
 	/**
-	 * This is TRIGON'S PIDController class with a friendlier UI for the calculate
+	 * This is TRIGON's PIDController class with a friendlier UI for the calculate
 	 * and constructor.
 	 */
 	public TrigonPIDController(PIDSettings pidSettings) {
@@ -15,7 +15,7 @@ public class TrigonPIDController extends PIDController {
 	}
 
 	/**
-	 * This is TRIGON'S PIDController class with a friendlier UI for the calculate
+	 * This is TRIGON's PIDController class with a friendlier UI for the calculate
 	 * and constructor.
 	 */
 	public TrigonPIDController(PIDSettings pidSettings, double setpoint) {
@@ -24,7 +24,7 @@ public class TrigonPIDController extends PIDController {
 	}
 
 	/**
-	 * This is TRIGON'S PIDController class with a friendlier UI for the calculate
+	 * This is TRIGON's PIDController class with a friendlier UI for the calculate
 	 * and constructor. This constructor is used to tune the PID values.
 	 * 
 	 * @param dashboardKey This is the key the will be attached to the pidController
