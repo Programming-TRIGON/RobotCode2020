@@ -26,7 +26,6 @@ public class PIDSettings {
     this.KD = KD;
     this.tolerance = tolerance;
     this.deltaTolerance = deltaTolerance;
-
   }
 
   public double getKP() {
