@@ -49,6 +49,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kStallWaitTime;
         public double kBackwardsSpinTime;
         public double kRampUpTime;
+        public double kDefaultPower;
     }
 
     public static class ShooterConstants {
@@ -72,6 +73,7 @@ public abstract class RobotConstants extends RobotMap {
         public double THRESHOLD_LIMIT;
         public double TIMEOUT;
         public double TICKS_PER_ROTATION;
+        public double kDefaultSpeed;
     }
 
     /** Control constants contain control value such as kp, kv for control loops */

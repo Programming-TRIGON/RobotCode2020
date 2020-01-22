@@ -2,7 +2,6 @@ package frc.robot.subsystems.mixer;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.RobotConstants.MixerConstants;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.mixer;
@@ -16,6 +15,14 @@ public class SpinMixer extends CommandBase {
   private DoubleSupplier power;
   private double lastTimeNotOnStall;
   private double backwardsSpinStartTime;
+
+  /**
+   * This constructor creates the command that spins
+   * the mixer at the power of {@link frc.robot.constants.RobotConstants.MixerConstants#kDefaultPower}
+   */
+  public SpinMixer() {
+    this(robotConstants.mixerConstants.kDefaultPower);
+  }
 
   /**
    * gets a double for motor power
@@ -32,7 +39,7 @@ public class SpinMixer extends CommandBase {
     this.power = power;
   }
 
-  @Override
+	@Override
   public void initialize() {
     lastTimeNotOnStall = Timer.getFPGATimestamp();
     backwardsSpinStartTime = 0;

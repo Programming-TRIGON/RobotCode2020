@@ -10,7 +10,7 @@ import java.util.function.DoubleSupplier;
 import static frc.robot.Robot.loader;
 import static frc.robot.Robot.robotConstants;
 
-public class setLoaderVelocity extends CommandBase {
+public class SetLoaderVelocity extends CommandBase {
   private PIDController pidController;
   private DoubleSupplier desiredVelocity;
   private boolean isTuning;
@@ -18,21 +18,38 @@ public class setLoaderVelocity extends CommandBase {
 
   /**
    * This class accelerates the loader subsystem to the desired velocity using PID
-   * 
+   * This constructor uses {@link frc.robot.constants.RobotConstants.LoaderConstants#kDefaultSpeed} as the desired velocity.
+   */
+  public SetLoaderVelocity() {
+    this(robotConstants.loaderConstants.kDefaultSpeed);
+  }
+
+  /**
+   * This class accelerates the loader subsystem to the desired velocity using PID
+   *
    * @param desiredVelocity in rotation per minute
    */
-  public setLoaderVelocity(DoubleSupplier desiredVelocity) {
+  public SetLoaderVelocity(double desiredVelocity) {
+    this(() -> desiredVelocity);
+  }
+
+  /**
+   * This class accelerates the loader subsystem to the desired velocity using PID
+   *
+   * @param desiredVelocity in rotation per minute
+   */
+  public SetLoaderVelocity(DoubleSupplier desiredVelocity) {
     this(desiredVelocity, false);
   }
 
   /**
    * This class accelerates the loader subsystem to the desired velocity using PID
-   * 
+   *
    * @param desiredVelocity in rotation per minute
    * @param isTuning        if true the pid gets its values from the smart
    *                        dashboard allowing the user to tune the PID values
    */
-  public setLoaderVelocity(DoubleSupplier desiredVelocity, boolean isTuning) {
+  public SetLoaderVelocity(DoubleSupplier desiredVelocity, boolean isTuning) {
     addRequirements(loader);
     this.desiredVelocity = desiredVelocity;
     this.isTuning = isTuning;
