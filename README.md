@@ -2,7 +2,7 @@
 
 This is TRIGON 5990 robot code for the 2020 FRC season: INFINITE RECHARGE.
 
-The code is written in Java and is based off of WPILib's Java control system.
+The code is written in Java and is based of WPILib Java control system.
 
 
 ## Setup Instructions
@@ -49,4 +49,4 @@ The code is written in Java and is based off of WPILib's Java control system.
 
     Contains various classes that help with tracking and following vision targets using limelight 2.
 
-![logo](images/FanMadeTrigonLogo.jpeg)
+![logo](images/TrigonLogo.jpeg)
