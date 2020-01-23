@@ -1,10 +1,13 @@
 package frc.robot.subsystems.loader;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.MovableSubsystem;
+import frc.robot.utils.DriverStationLogger;
 
 import static frc.robot.Robot.robotConstants;
 
@@ -17,11 +20,16 @@ public class Loader extends SubsystemBase implements MovableSubsystem {
      */
     public Loader() {
         talonSRX = new WPI_TalonSRX(robotConstants.can.LOADER_TALON_SRX);
-        talonSRX.configClosedloopRamp(robotConstants.loaderConstants.kRampRate);
+        talonSRX.configOpenloopRamp(robotConstants.loaderConstants.kRampRate);
         talonSRX.setNeutralMode(NeutralMode.Coast);
+        
         talonSRX.configSupplyCurrentLimit(
             new SupplyCurrentLimitConfiguration(true, robotConstants.loaderConstants.kCurrentLimit,
                 robotConstants.loaderConstants.kThresholdLimit, robotConstants.loaderConstants.kTimeout));
+        
+        if(talonSRX.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0) 
+            != ErrorCode.OK)
+            DriverStationLogger.logErrorToDS("Could not set loader encoder");
     }
 
     /**
