@@ -71,7 +71,7 @@ public class TrigonXboxController extends XboxController {
 
     /**
      * This method returns the positive trigger minus the negative trigger. This is
-     * used for the feedforward in the driver as it was requested by our driver.
+     * used the for controling the speed on the Y axis of the robot.
      * 
      * @param positiveHand The hand that is positive, the outher will be negative.
      * @return positive trigger value - other trigger value.
