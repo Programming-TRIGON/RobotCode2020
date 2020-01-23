@@ -30,43 +30,43 @@ public class TrigonXboxController extends XboxController {
     }
 
     public JoystickButton getButtonA() {
-        return this.buttonA;
+        return buttonA;
     }
 
     public JoystickButton getButtonB() {
-        return this.buttonB;
+        return buttonB;
     }
 
     public JoystickButton getButtonX() {
-        return this.buttonX;
+        return buttonX;
     }
 
     public JoystickButton getButtonY() {
-        return this.buttonY;
+        return buttonY;
     }
 
     public JoystickButton getLeftBumper() {
-        return this.leftBumper;
+        return leftBumper;
     }
 
     public JoystickButton getRightBumper() {
-        return this.rightBumper;
+        return rightBumper;
     }
 
     public JoystickButton getLeftStickButton() {
-        return this.leftStickButton;
+        return leftStickButton;
     }
 
     public JoystickButton getRightStickButton() {
-        return this.rightStickButton;
+        return rightStickButton;
     }
 
     public JoystickButton getBackXboxButton() {
-        return this.backButton;
+        return backButton;
     }
 
     public JoystickButton getStartXboxButton() {
-        return this.startButton;
+        return startButton;
     }
 
     /**
@@ -84,10 +84,9 @@ public class TrigonXboxController extends XboxController {
     }
 
     /**
-     * This method returns the right trigger minus the left trigger. This is used
-     * for the feedforward in the driver as it was requested by our driver.
+     * Right trigger value - left trigger value.
      *
-     * @return right trigger value - left trigger value.
+     * @return The difference between the left and right triggers.
      */
     public double getDeltaTriggers() {
         return getTriggerAxis(Hand.kRight) - getTriggerAxis(Hand.kLeft);
