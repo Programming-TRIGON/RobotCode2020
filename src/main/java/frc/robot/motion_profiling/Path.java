@@ -79,7 +79,7 @@ public class Path {
      */
     public Path(String pathName) {
         var path = Paths.get(Filesystem.getDeployDirectory() +
-            "/paths/" + pathName);
+            "/paths/output/" + pathName);
         try {
             trajectory = TrajectoryUtil.fromPathweaverJson(path);
         } catch (IOException e) {
