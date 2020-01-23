@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.MovableSubsystem;
+import frc.robot.utils.DashboardController;
 import frc.robot.utils.DriverStationLogger;
 
 import static frc.robot.Robot.robotConstants;
@@ -28,7 +30,11 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
         leftTalonFX.setNeutralMode(NeutralMode.Coast);
         leftTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
         leftTalonFX.configOpenloopRamp(robotConstants.shooterConstants.kRampTime);
-        leftTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+
+        if(leftTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0) 
+            != ErrorCode.OK)
+            DriverStationLogger.logErrorToDS("Could not set left shooter encoder");
+        
         leftTalonFX.selectProfileSlot(0, 0);
         leftTalonFX.setInverted(robotConstants.shooterConstants.kIsLeftMotorInverted);
         leftTalonFX.setSensorPhase(robotConstants.shooterConstants.kIsLeftEncoderInverted);
@@ -37,7 +43,11 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
         rightTalonFX.setNeutralMode(NeutralMode.Coast);
         rightTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
         rightTalonFX.configOpenloopRamp(robotConstants.shooterConstants.kRampTime);
-        rightTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
+        
+        if(rightTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0) 
+            != ErrorCode.OK)
+            DriverStationLogger.logErrorToDS("Could not set right shooter encoder");
+
         rightTalonFX.selectProfileSlot(0, 0);
         rightTalonFX.setInverted(robotConstants.shooterConstants.kIsRightMotorInverted);
         rightTalonFX.setSensorPhase(robotConstants.shooterConstants.kIsRightEncoderInverted);
