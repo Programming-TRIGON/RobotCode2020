@@ -35,6 +35,7 @@ public class Robot extends TimedRobot {
     public static Limelight limelight;
     public static RobotConstants robotConstants;
     public static FieldConstants fieldConstants;
+    private OI oi;
 
     @Override
     public void robotInit() {
@@ -55,6 +56,7 @@ public class Robot extends TimedRobot {
         // Utils:
         dashboardDataContainer = new DashboardDataContainer();
         limelight = new Limelight();
+        oi = new OI();
 
         autoChooser = new SendableChooser<>();
         // autoChooser.setDefaultOption(name, object);
