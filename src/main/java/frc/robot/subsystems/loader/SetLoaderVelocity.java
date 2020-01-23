@@ -1,14 +1,11 @@
 package frc.robot.subsystems.loader;
 
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.TrigonPIDController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.utils.DriverStationLogger;
-import java.util.function.DoubleSupplier;
+import frc.robot.utils.TrigonPIDController;
 
 import static frc.robot.Robot.loader;
 import static frc.robot.Robot.robotConstants;
@@ -45,7 +42,7 @@ public class SetLoaderVelocity extends CommandBase {
     public SetLoaderVelocity() {
         addRequirements(loader);
         feedforward = robotConstants.controlConstants.loaderFeedforward;
-        pidController = new TrigonPIDController("Loader pid controller");
+        pidController = new TrigonPIDController("Loader PID controller");
     }
 
     @Override
@@ -58,7 +55,7 @@ public class SetLoaderVelocity extends CommandBase {
     @Override
     public void execute() {
         if (Timer.getFPGATimestamp() - firstStallTimestamp < robotConstants.loaderConstants.kSpinBackwardsTime) {
-            loader.move(-feedforward.calculate(desiredVelocity.getAsDouble()));
+            loader.move(-feedforward.calculate(pidController.getSetpoint()));
             inStall = false;
             return;
         }
@@ -67,7 +64,7 @@ public class SetLoaderVelocity extends CommandBase {
             DriverStationLogger.logToDS("A cell got stuck in the loader. Trying to unjam it now");
             inStall = true;
             firstStallTimestamp = Timer.getFPGATimestamp();
-            loader.move(-feedforward.calculate(desiredVelocity.getAsDouble()));
+            loader.move(-feedforward.calculate(pidController.getSetpoint()));
         } else
             loader.setVoltage(
                 pidController.calculate(loader.getVelocity(),  -6, 6)
