@@ -3,8 +3,8 @@ package frc.robot.subsystems.loader;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.utils.TrigonPIDController;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.utils.DriverStationLogger;
@@ -14,9 +14,7 @@ import static frc.robot.Robot.loader;
 import static frc.robot.Robot.robotConstants;
 
 public class SetLoaderVelocity extends CommandBase {
-    private PIDController pidController;
-    private DoubleSupplier desiredVelocity;
-    private boolean isTuning;
+    private TrigonPIDController pidController;
     private SimpleMotorFeedforward feedforward;
     private boolean inStall;
     private double firstStallTimestamp;
@@ -25,8 +23,8 @@ public class SetLoaderVelocity extends CommandBase {
      * This class accelerates the loader subsystem to the desired velocity using PID
      * This constructor uses {@link frc.robot.constants.RobotConstants.LoaderConstants#kDefaultVelocity} as the desired velocity.
      */
-    public SetLoaderVelocity() {
-        this(robotConstants.loaderConstants.kDefaultVelocity);
+    public static SetLoaderVelocity defaultSetLoaderVelocityCommand() {
+        return new SetLoaderVelocity(robotConstants.loaderConstants.kDefaultVelocity);
     }
 
     /**
@@ -35,39 +33,23 @@ public class SetLoaderVelocity extends CommandBase {
      * @param desiredVelocity in rotation per minute
      */
     public SetLoaderVelocity(double desiredVelocity) {
-        this(() -> desiredVelocity);
-    }
-
-    /**
-     * This class accelerates the loader subsystem to the desired velocity using PID
-     *
-     * @param desiredVelocity in rotation per minute
-     */
-    public SetLoaderVelocity(DoubleSupplier desiredVelocity) {
-        this(desiredVelocity, false);
-    }
-
-    /**
-     * This class accelerates the loader subsystem to the desired velocity using PID
-     *
-     * @param desiredVelocity in rotation per minute
-     * @param isTuning        if true the pid gets its values from the smart
-     *                        dashboard allowing the user to tune the PID values
-     */
-    public SetLoaderVelocity(DoubleSupplier desiredVelocity, boolean isTuning) {
         addRequirements(loader);
-        this.desiredVelocity = desiredVelocity;
-        this.isTuning = isTuning;
         feedforward = robotConstants.controlConstants.loaderFeedforward;
-        pidController = new PIDController(robotConstants.controlConstants.loaderPidSettings.getKP(),
-            robotConstants.controlConstants.loaderPidSettings.getKI(),
-            robotConstants.controlConstants.loaderPidSettings.getKD());
+        pidController = new TrigonPIDController(robotConstants.controlConstants.loaderPidSettings, desiredVelocity);
+    }
+
+    /**
+     * This class accelerates the loader subsystem to the desired velocity using PID.
+     * This constructor is used for tuning PID using the dashboard
+     */
+    public SetLoaderVelocity() {
+        addRequirements(loader);
+        feedforward = robotConstants.controlConstants.loaderFeedforward;
+        pidController = new TrigonPIDController("Loader pid controller");
     }
 
     @Override
     public void initialize() {
-        if (isTuning)
-            SmartDashboard.putData("PID/Loader PID controller", pidController);
         pidController.reset();
         inStall = false;
         firstStallTimestamp = 0;
@@ -87,9 +69,9 @@ public class SetLoaderVelocity extends CommandBase {
             firstStallTimestamp = Timer.getFPGATimestamp();
             loader.move(-feedforward.calculate(desiredVelocity.getAsDouble()));
         } else
-            loader.setVoltage(MathUtil.clamp(
-                pidController.calculate(loader.getVelocity(), desiredVelocity.getAsDouble()), -6, 6)
-                + feedforward.calculate(desiredVelocity.getAsDouble()));
+            loader.setVoltage(
+                pidController.calculate(loader.getVelocity(),  -6, 6)
+                + feedforward.calculate(pidController.getSetpoint()));
     }
 
     @Override
