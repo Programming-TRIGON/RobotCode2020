@@ -5,27 +5,22 @@ import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 import frc.robot.subsystems.MovableSubsystem;
+import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.utils.DriverStationLogger;
-import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.robotConstants;
 
 /**
  * This subsystem handles shooting power cells into the outer and inner ports.
  */
-public class Shooter extends SubsystemBase implements MovableSubsystem {
+public class Shooter extends OverridableSubsystem implements MovableSubsystem {
     private WPI_TalonFX leftTalonFX;
     private WPI_TalonFX rightTalonFX;
     private DigitalInput microSwitch;
     private boolean isTuning;
-    private Notifier overrideNotifier;
-    private boolean overridden;
 
     public Shooter() {
         //setting up the talon fx
@@ -52,12 +47,10 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
         resetEncoders();
     }
 
-    /**
-     * @param power The power to set the talons in open loop. Value should be between -1.0 and 1.0.
-     */
     @Override
-    public void move(double power) {
-        setPower(power, power);
+    public void overriddenMove(double power) {
+        leftTalonFX.set(power);
+        rightTalonFX.set(power);
     }
 
     public void setPower(double leftPower, double rightPower) {
@@ -147,29 +140,6 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
     public void resetEncoders() {
         leftTalonFX.setSelectedSensorPosition(0);
         rightTalonFX.setSelectedSensorPosition(0);
-    }
-
-    public void startOverride(DoubleSupplier moveSupplier) {
-        DriverStationLogger.logToDS("Overriding shooter");
-        overrideNotifier = new Notifier(() -> {
-            leftTalonFX.set(moveSupplier.getAsDouble());
-            rightTalonFX.set(moveSupplier.getAsDouble());
-        });
-        overrideNotifier.startPeriodic(Robot.kDefaultPeriod);
-        overridden = true;
-    }
-
-    public void stopOverride() {
-        if (overridden) {
-            DriverStationLogger.logToDS("Stopping to override shooter");
-            overridden = false;
-            overrideNotifier.stop();
-            overrideNotifier.close();
-        }
-    }
-
-    public boolean isOverridden() {
-        return overridden;
     }
 
     @Override
