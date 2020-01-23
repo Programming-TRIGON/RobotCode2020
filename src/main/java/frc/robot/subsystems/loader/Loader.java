@@ -5,10 +5,12 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.MovableSubsystem;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
 
-public class Loader extends SubsystemBase implements MovableSubsystem {
+public class Loader extends SubsystemBase implements MovableSubsystem, Loggable {
     private WPI_TalonSRX talonSRX;
 
     /**
@@ -27,6 +29,7 @@ public class Loader extends SubsystemBase implements MovableSubsystem {
     /**
      * @return Rotations per minute
      */
+    @Log(name = "Loader/Velocity")
     public double getVelocity() {
         return talonSRX.getSelectedSensorVelocity() * 600 / robotConstants.loaderConstants.kTicksPerRotation;
     }

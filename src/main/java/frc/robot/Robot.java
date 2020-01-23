@@ -18,6 +18,7 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.utils.DashboardDataContainer;
 import frc.robot.utils.DriverStationLogger;
 import frc.robot.vision.Limelight;
+import io.github.oblarg.oblog.Logger;
 
 public class Robot extends TimedRobot {
 
@@ -59,6 +60,7 @@ public class Robot extends TimedRobot {
         autoChooser = new SendableChooser<>();
         // autoChooser.setDefaultOption(name, object);
         // autoChooser.addOption(name, object);
+        Logger.configureLoggingNTOnly(this, "Logging");
 
         DriverStationLogger.logToDS("Robot initialization complete");
     }
@@ -67,6 +69,7 @@ public class Robot extends TimedRobot {
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
         dashboardDataContainer.update();
+        Logger.updateEntries();
     }
 
     @Override

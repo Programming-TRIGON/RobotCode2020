@@ -10,13 +10,15 @@ import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.MovableSubsystem;
 import frc.robot.utils.DriverStationLogger;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
 
 /**
  * This subsystem handles shooting power cells into the outer and inner ports.
  */
-public class Shooter extends SubsystemBase implements MovableSubsystem {
+public class Shooter extends SubsystemBase implements MovableSubsystem, Loggable {
     private WPI_TalonFX leftTalonFX;
     private WPI_TalonFX rightTalonFX;
     private DigitalInput microSwitch;
@@ -96,6 +98,7 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
         return rightTalonFX.getMotorOutputVoltage();
     }
 
+    @Log.BooleanBox(name = "Shooter/Is Switch Pressed")
     public boolean isSwitchPressed() {
         return microSwitch.get();
     }
@@ -116,6 +119,7 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
     /**
      * @return the speed of the left shooter in RPM.
      */
+    @Log(name = "Shooter/Left Speed")
     public double getLeftSpeed() {
         return leftTalonFX.getSelectedSensorVelocity() * 600.0
             / robotConstants.shooterConstants.kLeftUnitsPerRotation;
@@ -124,6 +128,7 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
     /**
      * @return the speed of the right shooter in RPM.
      */
+    @Log(name = "Shooter/Right Speed")
     public double getRightSpeed() {
         return rightTalonFX.getSelectedSensorVelocity() * 600.0
             / robotConstants.shooterConstants.kRightUnitsPerRotation;
@@ -132,6 +137,7 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
     /**
      * @return the speed of the shooter in RPM.
      */
+    @Log(name = "Shooter/Average Speed")
     public double getAverageSpeed() {
         return (getLeftSpeed() + getRightSpeed()) / 2;
     }
