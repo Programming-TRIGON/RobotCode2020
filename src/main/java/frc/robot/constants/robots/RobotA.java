@@ -88,6 +88,7 @@ public class RobotA extends RobotConstants {
         visionConstants.kTargetNotFoundWaitTime = 0.1;
         controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
         controlConstants.visionRotationSettings = new PIDSettings(0, 0, 0, 0, 0);
+        controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         /* Robot Map */
         // Drivetrain Map

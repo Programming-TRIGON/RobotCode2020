@@ -17,9 +17,10 @@ public class PIDSettings implements Sendable {
     private double deltaTolerance;
 
     /**
-     * @param KP             The the Proportional coefficient of the PID loop in this
+     * @param KP             The the Proportional coefficient of the PID loop in
+     *                       this command.
+     * @param KI             The Integral coefficient of the PID loop in this
      *                       command.
-     * @param KI             The Integral coefficient of the PID loop in this command.
      * @param KD             The Differential coefficient of the PID loop in this
      *                       command.
      * @param tolerance      The error tolerance of this command.
