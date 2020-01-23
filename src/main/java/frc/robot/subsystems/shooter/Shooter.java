@@ -24,7 +24,7 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
     private WPI_TalonFX rightTalonFX;
     private DigitalInput microSwitch;
     private boolean isTuning;
-    private Notifier notifier;
+    private Notifier overrideNotifier;
     private boolean overridden;
 
     public Shooter() {
@@ -151,11 +151,11 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
 
     public void startOverride(DoubleSupplier moveSupplier) {
         DriverStationLogger.logToDS("Overriding shooter");
-        notifier = new Notifier(() -> {
+        overrideNotifier = new Notifier(() -> {
             leftTalonFX.set(moveSupplier.getAsDouble());
             rightTalonFX.set(moveSupplier.getAsDouble());
         });
-        notifier.startPeriodic(Robot.kDefaultPeriod);
+        overrideNotifier.startPeriodic(Robot.kDefaultPeriod);
         overridden = true;
     }
 
@@ -163,9 +163,13 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
         if (overridden) {
             DriverStationLogger.logToDS("Stopping to override shooter");
             overridden = false;
-            notifier.stop();
-            notifier.close();
+            overrideNotifier.stop();
+            overrideNotifier.close();
         }
+    }
+
+    public boolean isOverridden() {
+        return overridden;
     }
 
     @Override
