@@ -3,13 +3,19 @@ package frc.robot.subsystems.loader;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.subsystems.MovableSubsystem;
+import frc.robot.utils.DriverStationLogger;
+import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.robotConstants;
 
 public class Loader extends SubsystemBase implements MovableSubsystem {
     private WPI_TalonSRX talonSRX;
+    private boolean overridden;
+    private Notifier overrideNotifier;
 
     /**
      * This class holds all the methods for the Loader which takes the POWER CELLS
@@ -32,11 +38,28 @@ public class Loader extends SubsystemBase implements MovableSubsystem {
     }
 
     public void setVoltage(double voltage) {
-        talonSRX.setVoltage(voltage);
+        if (!overridden)
+            talonSRX.setVoltage(voltage);
     }
 
     @Override
     public void move(double power) {
         talonSRX.set(power);
+    }
+
+    public void startOverride(DoubleSupplier moveSupplier) {
+        DriverStationLogger.logToDS("Overriding loader");
+        overrideNotifier = new Notifier(() -> talonSRX.set(moveSupplier.getAsDouble()));
+        overrideNotifier.startPeriodic(Robot.kDefaultPeriod);
+        overridden = true;
+    }
+
+    public void stopOverride() {
+        if (overridden) {
+            DriverStationLogger.logToDS("Stopping to override loader");
+            overridden = false;
+            overrideNotifier.stop();
+            overrideNotifier.close();
+        }
     }
 }
