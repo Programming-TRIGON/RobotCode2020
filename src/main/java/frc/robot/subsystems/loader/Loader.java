@@ -32,6 +32,10 @@ public class Loader extends SubsystemBase implements MovableSubsystem {
             DriverStationLogger.logErrorToDS("Could not set loader encoder");
     }
 
+    public int getTicks() {
+        return talonSRX.getSelectedSensorPosition();
+    }
+
     /**
      * @return Rotations per minute
      */

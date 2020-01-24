@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.MovableSubsystem;
-import frc.robot.utils.DashboardController;
 import frc.robot.utils.DriverStationLogger;
 
 import static frc.robot.Robot.robotConstants;
@@ -121,6 +120,14 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
 
     public void disableTuning() {
         isTuning = false;
+    }
+
+    public int getLeftTicks() {
+        return leftTalonFX.getSelectedSensorPosition();
+    }
+
+    public int getRightTicks() {
+        return rightTalonFX.getSelectedSensorPosition();
     }
 
     /**
