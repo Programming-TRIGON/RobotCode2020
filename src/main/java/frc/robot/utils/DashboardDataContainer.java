@@ -2,10 +2,10 @@ package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
+import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
@@ -30,9 +30,6 @@ public class DashboardDataContainer {
         // drivetrain dashboard data
         SmartDashboard.putData("Drivetrain/Tune drivetrain rotate PID", new RotateDrivetrain());
         // Shooter dashboard data:
-        dashboardController.addNumber("Shooter/Average shooter velocity", shooter::getAverageSpeed);
-        dashboardController.addNumber("Shooter/Left shooter velocity", shooter::getLeftSpeed);
-        dashboardController.addNumber("Shooter/Right shooter velocity", shooter::getRightSpeed);
         SmartDashboard.putNumber("Shooter/Shooting velocity setpoint", ShooterVelocity.kDefault.getVelocity());
         SmartDashboard.putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() ->
             SmartDashboard.getNumber("Shooter/Shooting velocity setpoint", 0)));
