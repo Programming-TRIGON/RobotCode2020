@@ -6,9 +6,8 @@ import java.util.function.DoubleSupplier;
 import static frc.robot.Robot.drivetrain;
 
 public class DriveWithXbox extends CommandBase {
-    private final DoubleSupplier xInput;
-    private final DoubleSupplier yInput;
-    private final boolean isTuning;
+    private DoubleSupplier xInput;
+    private DoubleSupplier yInput;
 
     /**
      * In this constructor isTuning is set to false. during a match use this
@@ -18,15 +17,10 @@ public class DriveWithXbox extends CommandBase {
         this(xInput, yInput, false);
     }
 
-    public DriveWithXbox(DoubleSupplier xInput, DoubleSupplier yInput, boolean istTuning) {
+    public DriveWithXbox(DoubleSupplier xInput, DoubleSupplier yInput, boolean isTuning) {
         addRequirements(drivetrain);
         this.xInput = xInput;
         this.yInput = yInput;
-        this.isTuning = istTuning;
-    }
-
-    @Override
-    public void initialize() {
         if (isTuning)
             drivetrain.tuneTrigonDrive();
     }
