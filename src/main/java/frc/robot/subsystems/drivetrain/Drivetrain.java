@@ -224,10 +224,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
         return drivetrain.getThreshold();
     }
 
-    /**
-     * This method checks if the user desires to change the threshold and
-     * sensitivity from the dashboard/
-     */
+    /** Puts TrigonDrive class on the SmartDashboard for tuning */
     public void tuneTrigonDrive() {
         SmartDashboard.putData("Drivetrain/DifferentialDrive", drivetrain);
     }
