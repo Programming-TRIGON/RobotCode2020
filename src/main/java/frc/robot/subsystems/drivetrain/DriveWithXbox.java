@@ -27,7 +27,8 @@ public class DriveWithXbox extends CommandBase {
 
     @Override
     public void initialize() {
-        drivetrain.tuneTrigonDrive(isTuning);
+        if (isTuning)
+            drivetrain.tuneTrigonDrive();
     }
 
     @Override
