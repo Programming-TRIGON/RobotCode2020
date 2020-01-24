@@ -65,14 +65,13 @@ public class TurnToTarget extends CommandBase {
     }
 
     @Override
-    public boolean isFinished() {
-        return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.kTargetNotFoundWaitTime)
-            || rotationPIDController.atSetpoint();
-    }
-
-    @Override
     public void end(boolean interrupted) {
         subsystem.stopMove();
         limelight.stopVision();
+    }
+
+    public boolean isOnTarget() {
+        return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.kTargetNotFoundWaitTime)
+            || rotationPIDController.atSetpoint();
     }
 }
