@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
     private Command autoCommand;
     private SendableChooser<Command> autoChooser;
     private DashboardDataContainer dashboardDataContainer;
+    private OI oi;
 
     public static Drivetrain drivetrain;
     public static Intake intake;
@@ -35,7 +36,6 @@ public class Robot extends TimedRobot {
     public static Limelight limelight;
     public static RobotConstants robotConstants;
     public static FieldConstants fieldConstants;
-    private OI oi;
 
     @Override
     public void robotInit() {
