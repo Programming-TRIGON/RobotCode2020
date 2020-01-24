@@ -15,7 +15,7 @@ public class RobotA extends RobotConstants {
         /* Robot Constants */
         // Drivetrain Constants
         drivetrainConstants.kWheelDiameter = 0;
-        drivetrainConstants.kWheelBaseWidth = 0;
+        drivetrainConstants.kWheelBaseWidth = 6.27792;
         drivetrainConstants.kRobotLength = 0;
         drivetrainConstants.kRobotWidth = 0;
         drivetrainConstants.kLeftEncoderTicksPerMeter = 1;

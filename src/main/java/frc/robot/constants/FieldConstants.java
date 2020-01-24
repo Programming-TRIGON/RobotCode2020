@@ -1,14 +1,15 @@
 package frc.robot.constants;
 
+import edu.wpi.first.wpilibj.geometry.Translation2d;
+
 /**
- * The FieldConstants maps field constants (such as dimensions and distances) to a variable name.
+ * The FieldConstants maps field constants (such as dimensions and distances) to
+ * a variable name. All way-points are relative to the (0,0) point in PathWeaver.
+ * All measurements are measured in meters.
  */
 public abstract class FieldConstants {
-    // TODO: Set field dimensions and distances
-    public FeederConstants feederConstants = new FeederConstants();
-
-    public static class FeederConstants {
-        public double SIDE_WALL_TO_MIDDLE_FEEDER;
-        public double ROCKET_TO_FEEDER;
-    }
+    public static Translation2d TRENCH_RUN_ENTRANCE;
+    public static Translation2d MIDDLE_OF_TRENCH;
+    public static Translation2d FRONT_RIGHT_BALL;
+    public static Translation2d FRONT_LEFT_BALL;
 }
