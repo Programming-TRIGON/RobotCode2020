@@ -210,6 +210,21 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         return odometry.getPoseMeters();
     }
 
+    @Log(name = "Drivetrain/X Position")
+    public double getXPosition() {
+        return getPose().getTranslation().getX();
+    }
+
+    @Log(name = "Drivetrain/Y Position")
+    public double getYPosition() {
+        return getPose().getTranslation().getY();
+    }
+
+    @Log(name = "Drivetrain/Odometry angle")
+    public double getOdometryAngle() {
+        return getPose().getRotation().getRadians();
+    }
+
     public double getLeftMotorOutputVoltage() {
         return leftFront.getMotorOutputVoltage();
     }

@@ -98,7 +98,7 @@ public class Shooter extends SubsystemBase implements MovableSubsystem, Loggable
         return rightTalonFX.getMotorOutputVoltage();
     }
 
-    @Log.BooleanBox(name = "Shooter/Is Switch Pressed")
+    @Log(name = "Shooter/Is Switch Pressed")
     public boolean isSwitchPressed() {
         return microSwitch.get();
     }
