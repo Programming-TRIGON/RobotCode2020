@@ -1,8 +1,8 @@
 package frc.robot.utils;
 
-import static frc.robot.Robot.led;
-
 import com.ctre.phoenix.ErrorCode;
+
+import static frc.robot.Robot.led;
 
 /**
  * Driver station logger is class for loging to the DS.

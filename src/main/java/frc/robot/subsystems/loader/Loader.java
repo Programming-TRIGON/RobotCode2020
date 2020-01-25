@@ -27,9 +27,8 @@ public class Loader extends SubsystemBase implements MovableSubsystem {
             new SupplyCurrentLimitConfiguration(true, robotConstants.loaderConstants.kCurrentLimit,
                 robotConstants.loaderConstants.kThresholdLimit, robotConstants.loaderConstants.kTimeout));
         
-        if(talonSRX.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0) 
-            != ErrorCode.OK)
-            DriverStationLogger.logErrorToDS("Could not set loader encoder");
+        DriverStationLogger.logErrorToDS(talonSRX.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
+            "Could not set loader encoder");
     }
 
     public int getTicks() {
