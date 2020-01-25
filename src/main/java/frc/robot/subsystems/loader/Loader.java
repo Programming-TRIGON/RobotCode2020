@@ -1,6 +1,5 @@
 package frc.robot.subsystems.loader;
 
-import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
