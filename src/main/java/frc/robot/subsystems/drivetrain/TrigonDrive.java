@@ -2,6 +2,7 @@ package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 
 import static frc.robot.Robot.robotConstants;
 
@@ -67,5 +68,12 @@ public class TrigonDrive extends DifferentialDrive {
         double y = yInputCalculation(yInput);
         curvatureDrive(sensitivity * y, sensitivity * x,
             Math.sqrt(y * y + x * x) < threshold || Math.abs(y) < Math.abs(x));
+    }
+
+    @Override
+    public void initSendable(SendableBuilder builder) {
+        super.initSendable(builder);
+        builder.addDoubleProperty("Sensitivity", this::getSensitivity, this::setSensitivity);
+        builder.addDoubleProperty("Threshold", this::getThreshold, this::setThreshold);
     }
 }
