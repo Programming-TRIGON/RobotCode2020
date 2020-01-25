@@ -2,10 +2,13 @@ package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
+import frc.robot.motion_profiling.FollowPath;
+import frc.robot.motion_profiling.Path;
+import frc.robot.motion_profiling.Waypoint;
+import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
@@ -45,7 +48,9 @@ public class DashboardDataContainer {
 		    SmartDashboard.getNumber("Shooter/Shooting Velocity Setpoint", 0)));
 	    SmartDashboard.putData("CommandGroup/CollectCell", new CollectCell());
 	    SmartDashboard.putData("CommandGroup/CollectFromFeeder", new CollectFromFeeder());
-
+        SmartDashboard.putData("Motion", new FollowPath(new Path(
+            new Waypoint(1, 1, 0), new Waypoint(3.5, 2, 30)
+        ), true));
         // dashboardController.addBoolean(name, booleanSupplier);
         // dashboardController.addNumber(name, numberSupplier);
         // dashboardController.addString(name, stringSupplier);

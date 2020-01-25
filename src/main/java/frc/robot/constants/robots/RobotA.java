@@ -71,8 +71,8 @@ public class RobotA extends RobotConstants {
         controlConstants.loaderPidSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         // Motion Profiling Constants
-        motionProfilingConstants.kMaxVelocity = 0;
-        motionProfilingConstants.kMaxAcceleration = 0;
+        motionProfilingConstants.kMaxVelocity = 4;
+        motionProfilingConstants.kMaxAcceleration = 4;
         motionProfilingConstants.kMaxCentripetalAcceleration = 0;
         motionProfilingConstants.kP = 0;
         motionProfilingConstants.kReverseKp = 0;
