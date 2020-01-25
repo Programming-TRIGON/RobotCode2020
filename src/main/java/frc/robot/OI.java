@@ -18,6 +18,7 @@ public class OI {
     private TrigonXboxController operatorXbox;
     public OI() {
         createOperatorCommands();
+        createDriverCommands();
         driverXbox = new TrigonXboxController(kDriverPort);
         operatorXbox = new TrigonXboxController(kOperatorPort);
         NetworkTableEntry changeSettingsEntry = SmartDashboard.getEntry("isHillelSettings");
@@ -31,13 +32,18 @@ public class OI {
                 } else {
                     setGrossmanSetting();
                 }
+                bindDriverCommands();
             } else {
                 changeSettingsEntry.setBoolean(!entryNotification.value.getBoolean());
             }
         }, EntryListenerFlags.kNew | EntryListenerFlags.kImmediate | EntryListenerFlags.kUpdate);
     }
     private void createDriverCommands() {
-        //TODO create and bind driver commands here
+        //TODO create driver commands here
+    }
+
+    private void bindDriverCommands() {
+        //TODO bind driver commands here
     }
     private void createOperatorCommands() {
         //TODO Create operator commands here
