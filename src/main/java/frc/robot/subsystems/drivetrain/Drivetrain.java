@@ -37,12 +37,12 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
      * This is the subsystem of the drivetrain
      */
     public Drivetrain() {
-        leftRear = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON_FX);
-        leftMiddle = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_MIDDLE_TALON_FX);
-        leftFront = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_FRONT_TALON_FX);
-        rightRear = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_REAR_TALON_FX);
-        rightMiddle = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_MIDDLE_TALON_FX);
-        rightFront = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_FRONT_TALON_FX);
+        leftRear = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftRearTalonFx);
+        leftMiddle = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftMiddleTalonFx);
+        leftFront = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftFrontTalonFx);
+        rightRear = new WPI_TalonFX(robotConstants.can.kDrivetrainRightRearTalonFx);
+        rightMiddle = new WPI_TalonFX(robotConstants.can.kDrivetrainRightMiddleTalonFx);
+        rightFront = new WPI_TalonFX(robotConstants.can.kDrivetrainRightFrontTalonFx);
 
         configTalonFX(leftRear, leftFront);
         configTalonFX(leftMiddle, leftFront);
@@ -55,10 +55,10 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
         drivetrain.setDeadband(0);
 
         // TODO: set correct talons for encoders.
-        leftEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER);
-        rightEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER);
+        leftEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForLeftDrivetrainEncoder);
+        rightEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForRightDrivetrainEncoder);
         // TODO: set correct port for pigeon gyro.
-        gyro = new Pigeon(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON_FX);
+        gyro = new Pigeon(robotConstants.can.kDrivetrainLeftRearTalonFx);
 
         kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.kWheelBaseWidth);
         odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
@@ -90,9 +90,9 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
 
     /**
      * @param leftVoltage  The power to insert into the left side of the drivetrain
-     *                     devided by the battery voltage
-     * @param rightVoltage The power to insert into the right side of the drivetrai
-     *                     devided by the battery voltage
+     *                     divided by the battery voltage
+     * @param rightVoltage The power to insert into the right side of the drivetrain
+     *                     divided by the battery voltage
      */
     public void voltageTankDrive(double leftVoltage, double rightVoltage) {
         tankDrive(leftVoltage / RobotController.getBatteryVoltage(), rightVoltage / RobotController.getBatteryVoltage());

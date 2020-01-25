@@ -8,8 +8,8 @@ package frc.robot.vision;
  * And a double representing the distance that the robot needs to be from the target.
  */
 public enum Target {
-  //These are examples for targets.
-  PowerPort(0, 0), Feeder(1, 0);
+    //These are examples for targets.
+    PowerPort(0, 0), Feeder(1, 0);
 
     private final int index;
     private final double distance;

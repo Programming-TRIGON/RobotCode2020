@@ -24,7 +24,7 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
 
     public Shooter() {
         //setting up the talon fx
-        leftTalonFX = new WPI_TalonFX(robotConstants.can.LEFT_SHOOTER_TALON_FX);
+        leftTalonFX = new WPI_TalonFX(robotConstants.can.kLeftShooterTalonFx);
         leftTalonFX.setNeutralMode(NeutralMode.Coast);
         leftTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
         leftTalonFX.configOpenloopRamp(robotConstants.shooterConstants.kRampTime);
@@ -33,7 +33,7 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
         leftTalonFX.setInverted(robotConstants.shooterConstants.kIsLeftMotorInverted);
         leftTalonFX.setSensorPhase(robotConstants.shooterConstants.kIsLeftEncoderInverted);
 
-        rightTalonFX = new WPI_TalonFX(robotConstants.can.RIGHT_SHOOTER_TALON_FX);
+        rightTalonFX = new WPI_TalonFX(robotConstants.can.kRightShooterTalonFx);
         rightTalonFX.setNeutralMode(NeutralMode.Coast);
         rightTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
         rightTalonFX.configOpenloopRamp(robotConstants.shooterConstants.kRampTime);
@@ -43,7 +43,7 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
         rightTalonFX.setSensorPhase(robotConstants.shooterConstants.kIsRightEncoderInverted);
 
         configPIDGains();
-        microSwitch = new DigitalInput(robotConstants.dio.SWITCH_SHOOTER);
+        microSwitch = new DigitalInput(robotConstants.dio.kSwitchShooter);
         resetEncoders();
     }
 

@@ -29,6 +29,7 @@ public class SetLoaderVelocity extends CommandBase {
         feedforward = robotConstants.controlConstants.loaderFeedforward;
         pidController = new TrigonPIDController(robotConstants.controlConstants.loaderPidSettings, desiredVelocity);
     }
+
     /**
      * This class accelerates the loader subsystem to the desired velocity using PID.
      * This constructor is used for tuning PID using the dashboard

@@ -15,7 +15,7 @@ public class Mixer extends SubsystemBase implements MovableSubsystem {
     private final WPI_TalonSRX talonSRX;
 
     public Mixer() {
-        talonSRX = new WPI_TalonSRX(robotConstants.can.MIXER_TALON_SRX);
+        talonSRX = new WPI_TalonSRX(robotConstants.can.kMixerTalonSrx);
         talonSRX.setNeutralMode(NeutralMode.Coast);
         talonSRX.setInverted(robotConstants.mixerConstants.kIsInverted);
         talonSRX.configClosedloopRamp(robotConstants.mixerConstants.kRampUpTime);

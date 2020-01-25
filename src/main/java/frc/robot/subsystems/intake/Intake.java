@@ -16,7 +16,7 @@ public class Intake extends SubsystemBase implements MovableSubsystem {
     private CANSparkMax sparkMax;
 
     public Intake() {
-        sparkMax = new CANSparkMax(robotConstants.can.INTAKE_SPARK_MAX, MotorType.kBrushless);
+        sparkMax = new CANSparkMax(robotConstants.can.kIntakeSparkMax, MotorType.kBrushless);
         sparkMax.setInverted(robotConstants.intakeConstants.kIntakeReversed);
         sparkMax.setIdleMode(IdleMode.kCoast);
         sparkMax.burnFlash();

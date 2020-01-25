@@ -2,10 +2,10 @@ package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
+import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
@@ -41,10 +41,10 @@ public class DashboardDataContainer {
         SmartDashboard.putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
 
         // Command groups data
-	    SmartDashboard.putData("CommandGroups/AutoShoot", new AutoShoot(() ->
-		    SmartDashboard.getNumber("Shooter/Shooting Velocity Setpoint", 0)));
-	    SmartDashboard.putData("CommandGroup/CollectCell", new CollectCell());
-	    SmartDashboard.putData("CommandGroup/CollectFromFeeder", new CollectFromFeeder());
+        SmartDashboard.putData("CommandGroups/AutoShoot", new AutoShoot(() ->
+            SmartDashboard.getNumber("Shooter/Shooting Velocity Setpoint", 0)));
+        SmartDashboard.putData("CommandGroup/CollectCell", new CollectCell());
+        SmartDashboard.putData("CommandGroup/CollectFromFeeder", new CollectFromFeeder());
 
         // dashboardController.addBoolean(name, booleanSupplier);
         // dashboardController.addNumber(name, numberSupplier);
