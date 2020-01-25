@@ -10,9 +10,10 @@ import frc.robot.constants.FieldConstants;
 public class HomeField extends FieldConstants {
     // TODO: check reality
     public HomeField() {
-        TRENCH_RUN_ENTRANCE = new Translation2d(5.45, -0.70485);
-        MIDDLE_OF_TRENCH = new Translation2d(9.294, -0.7112);
-        FRONT_RIGHT_BALL = new Translation2d(6.193, -4.478);
-        FRONT_LEFT_BALL = new Translation2d(5.902, -3.656);
+        kTrenchRunEntrance = new Translation2d(5.45, -0.70485);
+        kMiddleOfTrench = new Translation2d(9.294, -0.7112);
+        kFrontRightBall = new Translation2d(6.193, -4.478);
+        kFrontLeftBall = new Translation2d(5.902, -3.656);
+        kStartingPointParallelToPort = new Translation2d(2.5, -3.05);
     }
 }

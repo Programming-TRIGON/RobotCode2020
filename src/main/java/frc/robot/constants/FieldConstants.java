@@ -8,8 +8,9 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
  * All measurements are measured in meters.
  */
 public abstract class FieldConstants {
-    public static Translation2d TRENCH_RUN_ENTRANCE;
-    public static Translation2d MIDDLE_OF_TRENCH;
-    public static Translation2d FRONT_RIGHT_BALL;
-    public static Translation2d FRONT_LEFT_BALL;
+    public static Translation2d kStartingPointParallelToPort;
+    public static Translation2d kTrenchRunEntrance;
+    public static Translation2d kMiddleOfTrench;
+    public static Translation2d kFrontRightBall;
+    public static Translation2d kFrontLeftBall;
 }
