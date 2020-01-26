@@ -17,7 +17,7 @@ public class Mixer extends OverridableSubsystem {
         talonSRX = new WPI_TalonSRX(robotConstants.can.MIXER_TALON_SRX);
         talonSRX.setNeutralMode(NeutralMode.Coast);
         talonSRX.setInverted(robotConstants.mixerConstants.kIsInverted);
-        talonSRX.configClosedloopRamp(robotConstants.mixerConstants.kRampUpTime);
+        talonSRX.configOpenloopRamp(robotConstants.mixerConstants.kRampUpTime);
     }
 
 

@@ -1,5 +1,6 @@
 package frc.robot.components;
 
+import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.PigeonIMU;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
@@ -34,7 +35,6 @@ public class Pigeon extends PigeonIMU implements Gyro {
         return generalStatus.state.equals(PigeonState.Ready);
     }
 
-
     @Override
     public void calibrate() {
         enterCalibrationMode(CalibrationMode.BootTareGyroAccel);
@@ -43,6 +43,10 @@ public class Pigeon extends PigeonIMU implements Gyro {
     @Override
     public void reset() {
         setYaw(0);
+    }
+
+    public ErrorCode resetGyroWithErrorCode() {
+        return setYaw(0);
     }
 
     @Override
