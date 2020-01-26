@@ -118,10 +118,12 @@ public class Shooter extends OverridableSubsystem implements Loggable {
         isTuning = false;
     }
 
+    @Log(name = "Shooter/Left Ticks")
     public int getLeftTicks() {
         return leftTalonFX.getSelectedSensorPosition();
     }
 
+    @Log(name = "Shooter/Right Ticks")
     public int getRightTicks() {
         return rightTalonFX.getSelectedSensorPosition();
     }
