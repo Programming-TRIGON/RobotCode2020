@@ -2,6 +2,7 @@ package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.RobotController;
@@ -10,9 +11,11 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.subsystems.MovableSubsystem;
+import frc.robot.utils.DriverStationLogger;
 
 import static frc.robot.Robot.robotConstants;
 
@@ -57,8 +60,15 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
         // TODO: set correct talons for encoders.
         leftEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForLeftDrivetrainEncoder);
         rightEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForRightDrivetrainEncoder);
+
+        DriverStationLogger.logErrorToDS(leftEncoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
+            "Could not set left drivetrain encoder");
+        DriverStationLogger.logErrorToDS(rightEncoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
+            "Could not set right drivetrain encoder");
         // TODO: set correct port for pigeon gyro.
         gyro = new Pigeon(robotConstants.can.kDrivetrainLeftRearTalonFX);
+        DriverStationLogger.logErrorToDS(gyro.resetGyroWithErrorCode(),
+            "Could not reset pigeon gyro");
 
         kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.kWheelBaseWidth);
         odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
@@ -95,7 +105,8 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
      *                     divided by the battery voltage
      */
     public void voltageTankDrive(double leftVoltage, double rightVoltage) {
-        tankDrive(leftVoltage / RobotController.getBatteryVoltage(), rightVoltage / RobotController.getBatteryVoltage());
+        tankDrive(leftVoltage / RobotController.getBatteryVoltage(),
+                rightVoltage / RobotController.getBatteryVoltage());
     }
 
     /**
@@ -160,7 +171,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
      */
     public double getRightVelocity() {
         return rightEncoder.getSelectedSensorVelocity() * 10
-            / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
+                / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
     }
 
     /**
@@ -168,7 +179,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
      */
     public double getLeftVelocity() {
         return leftEncoder.getSelectedSensorVelocity() * 10
-            / robotConstants.drivetrainConstants.kLeftEncoderTicksPerMeter;
+                / robotConstants.drivetrainConstants.kLeftEncoderTicksPerMeter;
     }
 
     public double getAverageVelocity() {
@@ -222,6 +233,11 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
         return drivetrain.getThreshold();
     }
 
+    /** Puts TrigonDrive class on the SmartDashboard for tuning */
+    public void tuneTrigonDrive() {
+        SmartDashboard.putData("Drivetrain/DifferentialDrive", drivetrain);
+    }
+
     public void periodic() {
         odometry.update(Rotation2d.fromDegrees(getAngle()), getLeftDistance(), getRightDistance());
     }
@@ -231,8 +247,9 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
             motor.follow(master);
         motor.setNeutralMode(NeutralMode.Coast);
         motor.configClosedloopRamp(robotConstants.drivetrainConstants.kRampRate);
-        motor.configStatorCurrentLimit(new StatorCurrentLimitConfiguration(true,
-            robotConstants.drivetrainConstants.kCurrentLimit, robotConstants.drivetrainConstants.kTriggerThresholdCurrent,
-            robotConstants.drivetrainConstants.kTriggerThresholdTime));
+        motor.configStatorCurrentLimit(
+                new StatorCurrentLimitConfiguration(true, robotConstants.drivetrainConstants.kCurrentLimit,
+                        robotConstants.drivetrainConstants.kTriggerThresholdCurrent,
+                        robotConstants.drivetrainConstants.kTriggerThresholdTime));
     }
 }

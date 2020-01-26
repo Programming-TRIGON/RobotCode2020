@@ -2,6 +2,7 @@ package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
@@ -11,7 +12,7 @@ import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
 import frc.robot.subsystems.shooter.ShooterVelocity;
 
-import static frc.robot.Robot.shooter;
+import static frc.robot.Robot.*;
 
 /**
  * DashboardDataContainer contains all the data to be viewed or put in the
@@ -26,7 +27,9 @@ public class DashboardDataContainer {
         // Mixer dashboard data:
         SmartDashboard.putNumber("Mixer/Mixer power", 0.0);
         SmartDashboard.putData("Mixer/Spin mixer",
-            new SpinMixer(() -> getNumber("Mixer/Mixer power")));
+            new SpinMixer(() -> SmartDashboard.getNumber("Mixer/Mixer power", 0.0)));
+        SmartDashboard.putData("Mixer/Override", new OverrideCommand(mixer,
+            () -> SmartDashboard.getNumber("Loader/Mixer power", 0)));
         // drivetrain dashboard data
         SmartDashboard.putData("Drivetrain/Tune drivetrain rotate PID", new RotateDrivetrain());
         // Shooter dashboard data:
@@ -39,7 +42,17 @@ public class DashboardDataContainer {
         SmartDashboard.putData("Shooter/Set shooting velocity", new SetShooterVelocity(() ->
             getNumber("Shooter/Shooting Velocity Setpoint")));
         SmartDashboard.putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
-
+        SmartDashboard.putNumber("Shooter/Override Power", 0);
+        SmartDashboard.putData("Shooter/Override", new OverrideCommand(shooter,
+            () -> SmartDashboard.getNumber("Shooter/Override Power", 0)));
+        //loader dashboard data
+        SmartDashboard.putNumber("Loader/Loader Power", 0);
+        SmartDashboard.putData("Loader/Override", new OverrideCommand(loader,
+            () -> SmartDashboard.getNumber("Loader/Loader Power", 0)));
+        //intake dashboard data
+        SmartDashboard.putNumber("Intake/Intake power", 0);
+        SmartDashboard.putData("Intake/Override intake", new OverrideCommand(intake,
+            () -> SmartDashboard.getNumber("Intake/Intake power", 0)));
         // Command groups data
         SmartDashboard.putData("CommandGroups/Auto Shoot", new AutoShoot(() ->
             getNumber("Shooter/Shooting Velocity Setpoint")));
