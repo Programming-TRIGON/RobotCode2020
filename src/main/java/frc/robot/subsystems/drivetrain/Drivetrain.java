@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.subsystems.MovableSubsystem;
@@ -26,7 +27,6 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     private WPI_TalonFX rightMiddle;
     private WPI_TalonFX rightFront;
 
-    @Log.DifferentialDrive(name = "Drivetrain/DifferentialDrive")
     private TrigonDrive drivetrain;
 
     private WPI_TalonSRX rightEncoder;
@@ -139,7 +139,6 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         return rightEncoder.getSelectedSensorPosition();
     }
 
-    @Log
     public void resetEncoders() {
         leftEncoder.setSelectedSensorPosition(0);
         rightEncoder.setSelectedSensorPosition(0);
@@ -249,6 +248,11 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
 
     public double getTrigonDriveThreshold() {
         return drivetrain.getThreshold();
+    }
+
+    /** Puts TrigonDrive class on the SmartDashboard for tuning */
+    public void tuneTrigonDrive() {
+        SmartDashboard.putData("Drivetrain/DifferentialDrive", drivetrain);
     }
 
     public void periodic() {
