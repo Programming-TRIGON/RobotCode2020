@@ -131,6 +131,8 @@ public class SetShooterVelocity extends CommandBase {
      * Tolerance is taken from {@link frc.robot.constants.RobotConstants.ControlConstants#leftShooterSettings}
      */
     public boolean isOnTarget() {
+        if (shooter.isOverridden())
+            return true;
         return Math.abs(shooter.getAverageSpeed() - setpoint) <
             robotConstants.controlConstants.leftShooterSettings.getTolerance();
     }
