@@ -1,6 +1,6 @@
 package frc.robot.commands.command_groups;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.subsystems.loader.SetLoaderVelocity;
 import frc.robot.subsystems.mixer.SpinMixer;
@@ -18,27 +18,46 @@ import static frc.robot.Robot.shooter;
  * This command group responsible for spinning the mixer, rotating the drivetrain to target, spinning the shooter in the desired speed,
  * and loading and shooting the cells once it reaches the desired speed.
  */
-public class AutoShoot extends ParallelCommandGroup {
+public class AutoShoot extends SequentialCommandGroup {
 
     /**
      * @param speedSupplier supplier of the desired speed
      */
     public AutoShoot(Supplier<ShooterVelocity> speedSupplier) {
-        this(() -> speedSupplier.get().getVelocity());
+        this(speedSupplier, false);
+    }
+
+    /**
+     * @param speedSupplier supplier of the desired speed
+     * @param isAuto whether the command group should stop automatically
+     */
+    public AutoShoot(Supplier<ShooterVelocity> speedSupplier, boolean isAuto) {
+        this(() -> speedSupplier.get().getVelocity(), isAuto);
     }
 
     /**
      * @param speedSupplier supplier of the desired speed in RPM
      */
     public AutoShoot(DoubleSupplier speedSupplier) {
-        CheesySetShooterVelocity setShooterVelocity = new CheesySetShooterVelocity(speedSupplier);
+        this(speedSupplier, false);
+    }
+
+    /**
+     * @param speedSupplier supplier of the desired speed in RPM
+     * @param isAuto whether the command group should stop automatically
+     */
+    public AutoShoot(DoubleSupplier speedSupplier, boolean isAuto) {
+        CheesySetShooterVelocity setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, isAuto);
+        TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort, drivetrain);
         addCommands(
-            setShooterVelocity,
-            new SpinMixer(),
-            sequence(
-                new TurnToTarget(Target.PowerPort, drivetrain),
-                new WaitUntilCommand(setShooterVelocity::isOnTarget),
-                SetLoaderVelocity.defaultSetLoaderVelocityCommand()
+            deadline(
+                setShooterVelocity,
+                new SpinMixer(),
+                turnToTarget,
+                sequence(
+                    new WaitUntilCommand(() -> setShooterVelocity.isOnTarget() && turnToTarget.isOnTarget()),
+                    SetLoaderVelocity.defaultSetLoaderVelocityCommand()
+                )
             )
         );
     }
