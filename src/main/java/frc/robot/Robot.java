@@ -62,7 +62,6 @@ public class Robot extends TimedRobot {
         autoChooser = new SendableChooser<>();
         // autoChooser.setDefaultOption(name, object);
         // autoChooser.addOption(name, object);
-        Logger.configureLoggingNTOnly(this, "Logging");
 
         //set up command logging
         CommandScheduler.getInstance().onCommandInitialize(command -> DriverStationLogger.logToDS("Starting to run " + command.getName().toLowerCase()));

@@ -10,6 +10,7 @@ import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
 import frc.robot.subsystems.shooter.ShooterVelocity;
+import io.github.oblarg.oblog.Logger;
 
 import static frc.robot.Robot.shooter;
 
@@ -18,10 +19,11 @@ import static frc.robot.Robot.shooter;
  * dashboard.
  */
 public class DashboardDataContainer {
-    private DashboardController dashboardController;
+    // private DashboardController dashboardController;
 
     public DashboardDataContainer() {
-        dashboardController = new DashboardController();
+        Logger.configureLoggingNTOnly(this, "Logging");
+        //dashboardController = new DashboardController();
 
         // Mixer dashboard data:
         SmartDashboard.putNumber("Mixer/Mixer power", 0.0);
@@ -51,6 +53,7 @@ public class DashboardDataContainer {
     }
 
     public void update() {
-        dashboardController.update();
+        Logger.updateEntries();
+        // dashboardController.update();
     }
 }

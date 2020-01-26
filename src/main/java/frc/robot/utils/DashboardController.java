@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 /**
  * DashboardController posts data on the dashboard with given suppliers.
  */
+@Deprecated(since = "1.2020")
 public class DashboardController {
     private Map<String, Supplier<String>> stringFields;
     private Map<String, Supplier<Number>> numberFields;

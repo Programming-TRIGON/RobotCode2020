@@ -21,8 +21,6 @@ public class DriveWithXbox extends CommandBase {
         addRequirements(drivetrain);
         this.xInput = xInput;
         this.yInput = yInput;
-        if (isTuning)
-            drivetrain.tuneTrigonDrive();
     }
 
     @Override
