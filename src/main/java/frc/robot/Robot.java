@@ -24,6 +24,7 @@ public class Robot extends TimedRobot {
     private Command autoCommand;
     private SendableChooser<Command> autoChooser;
     private DashboardDataContainer dashboardDataContainer;
+    private OI oi;
 
     public static Drivetrain drivetrain;
     public static Intake intake;
@@ -55,6 +56,7 @@ public class Robot extends TimedRobot {
         // Utils:
         dashboardDataContainer = new DashboardDataContainer();
         limelight = new Limelight();
+        oi = new OI();
 
         autoChooser = new SendableChooser<>();
         // autoChooser.setDefaultOption(name, object);
