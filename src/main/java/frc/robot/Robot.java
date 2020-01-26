@@ -63,13 +63,17 @@ public class Robot extends TimedRobot {
         // autoChooser.setDefaultOption(name, object);
         // autoChooser.addOption(name, object);
 
-        // We configure the logger here since it needs the container of all the subsystems
+        // We configure the logger here since it needs the container of all the
+        // subsystems
         Logger.configureLoggingNTOnly(this, "Logging");
 
-        //set up command logging
-        CommandScheduler.getInstance().onCommandInitialize(command -> DriverStationLogger.logToDS("Starting to run " + command.getName().toLowerCase()));
-        CommandScheduler.getInstance().onCommandInterrupt(command -> DriverStationLogger.logToDS("Interrupting " + command.getName().toLowerCase()));
-        CommandScheduler.getInstance().onCommandFinish(command -> DriverStationLogger.logToDS(command.getName() + " is finished"));
+        // set up command logging
+        CommandScheduler.getInstance().onCommandInitialize(
+                command -> DriverStationLogger.logToDS("Starting to run " + command.getName().toLowerCase()));
+        CommandScheduler.getInstance().onCommandInterrupt(
+                command -> DriverStationLogger.logToDS("Interrupting " + command.getName().toLowerCase()));
+        CommandScheduler.getInstance()
+                .onCommandFinish(command -> DriverStationLogger.logToDS(command.getName() + " is finished"));
 
         DriverStationLogger.logToDS("Robot initialization complete");
     }
