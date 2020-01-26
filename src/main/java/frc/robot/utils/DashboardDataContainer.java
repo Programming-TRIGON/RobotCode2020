@@ -25,52 +25,54 @@ public class DashboardDataContainer {
         dashboardController = new DashboardController();
 
         // Mixer dashboard data:
-        SmartDashboard.putNumber("Mixer/Mixer power", 0.0);
+        putNumber("Mixer/Mixer power");
         SmartDashboard.putData("Mixer/Spin mixer",
-            new SpinMixer(() -> SmartDashboard.getNumber("Mixer/Mixer power", 0.0)));
+            new SpinMixer(() -> getNumber("Mixer/Mixer power")));
         SmartDashboard.putData("Mixer/Override", new OverrideCommand(mixer,
-            () -> SmartDashboard.getNumber("Loader/Mixer power", 0)));
+            () -> getNumber("Loader/Mixer power")));
         // drivetrain dashboard data
         SmartDashboard.putData("Drivetrain/Tune drivetrain rotate PID", new RotateDrivetrain());
         // Shooter dashboard data:
         dashboardController.addNumber("Shooter/Average shooter velocity", shooter::getAverageSpeed);
         dashboardController.addNumber("Shooter/Left shooter velocity", shooter::getLeftSpeed);
         dashboardController.addNumber("Shooter/Right shooter velocity", shooter::getRightSpeed);
-        SmartDashboard.putNumber("Shooter/Shooting velocity setpoint", ShooterVelocity.kDefault.getVelocity());
+        putNumber("Shooter/Shooting velocity setpoint", ShooterVelocity.kDefault.getVelocity());
         SmartDashboard.putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() ->
             getNumber("Shooter/Shooting velocity setpoint")));
         SmartDashboard.putData("Shooter/Set shooting velocity", new SetShooterVelocity(() ->
             getNumber("Shooter/Shooting Velocity Setpoint")));
         SmartDashboard.putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
-        SmartDashboard.putNumber("Shooter/Override Power", 0);
+        putNumber("Shooter/Override Power");
         SmartDashboard.putData("Shooter/Override", new OverrideCommand(shooter,
-            () -> SmartDashboard.getNumber("Shooter/Override Power", 0)));
+            () -> getNumber("Shooter/Override Power")));
         //loader dashboard data
-        SmartDashboard.putNumber("Loader/Loader Power", 0);
+        putNumber("Loader/Loader Power");
         SmartDashboard.putData("Loader/Override", new OverrideCommand(loader,
-            () -> SmartDashboard.getNumber("Loader/Loader Power", 0)));
+            () -> getNumber("Loader/Loader Power")));
         //intake dashboard data
-        SmartDashboard.putNumber("Intake/Intake power", 0);
+        putNumber("Intake/Intake power");
         SmartDashboard.putData("Intake/Override intake", new OverrideCommand(intake,
-            () -> SmartDashboard.getNumber("Intake/Intake power", 0)));
+            () -> getNumber("Intake/Intake power")));
         // Command groups data
         SmartDashboard.putData("CommandGroups/Auto Shoot", new AutoShoot(() ->
             getNumber("Shooter/Shooting Velocity Setpoint")));
         SmartDashboard.putData("CommandGroup/Collect Cell", new CollectCell());
         SmartDashboard.putData("CommandGroup/Collect From Feeder", new CollectFromFeeder());
-
-        // dashboardController.addBoolean(name, booleanSupplier);
-        // dashboardController.addNumber(name, numberSupplier);
-        // dashboardController.addString(name, stringSupplier);
-        // SmartDashboard.putData(key, data);
-        // etc.
     }
+
+    private void putNumber(String key) {
+        putNumber(key, 0);
+    }
+
+    private void putNumber(String key, double value) {
+        SmartDashboard.putNumber(key, value);
+    }
+
+    private double getNumber(String key) { return getNumber(key, 0); }
 
     private double getNumber(String key, double defaultValue) {
         return SmartDashboard.getNumber(key, defaultValue);
     }
-
-    private double getNumber(String key) { return getNumber(key, 0); }
 
     public void update() {
         dashboardController.update();
