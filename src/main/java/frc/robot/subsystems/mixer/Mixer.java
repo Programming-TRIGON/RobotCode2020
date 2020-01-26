@@ -2,7 +2,6 @@ package frc.robot.subsystems.mixer;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import frc.robot.subsystems.MovableSubsystem;
 import frc.robot.subsystems.OverridableSubsystem;
 
 import static frc.robot.Robot.robotConstants;
@@ -11,7 +10,7 @@ import static frc.robot.Robot.robotConstants;
  * This class holds all of the methods for the Mixer subsystem, which holds
  * POWER CELLS in the robot for shooting.
  */
-public class Mixer extends OverridableSubsystem implements MovableSubsystem {
+public class Mixer extends OverridableSubsystem {
     private final WPI_TalonSRX talonSRX;
 
     public Mixer() {

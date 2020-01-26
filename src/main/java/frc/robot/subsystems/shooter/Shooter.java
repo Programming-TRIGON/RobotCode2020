@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
-import frc.robot.subsystems.MovableSubsystem;
 import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.utils.DriverStationLogger;
 
@@ -16,7 +15,7 @@ import static frc.robot.Robot.robotConstants;
 /**
  * This subsystem handles shooting power cells into the outer and inner ports.
  */
-public class Shooter extends OverridableSubsystem implements MovableSubsystem {
+public class Shooter extends OverridableSubsystem {
     private WPI_TalonFX leftTalonFX;
     private WPI_TalonFX rightTalonFX;
     private DigitalInput microSwitch;

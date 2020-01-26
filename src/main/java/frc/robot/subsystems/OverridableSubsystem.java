@@ -14,7 +14,7 @@ public abstract class OverridableSubsystem extends SubsystemBase implements Mova
 
     @Override
     public void move(double power) {
-        if (!overridden)
+        if (!overridden || power == 0)
             overriddenMove(power);
     }
 
@@ -28,9 +28,9 @@ public abstract class OverridableSubsystem extends SubsystemBase implements Mova
     public void stopOverride() {
         if (overridden) {
             DriverStationLogger.logToDS("Stopping to override " + getName().toLowerCase());
-            stopMove();
             overridden = false;
             overrideNotifier.stop();
+            stopMove();
             overrideNotifier.close();
         }
     }
