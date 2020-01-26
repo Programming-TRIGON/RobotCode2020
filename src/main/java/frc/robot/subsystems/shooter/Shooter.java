@@ -7,8 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.MovableSubsystem;
+import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.utils.DriverStationLogger;
 
 import static frc.robot.Robot.robotConstants;
@@ -16,7 +15,7 @@ import static frc.robot.Robot.robotConstants;
 /**
  * This subsystem handles shooting power cells into the outer and inner ports.
  */
-public class Shooter extends SubsystemBase implements MovableSubsystem {
+public class Shooter extends OverridableSubsystem {
     private WPI_TalonFX leftTalonFX;
     private WPI_TalonFX rightTalonFX;
     private DigitalInput microSwitch;
@@ -49,18 +48,17 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
         resetEncoders();
     }
 
-    /**
-     * @param power The power to set the talons in open loop. Value should be between -1.0 and 1.0.
-     */
     @Override
-    public void move(double power) {
+    public void overriddenMove(double power) {
         leftTalonFX.set(power);
         rightTalonFX.set(power);
     }
 
     public void setPower(double leftPower, double rightPower) {
-        leftTalonFX.set(leftPower);
-        rightTalonFX.set(rightPower);
+        if (!overridden) {
+            leftTalonFX.set(leftPower);
+            rightTalonFX.set(rightPower);
+        }
     }
 
     public void setDefaultVelocity() {
@@ -82,6 +80,8 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
      * @param velocitySetpoint velocity to set the talons in RPM.
      */
     public void setVelocity(double velocitySetpoint) {
+        if (overridden)
+            return;
         double leftVelocityInTalonUnits = velocitySetpoint * robotConstants.shooterConstants.kLeftUnitsPerRotation
             / 600;
         double rightVelocityInTalonUnits = velocitySetpoint * robotConstants.shooterConstants.kRightUnitsPerRotation
