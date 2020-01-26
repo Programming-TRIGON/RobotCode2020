@@ -22,7 +22,6 @@ public class DashboardDataContainer {
     // private DashboardController dashboardController;
 
     public DashboardDataContainer() {
-        Logger.configureLoggingNTOnly(this, "Logging");
         //dashboardController = new DashboardController();
 
         // Mixer dashboard data:
