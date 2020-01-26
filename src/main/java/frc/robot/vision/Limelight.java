@@ -74,7 +74,7 @@ public class Limelight implements Loggable {
      * @return The distance between the target and the limelight
      */
     //TODO: set real function
-    @Log(name = "Limelight/DistanceFromLimelight")
+    @Log(name = "Limelight/Distance From Limelight")
     public double getDistanceFromLimelight() {
         double x = getTy();
         return robotConstants.visionConstants.kDistanceCalculationACoefficient * Math.pow(x, 2) +
@@ -84,7 +84,7 @@ public class Limelight implements Loggable {
     /**
      * @return The distance between the target and the middle of the robot
      */
-    @Log(name = "Limelight/VisionDistance")
+    @Log(name = "Limelight/Vision Distance")
     public double getDistance() {
         return calculateVector().magnitude();
     }
@@ -92,7 +92,7 @@ public class Limelight implements Loggable {
     /**
      * @return the angle from the middle of the robot to the target
      */
-    @Log(name = "Limelight/VisionAngle")
+    @Log(name = "Limelight/Vision Angle")
     public double getAngle() {
         Vector2d vector = calculateVector();
         return Math.toDegrees(Math.atan(vector.y / vector.x));
