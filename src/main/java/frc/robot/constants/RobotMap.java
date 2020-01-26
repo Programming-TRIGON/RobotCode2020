@@ -18,26 +18,26 @@ public abstract class RobotMap {
     // TODO: Set variables for hardware components
     public static class CAN {
         // Drivetrain ports
-        public int kDrivetrainLeftRearTalonFx;
-        public int kDrivetrainLeftMiddleTalonFx;
-        public int kDrivetrainLeftFrontTalonFx;
-        public int kDrivetrainRightRearTalonFx;
-        public int kDrivetrainRightMiddleTalonFx;
-        public int kDrivetrainRightFrontTalonFx;
+        public int kDrivetrainLeftRearTalonFX;
+        public int kDrivetrainLeftMiddleTalonFX;
+        public int kDrivetrainLeftFrontTalonFX;
+        public int kDrivetrainRightRearTalonFX;
+        public int kDrivetrainRightMiddleTalonFX;
+        public int kDrivetrainRightFrontTalonFX;
         public int kTemporaryTalonForRightDrivetrainEncoder;
         public int kTemporaryTalonForLeftDrivetrainEncoder;
         // Intake ports
         public int kIntakeSparkMax;
         // Mixer ports
-        public int kMixerTalonSrx;
+        public int kMixerTalonSRX;
         // Loader ports
-        public int kLoaderTalonSrx;
+        public int kLoaderTalonSRX;
         // Shooter ports
-        public int kLeftShooterTalonFx;
-        public int kRightShooterTalonFx;
+        public int kLeftShooterTalonFX;
+        public int kRightShooterTalonFX;
         // Climb ports
         public int kClimbSparkMax;
-        public int kHookTalonSrx;
+        public int kHookTalonSRX;
     }
 
     public static class DIO {

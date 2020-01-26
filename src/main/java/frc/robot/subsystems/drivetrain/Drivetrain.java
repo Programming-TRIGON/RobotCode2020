@@ -37,12 +37,12 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
      * This is the subsystem of the drivetrain
      */
     public Drivetrain() {
-        leftRear = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftRearTalonFx);
-        leftMiddle = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftMiddleTalonFx);
-        leftFront = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftFrontTalonFx);
-        rightRear = new WPI_TalonFX(robotConstants.can.kDrivetrainRightRearTalonFx);
-        rightMiddle = new WPI_TalonFX(robotConstants.can.kDrivetrainRightMiddleTalonFx);
-        rightFront = new WPI_TalonFX(robotConstants.can.kDrivetrainRightFrontTalonFx);
+        leftRear = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftRearTalonFX);
+        leftMiddle = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftMiddleTalonFX);
+        leftFront = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftFrontTalonFX);
+        rightRear = new WPI_TalonFX(robotConstants.can.kDrivetrainRightRearTalonFX);
+        rightMiddle = new WPI_TalonFX(robotConstants.can.kDrivetrainRightMiddleTalonFX);
+        rightFront = new WPI_TalonFX(robotConstants.can.kDrivetrainRightFrontTalonFX);
 
         configTalonFX(leftRear, leftFront);
         configTalonFX(leftMiddle, leftFront);
@@ -58,7 +58,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
         leftEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForLeftDrivetrainEncoder);
         rightEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForRightDrivetrainEncoder);
         // TODO: set correct port for pigeon gyro.
-        gyro = new Pigeon(robotConstants.can.kDrivetrainLeftRearTalonFx);
+        gyro = new Pigeon(robotConstants.can.kDrivetrainLeftRearTalonFX);
 
         kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.kWheelBaseWidth);
         odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));

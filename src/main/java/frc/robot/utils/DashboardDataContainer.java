@@ -26,7 +26,7 @@ public class DashboardDataContainer {
         // Mixer dashboard data:
         SmartDashboard.putNumber("Mixer/Mixer power", 0.0);
         SmartDashboard.putData("Mixer/Spin mixer",
-            new SpinMixer(() -> SmartDashboard.getNumber("Mixer/Mixer power", 0.0)));
+            new SpinMixer(() -> getNumber("Mixer/Mixer power")));
         // drivetrain dashboard data
         SmartDashboard.putData("Drivetrain/Tune drivetrain rotate PID", new RotateDrivetrain());
         // Shooter dashboard data:
@@ -35,16 +35,16 @@ public class DashboardDataContainer {
         dashboardController.addNumber("Shooter/Right shooter velocity", shooter::getRightSpeed);
         SmartDashboard.putNumber("Shooter/Shooting velocity setpoint", ShooterVelocity.kDefault.getVelocity());
         SmartDashboard.putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() ->
-            SmartDashboard.getNumber("Shooter/Shooting velocity setpoint", 0)));
+            getNumber("Shooter/Shooting velocity setpoint")));
         SmartDashboard.putData("Shooter/Set shooting velocity", new SetShooterVelocity(() ->
-            SmartDashboard.getNumber("Shooter/Shooting Velocity Setpoint", 0)));
+            getNumber("Shooter/Shooting Velocity Setpoint")));
         SmartDashboard.putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
 
         // Command groups data
-        SmartDashboard.putData("CommandGroups/AutoShoot", new AutoShoot(() ->
-            SmartDashboard.getNumber("Shooter/Shooting Velocity Setpoint", 0)));
-        SmartDashboard.putData("CommandGroup/CollectCell", new CollectCell());
-        SmartDashboard.putData("CommandGroup/CollectFromFeeder", new CollectFromFeeder());
+        SmartDashboard.putData("CommandGroups/Auto Shoot", new AutoShoot(() ->
+            getNumber("Shooter/Shooting Velocity Setpoint")));
+        SmartDashboard.putData("CommandGroup/Collect Cell", new CollectCell());
+        SmartDashboard.putData("CommandGroup/Collect From Feeder", new CollectFromFeeder());
 
         // dashboardController.addBoolean(name, booleanSupplier);
         // dashboardController.addNumber(name, numberSupplier);
@@ -52,6 +52,12 @@ public class DashboardDataContainer {
         // SmartDashboard.putData(key, data);
         // etc.
     }
+
+    private double getNumber(String key, double defaultValue) {
+        return SmartDashboard.getNumber(key, defaultValue);
+    }
+
+    private double getNumber(String key) { return getNumber(key, 0); }
 
     public void update() {
         dashboardController.update();

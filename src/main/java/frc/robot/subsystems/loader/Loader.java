@@ -16,7 +16,7 @@ public class Loader extends SubsystemBase implements MovableSubsystem {
      * from the Mixer and loads it into the Shooter
      */
     public Loader() {
-        talonSRX = new WPI_TalonSRX(robotConstants.can.kLoaderTalonSrx);
+        talonSRX = new WPI_TalonSRX(robotConstants.can.kLoaderTalonSRX);
         talonSRX.configClosedloopRamp(robotConstants.loaderConstants.kRampRate);
         talonSRX.setNeutralMode(NeutralMode.Coast);
         talonSRX.configSupplyCurrentLimit(

@@ -92,26 +92,26 @@ public class RobotA extends RobotConstants {
 
         /* Robot Map */
         // Drivetrain Map
-        can.kDrivetrainLeftFrontTalonFx = 1;
-        can.kDrivetrainLeftMiddleTalonFx = 2;
-        can.kDrivetrainLeftRearTalonFx = 3;
-        can.kDrivetrainRightFrontTalonFx = 4;
-        can.kDrivetrainRightMiddleTalonFx = 5;
-        can.kDrivetrainRightRearTalonFx = 6;
+        can.kDrivetrainLeftFrontTalonFX = 1;
+        can.kDrivetrainLeftMiddleTalonFX = 2;
+        can.kDrivetrainLeftRearTalonFX = 3;
+        can.kDrivetrainRightFrontTalonFX = 4;
+        can.kDrivetrainRightMiddleTalonFX = 5;
+        can.kDrivetrainRightRearTalonFX = 6;
         can.kTemporaryTalonForLeftDrivetrainEncoder = 7;
         can.kTemporaryTalonForRightDrivetrainEncoder = 8;
         // Intake Map
         can.kIntakeSparkMax = 11;
         // Mixer Map
-        can.kMixerTalonSrx = 12;
+        can.kMixerTalonSRX = 12;
         // Loader Map
-        can.kLoaderTalonSrx = 15;
+        can.kLoaderTalonSRX = 15;
         // Shooter Map
-        can.kLeftShooterTalonFx = 9;
-        can.kRightShooterTalonFx = 10;
+        can.kLeftShooterTalonFX = 9;
+        can.kRightShooterTalonFX = 10;
         dio.kSwitchShooter = 0;
         // Climb Map
-        can.kHookTalonSrx = 13;
+        can.kHookTalonSRX = 13;
         can.kClimbSparkMax = 14;
         // PWM Map
         pwm.kLedController = 0;

@@ -24,7 +24,7 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
 
     public Shooter() {
         //setting up the talon fx
-        leftTalonFX = new WPI_TalonFX(robotConstants.can.kLeftShooterTalonFx);
+        leftTalonFX = new WPI_TalonFX(robotConstants.can.kLeftShooterTalonFX);
         leftTalonFX.setNeutralMode(NeutralMode.Coast);
         leftTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
         leftTalonFX.configOpenloopRamp(robotConstants.shooterConstants.kRampTime);
@@ -33,7 +33,7 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
         leftTalonFX.setInverted(robotConstants.shooterConstants.kIsLeftMotorInverted);
         leftTalonFX.setSensorPhase(robotConstants.shooterConstants.kIsLeftEncoderInverted);
 
-        rightTalonFX = new WPI_TalonFX(robotConstants.can.kRightShooterTalonFx);
+        rightTalonFX = new WPI_TalonFX(robotConstants.can.kRightShooterTalonFX);
         rightTalonFX.setNeutralMode(NeutralMode.Coast);
         rightTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
         rightTalonFX.configOpenloopRamp(robotConstants.shooterConstants.kRampTime);
