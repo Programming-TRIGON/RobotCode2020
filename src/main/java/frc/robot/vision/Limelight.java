@@ -4,12 +4,14 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.Vector2d;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
 
-public class Limelight {
+public class Limelight implements Loggable {
 
-    public static final String defaultTableKey = "limelight";
+    public static final String kDefaultTableKey = "limelight";
     private final NetworkTableEntry tv, tx, ty, ta, ts, ledMode, camMode, pipeline, snapshot;
 
     /**
@@ -30,7 +32,7 @@ public class Limelight {
     }
 
     public Limelight() {
-        this(defaultTableKey);
+        this(kDefaultTableKey);
     }
 
     /**
@@ -72,6 +74,7 @@ public class Limelight {
      * @return The distance between the target and the limelight
      */
     //TODO: set real function
+    @Log(name = "Limelight/Distance From Limelight")
     public double getDistanceFromLimelight() {
         double x = getTy();
         return robotConstants.visionConstants.kDistanceCalculationACoefficient * Math.pow(x, 2) +
@@ -81,6 +84,7 @@ public class Limelight {
     /**
      * @return The distance between the target and the middle of the robot
      */
+    @Log(name = "Limelight/Vision Distance")
     public double getDistance() {
         return calculateVector().magnitude();
     }
@@ -88,6 +92,7 @@ public class Limelight {
     /**
      * @return the angle from the middle of the robot to the target
      */
+    @Log(name = "Limelight/Vision Angle")
     public double getAngle() {
         Vector2d vector = calculateVector();
         return Math.toDegrees(Math.atan(vector.y / vector.x));
