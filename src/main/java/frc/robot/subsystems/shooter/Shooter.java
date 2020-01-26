@@ -9,13 +9,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.utils.DriverStationLogger;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
 
 /**
  * This subsystem handles shooting power cells into the outer and inner ports.
  */
-public class Shooter extends OverridableSubsystem {
+public class Shooter extends OverridableSubsystem implements Loggable {
     private WPI_TalonFX leftTalonFX;
     private WPI_TalonFX rightTalonFX;
     private DigitalInput microSwitch;
@@ -98,6 +100,7 @@ public class Shooter extends OverridableSubsystem {
         return rightTalonFX.getMotorOutputVoltage();
     }
 
+    @Log(name = "Shooter/Is Switch Pressed")
     public boolean isSwitchPressed() {
         return microSwitch.get();
     }
@@ -115,10 +118,12 @@ public class Shooter extends OverridableSubsystem {
         isTuning = false;
     }
 
+    @Log(name = "Shooter/Left Ticks")
     public int getLeftTicks() {
         return leftTalonFX.getSelectedSensorPosition();
     }
 
+    @Log(name = "Shooter/Right Ticks")
     public int getRightTicks() {
         return rightTalonFX.getSelectedSensorPosition();
     }
@@ -126,6 +131,7 @@ public class Shooter extends OverridableSubsystem {
     /**
      * @return the speed of the left shooter in RPM.
      */
+    @Log(name = "Shooter/Left Speed")
     public double getLeftSpeed() {
         return leftTalonFX.getSelectedSensorVelocity() * 600.0
             / robotConstants.shooterConstants.kLeftUnitsPerRotation;
@@ -134,6 +140,7 @@ public class Shooter extends OverridableSubsystem {
     /**
      * @return the speed of the right shooter in RPM.
      */
+    @Log(name = "Shooter/Right Speed")
     public double getRightSpeed() {
         return rightTalonFX.getSelectedSensorVelocity() * 600.0
             / robotConstants.shooterConstants.kRightUnitsPerRotation;
@@ -142,6 +149,7 @@ public class Shooter extends OverridableSubsystem {
     /**
      * @return the speed of the shooter in RPM.
      */
+    @Log(name = "Shooter/Average Speed")
     public double getAverageSpeed() {
         return (getLeftSpeed() + getRightSpeed()) / 2;
     }

@@ -11,6 +11,7 @@ import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
 import frc.robot.subsystems.shooter.ShooterVelocity;
+import io.github.oblarg.oblog.Logger;
 
 import static frc.robot.Robot.*;
 
@@ -19,10 +20,10 @@ import static frc.robot.Robot.*;
  * dashboard.
  */
 public class DashboardDataContainer {
-    private DashboardController dashboardController;
+    // private DashboardController dashboardController;
 
     public DashboardDataContainer() {
-        dashboardController = new DashboardController();
+        //dashboardController = new DashboardController();
 
         // Mixer dashboard data:
         SmartDashboard.putNumber("Mixer/Mixer power", 0.0);
@@ -33,9 +34,6 @@ public class DashboardDataContainer {
         // drivetrain dashboard data
         SmartDashboard.putData("Drivetrain/Tune drivetrain rotate PID", new RotateDrivetrain());
         // Shooter dashboard data:
-        dashboardController.addNumber("Shooter/Average shooter velocity", shooter::getAverageSpeed);
-        dashboardController.addNumber("Shooter/Left shooter velocity", shooter::getLeftSpeed);
-        dashboardController.addNumber("Shooter/Right shooter velocity", shooter::getRightSpeed);
         SmartDashboard.putNumber("Shooter/Shooting velocity setpoint", ShooterVelocity.kDefault.getVelocity());
         SmartDashboard.putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() ->
             SmartDashboard.getNumber("Shooter/Shooting velocity setpoint", 0)));
@@ -67,6 +65,7 @@ public class DashboardDataContainer {
     }
 
     public void update() {
-        dashboardController.update();
+        Logger.updateEntries();
+        // dashboardController.update();
     }
 }

@@ -18,6 +18,7 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.utils.DashboardDataContainer;
 import frc.robot.utils.DriverStationLogger;
 import frc.robot.vision.Limelight;
+import io.github.oblarg.oblog.Logger;
 
 public class Robot extends TimedRobot {
 
@@ -61,6 +62,9 @@ public class Robot extends TimedRobot {
         autoChooser = new SendableChooser<>();
         // autoChooser.setDefaultOption(name, object);
         // autoChooser.addOption(name, object);
+
+        // We configure the logger here since it needs the container of all the subsystems
+        Logger.configureLoggingNTOnly(this, "Logging");
 
         //set up command logging
         CommandScheduler.getInstance().onCommandInitialize(command -> DriverStationLogger.logToDS("Starting to run " + command.getName().toLowerCase()));
