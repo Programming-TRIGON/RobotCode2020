@@ -2,6 +2,7 @@ package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.RobotController;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.subsystems.MovableSubsystem;
+import frc.robot.utils.DriverStationLogger;
 
 import static frc.robot.Robot.robotConstants;
 
@@ -58,8 +60,16 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
         // TODO: set correct talons for encoders.
         leftEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER);
         rightEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER);
+        
+        DriverStationLogger.logErrorToDS(leftEncoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
+            "Could not set left drivetrain encoder");
+        DriverStationLogger.logErrorToDS(rightEncoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
+            "Could not set right drivetrain encoder");
+
         // TODO: set correct port for pigeon gyro.
         gyro = new Pigeon(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON_FX);
+        DriverStationLogger.logErrorToDS(gyro.resetGyroWithErrorCode(),
+            "Could not reset pigeon gyro");
 
         kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.kWheelBaseWidth);
         odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));

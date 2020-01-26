@@ -12,13 +12,13 @@ import static frc.robot.Robot.robotConstants;
  * POWER CELLS in the robot for shooting.
  */
 public class Mixer extends SubsystemBase implements MovableSubsystem {
-    private final WPI_TalonSRX talonSRX;
+    private WPI_TalonSRX talonSRX;
 
     public Mixer() {
         talonSRX = new WPI_TalonSRX(robotConstants.can.MIXER_TALON_SRX);
         talonSRX.setNeutralMode(NeutralMode.Coast);
         talonSRX.setInverted(robotConstants.mixerConstants.kIsInverted);
-        talonSRX.configClosedloopRamp(robotConstants.mixerConstants.kRampUpTime);
+        talonSRX.configOpenloopRamp(robotConstants.mixerConstants.kRampUpTime);
     }
 
     @Override

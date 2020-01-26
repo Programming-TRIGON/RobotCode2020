@@ -28,19 +28,21 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
         leftTalonFX.setNeutralMode(NeutralMode.Coast);
         leftTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
         leftTalonFX.configOpenloopRamp(robotConstants.shooterConstants.kRampTime);
-        leftTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
         leftTalonFX.selectProfileSlot(0, 0);
         leftTalonFX.setInverted(robotConstants.shooterConstants.kIsLeftMotorInverted);
         leftTalonFX.setSensorPhase(robotConstants.shooterConstants.kIsLeftEncoderInverted);
+        DriverStationLogger.logErrorToDS(leftTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0),
+        "Could not set left shooter encoder");
 
         rightTalonFX = new WPI_TalonFX(robotConstants.can.RIGHT_SHOOTER_TALON_FX);
         rightTalonFX.setNeutralMode(NeutralMode.Coast);
         rightTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
         rightTalonFX.configOpenloopRamp(robotConstants.shooterConstants.kRampTime);
-        rightTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
         rightTalonFX.selectProfileSlot(0, 0);
         rightTalonFX.setInverted(robotConstants.shooterConstants.kIsRightMotorInverted);
         rightTalonFX.setSensorPhase(robotConstants.shooterConstants.kIsRightEncoderInverted);
+        DriverStationLogger.logErrorToDS(rightTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0),
+        "Could not set right shooter encoder");
 
         configPIDGains();
         microSwitch = new DigitalInput(robotConstants.dio.SWITCH_SHOOTER);
@@ -111,6 +113,14 @@ public class Shooter extends SubsystemBase implements MovableSubsystem {
 
     public void disableTuning() {
         isTuning = false;
+    }
+
+    public int getLeftTicks() {
+        return leftTalonFX.getSelectedSensorPosition();
+    }
+
+    public int getRightTicks() {
+        return rightTalonFX.getSelectedSensorPosition();
     }
 
     /**
