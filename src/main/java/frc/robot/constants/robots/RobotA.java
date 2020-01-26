@@ -67,6 +67,8 @@ public class RobotA extends RobotConstants {
         loaderConstants.kTimeout = 0;
         loaderConstants.kTicksPerRotation = 1;
         loaderConstants.kDefaultVelocity = 0.5;
+        loaderConstants.kStallLimit = 20;
+        loaderConstants.kSpinBackwardsTime = 1;
         controlConstants.loaderFeedforward = new SimpleMotorFeedforward(0, 0, 0);
         controlConstants.loaderPidSettings = new PIDSettings(0, 0, 0, 0, 0);
 

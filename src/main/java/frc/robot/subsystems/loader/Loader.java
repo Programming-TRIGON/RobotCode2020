@@ -52,4 +52,8 @@ public class Loader extends OverridableSubsystem implements Loggable {
     public void overriddenMove(double power) {
         talonSRX.set(power);
     }
+
+  public boolean getIsInStall() {
+    return talonSRX.getStatorCurrent() > robotConstants.loaderConstants.kStallLimit;
+  }
 }
