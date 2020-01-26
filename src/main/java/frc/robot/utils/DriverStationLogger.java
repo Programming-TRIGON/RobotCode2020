@@ -1,5 +1,7 @@
 package frc.robot.utils;
 
+import com.ctre.phoenix.ErrorCode;
+
 import static frc.robot.Robot.led;
 
 /**
@@ -17,5 +19,10 @@ public class DriverStationLogger {
     public static void logErrorToDS(String errorLog) {
         led.startEmergencyLED();
         System.err.println("!!!!!!!!!!!!!!!!!!! DS error log: " + errorLog + " !!!!!!!!!!!!!!!!!!!");
+    }
+
+    public static void logErrorToDS(ErrorCode errorCode, String errorLog) {
+        if(errorCode != ErrorCode.OK)
+            logErrorToDS(errorLog);
     }
 }

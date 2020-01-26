@@ -7,8 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.MovableSubsystem;
+import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.utils.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
@@ -18,7 +17,7 @@ import static frc.robot.Robot.robotConstants;
 /**
  * This subsystem handles shooting power cells into the outer and inner ports.
  */
-public class Shooter extends SubsystemBase implements MovableSubsystem, Loggable {
+public class Shooter extends OverridableSubsystem implements Loggable {
     private WPI_TalonFX leftTalonFX;
     private WPI_TalonFX rightTalonFX;
     private DigitalInput microSwitch;
@@ -30,37 +29,38 @@ public class Shooter extends SubsystemBase implements MovableSubsystem, Loggable
         leftTalonFX.setNeutralMode(NeutralMode.Coast);
         leftTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
         leftTalonFX.configOpenloopRamp(robotConstants.shooterConstants.kRampTime);
-        leftTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
         leftTalonFX.selectProfileSlot(0, 0);
         leftTalonFX.setInverted(robotConstants.shooterConstants.kIsLeftMotorInverted);
         leftTalonFX.setSensorPhase(robotConstants.shooterConstants.kIsLeftEncoderInverted);
+        DriverStationLogger.logErrorToDS(leftTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0),
+        "Could not set left shooter encoder");
 
         rightTalonFX = new WPI_TalonFX(robotConstants.can.RIGHT_SHOOTER_TALON_FX);
         rightTalonFX.setNeutralMode(NeutralMode.Coast);
         rightTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
         rightTalonFX.configOpenloopRamp(robotConstants.shooterConstants.kRampTime);
-        rightTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0);
         rightTalonFX.selectProfileSlot(0, 0);
         rightTalonFX.setInverted(robotConstants.shooterConstants.kIsRightMotorInverted);
         rightTalonFX.setSensorPhase(robotConstants.shooterConstants.kIsRightEncoderInverted);
+        DriverStationLogger.logErrorToDS(rightTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0),
+        "Could not set right shooter encoder");
 
         configPIDGains();
         microSwitch = new DigitalInput(robotConstants.dio.SWITCH_SHOOTER);
         resetEncoders();
     }
 
-    /**
-     * @param power The power to set the talons in open loop. Value should be between -1.0 and 1.0.
-     */
     @Override
-    public void move(double power) {
+    public void overriddenMove(double power) {
         leftTalonFX.set(power);
         rightTalonFX.set(power);
     }
 
     public void setPower(double leftPower, double rightPower) {
-        leftTalonFX.set(leftPower);
-        rightTalonFX.set(rightPower);
+        if (!overridden) {
+            leftTalonFX.set(leftPower);
+            rightTalonFX.set(rightPower);
+        }
     }
 
     public void setDefaultVelocity() {
@@ -82,6 +82,8 @@ public class Shooter extends SubsystemBase implements MovableSubsystem, Loggable
      * @param velocitySetpoint velocity to set the talons in RPM.
      */
     public void setVelocity(double velocitySetpoint) {
+        if (overridden)
+            return;
         double leftVelocityInTalonUnits = velocitySetpoint * robotConstants.shooterConstants.kLeftUnitsPerRotation
             / 600;
         double rightVelocityInTalonUnits = velocitySetpoint * robotConstants.shooterConstants.kRightUnitsPerRotation
@@ -114,6 +116,14 @@ public class Shooter extends SubsystemBase implements MovableSubsystem, Loggable
 
     public void disableTuning() {
         isTuning = false;
+    }
+
+    public int getLeftTicks() {
+        return leftTalonFX.getSelectedSensorPosition();
+    }
+
+    public int getRightTicks() {
+        return rightTalonFX.getSelectedSensorPosition();
     }
 
     /**
