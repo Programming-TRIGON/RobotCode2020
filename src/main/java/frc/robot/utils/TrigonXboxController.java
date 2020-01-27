@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class TrigonXboxController extends XboxController {
-    private static final double kIntermittentRumbleTime = 0.5;
+    private static final double kIntermittentRumbleTime = 0.15;
     private JoystickButton buttonA;
     private JoystickButton buttonB;
     private JoystickButton buttonX;
@@ -100,19 +100,18 @@ public class TrigonXboxController extends XboxController {
         return getTriggerAxis(Hand.kRight) - getTriggerAxis(Hand.kLeft);
     }
 
-    /** This sets both motors to 100% rumble or 0% rumble. */
-    public void setRumble(boolean isRumble) {
-        if (isRumble) {
-            setRumble(RumbleType.kLeftRumble, 1);
-            setRumble(RumbleType.kRightRumble, 1);
-        } else {
-            setRumble(RumbleType.kLeftRumble, 0);
-            setRumble(RumbleType.kRightRumble, 0);
-        }
+    /**
+     * Set the rumble output for the HID. this method affects both motors.
+     *
+     * @param value The normalized value (0 to 1) to set the rumble to
+     */
+    public void setRumble(double power) {
+        setRumble(RumbleType.kLeftRumble, power);
+        setRumble(RumbleType.kRightRumble, power);
     }
 
     /**
-     * Rumbles the controller the desired amount.
+     * Rumbles the controller the desired amount of times.
      *
      * @param quantity the number of times to rumble.
      */
@@ -121,11 +120,11 @@ public class TrigonXboxController extends XboxController {
     }
 
     public void notifierPeriodic() {
-        if (rumbleAmount > 0) {
+        if (rumbleAmount >= 0) {
             if (rumbleAmount % 2 == 1)
-                setRumble(true);
+                setRumble(1);
             else
-                setRumble(false);
+                setRumble(0);
             rumbleAmount--;
         }
     }
