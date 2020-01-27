@@ -52,8 +52,7 @@ public class DashboardDataContainer {
         SmartDashboard.putData("Intake/Override intake", new OverrideCommand(intake,
             () -> SmartDashboard.getNumber("Intake/Intake power", 0)));
         // Command groups data
-        SmartDashboard.putData("CommandGroup/AutoShoot", new AutoShoot(() ->
-            SmartDashboard.getNumber("Shooter/Shooting Velocity Setpoint", 0)));
+        SmartDashboard.putData("CommandGroup/AutoShoot", new AutoShoot());
         SmartDashboard.putData("CommandGroup/CollectCell", new CollectCell());
         SmartDashboard.putData("CommandGroup/CollectFromFeeder", new CollectFromFeeder());
 
