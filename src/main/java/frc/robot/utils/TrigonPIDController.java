@@ -50,7 +50,7 @@ public class TrigonPIDController extends PIDController {
     public TrigonPIDController(String dashboardKey, double defaultSetpoint) {
         super(0, 0, 0);
         setSetpoint(defaultSetpoint);
-        boolean isTuning = true;
+        isTuning = true;
         SmartDashboard.putData("PID/" + dashboardKey, this);
     }
 

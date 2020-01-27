@@ -16,6 +16,7 @@ public class RotateDrivetrain extends CommandBase {
      */
     public RotateDrivetrain(DoubleSupplier desiredAngle) {
         addRequirements(drivetrain);
+        this.desiredAngle = desiredAngle;
         pidController = new TrigonPIDController(robotConstants.controlConstants.drivetrainRotateSettings);
         pidController.enableContinuousInput(-180, 180);
     }
