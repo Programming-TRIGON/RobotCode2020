@@ -50,7 +50,7 @@ public class DashboardDataContainer {
         putData("Intake/Override intake", new OverrideCommand(intake,
             () -> getNumber("Intake/Intake power", 0)));
         // Command groups data
-        putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting Velocity Setpoint", 0)));
+        putData("CommandGroup/Auto Shoot", new AutoShoot());
         putData("CommandGroup/Collect Cell", new CollectCell());
         putData("CommandGroup/Collect From Feeder", new CollectFromFeeder());
     }
