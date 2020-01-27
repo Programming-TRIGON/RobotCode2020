@@ -55,7 +55,7 @@ public class AutoShoot extends SequentialCommandGroup {
                 new SpinMixer(),
                 turnToTarget,
                 new RunTwoCommands(SetLoaderVelocity.defaultSetLoaderVelocityCommand(),
-                    new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kSpinBackwardsTime),
+                    new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower),
                     () -> setShooterVelocity.isOnTarget() && turnToTarget.isOnTarget()))
         );
     }

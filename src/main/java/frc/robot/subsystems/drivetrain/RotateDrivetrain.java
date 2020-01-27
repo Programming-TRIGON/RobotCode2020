@@ -37,7 +37,9 @@ public class RotateDrivetrain extends CommandBase {
 
     @Override
     public void execute() {
-        drivetrain.move(pidController.calculate(drivetrain.getAngle(), desiredAngle.getAsDouble()));
+        if (!pidController.isTuning())
+            pidController.setSetpoint(desiredAngle.getAsDouble());
+        drivetrain.move(pidController.calculate(drivetrain.getAngle()));
     }
 
     @Override
