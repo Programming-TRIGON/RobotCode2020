@@ -27,8 +27,8 @@ public abstract class RobotConstants extends RobotMap {
         public double kRightEncoderTicksPerMeter;
         public double kRampRate;
         public double kCurrentLimit;
-        public double kTriggerThresholdCurrent;
-        public double kTriggerThresholdTime;
+        public double kThresholdLimit;
+        public double kCurrentTimeout;
     }
 
     public static class TrigonDriveConstants {
@@ -37,16 +37,16 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public static class IntakeConstants {
-        public boolean kIntakeReversed;
-        public double kIntakeDefaultPower;
+        public boolean kMotorInverted;
+        public double kDefaultPower;
     }
 
     public static class MixerConstants {
-        public double kMixerMaxStall;
-        public boolean kIsInverted;
+        public double kStallLimit;
+        public boolean kMotorInverted;
         public double kStallWaitTime;
         public double kBackwardsSpinTime;
-        public double kRampUpTime;
+        public double kRampRate;
         public double kDefaultPower;
     }
 
@@ -54,11 +54,12 @@ public abstract class RobotConstants extends RobotMap {
         public double kRampRate;
         public double kCurrentLimit;
         public double kThresholdLimit;
-        public double kTimeout;
+        public double kCurrentTimeout;
         public double kTicksPerRotation;
         public double kDefaultVelocity;
         public double kSpinBackwardsTime;
-        public double kStallLimit;
+        public double kCellStallLimit;
+        public double kCellStallTimeout;
     }
 
     public static class ShooterConstants {

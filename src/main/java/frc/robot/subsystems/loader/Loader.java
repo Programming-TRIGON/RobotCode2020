@@ -25,7 +25,7 @@ public class Loader extends OverridableSubsystem implements Loggable {
 
         talonSRX.configSupplyCurrentLimit(
             new SupplyCurrentLimitConfiguration(true, robotConstants.loaderConstants.kCurrentLimit,
-                robotConstants.loaderConstants.kThresholdLimit, robotConstants.loaderConstants.kTimeout));
+                robotConstants.loaderConstants.kThresholdLimit, robotConstants.loaderConstants.kCurrentTimeout));
 
         DriverStationLogger.logErrorToDS(talonSRX.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
             "Could not set loader encoder");
@@ -54,6 +54,6 @@ public class Loader extends OverridableSubsystem implements Loggable {
     }
 
   public boolean getIsInStall() {
-    return talonSRX.getStatorCurrent() > robotConstants.loaderConstants.kStallLimit;
+    return talonSRX.getStatorCurrent() > robotConstants.loaderConstants.kCellStallLimit;
   }
 }

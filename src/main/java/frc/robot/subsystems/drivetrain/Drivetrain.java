@@ -276,7 +276,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         motor.configClosedloopRamp(robotConstants.drivetrainConstants.kRampRate);
         motor.configStatorCurrentLimit(
                 new StatorCurrentLimitConfiguration(true, robotConstants.drivetrainConstants.kCurrentLimit,
-                        robotConstants.drivetrainConstants.kTriggerThresholdCurrent,
-                        robotConstants.drivetrainConstants.kTriggerThresholdTime));
+                        robotConstants.drivetrainConstants.kThresholdLimit,
+                        robotConstants.drivetrainConstants.kCurrentTimeout));
     }
 }

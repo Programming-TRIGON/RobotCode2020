@@ -16,7 +16,7 @@ public class Intake extends OverridableSubsystem {
 
     public Intake() {
         sparkMax = new CANSparkMax(robotConstants.can.kIntakeSparkMax, MotorType.kBrushless);
-        sparkMax.setInverted(robotConstants.intakeConstants.kIntakeReversed);
+        sparkMax.setInverted(robotConstants.intakeConstants.kMotorInverted);
         sparkMax.setIdleMode(IdleMode.kCoast);
         sparkMax.burnFlash();
     }

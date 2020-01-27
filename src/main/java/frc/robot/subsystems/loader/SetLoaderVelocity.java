@@ -61,8 +61,8 @@ public class SetLoaderVelocity extends CommandBase {
             return;
         }
         if (!inStall && loader.getIsInStall() && Timer.getFPGATimestamp() - initializeTimestamp >
-            robotConstants.loaderConstants.kTimeout) {
-            DriverStationLogger.logToDS("A cell got stuck in the loader. Trying to unjam it");
+            robotConstants.loaderConstants.kCellStallTimeout) {
+            DriverStationLogger.logToDS("A cell got stuck in the loader. Trying to release it");
             inStall = true;
             firstStallTimestamp = Timer.getFPGATimestamp();
             loader.move(-feedforward.calculate(pidController.getSetpoint()));
