@@ -3,7 +3,7 @@ package frc.robot.components;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 /**
- * This class attaches booleans values to the enum values from wpilibs double
+ * This class attaches booleans values to the enum values from WPILib's double
  * solenoid class
  */
 public class TrigonSolenoid extends DoubleSolenoid {

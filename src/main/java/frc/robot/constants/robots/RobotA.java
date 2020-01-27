@@ -94,30 +94,30 @@ public class RobotA extends RobotConstants {
 
         /* Robot Map */
         // Drivetrain Map
-        can.DRIVETRAIN_LEFT_FRONT_TALON_FX = 1;
-        can.DRIVETRAIN_LEFT_MIDDLE_TALON_FX = 2;
-        can.DRIVETRAIN_LEFT_REAR_TALON_FX = 3;
-        can.DRIVETRAIN_RIGHT_FRONT_TALON_FX = 4;
-        can.DRIVETRAIN_RIGHT_MIDDLE_TALON_FX = 5;
-        can.DRIVETRAIN_RIGHT_REAR_TALON_FX = 6;
-        can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER = 7;
-        can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER = 8;
+        can.kDrivetrainLeftFrontTalonFX = 1;
+        can.kDrivetrainLeftMiddleTalonFX = 2;
+        can.kDrivetrainLeftRearTalonFX = 3;
+        can.kDrivetrainRightFrontTalonFX = 4;
+        can.kDrivetrainRightMiddleTalonFX = 5;
+        can.kDrivetrainRightRearTalonFX = 6;
+        can.kTemporaryTalonForLeftDrivetrainEncoder = 7;
+        can.kTemporaryTalonForRightDrivetrainEncoder = 8;
         // Intake Map
-        can.INTAKE_SPARK_MAX = 11;
+        can.kIntakeSparkMax = 11;
         // Mixer Map
-        can.MIXER_TALON_SRX = 12;
+        can.kMixerTalonSRX = 12;
         // Loader Map
-        can.LOADER_TALON_SRX = 15;
+        can.kLoaderTalonSRX = 15;
         // Shooter Map
-        can.LEFT_SHOOTER_TALON_FX = 9;
-        can.RIGHT_SHOOTER_TALON_FX = 10;
-        dio.SWITCH_SHOOTER = 0;
+        can.kLeftShooterTalonFX = 9;
+        can.kRightShooterTalonFX = 10;
+        dio.kSwitchShooter = 0;
         // Climb Map
-        can.HOOK_TALON_SRX = 13;
-        can.CLIMB_SPARK_MAX = 14;
+        can.kHookTalonSRX = 13;
+        can.kClimbSparkMax = 14;
         // PWM Map
-        pwm.LED_CONTROLLER = 0;
+        pwm.kLedController = 0;
         // I2C Port
-        i2c.i2cPort = Port.kOnboard;
+        i2c.kI2cPort = Port.kOnboard;
     }
 }

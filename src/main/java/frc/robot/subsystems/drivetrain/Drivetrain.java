@@ -42,12 +42,12 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
      * This is the subsystem of the drivetrain
      */
     public Drivetrain() {
-        leftRear = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON_FX);
-        leftMiddle = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_MIDDLE_TALON_FX);
-        leftFront = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_FRONT_TALON_FX);
-        rightRear = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_REAR_TALON_FX);
-        rightMiddle = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_MIDDLE_TALON_FX);
-        rightFront = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_FRONT_TALON_FX);
+        leftRear = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftRearTalonFX);
+        leftMiddle = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftMiddleTalonFX);
+        leftFront = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftFrontTalonFX);
+        rightRear = new WPI_TalonFX(robotConstants.can.kDrivetrainRightRearTalonFX);
+        rightMiddle = new WPI_TalonFX(robotConstants.can.kDrivetrainRightMiddleTalonFX);
+        rightFront = new WPI_TalonFX(robotConstants.can.kDrivetrainRightFrontTalonFX);
 
         configTalonFX(leftRear, leftFront);
         configTalonFX(leftMiddle, leftFront);
@@ -60,8 +60,8 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         drivetrain.setDeadband(0);
 
         // TODO: set correct talons for encoders.
-        leftEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER);
-        rightEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER);
+        leftEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForLeftDrivetrainEncoder);
+        rightEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForRightDrivetrainEncoder);
 
         DriverStationLogger.logErrorToDS(leftEncoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
             "Could not set left drivetrain encoder");
@@ -69,7 +69,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
             "Could not set right drivetrain encoder");
 
         // TODO: set correct port for pigeon gyro.
-        gyro = new Pigeon(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON_FX);
+        gyro = new Pigeon(robotConstants.can.kDrivetrainLeftRearTalonFX);
         DriverStationLogger.logErrorToDS(gyro.resetGyroWithErrorCode(),
             "Could not reset pigeon gyro");
 

@@ -20,8 +20,8 @@ public class Climb extends SubsystemBase {
      * the system that extends to hang on the climb.
      */
     public Climb() {
-        hookTalonSRX = new WPI_TalonSRX(robotConstants.can.HOOK_TALON_SRX);
-        climbSparkMax = new CANSparkMax(robotConstants.can.CLIMB_SPARK_MAX, MotorType.kBrushless);
+        hookTalonSRX = new WPI_TalonSRX(robotConstants.can.kHookTalonSRX);
+        climbSparkMax = new CANSparkMax(robotConstants.can.kClimbSparkMax, MotorType.kBrushless);
 
         hookTalonSRX.configSupplyCurrentLimit(
             new SupplyCurrentLimitConfiguration(true, robotConstants.climbConstants.kHookCurrentLimit,
