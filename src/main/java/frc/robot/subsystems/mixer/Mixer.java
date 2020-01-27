@@ -29,7 +29,11 @@ public class Mixer extends OverridableSubsystem {
     /**
      * @return The motor output in amps
      */
-    public double getStall() {
+    public double getCurrent() {
         return talonSRX.getStatorCurrent();
+    }
+
+    public boolean isInStall() {
+        return getCurrent() >= robotConstants.mixerConstants.kMixerMaxStall;
     }
 }
