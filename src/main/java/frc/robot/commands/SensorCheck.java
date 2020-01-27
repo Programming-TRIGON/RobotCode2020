@@ -61,8 +61,8 @@ public class SensorCheck extends CommandBase {
     shooter.stopMove();
     loader.stopMove();
     // Check if none error detected, reports that all encoders are fine 
-    for (boolean b : hasFoundError) {
-      if (b)
+    for (boolean error : hasFoundError) {
+      if (error)
         return;
     }
     DriverStationLogger.logToDS("All encoders are good to go");

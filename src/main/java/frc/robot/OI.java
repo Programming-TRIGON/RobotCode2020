@@ -20,6 +20,7 @@ public class OI {
     private static final int kOperatorPort = 1;
     private TrigonXboxController driverXbox;
     private TrigonXboxController operatorXbox;
+    
     public OI() {
         createOperatorCommands();
         createDriverCommands();
@@ -43,7 +44,7 @@ public class OI {
         }, EntryListenerFlags.kNew | EntryListenerFlags.kImmediate | EntryListenerFlags.kUpdate);
     }
     private void createDriverCommands() {
-        drivetrain.setDefaultCommand(new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), () -> driverXbox.getY(Hand.kLeft)));
+        drivetrain.setDefaultCommand(new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), driverXbox::getDeltaTriggers));
     }
 
     private void bindDriverCommands() {
