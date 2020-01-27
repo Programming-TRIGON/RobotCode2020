@@ -12,8 +12,7 @@ import frc.robot.vision.TurnToTarget;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
-import static frc.robot.Robot.drivetrain;
-import static frc.robot.Robot.shooter;
+import static frc.robot.Robot.*;
 
 /**
  * This command group responsible for spinning the mixer, rotating the drivetrain to target, spinning the shooter in the desired speed,
