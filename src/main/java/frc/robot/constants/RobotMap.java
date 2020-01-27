@@ -18,38 +18,38 @@ public abstract class RobotMap {
     // TODO: Set variables for hardware components
     public static class CAN {
         // Drivetrain ports
-        public int DRIVETRAIN_LEFT_REAR_TALON_FX;
-        public int DRIVETRAIN_LEFT_MIDDLE_TALON_FX;
-        public int DRIVETRAIN_LEFT_FRONT_TALON_FX;
-        public int DRIVETRAIN_RIGHT_REAR_TALON_FX;
-        public int DRIVETRAIN_RIGHT_MIDDLE_TALON_FX;
-        public int DRIVETRAIN_RIGHT_FRONT_TALON_FX;
-        public int TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER;
-        public int TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER;
+        public int kDrivetrainLeftRearTalonFX;
+        public int kDrivetrainLeftMiddleTalonFX;
+        public int kDrivetrainLeftFrontTalonFX;
+        public int kDrivetrainRightRearTalonFX;
+        public int kDrivetrainRightMiddleTalonFX;
+        public int kDrivetrainRightFrontTalonFX;
+        public int kTemporaryTalonForRightDrivetrainEncoder;
+        public int kTemporaryTalonForLeftDrivetrainEncoder;
         // Intake ports
-        public int INTAKE_SPARK_MAX;
+        public int kIntakeSparkMax;
         // Mixer ports
-        public int MIXER_TALON_SRX;
+        public int kMixerTalonSRX;
         // Loader ports
-        public int LOADER_TALON_SRX;
+        public int kLoaderTalonSRX;
         // Shooter ports
-        public int LEFT_SHOOTER_TALON_FX;
-        public int RIGHT_SHOOTER_TALON_FX;
+        public int kLeftShooterTalonFX;
+        public int kRightShooterTalonFX;
         // Climb ports
-        public int CLIMB_SPARK_MAX;
-        public int HOOK_TALON_SRX;
+        public int kClimbSparkMax;
+        public int kHookTalonSRX;
     }
 
     public static class DIO {
-        public int SWITCH_SHOOTER;
+        public int kSwitchShooter;
     }
 
     public static class PWM {
-        public int LED_CONTROLLER;
+        public int kLedController;
     }
 
     public static class I2C {
-        public Port i2cPort;
+        public Port kI2cPort;
     }
 
     public static class PCM {

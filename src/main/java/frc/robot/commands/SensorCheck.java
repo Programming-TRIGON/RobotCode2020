@@ -4,9 +4,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utils.DriverStationLogger;
 
-import static frc.robot.Robot.drivetrain;
-import static frc.robot.Robot.shooter;
-import static frc.robot.Robot.loader;
+import static frc.robot.Robot.*;
 
 public class SensorCheck extends CommandBase {
   private static final double kCheckTime = 1;
@@ -29,7 +27,7 @@ public class SensorCheck extends CommandBase {
   @Override
   public void initialize() {
     initialTime = Timer.getFPGATimestamp();
-    // Inaital all sensor position in the robot 
+    // Initialize all sensor position in the robot
     initialSensorPosition[0] = drivetrain.getLeftTicks();
     initialSensorPosition[1] = drivetrain.getRightTicks();
     initialSensorPosition[2] = shooter.getLeftTicks();

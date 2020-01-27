@@ -26,7 +26,7 @@ public class RotateDrivetrain extends CommandBase {
      */
     public RotateDrivetrain() {
         addRequirements(drivetrain);
-        pidController = new TrigonPIDController("PID/Rotate Drivetrain Settings");
+        pidController = new TrigonPIDController("Rotate Drivetrain Settings");
         pidController.enableContinuousInput(-180, 180);
     }
 
