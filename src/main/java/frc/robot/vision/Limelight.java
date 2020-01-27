@@ -73,9 +73,28 @@ public class Limelight implements Loggable {
     /**
      * @return The distance between the target and the limelight
      */
-    //TODO: set real function
     @Log(name = "Limelight/Distance From Limelight")
     public double getDistanceFromLimelight() {
+        if (getPipeline() == Target.PowerPort.getIndex())
+            return getDistanceFromPowerPort();
+        return getDistanceFromFeeder();
+    }
+
+    /**
+     * @return distance of the limelight from the feeder
+     */
+    //TODO: set real function
+    private double getDistanceFromFeeder() {
+        double x = getTy();
+        return robotConstants.visionConstants.kDistanceCalculationACoefficient * Math.pow(x, 2) +
+            robotConstants.visionConstants.kDistanceCalculationBCoefficient * x;
+    }
+
+    /**
+     * @return distance of limelight from the power port
+     */
+    //TODO: set real function
+    private double getDistanceFromPowerPort() {
         double x = getTy();
         return robotConstants.visionConstants.kDistanceCalculationACoefficient * Math.pow(x, 2) +
             robotConstants.visionConstants.kDistanceCalculationBCoefficient * x;
