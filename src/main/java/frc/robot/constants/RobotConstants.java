@@ -19,10 +19,7 @@ public abstract class RobotConstants extends RobotMap {
     public VisionConstants visionConstants = new VisionConstants();
 
     public static class DrivetrainConstants {
-        public double kWheelDiameter;
         public double kWheelBaseWidth;
-        public double kRobotLength;
-        public double kRobotWidth;
         public double kLeftEncoderTicksPerMeter;
         public double kRightEncoderTicksPerMeter;
         public double kRampRate;
