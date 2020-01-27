@@ -89,6 +89,12 @@ public class Limelight implements Loggable {
         return calculateVector().magnitude();
     }
 
+    @Log(name = "Limelight/Desired Shooter Velocity")
+    public double getDesiredShooterVelocity() {
+        // TODO: find and replace with real function based on a table.
+        return 0;
+    }
+
     /**
      * @return the angle from the middle of the robot to the target
      */
