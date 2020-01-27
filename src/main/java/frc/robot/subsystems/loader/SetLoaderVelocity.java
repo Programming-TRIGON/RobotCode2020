@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utils.DriverStationLogger;
 import frc.robot.utils.TrigonPIDController;
+import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.loader;
 import static frc.robot.Robot.robotConstants;
@@ -15,6 +16,17 @@ public class SetLoaderVelocity extends CommandBase {
     private boolean inStall;
     private double firstStallTimestamp;
     private double initializeTimestamp;
+    private DoubleSupplier desiredVelocity;
+
+    /**
+     * This class accelerates the loader subsystem to the desired velocity using PID.
+     * This constructor is used for tuning PID using the dashboard
+     */
+    public SetLoaderVelocity() {
+        addRequirements(loader);
+        feedforward = robotConstants.controlConstants.loaderFeedforward;
+        pidController = new TrigonPIDController("Loader PID controller");
+    }
 
     /**
      * This class accelerates the loader subsystem to the desired velocity using PID
@@ -30,19 +42,19 @@ public class SetLoaderVelocity extends CommandBase {
      * @param desiredVelocity in rotation per minute
      */
     public SetLoaderVelocity(double desiredVelocity) {
-        addRequirements(loader);
-        feedforward = robotConstants.controlConstants.loaderFeedforward;
-        pidController = new TrigonPIDController(robotConstants.controlConstants.loaderPidSettings, desiredVelocity);
+        this(() -> desiredVelocity);
     }
 
     /**
-     * This class accelerates the loader subsystem to the desired velocity using PID.
-     * This constructor is used for tuning PID using the dashboard
+     * This class accelerates the loader subsystem to the desired velocity using PID
+     *
+     * @param desiredVelocity in rotation per minute
      */
-    public SetLoaderVelocity() {
+    public SetLoaderVelocity(DoubleSupplier desiredVelocity) {
         addRequirements(loader);
+        this.desiredVelocity = desiredVelocity;
         feedforward = robotConstants.controlConstants.loaderFeedforward;
-        pidController = new TrigonPIDController("Loader PID controller");
+        pidController = new TrigonPIDController(robotConstants.controlConstants.loaderPidSettings);
     }
 
     @Override
@@ -55,6 +67,8 @@ public class SetLoaderVelocity extends CommandBase {
 
     @Override
     public void execute() {
+        if (!pidController.isTuning())
+            pidController.setSetpoint(desiredVelocity.getAsDouble());
         if (Timer.getFPGATimestamp() - firstStallTimestamp < robotConstants.loaderConstants.kSpinBackwardsTime) {
             loader.move(-feedforward.calculate(pidController.getSetpoint()));
             inStall = false;
