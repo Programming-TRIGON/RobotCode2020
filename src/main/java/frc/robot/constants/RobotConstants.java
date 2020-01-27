@@ -59,7 +59,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kDefaultVelocity;
         public double kSpinBackwardsTime;
         public double kDefaultBackwardsPower;
-        public double kDefaultUnjamPower;
+        public double kOnStallPower;
         public double kStallLimit;
     }
 
@@ -70,6 +70,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kRampTime;
         public double kShootingBallZone;
         public double kWaitTimeZone;
+        public double kStopLoadingTolerance;
         public boolean kIsLeftMotorInverted;
         public boolean kIsRightMotorInverted;
         public boolean kIsLeftEncoderInverted;

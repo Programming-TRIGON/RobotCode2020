@@ -70,7 +70,7 @@ public class SetLoaderVelocity extends CommandBase {
         if (!pidController.isTuning())
             pidController.setSetpoint(desiredVelocity.getAsDouble());
         if (Timer.getFPGATimestamp() - firstStallTimestamp < robotConstants.loaderConstants.kSpinBackwardsTime) {
-            loader.move(-robotConstants.loaderConstants.kDefaultUnjamPower);
+            loader.move(robotConstants.loaderConstants.kOnStallPower);
             inStall = false;
             return;
         }
@@ -79,7 +79,7 @@ public class SetLoaderVelocity extends CommandBase {
             DriverStationLogger.logToDS("A cell got stuck in the loader. Trying to unjam it");
             inStall = true;
             firstStallTimestamp = Timer.getFPGATimestamp();
-            loader.move(-robotConstants.loaderConstants.kDefaultUnjamPower);
+            loader.move(-robotConstants.loaderConstants.kOnStallPower);
         } else
             loader.setVoltage(
                 pidController.calculate(loader.getVelocity(), -6, 6)

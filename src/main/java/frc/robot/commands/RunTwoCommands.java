@@ -16,7 +16,6 @@ public class RunTwoCommands extends CommandBase {
     private boolean lastConditionState;
 
     /**
-     *
      * @param ifTrue command to run if the condition is true
      * @param ifFalse command to run if the condition is false
      * @param condition a supplier of the condition
