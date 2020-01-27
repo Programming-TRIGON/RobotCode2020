@@ -25,7 +25,7 @@ public class Shooter extends OverridableSubsystem implements Loggable {
 
     public Shooter() {
         //setting up the talon fx
-        leftTalonFX = new WPI_TalonFX(robotConstants.can.LEFT_SHOOTER_TALON_FX);
+        leftTalonFX = new WPI_TalonFX(robotConstants.can.kLeftShooterTalonFX);
         leftTalonFX.setNeutralMode(NeutralMode.Coast);
         leftTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
         leftTalonFX.configOpenloopRamp(robotConstants.shooterConstants.kRampTime);
@@ -35,7 +35,7 @@ public class Shooter extends OverridableSubsystem implements Loggable {
         DriverStationLogger.logErrorToDS(leftTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0),
         "Could not set left shooter encoder");
 
-        rightTalonFX = new WPI_TalonFX(robotConstants.can.RIGHT_SHOOTER_TALON_FX);
+        rightTalonFX = new WPI_TalonFX(robotConstants.can.kRightShooterTalonFX);
         rightTalonFX.setNeutralMode(NeutralMode.Coast);
         rightTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
         rightTalonFX.configOpenloopRamp(robotConstants.shooterConstants.kRampTime);
@@ -46,7 +46,7 @@ public class Shooter extends OverridableSubsystem implements Loggable {
         "Could not set right shooter encoder");
 
         configPIDGains();
-        microSwitch = new DigitalInput(robotConstants.dio.SWITCH_SHOOTER);
+        microSwitch = new DigitalInput(robotConstants.dio.kSwitchShooter);
         resetEncoders();
     }
 

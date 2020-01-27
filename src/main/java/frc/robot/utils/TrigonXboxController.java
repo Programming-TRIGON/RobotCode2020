@@ -1,8 +1,8 @@
 package frc.robot.utils;
 
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class TrigonXboxController extends XboxController {
     private static final double kIntermittentRumbleTime = 0.5;
@@ -80,7 +80,7 @@ public class TrigonXboxController extends XboxController {
     /**
      * This method returns the positive trigger minus the negative trigger. This is
      * used the for controlling the speed on the Y axis of the robot.
-     * 
+     *
      * @param positiveHand The hand that is positive, the other will be negative.
      * @return positive trigger value - other trigger value.
      */
