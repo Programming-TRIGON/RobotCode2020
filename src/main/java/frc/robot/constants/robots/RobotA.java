@@ -82,8 +82,10 @@ public class RobotA extends RobotConstants {
         controlConstants.motionProfilingReverseSettings = new SimpleMotorFeedforward(0, 0, 0);
 
         // Vision Constants
-        visionConstants.kDistanceCalculationACoefficient = 0;
-        visionConstants.kDistanceCalculationBCoefficient = 0;
+        visionConstants.kDistanceFromPortACoefficient = 0;
+        visionConstants.kDistanceFromPortBCoefficient = 0;
+        visionConstants.kDistanceFromFeederACoefficient = 0;
+        visionConstants.kDistanceFromFeederBCoefficient = 0;
         visionConstants.kLimelightOffsetX = 0;
         visionConstants.kLimelightOffsetY = 0;
         visionConstants.kLimelightAngleOffset = 0;
