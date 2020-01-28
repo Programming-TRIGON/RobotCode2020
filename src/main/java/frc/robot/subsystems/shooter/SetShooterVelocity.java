@@ -101,7 +101,6 @@ public class SetShooterVelocity extends CommandBase {
         }
     }
 
-
     private void countShotCells(boolean isCellBeingShot) {
         if (!isInZone && isCellBeingShot &&
             Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.kWaitTimeZone) {
