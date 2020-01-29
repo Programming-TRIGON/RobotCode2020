@@ -1,5 +1,6 @@
 package frc.robot.constants.robots;
 
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.constants.RobotConstants;
@@ -30,8 +31,15 @@ public class RobotA extends RobotConstants {
         trigonDriveConstants.kThreshold = 0.5;
 
         // Intake Constants
-        intakeConstants.kIntakeReversed = false;
-        intakeConstants.kIntakeDefaultPower = 0.3;
+        intakeConstants.kBallIntakeReversed = false;
+        intakeConstants.kBallIntakeDefaultPower = 0.3;
+        intakeConstants.kIntakeOpenerReversed = false;
+        intakeConstants.kCurrentLimit = 0;
+        intakeConstants.kThresholdLimit = 0;
+        intakeConstants.kTriggerThresholdTime = 0;
+        intakeConstants.kIntakeOpenerOpen = 0;
+        intakeConstants.kIntakeOpenerClosed = 0;
+        controlConstants.intakeOpenerPidSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         // Mixer Constants
         mixerConstants.kMixerMaxStall = 30;
@@ -40,6 +48,8 @@ public class RobotA extends RobotConstants {
         mixerConstants.kStallWaitTime = 0.2;
         mixerConstants.kBackwardsSpinTime = 0.2;
         mixerConstants.kDefaultPower = 0.5;
+        AnalogPotentiometer p = new AnalogPotentiometer(0, 180, 30);
+        p.
 
         // Climb Constants
         climbConstants.kHookCurrentLimit = 0;
@@ -104,6 +114,7 @@ public class RobotA extends RobotConstants {
         can.kTemporaryTalonForRightDrivetrainEncoder = 8;
         // Intake Map
         can.kIntakeSparkMax = 11;
+        can.kIntakeTalonSRX = 16;
         // Mixer Map
         can.kMixerTalonSRX = 12;
         // Loader Map

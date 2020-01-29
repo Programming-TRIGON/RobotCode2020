@@ -37,8 +37,14 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public static class IntakeConstants {
-        public boolean kIntakeReversed;
-        public double kIntakeDefaultPower;
+        public boolean kBallIntakeReversed;
+        public double kBallIntakeDefaultPower;
+        public boolean kIntakeOpenerReversed;
+        public double kCurrentLimit;
+        public double kThresholdLimit;
+        public double kTriggerThresholdTime;
+        public double kIntakeOpenerOpen;
+        public double kIntakeOpenerClosed;
     }
 
     public static class MixerConstants {
@@ -93,6 +99,7 @@ public abstract class RobotConstants extends RobotMap {
         public PIDSettings leftShooterSettings;
         public PIDSettings rightShooterSettings;
         public PIDSettings loaderPidSettings;
+        public PIDSettings intakeOpenerPidSettings;
         public SimpleMotorFeedforward loaderFeedforward;
     }
 

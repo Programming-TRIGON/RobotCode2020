@@ -28,6 +28,7 @@ public abstract class RobotMap {
         public int kTemporaryTalonForLeftDrivetrainEncoder;
         // Intake ports
         public int kIntakeSparkMax;
+        public int kIntakeTalonSRX;
         // Mixer ports
         public int kMixerTalonSRX;
         // Loader ports
