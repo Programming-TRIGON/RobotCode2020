@@ -6,8 +6,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import frc.robot.subsystems.MovableSubsystem;
 import frc.robot.subsystems.OverridableSubsystem;
 
 import static frc.robot.Robot.robotConstants;
@@ -16,16 +16,16 @@ import static frc.robot.Robot.robotConstants;
  * This class holds all the methods for the intake which collects POWER CELLS
  * into the robot.
  */
-public class Intake extends OverridableSubsystem {
-    private CANSparkMax ballIntake;
+public class Intake extends OverridableSubsystem implements MovableSubsystem {
+    private CANSparkMax cellIntake;
     private AnalogPotentiometer potentiometer;
     private WPI_TalonSRX intakeOpener;
 
     public Intake() {
-        ballIntake = new CANSparkMax(robotConstants.can.kIntakeSparkMax, MotorType.kBrushless);
-        ballIntake.setInverted(robotConstants.intakeConstants.kBallIntakeReversed);
-        ballIntake.setIdleMode(IdleMode.kCoast);
-        ballIntake.burnFlash();
+        cellIntake = new CANSparkMax(robotConstants.can.kIntakeSparkMax, MotorType.kBrushless);
+        cellIntake.setInverted(robotConstants.intakeConstants.kCellIntakeReversed);
+        cellIntake.setIdleMode(IdleMode.kCoast);
+        cellIntake.burnFlash();
 
         intakeOpener = new WPI_TalonSRX(robotConstants.can.kIntakeTalonSRX);
         intakeOpener.setInverted(robotConstants.intakeConstants.kIntakeOpenerReversed);
@@ -49,6 +49,10 @@ public class Intake extends OverridableSubsystem {
 
     @Override
     public void overriddenMove(double power) {
-        ballIntake.set(power);
+        cellIntake.set(power);
+    }
+
+    public void move(double power) {
+        intakeOpener.set(power);
     }
 }

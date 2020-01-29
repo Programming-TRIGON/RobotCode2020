@@ -30,14 +30,14 @@ public class RobotA extends RobotConstants {
         trigonDriveConstants.kThreshold = 0.5;
 
         // Intake Constants
-        intakeConstants.kBallIntakeReversed = false;
-        intakeConstants.kBallIntakeDefaultPower = 0.3;
+        intakeConstants.kCellIntakeReversed = false;
+        intakeConstants.kCellIntakeDefaultPower = 0.3;
         intakeConstants.kIntakeOpenerReversed = false;
         intakeConstants.kCurrentLimit = 0;
         intakeConstants.kThresholdLimit = 0;
         intakeConstants.kTriggerThresholdTime = 0;
-        intakeConstants.kIntakeOpenerOpen = 0;
-        intakeConstants.kIntakeOpenerClosed = 0;
+        intakeConstants.kIntakeOpenerOpenAngle = 0;
+        intakeConstants.kIntakeOpenerClosedAngle = 0;
         intakeConstants.kPotentiometerAngleMultiplier = 0;
         intakeConstants.kPotentiometerOffset = 0;
         controlConstants.intakeOpenerPidSettings = new PIDSettings(0, 0, 0, 0, 0);

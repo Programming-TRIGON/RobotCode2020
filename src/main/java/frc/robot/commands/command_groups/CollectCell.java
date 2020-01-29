@@ -11,7 +11,7 @@ public class CollectCell extends ParallelCommandGroup {
     public CollectCell() {
         addCommands(
             new SpinMixer(),
-            new MoveMovableSubsystem(intake, () -> robotConstants.intakeConstants.kBallIntakeDefaultPower)
+            new MoveMovableSubsystem(intake, () -> robotConstants.intakeConstants.kCellIntakeDefaultPower)
         );
     }
 }

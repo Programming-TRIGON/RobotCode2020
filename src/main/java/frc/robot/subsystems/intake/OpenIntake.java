@@ -18,9 +18,9 @@ public class OpenIntake extends CommandBase {
     addRequirements(intake);
     pidController = new TrigonPIDController(robotConstants.controlConstants.intakeOpenerPidSettings);
     if (isOpen)
-      pidController.setSetpoint(robotConstants.intakeConstants.kIntakeOpenerOpen);
+      pidController.setSetpoint(robotConstants.intakeConstants.kIntakeOpenerOpenAngle);
     else
-      pidController.setSetpoint(robotConstants.intakeConstants.kIntakeOpenerClosed);
+      pidController.setSetpoint(robotConstants.intakeConstants.kIntakeOpenerClosedAngle);
   }
 
   /**

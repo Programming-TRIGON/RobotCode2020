@@ -37,14 +37,14 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public static class IntakeConstants {
-        public boolean kBallIntakeReversed;
-        public double kBallIntakeDefaultPower;
+        public boolean kCellIntakeReversed;
+        public double kCellIntakeDefaultPower;
         public boolean kIntakeOpenerReversed;
         public double kCurrentLimit;
         public double kThresholdLimit;
         public double kTriggerThresholdTime;
-        public double kIntakeOpenerOpen;
-        public double kIntakeOpenerClosed;
+        public double kIntakeOpenerOpenAngle;
+        public double kIntakeOpenerClosedAngle;
         public double kPotentiometerAngleMultiplier;
         public double kPotentiometerOffset;
     }
