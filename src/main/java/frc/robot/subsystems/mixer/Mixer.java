@@ -27,13 +27,9 @@ public class Mixer extends OverridableSubsystem {
     }
 
     /**
-     * @return The motor output in amps
+     * @return whether the mixer motor is stalled (calibrated to stall value of cell stuck in the system)
      */
-    public double getCurrent() {
-        return talonSRX.getStatorCurrent();
-    }
-
     public boolean isInStall() {
-        return getCurrent() >= robotConstants.mixerConstants.kMixerMaxStall;
+        return talonSRX.getStatorCurrent() >= robotConstants.mixerConstants.kMixerMaxStall;
     }
 }
