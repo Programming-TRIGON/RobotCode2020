@@ -73,12 +73,31 @@ public class Limelight implements Loggable {
     /**
      * @return The distance between the target and the limelight
      */
-    //TODO: set real function
     @Log(name = "Limelight/Distance From Limelight")
     public double getDistanceFromLimelight() {
+        if (getTarget() == Target.PowerPort)
+            return getDistanceFromPowerPort();
+        return getDistanceFromFeeder();
+    }
+
+    /**
+     * @return distance of the limelight from the feeder
+     */
+    //TODO: set real function
+    private double getDistanceFromFeeder() {
         double x = getTy();
-        return robotConstants.visionConstants.kDistanceCalculationACoefficient * Math.pow(x, 2) +
-            robotConstants.visionConstants.kDistanceCalculationBCoefficient * x;
+        return robotConstants.visionConstants.kDistanceFromFeederACoefficient * Math.pow(x, 2) +
+            robotConstants.visionConstants.kDistanceFromFeederBCoefficient * x;
+    }
+
+    /**
+     * @return distance of limelight from the power port
+     */
+    //TODO: set real function
+    private double getDistanceFromPowerPort() {
+        double x = getTy();
+        return robotConstants.visionConstants.kDistanceFromPortACoefficient * Math.pow(x, 2) +
+            robotConstants.visionConstants.kDistanceFromPortBCoefficient * x;
     }
 
     /**
@@ -156,12 +175,28 @@ public class Limelight implements Loggable {
         NetworkTableInstance.getDefault().flush();
     }
 
-
     /**
      * @return the current target in the NetworkTable.
      */
     public int getPipeline() {
         return (int) pipeline.getDouble(0);
+    }
+
+    /**
+     * @return the current target which limelight searches.
+     */
+    public Target getTarget() {
+        return getPipeline() == Target.PowerPort.getIndex() ? Target.PowerPort : Target.Feeder;
+    }
+
+    /**
+     * This method is used for logging.
+     * 
+     * @return a String representing the current target which limelight searches.
+     */
+    @Log(name = "Limelight/Vision Target")
+    public String getTargetName() {
+        return getTarget().toString();
     }
 
     /**
