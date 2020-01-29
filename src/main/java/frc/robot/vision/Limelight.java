@@ -75,7 +75,7 @@ public class Limelight implements Loggable {
      */
     @Log(name = "Limelight/Distance From Limelight")
     public double getDistanceFromLimelight() {
-        if (getPipeline() == Target.PowerPort.getIndex())
+        if (getTarget() == Target.PowerPort)
             return getDistanceFromPowerPort();
         return getDistanceFromFeeder();
     }
@@ -175,12 +175,28 @@ public class Limelight implements Loggable {
         NetworkTableInstance.getDefault().flush();
     }
 
-
     /**
      * @return the current target in the NetworkTable.
      */
     public int getPipeline() {
         return (int) pipeline.getDouble(0);
+    }
+
+    /**
+     * @return the current target which limelight searches.
+     */
+    public Target getTarget() {
+        return getPipeline() == Target.PowerPort.getIndex() ? Target.PowerPort : Target.Feeder;
+    }
+
+    /**
+     * This method is used for logging.
+     * 
+     * @return a String representing the current target which limelight searches.
+     */
+    @Log(name = "Limelight/Vision Target")
+    public String getTargetName() {
+        return getTarget().toString();
     }
 
     /**
