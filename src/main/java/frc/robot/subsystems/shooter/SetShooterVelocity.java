@@ -101,7 +101,6 @@ public class SetShooterVelocity extends CommandBase {
         }
     }
 
-
     private void countShotCells(boolean isCellBeingShot) {
         if (!isInZone && isCellBeingShot &&
             Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.kWaitTimeZone) {
@@ -131,9 +130,13 @@ public class SetShooterVelocity extends CommandBase {
      * Tolerance is taken from {@link frc.robot.constants.RobotConstants.ControlConstants#leftShooterSettings}
      */
     public boolean isOnTarget() {
-        if (shooter.isOverridden())
-            return true;
-        return Math.abs(shooter.getAverageSpeed() - setpoint) <
+        return Math.abs(getError()) <
             robotConstants.controlConstants.leftShooterSettings.getTolerance();
+    }
+
+    public double getError() {
+        if(shooter.isOverridden())
+            return 0;
+        return shooter.getAverageSpeed() - setpoint;
     }
 }

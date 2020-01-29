@@ -3,9 +3,13 @@ package frc.robot;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.utils.TrigonXboxController;
+
+import static frc.robot.Robot.drivetrain;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -42,6 +46,7 @@ public class OI {
     }
 
     private void createDriverCommands() {
+        drivetrain.setDefaultCommand(new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), driverXbox::getDeltaTriggers));
         // TODO create driver commands here
     }
 

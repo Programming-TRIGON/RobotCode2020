@@ -57,6 +57,7 @@ public class RobotA extends RobotConstants {
         shooterConstants.kIsRightMotorInverted = false;
         shooterConstants.kIsLeftEncoderInverted = false;
         shooterConstants.kIsRightEncoderInverted = false;
+        shooterConstants.kStopLoadingTolerance = 10;
         controlConstants.leftShooterSettings = PIDSettings.fromTalonSettings(0, 0, 0, 0, 0);
         controlConstants.rightShooterSettings = PIDSettings.fromTalonSettings(0, 0, 0, 0, 0);
 
@@ -69,6 +70,8 @@ public class RobotA extends RobotConstants {
         loaderConstants.kDefaultVelocity = 0.5;
         loaderConstants.kStallLimit = 20;
         loaderConstants.kSpinBackwardsTime = 1;
+        loaderConstants.kDefaultBackwardsPower = -0.2;
+        loaderConstants.kOnStallPower = -0.3;
         controlConstants.loaderFeedforward = new SimpleMotorFeedforward(0, 0, 0);
         controlConstants.loaderPidSettings = new PIDSettings(0, 0, 0, 0, 0);
 

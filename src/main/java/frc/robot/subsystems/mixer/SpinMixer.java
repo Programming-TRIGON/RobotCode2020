@@ -50,7 +50,7 @@ public class SpinMixer extends CommandBase {
         if (Timer.getFPGATimestamp() - backwardsSpinStartTime < robotConstants.mixerConstants.kBackwardsSpinTime)
             mixer.move(-power.getAsDouble());
         else {
-            if (mixer.getStall() < robotConstants.mixerConstants.kMixerMaxStall) {
+            if (!mixer.isInStall()) {
                 lastTimeNotOnStall = Timer.getFPGATimestamp();
             }
             if (Timer.getFPGATimestamp() - lastTimeNotOnStall > robotConstants.mixerConstants.kStallWaitTime) {

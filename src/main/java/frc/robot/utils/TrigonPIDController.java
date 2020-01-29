@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
 public class TrigonPIDController extends PIDController {
+    private boolean isTuning;
+
     /**
      * This is TRIGON's PIDController class with a friendlier UI for the calculate
      * and constructor.
@@ -12,6 +14,7 @@ public class TrigonPIDController extends PIDController {
     public TrigonPIDController(PIDSettings pidSettings) {
         super(pidSettings.getKP(), pidSettings.getKI(), pidSettings.getKD());
         setTolerance(pidSettings.getTolerance(), pidSettings.getDeltaTolerance());
+        isTuning = false;
     }
 
     /**
@@ -47,6 +50,7 @@ public class TrigonPIDController extends PIDController {
     public TrigonPIDController(String dashboardKey, double defaultSetpoint) {
         super(0, 0, 0);
         setSetpoint(defaultSetpoint);
+        isTuning = true;
         SmartDashboard.putData("PID/" + dashboardKey, this);
     }
 
@@ -71,5 +75,9 @@ public class TrigonPIDController extends PIDController {
      */
     public double calculate(double measurement, double setpoint, double minOutput, double maxOutput) {
         return MathUtil.clamp(calculate(measurement, setpoint), minOutput, maxOutput);
+    }
+
+    public boolean isTuning() {
+        return isTuning;
     }
 }
