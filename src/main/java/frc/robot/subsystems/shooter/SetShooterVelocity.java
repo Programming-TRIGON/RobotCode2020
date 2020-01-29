@@ -96,7 +96,7 @@ public class SetShooterVelocity extends CommandBase {
         if (isAuto) {
             boolean isCellBeingShot = shooter.isSwitchPressed();
             //We might want to use current in order to count the amount of shot cells instead of using limit switches
-            //boolean isCellBeingShot = shooter.getAverageSpeed() < robotConstants.shooterConstants.kShootingBallZone;
+            //boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageSpeed()) < robotConstants.shooterConstants.kShootingBallZone;
             countShotCells(isCellBeingShot);
         }
     }

@@ -105,8 +105,10 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public static class VisionConstants {
-        public double kDistanceCalculationACoefficient;
-        public double kDistanceCalculationBCoefficient;
+        public double kDistanceFromPortACoefficient;
+        public double kDistanceFromPortBCoefficient;
+        public double kDistanceFromFeederACoefficient;
+        public double kDistanceFromFeederBCoefficient;
         // Offsets are measured from the robot's center of rotation to the limelight
         // position.
         public double kLimelightOffsetX;
