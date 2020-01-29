@@ -7,10 +7,12 @@ import static frc.robot.Robot.intake;
 import static frc.robot.Robot.robotConstants;;
 
 public class OpenIntake extends CommandBase {
-  TrigonPIDController pidController;
+  private TrigonPIDController pidController;
 
   /**
-   * Either opens the Intake subsystem or closes it with PID;
+   * Either opens the Intake subsystem or closes it with PID
+   * 
+   * @param isOpen True - opens the Intake, false - closes it.
    */
   public OpenIntake(boolean isOpen) {
     addRequirements(intake);
@@ -21,7 +23,11 @@ public class OpenIntake extends CommandBase {
       pidController.setSetpoint(robotConstants.intakeConstants.kIntakeOpenerClosed);
   }
 
-  public OpenIntake(){
+  /**
+   * Either opens the Intake subsystem or closes it with PID. This constructor is
+   * used for tuning PID using the dashboard
+   */
+  public OpenIntake() {
     addRequirements(intake);
     pidController = new TrigonPIDController("Intake PID Settings");
   }
