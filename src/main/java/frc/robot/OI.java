@@ -16,6 +16,7 @@ public class OI {
     private static final int kOperatorPort = 1;
     private TrigonXboxController driverXbox;
     private TrigonXboxController operatorXbox;
+
     public OI() {
         createOperatorCommands();
         createDriverCommands();
@@ -23,7 +24,8 @@ public class OI {
         operatorXbox = new TrigonXboxController(kOperatorPort);
         NetworkTableEntry changeSettingsEntry = SmartDashboard.getEntry("isHillelSettings");
         changeSettingsEntry.setBoolean(true);
-        // Listens for operator settings change. If it changes while the robot is disabled, the OI updates the button bindings.
+        // Listens for operator settings change. If it changes while the robot is
+        // disabled, the OI updates the button bindings.
         changeSettingsEntry.addListener(entryNotification -> {
             if (DriverStation.getInstance().isDisabled()) {
                 CommandScheduler.getInstance().clearButtons();
@@ -38,15 +40,17 @@ public class OI {
             }
         }, EntryListenerFlags.kNew | EntryListenerFlags.kImmediate | EntryListenerFlags.kUpdate);
     }
+
     private void createDriverCommands() {
-        //TODO create driver commands here
+        // TODO create driver commands here
     }
 
     private void bindDriverCommands() {
-        //TODO bind driver commands here
+        // TODO bind driver commands here
     }
+
     private void createOperatorCommands() {
-        //TODO Create operator commands here
+        // TODO Create operator commands here
     }
 
     /**
@@ -61,5 +65,13 @@ public class OI {
      */
     private void setGrossmanSetting() {
         // TODO: Bind commands to to buttons
+    }
+
+    public TrigonXboxController getDriverXboxController() {
+        return driverXbox;
+    }
+
+    public TrigonXboxController getOperatorXboxController() {
+        return operatorXbox;
     }
 }
