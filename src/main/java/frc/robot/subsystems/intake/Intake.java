@@ -39,19 +39,22 @@ public class Intake extends OverridableSubsystem implements MovableSubsystem {
                 robotConstants.intakeConstants.kPotentiometerOffset);
     }
 
-    public void setIntakeOpenerPower(double power) {
-        intakeOpener.set(power);
-    }
-
     public double getAngle() {
         return potentiometer.get();
     }
 
+    /**
+     * Overrides the cell collector motor
+     */
     @Override
     public void overriddenMove(double power) {
         cellIntake.set(power);
     }
 
+    /**
+     * Moves the intakeOpener motors
+     */
+    @Override
     public void move(double power) {
         intakeOpener.set(power);
     }

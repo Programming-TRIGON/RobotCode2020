@@ -25,7 +25,7 @@ public class OpenIntake extends CommandBase {
 
   /**
    * Either opens the Intake subsystem or closes it with PID. This constructor is
-   * used for tuning PID using the dashboard
+   * used for tuning PID using the dashboard.
    */
   public OpenIntake() {
     addRequirements(intake);
@@ -39,13 +39,13 @@ public class OpenIntake extends CommandBase {
 
   @Override
   public void execute() {
-    pidController.calculate(intake.getAngle(), -1, 1);
+    intake.move(pidController.calculate(intake.getAngle(), -1, 1));
   }
 
   @Override
   public void end(boolean interrupted) {
     pidController.close();
-    intake.setIntakeOpenerPower(0);
+    intake.move(0);
   }
 
   @Override
