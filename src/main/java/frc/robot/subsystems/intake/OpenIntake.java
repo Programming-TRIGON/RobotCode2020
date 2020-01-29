@@ -6,19 +6,24 @@ import frc.robot.utils.TrigonPIDController;
 import static frc.robot.Robot.intake;
 import static frc.robot.Robot.robotConstants;;
 
-
 public class OpenIntake extends CommandBase {
   TrigonPIDController pidController;
+
   /**
    * Either opens the Intake subsystem or closes it with PID;
    */
   public OpenIntake(boolean isOpen) {
     addRequirements(intake);
     pidController = new TrigonPIDController(robotConstants.controlConstants.intakeOpenerPidSettings);
-    if(isOpen)
+    if (isOpen)
       pidController.setSetpoint(robotConstants.intakeConstants.kIntakeOpenerOpen);
     else
       pidController.setSetpoint(robotConstants.intakeConstants.kIntakeOpenerClosed);
+  }
+
+  public OpenIntake(){
+    addRequirements(intake);
+    pidController = new TrigonPIDController("Intake PID Settings");
   }
 
   @Override
@@ -28,11 +33,13 @@ public class OpenIntake extends CommandBase {
 
   @Override
   public void execute() {
-    pidController.calculate(measurement, -1, 1);
+    pidController.calculate(intake.getAngle(), -1, 1);
   }
 
   @Override
   public void end(boolean interrupted) {
+    pidController.close();
+    intake.setIntakeOpenerPower(0);
   }
 
   @Override

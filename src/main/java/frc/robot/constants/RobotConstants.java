@@ -45,6 +45,8 @@ public abstract class RobotConstants extends RobotMap {
         public double kTriggerThresholdTime;
         public double kIntakeOpenerOpen;
         public double kIntakeOpenerClosed;
+        public double kPotentiometerAngleMultiplier;
+        public double kPotentiometerOffset;
     }
 
     public static class MixerConstants {

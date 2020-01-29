@@ -6,6 +6,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import frc.robot.subsystems.OverridableSubsystem;
 
 import static frc.robot.Robot.robotConstants;
@@ -16,6 +18,7 @@ import static frc.robot.Robot.robotConstants;
  */
 public class Intake extends OverridableSubsystem {
     private CANSparkMax ballIntake;
+    private AnalogPotentiometer potentiometer;
     private WPI_TalonSRX intakeOpener;
 
     public Intake() {
@@ -30,10 +33,18 @@ public class Intake extends OverridableSubsystem {
         intakeOpener.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true,
                 robotConstants.intakeConstants.kCurrentLimit, robotConstants.intakeConstants.kThresholdLimit,
                 robotConstants.intakeConstants.kTriggerThresholdTime));
+
+        potentiometer = new AnalogPotentiometer(robotConstants.pwm.kIntakePotentiometer,
+                robotConstants.intakeConstants.kPotentiometerAngleMultiplier,
+                robotConstants.intakeConstants.kPotentiometerOffset);
     }
 
     public void setIntakeOpenerPower(double power) {
         intakeOpener.set(power);
+    }
+
+    public double getAngle() {
+        return potentiometer.get();
     }
 
     @Override

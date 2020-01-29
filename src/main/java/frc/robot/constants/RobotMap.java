@@ -47,6 +47,7 @@ public abstract class RobotMap {
 
     public static class PWM {
         public int kLedController;
+        public int kIntakePotentiometer;
     }
 
     public static class I2C {
