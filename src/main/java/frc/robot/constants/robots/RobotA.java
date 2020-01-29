@@ -30,12 +30,13 @@ public class RobotA extends RobotConstants {
         trigonDriveConstants.kThreshold = 0.5;
 
         // Intake Constants
-        intakeConstants.kCellIntakeReversed = false;
+        intakeConstants.kCellIntakeIsInverted = false;
         intakeConstants.kCellIntakeDefaultPower = 0.3;
-        intakeConstants.kIntakeOpenerReversed = false;
-        intakeConstants.kCurrentLimit = 0;
-        intakeConstants.kThresholdLimit = 0;
-        intakeConstants.kTriggerThresholdTime = 0;
+        intakeConstants.kCellIntakeStallLimit = 0;
+        intakeConstants.kIntakeOpenerIsInverted = false;
+        intakeConstants.kIntakeOpenerCurrentLimit = 0;
+        intakeConstants.kIntakeOpenerThresholdLimit = 0;
+        intakeConstants.kIntakeOpenerTriggerThresholdTime = 0;
         intakeConstants.kIntakeOpenerOpenAngle = 0;
         intakeConstants.kIntakeOpenerClosedAngle = 0;
         intakeConstants.kPotentiometerAngleMultiplier = 0;
@@ -112,8 +113,8 @@ public class RobotA extends RobotConstants {
         can.kTemporaryTalonForLeftDrivetrainEncoder = 7;
         can.kTemporaryTalonForRightDrivetrainEncoder = 8;
         // Intake Map
-        can.kIntakeSparkMax = 11;
-        can.kIntakeTalonSRX = 16;
+        can.kCellIntakeSparkMax = 11;
+        can.kIntakeOpenerTalonSRX = 16;
         pwm.kIntakePotentiometer = 19;
         // Mixer Map
         can.kMixerTalonSRX = 12;

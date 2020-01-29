@@ -39,7 +39,7 @@ public class OpenIntake extends CommandBase {
 
   @Override
   public void execute() {
-    intake.move(pidController.calculate(intake.getAngle(), -1, 1));
+    intake.setIntakeOpener(pidController.calculate(intake.getAngle(), -1, 1));
   }
 
   @Override
