@@ -1,6 +1,5 @@
 package frc.robot.vision;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.MovableSubsystem;
 import frc.robot.utils.PIDSettings;
@@ -17,7 +16,6 @@ public class TurnToTarget extends CommandBase {
     private MovableSubsystem subsystem;
     private Target target;
     private TrigonPIDController rotationPIDController;
-    private double lastTimeSeenTarget;
 
     /**
      * @param target    The target the robot will follow
@@ -49,17 +47,15 @@ public class TurnToTarget extends CommandBase {
     @Override
     public void initialize() {
         rotationPIDController.reset();
-        lastTimeSeenTarget = Timer.getFPGATimestamp();
         // Configure the limelight to start computing vision.
         limelight.startVision(target);
     }
 
     @Override
     public void execute() {
-        if (limelight.getTv()) {
+        if (limelight.getTv())
             subsystem.move(rotationPIDController.calculate(limelight.getAngle()));
-            lastTimeSeenTarget = Timer.getFPGATimestamp();
-        } else
+        else
             // The target wasn't found
             subsystem.stopMove();
     }
@@ -71,8 +67,6 @@ public class TurnToTarget extends CommandBase {
     }
 
     public boolean isOnTarget() {
-        /* return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.kTargetNotFoundWaitTime)
-            || rotationPIDController.atSetpoint(); */
         return limelight.getTv() && rotationPIDController.atSetpoint();
     }
 }
