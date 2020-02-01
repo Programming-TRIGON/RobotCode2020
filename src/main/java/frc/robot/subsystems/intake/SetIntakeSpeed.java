@@ -10,37 +10,41 @@ import static frc.robot.Robot.intake;
 import static frc.robot.Robot.robotConstants;;
 
 public class SetIntakeSpeed extends CommandBase {
-  private DoubleSupplier speedSupplier;
-  private double firstStallTimestamp;
-  private boolean inStall;
-  private double initializeTimestamp;
+    private DoubleSupplier speedSupplier;
+    private double firstStallTimestamp;
+    private boolean inStall;
+    private double initializeTimestamp;
 
-  public SetIntakeSpeed(DoubleSupplier speedSupplier) {
-    addRequirements(intake);
-    this.speedSupplier = speedSupplier;
-  }
+    public SetIntakeSpeed(DoubleSupplier speedSupplier) {
+        addRequirements(intake);
+        this.speedSupplier = speedSupplier;
+    }
 
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
-    if (Timer.getFPGATimestamp() - firstStallTimestamp < robotConstants.intakeConstants.kSpinBackwardsTime) {
-      intake.move(-speedSupplier.getAsDouble());
-      inStall = false;
-      return;
-  }
-  if (!inStall && intake.getIsInStall() && Timer.getFPGATimestamp() - initializeTimestamp >
-      robotConstants.intakeConstants.kStallTimeout) {
-      DriverStationLogger.logToDS("A cell got stuck in the intake. Trying to release it");
-      inStall = true;
-      firstStallTimestamp = Timer.getFPGATimestamp();
-      intake.setIntakePower(-speedSupplier.getAsDouble());
-  } else
-      intake.setIntakePower(speedSupplier.getAsDouble());
-  }
+    public SetIntakeSpeed(double speed) {
+        this(() -> speed);
+    }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    intake.setIntakePower(0);
-  }
+    // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+        if (Timer.getFPGATimestamp() - firstStallTimestamp < robotConstants.intakeConstants.kSpinBackwardsTime) {
+            intake.move(-speedSupplier.getAsDouble());
+            inStall = false;
+            return;
+        }
+        if (!inStall && intake.getIsInStall()
+                && Timer.getFPGATimestamp() - initializeTimestamp > robotConstants.intakeConstants.kStallTimeout) {
+            DriverStationLogger.logToDS("A cell got stuck in the intake. Trying to release it");
+            inStall = true;
+            firstStallTimestamp = Timer.getFPGATimestamp();
+            intake.setIntakePower(-speedSupplier.getAsDouble());
+        } else
+            intake.setIntakePower(speedSupplier.getAsDouble());
+    }
+
+    // Called once the command ends or is interrupted.
+    @Override
+    public void end(boolean interrupted) {
+        intake.setIntakePower(0);
+    }
 }
