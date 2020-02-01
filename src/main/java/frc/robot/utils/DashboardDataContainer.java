@@ -30,7 +30,7 @@ public class DashboardDataContainer {
         putData("Mixer/Spin mixer",
             new SpinMixer(() -> getNumber("Mixer/Mixer power", 0)));
         putData("Mixer/Override", new OverrideCommand(mixer,
-            () -> getNumber("Loader/Mixer power", 0)));
+            () -> getNumber("Mixer/Mixer power", 0)));
         // drivetrain dashboard data
         putData("Drivetrain/Tune drivetrain rotate PID", new RotateDrivetrain());
         // Shooter dashboard data:

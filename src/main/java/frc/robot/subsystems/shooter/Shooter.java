@@ -109,9 +109,9 @@ public class Shooter extends OverridableSubsystem implements Loggable {
         DriverStationLogger.logToDS("Shooter tuning enabled");
         isTuning = true;
         // left shooter gains
-        SmartDashboard.putData("PID/LeftShooterSettings", robotConstants.controlConstants.leftShooterSettings);
+        SmartDashboard.putData("PID/Left Shooter Settings", robotConstants.controlConstants.leftShooterSettings);
         // right shooter gains
-        SmartDashboard.putData("PID/RightShooterSettings", robotConstants.controlConstants.rightShooterSettings);
+        SmartDashboard.putData("PID/Right Shooter Settings", robotConstants.controlConstants.rightShooterSettings);
     }
 
     public void disableTuning() {

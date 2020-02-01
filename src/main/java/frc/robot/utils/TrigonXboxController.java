@@ -1,9 +1,11 @@
 package frc.robot.utils;
 
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 public class TrigonXboxController extends XboxController {
+    private static final double kIntermittentRumbleTime = 0.15;
     private JoystickButton buttonA;
     private JoystickButton buttonB;
     private JoystickButton buttonX;
@@ -14,6 +16,8 @@ public class TrigonXboxController extends XboxController {
     private JoystickButton rightStickButton;
     private JoystickButton backButton;
     private JoystickButton startButton;
+    private int rumbleAmount;
+    private Notifier notifier;
 
     public TrigonXboxController(int port) {
         super(port);
@@ -27,6 +31,10 @@ public class TrigonXboxController extends XboxController {
         rightStickButton = new JoystickButton(this, Button.kStickRight.value);
         backButton = new JoystickButton(this, Button.kBack.value);
         startButton = new JoystickButton(this, Button.kStart.value);
+        rumbleAmount = -1;
+        notifier = new Notifier(this::notifierPeriodic);
+
+        notifier.startPeriodic(kIntermittentRumbleTime);
     }
 
     public JoystickButton getButtonA() {
@@ -90,5 +98,34 @@ public class TrigonXboxController extends XboxController {
      */
     public double getDeltaTriggers() {
         return getTriggerAxis(Hand.kRight) - getTriggerAxis(Hand.kLeft);
+    }
+
+    /**
+     * Set the rumble output for the HID. this method affects both motors.
+     *
+     * @param value The normalized value (0 to 1) to set the rumble to
+     */
+    public void setRumble(double power) {
+        setRumble(RumbleType.kLeftRumble, power);
+        setRumble(RumbleType.kRightRumble, power);
+    }
+
+    /**
+     * Rumbles the controller the desired amount of times.
+     *
+     * @param quantity the number of times to rumble.
+     */
+    public void intermittentRumble(int quantity) {
+        rumbleAmount = quantity * 2 - 1;
+    }
+
+    public void notifierPeriodic() {
+        if (rumbleAmount >= 0) {
+            if (rumbleAmount % 2 == 1)
+                setRumble(1);
+            else
+                setRumble(0);
+            rumbleAmount--;
+        }
     }
 }
