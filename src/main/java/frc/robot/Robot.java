@@ -55,9 +55,9 @@ public class Robot extends TimedRobot {
         led = new LED();
 
         // Utils:
-        dashboardDataContainer = new DashboardDataContainer();
         limelight = new Limelight();
         oi = new OI();
+        dashboardDataContainer = new DashboardDataContainer();
 
         autoChooser = new SendableChooser<>();
         // autoChooser.setDefaultOption(name, object);

@@ -22,10 +22,12 @@ public class OI {
     private TrigonXboxController operatorXbox;
 
     public OI() {
-        createOperatorCommands();
-        createDriverCommands();
         driverXbox = new TrigonXboxController(kDriverPort);
         operatorXbox = new TrigonXboxController(kOperatorPort);
+
+        createOperatorCommands();
+        createDriverCommands();
+
         NetworkTableEntry changeSettingsEntry = SmartDashboard.getEntry("isHillelSettings");
         changeSettingsEntry.setBoolean(true);
         // Listens for operator settings change. If it changes while the robot is
