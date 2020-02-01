@@ -81,7 +81,7 @@ public class Robot extends TimedRobot {
     @Override
     public void robotPeriodic() {
         CommandScheduler.getInstance().run();
-//        dashboardDataContainer.update();
+        dashboardDataContainer.update();
     }
 
     @Override
