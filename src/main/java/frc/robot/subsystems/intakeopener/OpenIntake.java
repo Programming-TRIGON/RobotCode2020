@@ -1,11 +1,11 @@
-package frc.robot.subsystems.intake;
+package frc.robot.subsystems.intakeopener;
 
 import edu.wpi.first.wpilibj.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utils.ProfiledTrigonPIDController;
 
-import static frc.robot.Robot.intake;
-import static frc.robot.Robot.robotConstants;;
+import static frc.robot.Robot.intakeOpener;
+import static frc.robot.Robot.robotConstants;
 
 public class OpenIntake extends CommandBase {
     private ProfiledTrigonPIDController pidController;
@@ -17,13 +17,13 @@ public class OpenIntake extends CommandBase {
      * @param isOpen True - opens the Intake, false - closes it.
      */
     public OpenIntake(boolean isOpen) {
-        addRequirements(intake);
+        addRequirements(intakeOpener);
         pidController = new ProfiledTrigonPIDController(robotConstants.controlConstants.intakeOpenerSettings, null);
         if (isOpen)
-            pidController.setGoal(robotConstants.intakeConstants.kIntakeOpenerOpenAngle);
+            pidController.setGoal(robotConstants.intakeOpenerConstants.kOpenAngle);
         else
-            pidController.setGoal(robotConstants.intakeConstants.kIntakeOpenerClosedAngle);
-        feedforward = robotConstants.controlConstants.intakeFeedforward;
+            pidController.setGoal(robotConstants.intakeOpenerConstants.kClosedAngle);
+        feedforward = robotConstants.controlConstants.intakeOpenerFeedforward;
     }
 
     /**
@@ -31,24 +31,24 @@ public class OpenIntake extends CommandBase {
      * used for tuning PID using the dashboard.
      */
     public OpenIntake() {
-        addRequirements(intake);
+        addRequirements(intakeOpener);
         pidController = new ProfiledTrigonPIDController("Intake PID Settings");
     }
 
     @Override
     public void initialize() {
-        pidController.reset(intake.getAngle());
+        pidController.reset(intakeOpener.getAngle());
     }
 
     @Override
     public void execute() {
-        intake.setIntakeOpenerVolts(pidController.calculate(intake.getAngle(), -1, 1)
+        intakeOpener.setIntakeOpenerVolts(pidController.calculate(intakeOpener.getAngle(), -1, 1)
                 + feedforward.calculate(pidController.getSetpoint().position, pidController.getSetpoint().velocity));
     }
 
     @Override
     public void end(boolean interrupted) {
-        intake.stopMove();
+        intakeOpener.stopMove();
     }
 
     public boolean isAtGoal() {

@@ -1,4 +1,4 @@
-package frc.robot.subsystems.intake;
+package frc.robot.subsystems.intakeopener;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import static frc.robot.Robot.intake;;
+import static frc.robot.Robot.intakeOpener;
 
 public class CharacterizeIntakeOpener extends CommandBase {
   private NetworkTableEntry autoSpeedEntry;
@@ -19,7 +19,7 @@ public class CharacterizeIntakeOpener extends CommandBase {
    * data via networktable.
    */
   public CharacterizeIntakeOpener() {
-        addRequirements(intake);
+        addRequirements(intakeOpener);
         autoSpeedEntry = NetworkTableInstance.getDefault().getEntry("/robot/autospeed");
         telemetryEntry = NetworkTableInstance.getDefault().getEntry("/robot/telemetry");
         numberArray = new Number[6];
@@ -34,16 +34,16 @@ public class CharacterizeIntakeOpener extends CommandBase {
     public void execute() {
         // Retrieve values to send back before telling the motors to do something
         double now = Timer.getFPGATimestamp();
-        double leftPosition = intake.getAngle();
-        double leftRate = intake.getVelocity();
+        double leftPosition = intakeOpener.getAngle();
+        double leftRate = intakeOpener.getVelocity();
         double battery = RobotController.getBatteryVoltage();
-        double leftMotorVolts = intake.getMotorOutputVoltage();
+        double leftMotorVolts = intakeOpener.getMotorOutputVoltage();
 
         // Retrieve the commanded speed from NetworkTables
         double autospeed = autoSpeedEntry.getDouble(0);
 
         // command motors to move
-        intake.setIntakeOpenerVolts(autospeed);
+        intakeOpener.setIntakeOpenerVolts(autospeed);
 
         // send telemetry data array back to NT
         numberArray[0] = now;
@@ -57,6 +57,6 @@ public class CharacterizeIntakeOpener extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        intake.stopMove();
+        intakeOpener.stopMove();
     }
 }

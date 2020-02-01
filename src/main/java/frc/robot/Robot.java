@@ -11,6 +11,8 @@ import frc.robot.constants.robots.RobotA;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intakeopener.IntakeOpener;
+import frc.robot.subsystems.intakeopener.IntakeOpener;
 import frc.robot.subsystems.led.LED;
 import frc.robot.subsystems.loader.Loader;
 import frc.robot.subsystems.mixer.Mixer;
@@ -29,6 +31,7 @@ public class Robot extends TimedRobot {
 
     public static Drivetrain drivetrain;
     public static Intake intake;
+    public static IntakeOpener intakeOpener;
     public static Mixer mixer;
     public static Loader loader;
     public static Shooter shooter;

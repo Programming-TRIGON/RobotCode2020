@@ -28,6 +28,7 @@ public abstract class RobotMap {
         public int kTemporaryTalonForLeftDrivetrainEncoder;
         // Intake ports
         public int kCellIntakeSparkMax;
+        // Intake opener ports
         public int kIntakeOpenerTalonSRX;
         // Mixer ports
         public int kMixerTalonSRX;
@@ -43,7 +44,7 @@ public abstract class RobotMap {
 
     public static class DIO {
         public int kSwitchShooter;
-        public int kIntakePotentiometer;
+        public int kIntakeOpenerPotentiometer;
     }
 
     public static class PWM {

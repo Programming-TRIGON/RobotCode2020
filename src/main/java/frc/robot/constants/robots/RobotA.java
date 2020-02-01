@@ -31,22 +31,23 @@ public class RobotA extends RobotConstants {
         trigonDriveConstants.kThreshold = 0.5;
 
         // Intake Constants
-        intakeConstants.kCellIntakeIsInverted = false;
-        intakeConstants.kCellIntakeDefaultPower = 0.3;
-        intakeConstants.kCellIntakeStallLimit = 0;
-        intakeConstants.kIntakeOpenerIsInverted = false;
-        intakeConstants.kIntakeOpenerCurrentLimit = 0;
-        intakeConstants.kIntakeOpenerThresholdLimit = 0;
-        intakeConstants.kIntakeOpenerTriggerThresholdTime = 0;
-        intakeConstants.kIntakeOpenerOpenAngle = 0;
-        intakeConstants.kIntakeOpenerClosedAngle = 0;
-        intakeConstants.kPotentiometerAngleMultiplier = 3600;
-        intakeConstants.kPotentiometerOffset = 5;
-        intakeConstants.kCellIntakeStallLimit = 10;
+        intakeConstants.kIsInverted = false;
+        intakeConstants.kDefaultIntakePower = 0.3;
+        intakeConstants.kStallLimit = 10;
         intakeConstants.kSpinBackwardsTime = 0.5;
         intakeConstants.kStallTimeout = 0.5;
+
+        //Intake opener
+        intakeOpenerConstants.kIsInverted = false;
+        intakeOpenerConstants.kCurrentLimit = 0;
+        intakeOpenerConstants.kThresholdLimit = 0;
+        intakeOpenerConstants.kTriggerThresholdTime = 0;
+        intakeOpenerConstants.kOpenAngle = 0;
+        intakeOpenerConstants.kClosedAngle = 0;
+        intakeOpenerConstants.kPotentiometerAngleMultiplier = 3600;
+        intakeOpenerConstants.kPotentiometerOffset = 5;
         controlConstants.intakeOpenerSettings = new PIDSettings(0, 0, 0, 0, 0);
-        controlConstants.intakeFeedforward = new ArmFeedforward(0, 0, 0, 0);
+        controlConstants.intakeOpenerFeedforward = new ArmFeedforward(0, 0, 0, 0);
 
         // Mixer Constants
         mixerConstants.kMixerMaxStall = 30;
@@ -125,7 +126,7 @@ public class RobotA extends RobotConstants {
         // Intake Map
         can.kCellIntakeSparkMax = 11;
         can.kIntakeOpenerTalonSRX = 16;
-        dio.kIntakePotentiometer = 1;
+        dio.kIntakeOpenerPotentiometer = 1;
         // Mixer Map
         can.kMixerTalonSRX = 12;
         // Loader Map

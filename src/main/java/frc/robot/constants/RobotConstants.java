@@ -11,6 +11,7 @@ public abstract class RobotConstants extends RobotMap {
     public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
     public TrigonDriveConstants trigonDriveConstants = new TrigonDriveConstants();
     public IntakeConstants intakeConstants = new IntakeConstants();
+    public IntakeOpenerConstants intakeOpenerConstants = new IntakeOpenerConstants();
     public MixerConstants mixerConstants = new MixerConstants();
     public LoaderConstants loaderConstants = new LoaderConstants();
     public ShooterConstants shooterConstants = new ShooterConstants();
@@ -38,20 +39,23 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public static class IntakeConstants {
-        public boolean kCellIntakeIsInverted;
-        public double kCellIntakeDefaultPower;
-        public int kCellIntakeStallLimit;
-        public boolean kIntakeOpenerIsInverted;
-        public double kIntakeOpenerCurrentLimit;
-        public double kIntakeOpenerThresholdLimit;
-        public double kIntakeOpenerTriggerThresholdTime;
-        public double kIntakeOpenerOpenAngle;
-        public double kIntakeOpenerClosedAngle;
-        public double kPotentiometerAngleMultiplier;
-        public double kPotentiometerOffset;
+        public boolean kIsInverted;
+        public double kDefaultIntakePower;
         public double kSpinBackwardsTime;
         public double kStallTimeout;
-        public double kStallLimit;
+        public int kStallLimit;
+        public double kOnStallLimit;
+    }
+
+    public static class IntakeOpenerConstants {
+        public boolean kIsInverted;
+        public double kCurrentLimit;
+        public double kThresholdLimit;
+        public double kTriggerThresholdTime;
+        public double kOpenAngle;
+        public double kClosedAngle;
+        public double kPotentiometerAngleMultiplier;
+        public double kPotentiometerOffset;
     }
 
     public static class MixerConstants {
@@ -111,7 +115,7 @@ public abstract class RobotConstants extends RobotMap {
         public PIDSettings loaderPidSettings;
         public SimpleMotorFeedforward loaderFeedforward;
         public PIDSettings intakeOpenerSettings;
-        public ArmFeedforward intakeFeedforward;
+        public ArmFeedforward intakeOpenerFeedforward;
     }
 
     public static class MotionProfilingConstants {
