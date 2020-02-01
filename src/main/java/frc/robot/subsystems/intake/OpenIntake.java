@@ -1,13 +1,15 @@
 package frc.robot.subsystems.intake;
 
+import edu.wpi.first.wpilibj.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.TrigonPIDController;
+import frc.robot.utils.ProfiledTrigonPIDController;
 
 import static frc.robot.Robot.intake;
 import static frc.robot.Robot.robotConstants;;
 
 public class OpenIntake extends CommandBase {
-  private TrigonPIDController pidController;
+  private ProfiledTrigonPIDController pidController;
+  private ArmFeedforward feedforward;
 
   /**
    * Either opens the Intake subsystem or closes it with PID
@@ -16,11 +18,12 @@ public class OpenIntake extends CommandBase {
    */
   public OpenIntake(boolean isOpen) {
     addRequirements(intake);
-    pidController = new TrigonPIDController(robotConstants.controlConstants.intakeOpenerPidSettings);
+    pidController = new ProfiledTrigonPIDController(robotConstants.controlConstants.intakeOpenerSettings, null);
     if (isOpen)
-      pidController.setSetpoint(robotConstants.intakeConstants.kIntakeOpenerOpenAngle);
+      pidController.setGoal(robotConstants.intakeConstants.kIntakeOpenerOpenAngle);
     else
-      pidController.setSetpoint(robotConstants.intakeConstants.kIntakeOpenerClosedAngle);
+      pidController.setGoal(robotConstants.intakeConstants.kIntakeOpenerClosedAngle);
+    feedforward = robotConstants.controlConstants.intakeFeedforward;
   }
 
   /**
@@ -29,27 +32,22 @@ public class OpenIntake extends CommandBase {
    */
   public OpenIntake() {
     addRequirements(intake);
-    pidController = new TrigonPIDController("Intake PID Settings");
+    pidController = new ProfiledTrigonPIDController("Intake PID Settings");
   }
 
   @Override
   public void initialize() {
-    pidController.reset();
+    pidController.reset(intake.getAngle());
   }
 
   @Override
   public void execute() {
-    intake.setIntakeOpener(pidController.calculate(intake.getAngle(), -1, 1));
+    intake.setIntakeOpenerVolts(pidController.calculate(intake.getAngle(), -1, 1)
+        + feedforward.calculate(pidController.getSetpoint().position, pidController.getSetpoint().velocity));
   }
 
   @Override
   public void end(boolean interrupted) {
-    pidController.close();
-    intake.move(0);
-  }
-
-  @Override
-  public boolean isFinished() {
-    return pidController.atSetpoint();
+    intake.stopMove();
   }
 }

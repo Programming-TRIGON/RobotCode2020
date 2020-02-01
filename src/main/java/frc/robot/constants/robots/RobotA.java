@@ -1,6 +1,7 @@
 package frc.robot.constants.robots;
 
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.constants.RobotConstants;
 import frc.robot.utils.PIDSettings;
@@ -39,9 +40,13 @@ public class RobotA extends RobotConstants {
         intakeConstants.kIntakeOpenerTriggerThresholdTime = 0;
         intakeConstants.kIntakeOpenerOpenAngle = 0;
         intakeConstants.kIntakeOpenerClosedAngle = 0;
-        intakeConstants.kPotentiometerAngleMultiplier = 1;
+        intakeConstants.kPotentiometerAngleMultiplier = 3600;
         intakeConstants.kPotentiometerOffset = 5;
-        controlConstants.intakeOpenerPidSettings = new PIDSettings(0, 0, 0, 0, 0);
+        intakeConstants.kCellIntakeStallLimit = 10;
+        intakeConstants.kSpinBackwardsTime = 0.5;
+        intakeConstants.kStallTimeout = 0.5;
+        controlConstants.intakeOpenerSettings = new PIDSettings(0, 0, 0, 0, 0);
+        controlConstants.intakeFeedforward = new ArmFeedforward(0, 0, 0, 0);
 
         // Mixer Constants
         mixerConstants.kMixerMaxStall = 30;
@@ -115,7 +120,7 @@ public class RobotA extends RobotConstants {
         // Intake Map
         can.kCellIntakeSparkMax = 11;
         can.kIntakeOpenerTalonSRX = 16;
-        pwm.kIntakePotentiometer = 1;
+        dio.kIntakePotentiometer = 1;
         // Mixer Map
         can.kMixerTalonSRX = 12;
         // Loader Map
