@@ -2,23 +2,42 @@ package frc.robot.commands.command_groups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.commands.MoveMovableSubsystem;
+import frc.robot.commands.RunTwoCommands;
 import frc.robot.subsystems.loader.SetLoaderVelocity;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.ShooterVelocity;
+import frc.robot.vision.Limelight;
 import frc.robot.vision.Target;
 import frc.robot.vision.TurnToTarget;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
-import static frc.robot.Robot.drivetrain;
-import static frc.robot.Robot.shooter;
+import static frc.robot.Robot.*;
 
 /**
  * This command group responsible for spinning the mixer, rotating the drivetrain to target, spinning the shooter in the desired speed,
  * and loading and shooting the cells once it reaches the desired speed.
  */
 public class AutoShoot extends SequentialCommandGroup {
+
+    /**
+     * Constructs automatic shooting sequence with shooter velocities based on vision.
+     * @see Limelight#getDesiredShooterVelocity()
+     */
+    public AutoShoot() {
+        this(false);
+    }
+
+    /**
+     * Constructs automatic shooting sequence with shooter velocities based on vision.
+     * @param isAuto whether the command group should stop automatically
+     * @see Limelight#getDesiredShooterVelocity()
+     */
+    public AutoShoot(boolean isAuto) {
+        this(limelight::getDesiredShooterVelocity, isAuto);
+    }
 
     /**
      * @param speedSupplier supplier of the desired speed
@@ -55,11 +74,12 @@ public class AutoShoot extends SequentialCommandGroup {
                 new SpinMixer(),
                 turnToTarget,
                 sequence(
-                    new WaitUntilCommand(() -> setShooterVelocity.isOnTarget() && turnToTarget.isOnTarget()),
-                    SetLoaderVelocity.defaultSetLoaderVelocityCommand()
-                )
-            )
-        );
+                    new WaitUntilCommand(() ->
+                        setShooterVelocity.isOnTarget() && turnToTarget.isOnTarget()),
+                    new RunTwoCommands(SetLoaderVelocity.defaultSetLoaderVelocityCommand(),
+                        new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower),
+                        () -> Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance))
+            ));
     }
 
     @Override

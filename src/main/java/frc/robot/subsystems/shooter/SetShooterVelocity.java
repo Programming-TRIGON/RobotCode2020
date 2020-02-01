@@ -96,11 +96,10 @@ public class SetShooterVelocity extends CommandBase {
         if (isAuto) {
             boolean isCellBeingShot = shooter.isSwitchPressed();
             //We might want to use current in order to count the amount of shot cells instead of using limit switches
-            //boolean isCellBeingShot = shooter.getAverageSpeed() < robotConstants.shooterConstants.kShootingBallZone;
+            //boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageSpeed()) < robotConstants.shooterConstants.kShootingBallZone;
             countShotCells(isCellBeingShot);
         }
     }
-
 
     private void countShotCells(boolean isCellBeingShot) {
         if (!isInZone && isCellBeingShot &&
@@ -131,7 +130,13 @@ public class SetShooterVelocity extends CommandBase {
      * Tolerance is taken from {@link frc.robot.constants.RobotConstants.ControlConstants#leftShooterSettings}
      */
     public boolean isOnTarget() {
-        return Math.abs(shooter.getAverageSpeed() - setpoint) <
+        return Math.abs(getError()) <
             robotConstants.controlConstants.leftShooterSettings.getTolerance();
+    }
+
+    public double getError() {
+        if(shooter.isOverridden())
+            return 0;
+        return shooter.getAverageSpeed() - setpoint;
     }
 }

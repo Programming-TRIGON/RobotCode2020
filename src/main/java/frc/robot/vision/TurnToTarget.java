@@ -71,7 +71,8 @@ public class TurnToTarget extends CommandBase {
     }
 
     public boolean isOnTarget() {
-        return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.kTargetNotFoundWaitTime)
-            || rotationPIDController.atSetpoint();
+        /* return ((Timer.getFPGATimestamp() - lastTimeSeenTarget) > robotConstants.visionConstants.kTargetNotFoundWaitTime)
+            || rotationPIDController.atSetpoint(); */
+        return limelight.getTv() && rotationPIDController.atSetpoint();
     }
 }

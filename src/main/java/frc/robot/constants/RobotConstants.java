@@ -57,6 +57,10 @@ public abstract class RobotConstants extends RobotMap {
         public double kTimeout;
         public double kTicksPerRotation;
         public double kDefaultVelocity;
+        public double kSpinBackwardsTime;
+        public double kDefaultBackwardsPower;
+        public double kOnStallPower;
+        public double kStallLimit;
     }
 
     public static class ShooterConstants {
@@ -66,6 +70,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kRampTime;
         public double kShootingBallZone;
         public double kWaitTimeZone;
+        public double kStopLoadingTolerance;
         public boolean kIsLeftMotorInverted;
         public boolean kIsRightMotorInverted;
         public boolean kIsLeftEncoderInverted;
@@ -103,8 +108,10 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public static class VisionConstants {
-        public double kDistanceCalculationACoefficient;
-        public double kDistanceCalculationBCoefficient;
+        public double kDistanceFromPortACoefficient;
+        public double kDistanceFromPortBCoefficient;
+        public double kDistanceFromFeederACoefficient;
+        public double kDistanceFromFeederBCoefficient;
         // Offsets are measured from the robot's center of rotation to the limelight
         // position.
         public double kLimelightOffsetX;

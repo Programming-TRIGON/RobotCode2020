@@ -2,6 +2,7 @@ package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.RobotController;
@@ -14,10 +15,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.subsystems.MovableSubsystem;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
+import frc.robot.utils.DriverStationLogger;
 
 import static frc.robot.Robot.robotConstants;
 
-public class Drivetrain extends SubsystemBase implements MovableSubsystem {
+public class Drivetrain extends SubsystemBase implements MovableSubsystem, Loggable {
     private WPI_TalonFX leftRear;
     private WPI_TalonFX leftMiddle;
     private WPI_TalonFX leftFront;
@@ -38,12 +42,12 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
      * This is the subsystem of the drivetrain
      */
     public Drivetrain() {
-        leftRear = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON_FX);
-        leftMiddle = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_MIDDLE_TALON_FX);
-        leftFront = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_LEFT_FRONT_TALON_FX);
-        rightRear = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_REAR_TALON_FX);
-        rightMiddle = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_MIDDLE_TALON_FX);
-        rightFront = new WPI_TalonFX(robotConstants.can.DRIVETRAIN_RIGHT_FRONT_TALON_FX);
+        leftRear = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftRearTalonFX);
+        leftMiddle = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftMiddleTalonFX);
+        leftFront = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftFrontTalonFX);
+        rightRear = new WPI_TalonFX(robotConstants.can.kDrivetrainRightRearTalonFX);
+        rightMiddle = new WPI_TalonFX(robotConstants.can.kDrivetrainRightMiddleTalonFX);
+        rightFront = new WPI_TalonFX(robotConstants.can.kDrivetrainRightFrontTalonFX);
 
         configTalonFX(leftRear, leftFront);
         configTalonFX(leftMiddle, leftFront);
@@ -56,10 +60,18 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
         drivetrain.setDeadband(0);
 
         // TODO: set correct talons for encoders.
-        leftEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_LEFT_DRIVETRAIN_ENCODER);
-        rightEncoder = new WPI_TalonSRX(robotConstants.can.TEMPORARY_TALON_FOR_RIGHT_DRIVETRAIN_ENCODER);
+        leftEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForLeftDrivetrainEncoder);
+        rightEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForRightDrivetrainEncoder);
+
+        DriverStationLogger.logErrorToDS(leftEncoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
+            "Could not set left drivetrain encoder");
+        DriverStationLogger.logErrorToDS(rightEncoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
+            "Could not set right drivetrain encoder");
+
         // TODO: set correct port for pigeon gyro.
-        gyro = new Pigeon(robotConstants.can.DRIVETRAIN_LEFT_REAR_TALON_FX);
+        gyro = new Pigeon(robotConstants.can.kDrivetrainLeftRearTalonFX);
+        DriverStationLogger.logErrorToDS(gyro.resetGyroWithErrorCode(),
+            "Could not reset pigeon gyro");
 
         kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.kWheelBaseWidth);
         odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
@@ -108,6 +120,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
     }
 
     // Gyro functions
+    @Log(name = "Drivetrain/Angle")
     double getAngle() {
         return Math.IEEEremainder(gyro.getAngle(), 360);
     }
@@ -126,10 +139,12 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
     }
 
     // Encoders functions
+    @Log(name = "Drivetrain/Left Ticks")
     public int getLeftTicks() {
         return leftEncoder.getSelectedSensorPosition();
     }
 
+    @Log(name = "Drivetrain/Left Ticks")
     public int getRightTicks() {
         return rightEncoder.getSelectedSensorPosition();
     }
@@ -142,6 +157,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
     /**
      * @return meters
      */
+    @Log(name = "Drivetrain/Left Distance")
     public double getLeftDistance() {
         return getLeftTicks() / robotConstants.drivetrainConstants.kLeftEncoderTicksPerMeter;
     }
@@ -149,10 +165,12 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
     /**
      * @return meters
      */
+    @Log(name = "Drivetrain/Right Distance")
     public double getRightDistance() {
         return getRightTicks() / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
     }
 
+    @Log(name = "Drivetrain/Average Distance")
     public double getAverageDistance() {
         return (getLeftDistance() + getRightDistance()) / 2;
     }
@@ -160,6 +178,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
     /**
      * @return meters per second
      */
+    @Log(name = "Drivetrain/Right Velocity")
     public double getRightVelocity() {
         return rightEncoder.getSelectedSensorVelocity() * 10
                 / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
@@ -168,11 +187,13 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
     /**
      * @return meters per second
      */
+    @Log(name = "Drivetrain/Left Velocity")
     public double getLeftVelocity() {
         return leftEncoder.getSelectedSensorVelocity() * 10
                 / robotConstants.drivetrainConstants.kLeftEncoderTicksPerMeter;
     }
 
+    @Log(name = "Drivetrain/Average Velocity")
     public double getAverageVelocity() {
         return (getLeftVelocity() + getRightVelocity()) / 2;
     }
@@ -198,6 +219,21 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem {
 
     public Pose2d getPose() {
         return odometry.getPoseMeters();
+    }
+
+    @Log(name = "Drivetrain/X Position")
+    public double getXPosition() {
+        return getPose().getTranslation().getX();
+    }
+
+    @Log(name = "Drivetrain/Y Position")
+    public double getYPosition() {
+        return getPose().getTranslation().getY();
+    }
+
+    @Log(name = "Drivetrain/Odometry angle")
+    public double getOdometryAngle() {
+        return getPose().getRotation().getRadians();
     }
 
     public double getLeftMotorOutputVoltage() {

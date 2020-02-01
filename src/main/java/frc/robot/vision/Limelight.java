@@ -4,12 +4,14 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.drive.Vector2d;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
 
-public class Limelight {
+public class Limelight implements Loggable {
 
-    public static final String defaultTableKey = "limelight";
+    public static final String kDefaultTableKey = "limelight";
     private final NetworkTableEntry tv, tx, ty, ta, ts, ledMode, camMode, pipeline, snapshot;
 
     /**
@@ -30,7 +32,7 @@ public class Limelight {
     }
 
     public Limelight() {
-        this(defaultTableKey);
+        this(kDefaultTableKey);
     }
 
     /**
@@ -71,23 +73,51 @@ public class Limelight {
     /**
      * @return The distance between the target and the limelight
      */
-    //TODO: set real function
+    @Log(name = "Limelight/Distance From Limelight")
     public double getDistanceFromLimelight() {
+        if (getTarget() == Target.PowerPort)
+            return getDistanceFromPowerPort();
+        return getDistanceFromFeeder();
+    }
+
+    /**
+     * @return distance of the limelight from the feeder
+     */
+    //TODO: set real function
+    private double getDistanceFromFeeder() {
         double x = getTy();
-        return robotConstants.visionConstants.kDistanceCalculationACoefficient * Math.pow(x, 2) +
-            robotConstants.visionConstants.kDistanceCalculationBCoefficient * x;
+        return robotConstants.visionConstants.kDistanceFromFeederACoefficient * Math.pow(x, 2) +
+            robotConstants.visionConstants.kDistanceFromFeederBCoefficient * x;
+    }
+
+    /**
+     * @return distance of limelight from the power port
+     */
+    //TODO: set real function
+    private double getDistanceFromPowerPort() {
+        double x = getTy();
+        return robotConstants.visionConstants.kDistanceFromPortACoefficient * Math.pow(x, 2) +
+            robotConstants.visionConstants.kDistanceFromPortBCoefficient * x;
     }
 
     /**
      * @return The distance between the target and the middle of the robot
      */
+    @Log(name = "Limelight/Vision Distance")
     public double getDistance() {
         return calculateVector().magnitude();
+    }
+
+    @Log(name = "Limelight/Desired Shooter Velocity")
+    public double getDesiredShooterVelocity() {
+        // TODO: find and replace with real function based on a table.
+        return 0;
     }
 
     /**
      * @return the angle from the middle of the robot to the target
      */
+    @Log(name = "Limelight/Vision Angle")
     public double getAngle() {
         Vector2d vector = calculateVector();
         return Math.toDegrees(Math.atan(vector.y / vector.x));
@@ -145,12 +175,28 @@ public class Limelight {
         NetworkTableInstance.getDefault().flush();
     }
 
-
     /**
      * @return the current target in the NetworkTable.
      */
     public int getPipeline() {
         return (int) pipeline.getDouble(0);
+    }
+
+    /**
+     * @return the current target which limelight searches.
+     */
+    public Target getTarget() {
+        return getPipeline() == Target.PowerPort.getIndex() ? Target.PowerPort : Target.Feeder;
+    }
+
+    /**
+     * This method is used for logging.
+     * 
+     * @return a String representing the current target which limelight searches.
+     */
+    @Log(name = "Limelight/Vision Target")
+    public String getTargetName() {
+        return getTarget().toString();
     }
 
     /**
