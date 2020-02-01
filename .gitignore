@@ -76,4 +76,6 @@ gradle-app.setting
 # End of https://www.gitignore.io/api/java,gradle,windows
 
 !shuffleboard/ColorWidget.jar
+!falcondashboard/falcondashboard.jar
+falcondashboard/settings.json
 imgui.ini
