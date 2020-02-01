@@ -1,8 +1,12 @@
+/*----------------------------------------------------------------------------*/
+/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
+/* Open Source Software - may be modified and shared by FRC teams. The code   */
+/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* the project.                                                               */
+/*----------------------------------------------------------------------------*/
+
 package frc.robot.motion_profiling;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
@@ -13,29 +17,44 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.DriverStationLogger;
+import edu.wpi.first.wpilibj2.command.Subsystem;
+import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
+import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.robotConstants;
 
+
+/**
+ * A command that uses a RAMSETE controller ({@link RamseteController}) to follow a trajectory
+ * {@link Trajectory} with a differential drive.
+ *
+ * <p>The command handles trajectory-following, PID calculations, and feedforwards internally.  This
+ * is intended to be a more-or-less "complete solution" that can be used by teams without a great
+ * deal of controls expertise.
+ *
+ * <p>Advanced teams seeking more flexibility (for example, those who wish to use the onboard
+ * PID functionality of a "smart" motor controller) may use the secondary constructor that omits
+ * the PID and feedforward functionality, returning only the raw wheel speeds from the RAMSETE
+ * controller.
+ */
+@SuppressWarnings("PMD.TooManyFields")
 public class FollowPath extends CommandBase {
-    private final DifferentialDriveKinematics kinematics;
-    private Timer timer;
-    private Trajectory trajectory;
-    private RamseteController ramseteController;
-    private SimpleMotorFeedforward feedforward;
-    private PIDController leftController;
-    private PIDController rightController;
-    private DifferentialDriveWheelSpeeds prevSpeeds;
-    private double prevTime;
-    private NetworkTableEntry robotAngleEntry;
-    private NetworkTableEntry robotXEntry;
-    private NetworkTableEntry robotYEntry;
-    private NetworkTableEntry pathXEntry;
-    private NetworkTableEntry pathYEntry;
-    private NetworkTableEntry isFollowingEntry;
+    private final Timer m_timer = new Timer();
+    private final boolean m_usePID;
+    private final Trajectory m_trajectory;
+    private final Supplier<Pose2d> m_pose;
+    private final RamseteController m_follower;
+    private final SimpleMotorFeedforward m_feedforward;
+    private final DifferentialDriveKinematics m_kinematics;
+    private final Supplier<DifferentialDriveWheelSpeeds> m_speeds;
+    private final PIDController m_leftController;
+    private final PIDController m_rightController;
+    private final BiConsumer<Double, Double> m_output;
+    private DifferentialDriveWheelSpeeds m_prevSpeeds;
+    private double m_prevTime;
     private boolean isTuning;
 
     /**
@@ -56,78 +75,145 @@ public class FollowPath extends CommandBase {
      * @param isTuning whether the PID values should be set by SmartDashboard.
      */
     public FollowPath(Path path, boolean isTuning) {
-        timer = new Timer();
-        leftController = new PIDController(path.isReversed() ? robotConstants.motionProfilingConstants.kReverseKp :
-            robotConstants.motionProfilingConstants.kP, 0, 0);
-        rightController = new PIDController(path.isReversed() ? robotConstants.motionProfilingConstants.kReverseKp :
-            robotConstants.motionProfilingConstants.kP, 0, 0);
+        this(path.getTrajectory(),
+            drivetrain::getPose,
+            new RamseteController(),
+            path.isReversed() ?
+                new SimpleMotorFeedforward(robotConstants.controlConstants.motionProfilingReverseSettings.ks,
+                    robotConstants.controlConstants.motionProfilingReverseSettings.kv,
+                    robotConstants.controlConstants.motionProfilingReverseSettings.ka) :
+                new SimpleMotorFeedforward(robotConstants.controlConstants.motionProfilingSettings.ks,
+                    robotConstants.controlConstants.motionProfilingSettings.kv,
+                    robotConstants.controlConstants.motionProfilingSettings.ka),
+            drivetrain.getKinematics(),
+            drivetrain::getWheelSpeeds,
+            new PIDController(path.isReversed() ? robotConstants.motionProfilingConstants.kReverseKp :
+                robotConstants.motionProfilingConstants.kP, 0, 0),
+            new PIDController(path.isReversed() ? robotConstants.motionProfilingConstants.kReverseKp :
+                robotConstants.motionProfilingConstants.kP, 0, 0),
+            drivetrain::voltageTankDrive,
+            drivetrain);
         this.isTuning = isTuning;
-        if (isTuning) {
+        SmartDashboard.putBoolean("Falcon/IsFollowingPath", false);
+        if (isTuning)
             enableTuning();
-        }
-        trajectory = path.getTrajectory();
-        ramseteController = new RamseteController();
-        feedforward = path.isReversed() ?
-            new SimpleMotorFeedforward(robotConstants.controlConstants.motionProfilingReverseSettings.ks,
-                robotConstants.controlConstants.motionProfilingReverseSettings.kv,
-                robotConstants.controlConstants.motionProfilingReverseSettings.ka) :
-            new SimpleMotorFeedforward(robotConstants.controlConstants.motionProfilingSettings.ks,
-                robotConstants.controlConstants.motionProfilingSettings.kv,
-                robotConstants.controlConstants.motionProfilingSettings.ka);
-        kinematics = drivetrain.getKinematics();
-        addRequirements(drivetrain);
-        var table = NetworkTableInstance.getDefault().getTable("Live_Dashboard");
-        robotXEntry = table.getEntry("robotX");
-        robotYEntry = table.getEntry("robotY");
-        robotAngleEntry = table.getEntry("robotHeading");
-        pathXEntry = table.getEntry("pathX");
-        pathYEntry = table.getEntry("pathY");
-        isFollowingEntry = table.getEntry("isFollowingPath");
-        SmartDashboard.putString("Motion/trajectory", "null");
+    }
+
+    /**
+     * Constructs a new RamseteCommand that, when executed, will follow the provided trajectory.
+     * PID control and feedforward are handled internally, and outputs are scaled -12 to 12
+     * representing units of volts.
+     *
+     * <p>Note: The controller will *not* set the outputVolts to zero upon completion of the path -
+     * this
+     * is left to the user, since it is not appropriate for paths with nonstationary endstates.
+     *
+     * @param trajectory      The trajectory to follow.
+     * @param pose            A function that supplies the robot pose - use one of
+     *                        the odometry classes to provide this.
+     * @param controller      The RAMSETE controller used to follow the trajectory.
+     * @param feedforward     The feedforward to use for the drive.
+     * @param kinematics      The kinematics for the robot drivetrain.
+     * @param wheelSpeeds     A function that supplies the speeds of the left and
+     *                        right sides of the robot drive.
+     * @param leftController  The PIDController for the left side of the robot drive.
+     * @param rightController The PIDController for the right side of the robot drive.
+     * @param outputVolts     A function that consumes the computed left and right
+     *                        outputs (in volts) for the robot drive.
+     * @param requirements    The subsystems to require.
+     */
+    @SuppressWarnings("PMD.ExcessiveParameterList")
+    private FollowPath(Trajectory trajectory,
+        Supplier<Pose2d> pose,
+        RamseteController controller,
+        SimpleMotorFeedforward feedforward,
+        DifferentialDriveKinematics kinematics,
+        Supplier<DifferentialDriveWheelSpeeds> wheelSpeeds,
+        PIDController leftController,
+        PIDController rightController,
+        BiConsumer<Double, Double> outputVolts,
+        Subsystem... requirements) {
+        m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
+        m_pose = requireNonNullParam(pose, "pose", "RamseteCommand");
+        m_follower = requireNonNullParam(controller, "controller", "RamseteCommand");
+        m_feedforward = feedforward;
+        m_kinematics = requireNonNullParam(kinematics, "kinematics", "RamseteCommand");
+        m_speeds = requireNonNullParam(wheelSpeeds, "wheelSpeeds", "RamseteCommand");
+        m_leftController = requireNonNullParam(leftController, "leftController", "RamseteCommand");
+        m_rightController = requireNonNullParam(rightController, "rightController", "RamseteCommand");
+        m_output = requireNonNullParam(outputVolts, "outputVolts", "RamseteCommand");
+
+        m_usePID = true;
+
+        addRequirements(requirements);
+    }
+
+    /**
+     * Constructs a new RamseteCommand that, when executed, will follow the provided trajectory.
+     * Performs no PID control and calculates no feedforwards; outputs are the raw wheel speeds
+     * from the RAMSETE controller, and will need to be converted into a usable form by the user.
+     *
+     * @param trajectory            The trajectory to follow.
+     * @param pose                  A function that supplies the robot pose - use one of
+     *                              the odometry classes to provide this.
+     * @param follower              The RAMSETE follower used to follow the trajectory.
+     * @param kinematics            The kinematics for the robot drivetrain.
+     * @param outputMetersPerSecond A function that consumes the computed left and right
+     *                              wheel speeds.
+     * @param requirements          The subsystems to require.
+     */
+    private FollowPath(Trajectory trajectory,
+        Supplier<Pose2d> pose,
+        RamseteController follower,
+        DifferentialDriveKinematics kinematics,
+        BiConsumer<Double, Double> outputMetersPerSecond,
+        Subsystem... requirements) {
+        m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
+        m_pose = requireNonNullParam(pose, "pose", "RamseteCommand");
+        m_follower = requireNonNullParam(follower, "follower", "RamseteCommand");
+        m_kinematics = requireNonNullParam(kinematics, "kinematics", "RamseteCommand");
+        m_output = requireNonNullParam(outputMetersPerSecond, "output", "RamseteCommand");
+
+        m_feedforward = null;
+        m_speeds = null;
+        m_leftController = null;
+        m_rightController = null;
+
+        m_usePID = false;
+
+        addRequirements(requirements);
     }
 
     @Override
     public void initialize() {
-        if (isTuning) {
-            try {
-                trajectory = TrajectoryUtil.deserializeTrajectory(SmartDashboard.getString("Motion/trajectory", "null"));
-            } catch (JsonProcessingException e) {
-                DriverStationLogger.logErrorToDS("could not read from trajectory in dashboard");
-            }
-            DriverStationLogger.logToDS(trajectory.getInitialPose().toString());
-            drivetrain.resetOdometry(trajectory.getInitialPose());
-            drivetrain.resetOdometry(trajectory.getInitialPose());
-            drivetrain.resetOdometry(trajectory.getInitialPose());
-            DriverStationLogger.logToDS(drivetrain.getPose().toString());
-        }
-        prevTime = 0;
-        var initialState = trajectory.sample(0);
-        prevSpeeds = drivetrain.getKinematics().toWheelSpeeds(
+        m_prevTime = 0;
+        var initialState = m_trajectory.sample(0);
+        m_prevSpeeds = m_kinematics.toWheelSpeeds(
             new ChassisSpeeds(initialState.velocityMetersPerSecond,
                 0,
                 initialState.curvatureRadPerMeter
                     * initialState.velocityMetersPerSecond));
-        timer.reset();
-        timer.start();
-        leftController.reset();
-        rightController.reset();
-        isFollowingEntry.setBoolean(true);
+        m_timer.reset();
+        m_timer.start();
+        if (m_usePID) {
+            m_leftController.reset();
+            m_rightController.reset();
+        }
+        SmartDashboard.putBoolean("Falcon/IsFollowingPath", true);
     }
 
     @Override
     public void execute() {
-        double currentTime = timer.get();
-        double dt = currentTime - prevTime;
-
-        Trajectory.State setpointState = trajectory.sample(currentTime);
-        pathXEntry.setDouble(setpointState.poseMeters.getTranslation().getX());
-        pathYEntry.setDouble(setpointState.poseMeters.getTranslation().getY());
-        Pose2d robotPose = drivetrain.getPose();
-        robotXEntry.setDouble(robotPose.getTranslation().getX());
-        robotYEntry.setDouble(robotPose.getTranslation().getY());
-        robotAngleEntry.setDouble(robotPose.getRotation().getDegrees());
-        var targetWheelSpeeds = kinematics.toWheelSpeeds(
-            ramseteController.calculate(robotPose, setpointState));
+        double curTime = m_timer.get();
+        double dt = curTime - m_prevTime;
+        var curState = m_trajectory.sample(curTime);
+        if (isTuning) {
+            drivetrain.resetOdometry(m_trajectory.getInitialPose());
+        SmartDashboard.putNumber("Falcon/PathX", curState.poseMeters.getTranslation().getX());
+        SmartDashboard.putNumber("Falcon/PathY", curState.poseMeters.getTranslation().getY());
+        }
+        var targetWheelSpeeds = m_kinematics.toWheelSpeeds(
+            m_follower.calculate(m_pose.get(), curState));
 
         var leftSpeedSetpoint = targetWheelSpeeds.leftMetersPerSecond;
         var rightSpeedSetpoint = targetWheelSpeeds.rightMetersPerSecond;
@@ -135,41 +221,46 @@ public class FollowPath extends CommandBase {
         double leftOutput;
         double rightOutput;
 
+        if (m_usePID) {
             double leftFeedforward =
-                feedforward.calculate(leftSpeedSetpoint,
-                    (leftSpeedSetpoint - prevSpeeds.leftMetersPerSecond) / dt);
+                m_feedforward.calculate(leftSpeedSetpoint,
+                    (leftSpeedSetpoint - m_prevSpeeds.leftMetersPerSecond) / dt);
 
             double rightFeedforward =
-                feedforward.calculate(rightSpeedSetpoint,
-                    (rightSpeedSetpoint - prevSpeeds.rightMetersPerSecond) / dt);
+                m_feedforward.calculate(rightSpeedSetpoint,
+                    (rightSpeedSetpoint - m_prevSpeeds.rightMetersPerSecond) / dt);
 
             leftOutput = leftFeedforward
-                + leftController.calculate(drivetrain.getWheelSpeeds().leftMetersPerSecond,
+                + m_leftController.calculate(m_speeds.get().leftMetersPerSecond,
                 leftSpeedSetpoint);
 
             rightOutput = rightFeedforward
-                + rightController.calculate(drivetrain.getWheelSpeeds().rightMetersPerSecond,
+                + m_rightController.calculate(m_speeds.get().rightMetersPerSecond,
                 rightSpeedSetpoint);
+        } else {
+            leftOutput = leftSpeedSetpoint;
+            rightOutput = rightSpeedSetpoint;
+        }
 
-        drivetrain.voltageTankDrive(leftOutput, rightOutput);
+        m_output.accept(leftOutput, rightOutput);
 
-        prevTime = currentTime;
-        prevSpeeds = targetWheelSpeeds;
-    }
-
-    @Override
-    public boolean isFinished() {
-        return timer.hasPeriodPassed(trajectory.getTotalTimeSeconds());
+        m_prevTime = curTime;
+        m_prevSpeeds = targetWheelSpeeds;
     }
 
     @Override
     public void end(boolean interrupted) {
-        timer.stop();
-        isFollowingEntry.setBoolean(false);
+        m_timer.stop();
+        SmartDashboard.putBoolean("Falcon/IsFollowingPath", false);
+    }
+
+    @Override
+    public boolean isFinished() {
+        return m_timer.hasPeriodPassed(m_trajectory.getTotalTimeSeconds());
     }
 
     public void enableTuning() {
-        SmartDashboard.putData("PID/motionProfilingLeft", leftController);
-        SmartDashboard.putData("PID/motionProfilingRight", rightController);
+        SmartDashboard.putData("PID/motionProfilingLeft", m_leftController);
+        SmartDashboard.putData("PID/motionProfilingRight", m_rightController);
     }
 }
