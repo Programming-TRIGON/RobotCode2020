@@ -56,7 +56,7 @@ public class ProfiledTrigonPIDController extends ProfiledPIDController {
      *
      * @param dashboardKey    This is the key the will be attached to the
      *                        pidController in the smart dashboard
-     * @param defaultSetpoint The default setpoint to use if the setpoint hasn't
+     * @param defaultGoal The default goal to use if the setpoint hasn't
      *                        been changed from the dashboard
      */
     public ProfiledTrigonPIDController(String dashboardKey, double defaultGoal) {
@@ -92,8 +92,8 @@ public class ProfiledTrigonPIDController extends ProfiledPIDController {
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
         builder.addDoubleProperty("max velocity", () -> constraints.maxVelocity,
-                value -> constraints.maxVelocity = value);
+            value -> constraints.maxVelocity = value);
         builder.addDoubleProperty("max acceleration", () -> constraints.maxAcceleration,
-                value -> constraints.maxAcceleration = value);
+            value -> constraints.maxAcceleration = value);
     }
 }

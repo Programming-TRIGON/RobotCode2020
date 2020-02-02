@@ -32,13 +32,12 @@ public class IntakeOpener extends OverridableSubsystem {
         talonSRX.setInverted(robotConstants.intakeOpenerConstants.kIsInverted);
         talonSRX.setNeutralMode(NeutralMode.Coast);
         talonSRX.configSupplyCurrentLimit(
-                new SupplyCurrentLimitConfiguration(true, robotConstants.intakeOpenerConstants.kCurrentLimit,
-                        robotConstants.intakeOpenerConstants.kThresholdLimit,
-                        robotConstants.intakeOpenerConstants.kTriggerThresholdTime));
-
-        potentiometer = new AnalogPotentiometer(robotConstants.dio.kIntakeOpenerPotentiometer,
-                robotConstants.intakeOpenerConstants.kPotentiometerAngleMultiplier,
-                robotConstants.intakeOpenerConstants.kPotentiometerOffset);
+            new SupplyCurrentLimitConfiguration(true, robotConstants.intakeOpenerConstants.kCurrentLimit,
+                robotConstants.intakeOpenerConstants.kThresholdLimit,
+                robotConstants.intakeOpenerConstants.kTriggerThresholdTime));
+        potentiometer = new AnalogPotentiometer(robotConstants.ai.kIntakeOpenerPotentiometer,
+            robotConstants.intakeOpenerConstants.kPotentiometerAngleMultiplier,
+            robotConstants.intakeOpenerConstants.kPotentiometerOffset);
     }
 
     @Override

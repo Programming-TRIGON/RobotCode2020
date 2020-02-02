@@ -13,7 +13,7 @@ public class OpenIntake extends CommandBase {
 
     /**
      * Either opens the Intake subsystem or closes it with PID
-     * 
+     *
      * @param isOpen True - opens the Intake, false - closes it.
      */
     public OpenIntake(boolean isOpen) {
@@ -43,7 +43,7 @@ public class OpenIntake extends CommandBase {
     @Override
     public void execute() {
         intakeOpener.setIntakeOpenerVolts(pidController.calculate(intakeOpener.getAngle(), -1, 1)
-                + feedforward.calculate(pidController.getSetpoint().position, pidController.getSetpoint().velocity));
+            + feedforward.calculate(pidController.getSetpoint().position, pidController.getSetpoint().velocity));
     }
 
     @Override

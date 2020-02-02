@@ -3,11 +3,10 @@ package frc.robot.subsystems.intake;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utils.DriverStationLogger;
-
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.intake;
-import static frc.robot.Robot.robotConstants;;
+import static frc.robot.Robot.robotConstants;
 
 public class SetIntakeSpeed extends CommandBase {
     private DoubleSupplier speedSupplier;
@@ -24,6 +23,11 @@ public class SetIntakeSpeed extends CommandBase {
         this(() -> speed);
     }
 
+    @Override
+    public void initialize() {
+        initializeTimestamp = Timer.getFPGATimestamp();
+    }
+
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
@@ -33,7 +37,7 @@ public class SetIntakeSpeed extends CommandBase {
             return;
         }
         if (!inStall && intake.getIsInStall()
-                && Timer.getFPGATimestamp() - initializeTimestamp > robotConstants.intakeConstants.kStallTimeout) {
+            && Timer.getFPGATimestamp() - initializeTimestamp > robotConstants.intakeConstants.kStallTimeout) {
             DriverStationLogger.logToDS("A cell got stuck in the intake. Trying to release it");
             inStall = true;
             firstStallTimestamp = Timer.getFPGATimestamp();

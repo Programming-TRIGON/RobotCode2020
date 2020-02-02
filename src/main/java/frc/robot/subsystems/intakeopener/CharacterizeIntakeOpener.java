@@ -9,16 +9,16 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import static frc.robot.Robot.intakeOpener;
 
 public class CharacterizeIntakeOpener extends CommandBase {
-  private NetworkTableEntry autoSpeedEntry;
-  private NetworkTableEntry telemetryEntry;
-  private Number[] numberArray;
-  private static final double kUpdateRate = 0.01;
+    private NetworkTableEntry autoSpeedEntry;
+    private NetworkTableEntry telemetryEntry;
+    private Number[] numberArray;
+    private static final double kUpdateRate = 0.01;
 
-  /**
-   * Calibrate feed-forward values for the intake PIDF control. This command sends
-   * data via networktable.
-   */
-  public CharacterizeIntakeOpener() {
+    /**
+     * Calibrate feed-forward values for the intake PIDF control. This command sends
+     * data via networktable.
+     */
+    public CharacterizeIntakeOpener() {
         addRequirements(intakeOpener);
         autoSpeedEntry = NetworkTableInstance.getDefault().getEntry("/robot/autospeed");
         telemetryEntry = NetworkTableInstance.getDefault().getEntry("/robot/telemetry");
