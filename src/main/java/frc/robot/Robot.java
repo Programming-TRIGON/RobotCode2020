@@ -72,9 +72,9 @@ public class Robot extends TimedRobot {
 
         // set up command logging
         CommandScheduler.getInstance().onCommandInitialize(
-            command -> DriverStationLogger.logToDS("Starting to run " + command.getName().toLowerCase()));
+            command -> DriverStationLogger.logToDS("Starting to run " + command.getName()));
         CommandScheduler.getInstance().onCommandInterrupt(
-            command -> DriverStationLogger.logToDS("Interrupting " + command.getName().toLowerCase()));
+            command -> DriverStationLogger.logToDS("Interrupting " + command.getName()));
         CommandScheduler.getInstance()
             .onCommandFinish(command -> DriverStationLogger.logToDS(command.getName() + " is finished"));
 
