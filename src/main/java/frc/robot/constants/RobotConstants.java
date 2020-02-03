@@ -58,9 +58,11 @@ public abstract class RobotConstants extends RobotMap {
         public double kTicksPerRotation;
         public double kDefaultVelocity;
         public double kSpinBackwardsTime;
+        public double kStallWaitTime;
         public double kDefaultBackwardsPower;
         public double kOnStallPower;
         public double kStallLimit;
+        public double kDefaultPower;
     }
 
     public static class ShooterConstants {
