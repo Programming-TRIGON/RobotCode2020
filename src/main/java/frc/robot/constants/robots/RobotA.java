@@ -57,6 +57,7 @@ public class RobotA extends RobotConstants {
         shooterConstants.kIsRightMotorInverted = false;
         shooterConstants.kIsLeftEncoderInverted = false;
         shooterConstants.kIsRightEncoderInverted = false;
+        shooterConstants.kStopLoadingTolerance = 10;
         controlConstants.leftShooterSettings = PIDSettings.fromTalonSettings(0, 0, 0, 0, 0);
         controlConstants.rightShooterSettings = PIDSettings.fromTalonSettings(0, 0, 0, 0, 0);
 
@@ -70,6 +71,8 @@ public class RobotA extends RobotConstants {
         loaderConstants.kCellStallLimit = 25;
         loaderConstants.kCellStallTimeout = 0.25;
         loaderConstants.kSpinBackwardsTime = 1;
+        loaderConstants.kDefaultBackwardsPower = -0.2;
+        loaderConstants.kOnStallPower = -0.3;
         controlConstants.loaderFeedforward = new SimpleMotorFeedforward(0, 0, 0);
         controlConstants.loaderPidSettings = new PIDSettings(0, 0, 0, 0, 0);
 
@@ -83,8 +86,10 @@ public class RobotA extends RobotConstants {
         controlConstants.motionProfilingReverseSettings = new SimpleMotorFeedforward(0, 0, 0);
 
         // Vision Constants
-        visionConstants.kDistanceCalculationACoefficient = 0;
-        visionConstants.kDistanceCalculationBCoefficient = 0;
+        visionConstants.kDistanceFromPortACoefficient = 0;
+        visionConstants.kDistanceFromPortBCoefficient = 0;
+        visionConstants.kDistanceFromFeederACoefficient = 0;
+        visionConstants.kDistanceFromFeederBCoefficient = 0;
         visionConstants.kLimelightOffsetX = 0;
         visionConstants.kLimelightOffsetY = 0;
         visionConstants.kLimelightAngleOffset = 0;
