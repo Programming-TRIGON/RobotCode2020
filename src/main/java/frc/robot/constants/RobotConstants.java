@@ -36,6 +36,7 @@ public abstract class RobotConstants extends RobotMap {
     public static class IntakeConstants {
         public boolean kMotorInverted;
         public double kDefaultPower;
+        public double kIntakeDefaultPower;
     }
 
     public static class MixerConstants {
@@ -45,6 +46,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kBackwardsSpinTime;
         public double kRampRate;
         public double kDefaultPower;
+        public double kMixerMaxStall;
     }
 
     public static class LoaderConstants {
@@ -55,8 +57,8 @@ public abstract class RobotConstants extends RobotMap {
         public double kTicksPerRotation;
         public double kDefaultVelocity;
         public double kSpinBackwardsTime;
-        //public double kCellStallLimit;
-        //public double kCellStallTimeout;
+        public double kCellStallLimit;
+        public double kCellStallTimeout;
         public double kDefaultBackwardsPower;
         public double kOnStallPower;
         public double kStallLimit;
