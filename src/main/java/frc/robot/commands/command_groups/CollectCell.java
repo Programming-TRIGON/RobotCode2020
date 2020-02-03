@@ -11,12 +11,15 @@ import static frc.robot.Robot.*;
 
 public class CollectCell extends ParallelCommandGroup {
     public CollectCell() {
-
         OpenIntake openIntake = new OpenIntake(true);
+
         addCommands(openIntake,
                 sequence(new WaitUntilCommand(openIntake::isAtGoal),
-                        parallel(new SpinMixer(),
-                                new SetIntakeSpeed(() -> robotConstants.intakeConstants.kDefaultIntakePower)),
-                        new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower)));
+                        parallel(new SetIntakeSpeed(() -> robotConstants.intakeConstants.kDefaultIntakePower),
+                                new SpinMixer(),
+                                new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower)
+                        )
+                )
+        );
     }
 }

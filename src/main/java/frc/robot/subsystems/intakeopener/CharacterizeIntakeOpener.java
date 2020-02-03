@@ -34,24 +34,27 @@ public class CharacterizeIntakeOpener extends CommandBase {
     public void execute() {
         // Retrieve values to send back before telling the motors to do something
         double now = Timer.getFPGATimestamp();
-        double leftPosition = intakeOpener.getAngle();
-        double leftRate = intakeOpener.getVelocity();
+
+        double position = intakeOpener.getAngle();
+        double rate = intakeOpener.getVelocity();
+        
         double battery = RobotController.getBatteryVoltage();
-        double leftMotorVolts = intakeOpener.getMotorOutputVoltage();
+        double motorVoltage = intakeOpener.getMotorOutputVoltage();
 
         // Retrieve the commanded speed from NetworkTables
         double autospeed = autoSpeedEntry.getDouble(0);
 
         // command motors to move
-        intakeOpener.setIntakeOpenerVolts(autospeed);
+        intakeOpener.setIntakeOpenerVoltage(autospeed);
 
         // send telemetry data array back to NT
         numberArray[0] = now;
         numberArray[1] = battery;
         numberArray[2] = autospeed;
-        numberArray[3] = leftMotorVolts;
-        numberArray[4] = leftPosition;
-        numberArray[5] = leftRate;
+        numberArray[3] = motorVoltage;
+        numberArray[4] = position;
+        numberArray[5] = rate;
+        
         telemetryEntry.setNumberArray(numberArray);
     }
 

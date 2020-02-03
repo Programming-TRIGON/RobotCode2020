@@ -45,8 +45,8 @@ public class CalibrateFeedforward extends CommandBase {
 
         double battery = RobotController.getBatteryVoltage();
 
-        double leftMotorVolts = drivetrain.getLeftMotorOutputVoltage();
-        double rightMotorVolts = drivetrain.getRightMotorOutputVoltage();
+        double leftMotorVoltage = drivetrain.getLeftMotorOutputVoltage();
+        double rightMotorVoltage = drivetrain.getRightMotorOutputVoltage();
 
         // Retrieve the commanded speed from NetworkTables
         double autospeed = autoSpeedEntry.getDouble(0);
@@ -58,8 +58,8 @@ public class CalibrateFeedforward extends CommandBase {
         numberArray[0] = now;
         numberArray[1] = battery;
         numberArray[2] = autospeed;
-        numberArray[3] = leftMotorVolts;
-        numberArray[4] = rightMotorVolts;
+        numberArray[3] = leftMotorVoltage;
+        numberArray[4] = rightMotorVoltage;
         numberArray[5] = leftPosition;
         numberArray[6] = rightPosition;
         numberArray[7] = leftRate;
@@ -72,10 +72,5 @@ public class CalibrateFeedforward extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         drivetrain.stopMove();
-    }
-
-    @Override
-    public boolean isFinished() {
-        return false;
     }
 }

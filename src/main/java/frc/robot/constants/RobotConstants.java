@@ -56,6 +56,8 @@ public abstract class RobotConstants extends RobotMap {
         public double kClosedAngle;
         public double kPotentiometerAngleMultiplier;
         public double kPotentiometerOffset;
+        public double kMaxVelocity;
+        public double kMaxAcceleration;
     }
 
     public static class MixerConstants {

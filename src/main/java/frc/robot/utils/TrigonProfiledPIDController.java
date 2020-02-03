@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019-2020 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
@@ -18,15 +11,15 @@ import edu.wpi.first.wpiutil.math.MathUtil;
  * profile. Users should call reset() when they first start running the
  * controller to avoid unwanted behavior.
  */
-public class ProfiledTrigonPIDController extends ProfiledPIDController {
+public class TrigonProfiledPIDController extends ProfiledPIDController {
     private Constraints constraints;
 
-    public ProfiledTrigonPIDController(PIDSettings settings, Constraints constraints) {
+    public TrigonProfiledPIDController(PIDSettings settings, Constraints constraints) {
         super(settings.getKP(), settings.getKI(), settings.getKD(), constraints);
         this.constraints = constraints;
     }
 
-    public ProfiledTrigonPIDController(PIDSettings settings, double goal, Constraints constraints) {
+    public TrigonProfiledPIDController(PIDSettings settings, double goal, Constraints constraints) {
         this(settings, constraints);
         setGoal(goal);
     }
@@ -45,7 +38,7 @@ public class ProfiledTrigonPIDController extends ProfiledPIDController {
      * @param dashboardKey This is the key the will be attached to the pidController
      *                     in the smart dashboard
      */
-    public ProfiledTrigonPIDController(String dashboardKey) {
+    public TrigonProfiledPIDController(String dashboardKey) {
         this(dashboardKey, 0);
     }
 
@@ -59,7 +52,7 @@ public class ProfiledTrigonPIDController extends ProfiledPIDController {
      * @param defaultGoal The default goal to use if the setpoint hasn't
      *                        been changed from the dashboard
      */
-    public ProfiledTrigonPIDController(String dashboardKey, double defaultGoal) {
+    public TrigonProfiledPIDController(String dashboardKey, double defaultGoal) {
         super(0, 0, 0, new Constraints());
         setGoal(defaultGoal);
         SmartDashboard.putData("PID/" + dashboardKey, this);

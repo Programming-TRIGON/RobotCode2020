@@ -1,24 +1,27 @@
 package frc.robot.subsystems.intakeopener;
 
 import edu.wpi.first.wpilibj.controller.ArmFeedforward;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.ProfiledTrigonPIDController;
+import frc.robot.utils.TrigonProfiledPIDController;
 
 import static frc.robot.Robot.intakeOpener;
 import static frc.robot.Robot.robotConstants;
 
 public class OpenIntake extends CommandBase {
-    private ProfiledTrigonPIDController pidController;
+    private TrigonProfiledPIDController pidController;
     private ArmFeedforward feedforward;
 
     /**
      * Either opens the Intake subsystem or closes it with PID
      *
-     * @param isOpen True - opens the Intake, false - closes it.
+     * @param isOpen true - opens the Intake, false - closes it.
      */
     public OpenIntake(boolean isOpen) {
         addRequirements(intakeOpener);
-        pidController = new ProfiledTrigonPIDController(robotConstants.controlConstants.intakeOpenerSettings, null);
+        pidController = new TrigonProfiledPIDController(robotConstants.controlConstants.intakeOpenerSettings, 
+            new Constraints(robotConstants.intakeOpenerConstants.kMaxVelocity,
+            robotConstants.intakeOpenerConstants.kMaxAcceleration));
         if (isOpen)
             pidController.setGoal(robotConstants.intakeOpenerConstants.kOpenAngle);
         else
@@ -32,7 +35,7 @@ public class OpenIntake extends CommandBase {
      */
     public OpenIntake() {
         addRequirements(intakeOpener);
-        pidController = new ProfiledTrigonPIDController("Intake PID Settings");
+        pidController = new TrigonProfiledPIDController("Intake PID Settings");
     }
 
     @Override
@@ -42,7 +45,7 @@ public class OpenIntake extends CommandBase {
 
     @Override
     public void execute() {
-        intakeOpener.setIntakeOpenerVolts(pidController.calculate(intakeOpener.getAngle(), -1, 1)
+        intakeOpener.setIntakeOpenerVoltage(pidController.calculate(intakeOpener.getAngle(), -1, 1)
             + feedforward.calculate(pidController.getSetpoint().position, pidController.getSetpoint().velocity));
     }
 

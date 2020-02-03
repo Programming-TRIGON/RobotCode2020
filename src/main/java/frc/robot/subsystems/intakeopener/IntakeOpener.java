@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.subsystems.intakeopener;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -32,10 +25,10 @@ public class IntakeOpener extends OverridableSubsystem {
         talonSRX.setInverted(robotConstants.intakeOpenerConstants.kIsInverted);
         talonSRX.setNeutralMode(NeutralMode.Coast);
         talonSRX.configSupplyCurrentLimit(
-            new SupplyCurrentLimitConfiguration(true, robotConstants.intakeOpenerConstants.kCurrentLimit,
+            new SupplyCurrentLimitConfiguration(false, robotConstants.intakeOpenerConstants.kCurrentLimit,
                 robotConstants.intakeOpenerConstants.kThresholdLimit,
                 robotConstants.intakeOpenerConstants.kTriggerThresholdTime));
-        potentiometer = new AnalogPotentiometer(robotConstants.ai.kIntakeOpenerPotentiometer,
+        potentiometer = new AnalogPotentiometer(robotConstants.analogInput.kIntakeOpenerPotentiometer,
             robotConstants.intakeOpenerConstants.kPotentiometerAngleMultiplier,
             robotConstants.intakeOpenerConstants.kPotentiometerOffset);
     }
@@ -48,8 +41,8 @@ public class IntakeOpener extends OverridableSubsystem {
     /**
      * Moves the intakeOpener motor.
      */
-    public void setIntakeOpenerVolts(double volts) {
-        move(volts / RobotController.getBatteryVoltage());
+    public void setIntakeOpenerVoltage(double voltage) {
+        move(voltage / RobotController.getBatteryVoltage());
     }
 
     public double getMotorOutputVoltage() {
@@ -75,5 +68,4 @@ public class IntakeOpener extends OverridableSubsystem {
         lastPosition = newPosition;
         lastTimestamp = newTimestamp;
     }
-
 }

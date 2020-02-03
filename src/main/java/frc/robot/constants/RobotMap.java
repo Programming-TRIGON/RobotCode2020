@@ -13,8 +13,7 @@ public abstract class RobotMap {
     public DIO dio = new DIO();
     public PWM pwm = new PWM();
     public I2C i2c = new I2C();
-    public PCM pcm = new PCM();
-    public AnalogInput ai = new AnalogInput();
+    public AnalogInput analogInput = new AnalogInput(); 
 
     // TODO: Set variables for hardware components
     public static class CAN {
@@ -53,9 +52,6 @@ public abstract class RobotMap {
 
     public static class I2C {
         public Port kI2cPort;
-    }
-
-    public static class PCM {
     }
 
     public static class AnalogInput {

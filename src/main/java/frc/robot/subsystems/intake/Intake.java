@@ -4,14 +4,15 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import frc.robot.subsystems.OverridableSubsystem;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
 
 /**
- * This class holds all the methods for the intake which collects POWER CELLS
- * into the robot.
+ * Intake collects POWER CELLS into the robot using one motor rolling strips.
  */
-public class Intake extends OverridableSubsystem {
+public class Intake extends OverridableSubsystem implements Loggable{
     private CANSparkMax sparkMax;
 
     public Intake() {
@@ -22,8 +23,6 @@ public class Intake extends OverridableSubsystem {
         sparkMax.burnFlash();
     }
 
-
-
     /**
      * Overrides the cell collector motor.
      */
@@ -31,8 +30,13 @@ public class Intake extends OverridableSubsystem {
     public void overriddenMove(double power) {
         sparkMax.set(power);
     }
+ 
+    @Log(name = "Intake/Output Current")
+    public double getOutputCurrent(){  
+        return sparkMax.getOutputCurrent();
+    }
 
 	public boolean getIsInStall() {
-		return sparkMax.getOutputCurrent() > robotConstants.intakeConstants.kStallLimit;
+		return getOutputCurrent() > robotConstants.intakeConstants.kStallLimit;
 	}
 }

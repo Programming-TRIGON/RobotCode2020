@@ -28,7 +28,6 @@ public class SetIntakeSpeed extends CommandBase {
         initializeTimestamp = Timer.getFPGATimestamp();
     }
 
-    // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
         if (Timer.getFPGATimestamp() - firstStallTimestamp < robotConstants.intakeConstants.kSpinBackwardsTime) {
@@ -46,7 +45,6 @@ public class SetIntakeSpeed extends CommandBase {
             intake.move(speedSupplier.getAsDouble());
     }
 
-    // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
         intake.stopMove();
