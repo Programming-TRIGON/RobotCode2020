@@ -15,9 +15,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.subsystems.MovableSubsystem;
+import frc.robot.utils.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
-import frc.robot.utils.DriverStationLogger;
 
 import static frc.robot.Robot.robotConstants;
 
@@ -233,7 +233,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
 
     @Log(name = "Drivetrain/Odometry angle")
     public double getOdometryAngle() {
-        return getPose().getRotation().getRadians();
+        return getPose().getRotation().getDegrees();
     }
 
     public double getLeftMotorOutputVoltage() {
