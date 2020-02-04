@@ -7,13 +7,15 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.OverridableSubsystem;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
 
 /**
  * This subsystem is responsible for opening the intake and closing it.
  */
-public class IntakeOpener extends OverridableSubsystem {
+public class IntakeOpener extends OverridableSubsystem implements Loggable {
     private final WPI_TalonSRX talonSRX;
     private final AnalogPotentiometer potentiometer;
     private double velocity;
@@ -50,6 +52,7 @@ public class IntakeOpener extends OverridableSubsystem {
     }
 
     /** @return The angle of the potentiometer parallel to the floor. */
+    @Log(name = "IntakeOpener/Angle")
     public double getAngle() {
         return potentiometer.get();
     }
