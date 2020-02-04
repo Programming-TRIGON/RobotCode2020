@@ -117,6 +117,10 @@ public class RobotA extends RobotConstants {
         controlConstants.visionRotationSettings = new PIDSettings(0, 0, 0, 0, 0);
         controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
 
+        // Auto Constants
+        autoConstants.kSimpleAutoPower = 0.5;
+        autoConstants.kSimpleAutoTimeout = 0.2;
+
         /* Robot Map */
         // Drivetrain Map
         can.kDrivetrainLeftFrontTalonFX = 1;

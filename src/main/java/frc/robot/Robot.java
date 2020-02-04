@@ -2,12 +2,17 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.command_groups.autonomus.RendezvousAuto;
+import frc.robot.commands.command_groups.autonomus.SimpleAuto;
+import frc.robot.commands.command_groups.autonomus.TrenchAuto;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
+import frc.robot.motion_profiling.StartingPose;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.intake.Intake;
@@ -63,9 +68,12 @@ public class Robot extends TimedRobot {
         dashboardDataContainer = new DashboardDataContainer();
 
         autoChooser = new SendableChooser<>();
-        // autoChooser.setDefaultOption(name, object);
-        // autoChooser.addOption(name, object);
-
+        autoChooser.setDefaultOption("Simple Auto", new SimpleAuto());
+        autoChooser.addOption("In Line With Trench Auto", new TrenchAuto(StartingPose.kLineUpWithTrenchRun));
+        autoChooser.addOption("Facing Power Port To Trench Auto", new TrenchAuto(StartingPose.kFacingPowerPort));
+        autoChooser.addOption("Facing Power Port To middle field", new RendezvousAuto(StartingPose.kFacingPowerPort));
+        autoChooser.addOption("Facing Right Of Power Port To middle field", new RendezvousAuto(StartingPose.kFacingRightOfPowerPort));
+        SmartDashboard.putData("Auto/autoChooser", autoChooser);
         // We configure the logger here since it needs the container of all the
         // subsystems
         Logger.configureLoggingNTOnly(this, "Logging");
