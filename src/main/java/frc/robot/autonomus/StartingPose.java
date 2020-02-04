@@ -1,4 +1,4 @@
-package frc.robot.motion_profiling;
+package frc.robot.autonomus;
 
 public enum StartingPose {
     kLineUpWithTrenchRun,
