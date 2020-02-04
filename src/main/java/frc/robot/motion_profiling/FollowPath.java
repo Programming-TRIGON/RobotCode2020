@@ -1,5 +1,6 @@
 package frc.robot.motion_profiling;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.controller.RamseteController;
@@ -10,8 +11,10 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.utils.DriverStationLogger;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -79,6 +82,11 @@ public class FollowPath extends CommandBase {
             drivetrain);
         this.isTuning = isTuning;
         SmartDashboard.putBoolean("Falcon/IsFollowingPath", false);
+        try {
+            SmartDashboard.putString("Falcon/Serialized Trajectory", TrajectoryUtil.serializeTrajectory(m_trajectory));
+        } catch (JsonProcessingException e) {
+            DriverStationLogger.logErrorToDS("Failed to serialize trajectory");
+        }
         if (isTuning)
             enableTuning();
     }
@@ -131,6 +139,14 @@ public class FollowPath extends CommandBase {
 
     @Override
     public void initialize() {
+        if (isTuning) {
+            drivetrain.resetOdometry(m_trajectory.getInitialPose());
+            try {
+                SmartDashboard.getString("Falcon/Serialized Trajectory", TrajectoryUtil.serializeTrajectory(m_trajectory));
+            } catch (JsonProcessingException e) {
+                DriverStationLogger.logErrorToDS("Failed to deserialize trajectory");
+            }
+        }
         m_prevTime = 0;
         var initialState = m_trajectory.sample(0);
         m_prevSpeeds = m_kinematics.toWheelSpeeds(
@@ -151,7 +167,6 @@ public class FollowPath extends CommandBase {
         double dt = curTime - m_prevTime;
         var curState = m_trajectory.sample(curTime);
         if (isTuning) {
-            drivetrain.resetOdometry(m_trajectory.getInitialPose());
             SmartDashboard.putNumber("Falcon/PathX", curState.poseMeters.getTranslation().getX());
             SmartDashboard.putNumber("Falcon/PathY", curState.poseMeters.getTranslation().getY());
         }
