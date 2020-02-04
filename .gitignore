@@ -75,5 +75,6 @@ gradle-app.setting
 /.idea
 # End of https://www.gitignore.io/api/java,gradle,windows
 
-!shuffleboard/ColorWidget.jar
+!jars/*
+jars/settings.json
 imgui.ini
