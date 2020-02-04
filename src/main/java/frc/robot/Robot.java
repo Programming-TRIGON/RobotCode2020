@@ -81,6 +81,7 @@ public class Robot extends TimedRobot {
         // added to test:
         oi = new OI();
         shooter = new Shooter();
+        loader = new Loader();
         dashboardDataContainer = new DashboardDataContainer();
 
         Logger.configureLoggingNTOnly(this, "Logging");
