@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.OverrideCommand;
+import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
@@ -72,6 +73,7 @@ public class DashboardDataContainer {
             () -> getNumber("Loader/Loader Power", 0)));
         putData("Loader/Spin Loader", new SetLoaderSpeed());
         putData("Loader/Move with joystick", new OverrideCommand(loader, () -> oi.getDriverXboxController().getY(Hand.kLeft)));
+        putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
     }
 
     public void update() {
