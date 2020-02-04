@@ -44,7 +44,8 @@ public class Shooter extends OverridableSubsystem implements Loggable {
         DriverStationLogger.logErrorToDS(rightTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0),
         "Could not set right shooter encoder");
 
-        configPIDFGains();
+        configCloseLoopPIDFGains(); // for slot 0, full pidf control 
+        configOpenLoopPIDFGains(); // for slot 1, open loop control (feedforward gains only) 
         resetEncoders();
         //microSwitch = new DigitalInput(robotConstants.dio.kSwitchShooter);
     }
@@ -159,7 +160,7 @@ public class Shooter extends OverridableSubsystem implements Loggable {
         rightTalonFX.setSelectedSensorPosition(0);
     }
 
-    public void configPIDFGains() {
+    public void configCloseLoopPIDFGains() {
         leftTalonFX.config_kP(0, robotConstants.controlConstants.leftShooterSettings.getKP());
         leftTalonFX.config_kI(0, robotConstants.controlConstants.leftShooterSettings.getKI());
         leftTalonFX.config_kD(0, robotConstants.controlConstants.leftShooterSettings.getKD());
@@ -171,27 +172,38 @@ public class Shooter extends OverridableSubsystem implements Loggable {
     }
 
     /**
-     * set the feedforward Gains of the shooter
+     * set the feedforward gains of the shooter in slot 1 (open loop control). 
      * 
      * @param leftKf left feedforward gain
      * @param rightKf right feedforward gain
      */
     public void configFeedforwardGains(double leftKf, double rightKf) {
-        leftTalonFX.config_kF(0, leftKf);
-        rightTalonFX.config_kF(0, rightKf);
+        leftTalonFX.config_kF(1, leftKf);
+        rightTalonFX.config_kF(1, rightKf);
     }
 
     /** set PID gains of the two sides of the shooter to zero.
      * This method is used for open loop control,
      * when we want only kF to affect the shooter velocity. 
      */
-    public void zeroPIDGains() {
-        leftTalonFX.config_kP(0, 0);
-        leftTalonFX.config_kI(0, 0);
-        leftTalonFX.config_kD(0, 0);
-        rightTalonFX.config_kP(0, 0);
-        rightTalonFX.config_kI(0, 0);
-        rightTalonFX.config_kD(0, 0);
+    public void configOpenLoopPIDFGains() {
+        leftTalonFX.config_kP(1, 0);
+        leftTalonFX.config_kI(1, 0);
+        leftTalonFX.config_kD(1, 0);
+        leftTalonFX.config_kF(1, robotConstants.controlConstants.leftShooterSettings.getKF());
+        rightTalonFX.config_kP(1, 0);
+        rightTalonFX.config_kI(1, 0);
+        rightTalonFX.config_kD(1, 0);
+        rightTalonFX.config_kF(1, robotConstants.controlConstants.rightShooterSettings.getKF());
+    }
+
+    /**
+     * @param openLoop profile slot is selected by the control method.
+     * Slot 0 for PIDF control and slot 1 for open loop control.
+     */
+    public void setProfileSlot(boolean openLoop) {
+        rightTalonFX.selectProfileSlot(openLoop ? 1 : 0, 0);
+        leftTalonFX.selectProfileSlot(openLoop ? 1 : 0, 0);
     }
 
     /* @Log(name = "Shooter/Is Switch Pressed")
@@ -201,7 +213,7 @@ public class Shooter extends OverridableSubsystem implements Loggable {
 
     @Override
     public void periodic() {
-        if (isTuning) configPIDFGains();
+        if (isTuning) configCloseLoopPIDFGains();
     }
 
     /**

@@ -1,11 +1,14 @@
 package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import frc.robot.Robot;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
+import frc.robot.subsystems.shooter.CalibrateShooterVelocity;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
 import frc.robot.subsystems.shooter.ShooterVelocity;
@@ -66,7 +69,8 @@ public class DashboardDataContainer {
         putNumber("Shooter/Override Power", 0);
         putData("Shooter/Override", new OverrideCommand(shooter,
             () -> getNumber("Shooter/Override Power", 0)));
-        putData("Shooter/Set shooting power", new MoveMovableSubsystem(shooter, () -> getNumber("Shooter/Shooting velocity setpoint", 0)));
+        putData("Shooter/Calibrate shooter velocity", new CalibrateShooterVelocity(oi.getDriverXboxController()::getAButton,
+            () -> getNumber("Shooter/Shooting velocity setpoint", 0), 100)); // TODO: set starting distance!
         //loader dashboard data
         putNumber("Loader/Loader Power", 0);
         putData("Loader/Spin Loader by value", new SetLoaderSpeed(

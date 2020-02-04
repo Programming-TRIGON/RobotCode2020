@@ -102,15 +102,19 @@ public class CheesySetShooterVelocity extends CommandBase {
     @Override
     public void execute() {
         SmartDashboard.putString("Shooter/Current Cheesy shooter state", currentShooterState.toString());
-        if (currentShooterState == CheesyShooterState.SpinUp)
-            // reach target velocity in close loop control and calculate kF
-            spinUpExecute();
-        else if(currentShooterState == CheesyShooterState.HoldWhenReady)
-            // set avarage calculated kF to both shooter sides and set kP, kI and kD values to 0; 
-            prepareShooterToHoldState();
-        else
-            // switch to open loop with calculated kF    
-            holdExecute();
+        switch(currentShooterState) {
+            case SpinUp:
+                // reach target velocity in close loop control and calculate kF
+                spinUpExecute();
+                break;
+            case HoldWhenReady:
+                // set avarage calculated kF to both shooter sides and set kP, kI and kD values to 0; 
+                prepareShooterToHoldState();
+                break;
+            default:
+                // switch to open loop with calculated kF    
+                holdExecute();
+        }
     }
 
     private void spinUpExecute() {
@@ -127,8 +131,8 @@ public class CheesySetShooterVelocity extends CommandBase {
     }
 
     private void prepareShooterToHoldState() {
-        // set PID gains of the two sides of the shooter to zero  
-        shooter.zeroPIDGains();
+        // set PID gains of the two sides of the shooter to zero (open loop control)
+        shooter.setProfileSlot(true);
         // set feedforward gains of the two sides of the shooter to the calculated gains from SpinUp state 
         shooter.configFeedforwardGains(leftKfSamplesSum / kfSamplesAmount, rightKfSamplesSum / kfSamplesAmount);
         currentShooterState = CheesyShooterState.Hold;
@@ -142,10 +146,9 @@ public class CheesySetShooterVelocity extends CommandBase {
         }
         // If in auto, check how many cells were shot.
         if (isAuto) {
-            //boolean isCellBeingShot = shooter.isSwitchPressed();
-            //We might want to use current in order to count the amount of shot cells instead of using limit switches
-            //boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageSpeed()) < robotConstants.shooterConstants.kShootingBallZone;
-            //countShotCells(isCellBeingShot);
+            SmartDashboard.putNumber("Shooter/Cells Shot", cellsShot);
+            boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageVelocity()) < robotConstants.shooterConstants.kShootingBallZone;
+            countShotCells(isCellBeingShot);
         }
     }
 
@@ -177,7 +180,7 @@ public class CheesySetShooterVelocity extends CommandBase {
     public void end(boolean interrupted) {
         if (!interrupted)
             shooter.stopMove();
-        shooter.configPIDFGains();
+        shooter.setProfileSlot(false);
         SmartDashboard.putString("Shooter/Current Cheesy shooter state", "No state"); 
     }
 
