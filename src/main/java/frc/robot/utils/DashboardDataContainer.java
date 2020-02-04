@@ -68,10 +68,10 @@ public class DashboardDataContainer {
         putData("Shooter/Set shooting power", new MoveMovableSubsystem(shooter, () -> getNumber("Shooter/Shooting velocity setpoint", 0)));
         //loader dashboard data
         putNumber("Loader/Loader Power", 0);
-        putData("Loader/Override", new OverrideCommand(loader,
+        putData("Loader/Spin Loader by value", new SetLoaderSpeed(
             () -> getNumber("Loader/Loader Power", 0)));
         putData("Loader/Spin Loader", new SetLoaderSpeed());
-        putData("Loader/Move with joystick", new MoveMovableSubsystem(loader, () -> oi.getDriverXboxController().getY(Hand.kLeft)));
+        putData("Loader/Move with joystick", new OverrideCommand(loader, () -> oi.getDriverXboxController().getY(Hand.kLeft)));
     }
 
     public void update() {
