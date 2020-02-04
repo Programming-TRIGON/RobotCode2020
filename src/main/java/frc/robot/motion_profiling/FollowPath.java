@@ -161,6 +161,8 @@ public class FollowPath extends CommandBase {
         m_timer.start();
         m_leftController.reset();
         m_rightController.reset();
+        SmartDashboard.putNumber("Falcon/PathX", m_trajectory.getInitialPose().getTranslation().getX());
+        SmartDashboard.putNumber("Falcon/PathY", m_trajectory.getInitialPose().getTranslation().getY());
         SmartDashboard.putBoolean("Falcon/IsFollowingPath", true);
     }
 
@@ -169,10 +171,8 @@ public class FollowPath extends CommandBase {
         double curTime = m_timer.get();
         double dt = curTime - m_prevTime;
         var curState = m_trajectory.sample(curTime);
-        if (isTuning) {
-            SmartDashboard.putNumber("Falcon/PathX", curState.poseMeters.getTranslation().getX());
-            SmartDashboard.putNumber("Falcon/PathY", curState.poseMeters.getTranslation().getY());
-        }
+        SmartDashboard.putNumber("Falcon/PathX", curState.poseMeters.getTranslation().getX());
+        SmartDashboard.putNumber("Falcon/PathY", curState.poseMeters.getTranslation().getY());
         var targetWheelSpeeds = m_kinematics.toWheelSpeeds(
             m_follower.calculate(m_pose.get(), curState));
 

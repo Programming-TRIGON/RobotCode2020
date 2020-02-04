@@ -1,5 +1,6 @@
 package frc.robot.commands.command_groups.autonomus;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.command_groups.AutoShoot;
@@ -15,24 +16,29 @@ public class SimpleAuto extends SequentialCommandGroup {
 
     private final DoubleSupplier timeout;
     private RunCommand runCommand;
+    private Timer timer;
 
-    public SimpleAuto(DoubleSupplier timeout){
+    public SimpleAuto(DoubleSupplier timeout) {
         this.timeout = timeout;
-        runCommand = new RunCommand(() -> drivetrain.arcadeDrive(0, robotConstants.autoConstants.kSimpleAutoPower));
+        timer = new Timer();
+        addCommands(new RunCommand(() -> drivetrain.arcadeDrive(0, robotConstants.autoConstants.kSimpleAutoPower),
+            drivetrain).withInterrupt(() -> timer.hasPeriodPassed(timeout.getAsDouble())),
+            new AutoShoot()
+        );
     }
+
     public SimpleAuto(double timeout) {
         this(() -> timeout);
     }
+
     public SimpleAuto() {
         this(robotConstants.autoConstants.kSimpleAutoTimeout);
     }
 
     @Override
     public void initialize() {
-        addCommands(
-            runCommand.withTimeout(timeout.getAsDouble()),
-            new AutoShoot(true)
-        );
+        timer.reset();
+        timer.start();
         super.initialize();
     }
 }
