@@ -7,7 +7,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.utils.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
-import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
 
@@ -38,7 +37,7 @@ public class Loader extends OverridableSubsystem implements Loggable {
     /**
      * @return Rotations per minute
      */
-    @Log(name = "Loader/Velocity")
+    //@Log(name = "Loader/Velocity")
     public double getVelocity() {
         return talonSRX.getSelectedSensorVelocity() * 600 / robotConstants.loaderConstants.kTicksPerRotation;
     }
