@@ -31,7 +31,6 @@ import static frc.robot.Robot.robotConstants;
  */
 public class FollowPath extends CommandBase {
     private final Timer m_timer = new Timer();
-    private final Trajectory m_trajectory;
     private final Supplier<Pose2d> m_pose;
     private final RamseteController m_follower;
     private final SimpleMotorFeedforward m_feedforward;
@@ -40,6 +39,7 @@ public class FollowPath extends CommandBase {
     private final PIDController m_leftController;
     private final PIDController m_rightController;
     private final BiConsumer<Double, Double> m_output;
+    private Trajectory m_trajectory;
     private DifferentialDriveWheelSpeeds m_prevSpeeds;
     private double m_prevTime;
     private boolean isTuning;
@@ -142,7 +142,10 @@ public class FollowPath extends CommandBase {
         if (isTuning) {
             drivetrain.resetOdometry(m_trajectory.getInitialPose());
             try {
-                SmartDashboard.getString("Falcon/Serialized Trajectory", TrajectoryUtil.serializeTrajectory(m_trajectory));
+                String serializedTrajectory =
+                    SmartDashboard.getString(
+                        "Falcon/Serialized Trajectory", TrajectoryUtil.serializeTrajectory(m_trajectory));
+                m_trajectory = TrajectoryUtil.deserializeTrajectory(serializedTrajectory);
             } catch (JsonProcessingException e) {
                 DriverStationLogger.logErrorToDS("Failed to deserialize trajectory");
             }
