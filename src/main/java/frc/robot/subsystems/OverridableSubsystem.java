@@ -19,7 +19,7 @@ public abstract class OverridableSubsystem extends SubsystemBase implements Mova
     }
 
     public void startOverride(DoubleSupplier moveSupplier) {
-        DriverStationLogger.logToDS("Overriding " + getName().toLowerCase());
+        DriverStationLogger.logToDS("Overriding " + getName());
         overrideNotifier = new Notifier(() -> overriddenMove(moveSupplier.getAsDouble()));
         overrideNotifier.startPeriodic(Robot.kDefaultPeriod);
         overridden = true;
@@ -27,7 +27,7 @@ public abstract class OverridableSubsystem extends SubsystemBase implements Mova
 
     public void stopOverride() {
         if (overridden) {
-            DriverStationLogger.logToDS("Stopping to override " + getName().toLowerCase());
+            DriverStationLogger.logToDS("Stopping to override " + getName());
             overridden = false;
             overrideNotifier.stop();
             stopMove();

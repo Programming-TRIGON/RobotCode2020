@@ -13,7 +13,7 @@ public abstract class RobotMap {
     public DIO dio = new DIO();
     public PWM pwm = new PWM();
     public I2C i2c = new I2C();
-    public PCM pcm = new PCM();
+    public AnalogInput analogInput = new AnalogInput(); 
 
     // TODO: Set variables for hardware components
     public static class CAN {
@@ -27,7 +27,9 @@ public abstract class RobotMap {
         public int kTemporaryTalonForRightDrivetrainEncoder;
         public int kTemporaryTalonForLeftDrivetrainEncoder;
         // Intake ports
-        public int kIntakeSparkMax;
+        public int kCellIntakeSparkMax;
+        // Intake opener ports
+        public int kIntakeOpenerTalonSRX;
         // Mixer ports
         public int kMixerTalonSRX;
         // Loader ports
@@ -52,6 +54,7 @@ public abstract class RobotMap {
         public Port kI2cPort;
     }
 
-    public static class PCM {
+    public static class AnalogInput {
+        public int kIntakeOpenerPotentiometer;
     }
 }

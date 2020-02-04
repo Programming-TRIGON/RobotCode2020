@@ -1,5 +1,6 @@
 package frc.robot.constants;
 
+import edu.wpi.first.wpilibj.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.utils.PIDSettings;
 
@@ -10,6 +11,7 @@ public abstract class RobotConstants extends RobotMap {
     public DrivetrainConstants drivetrainConstants = new DrivetrainConstants();
     public TrigonDriveConstants trigonDriveConstants = new TrigonDriveConstants();
     public IntakeConstants intakeConstants = new IntakeConstants();
+    public IntakeOpenerConstants intakeOpenerConstants = new IntakeOpenerConstants();
     public MixerConstants mixerConstants = new MixerConstants();
     public LoaderConstants loaderConstants = new LoaderConstants();
     public ShooterConstants shooterConstants = new ShooterConstants();
@@ -37,8 +39,25 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public static class IntakeConstants {
-        public boolean kIntakeReversed;
-        public double kIntakeDefaultPower;
+        public boolean kIsInverted;
+        public double kDefaultIntakePower;
+        public double kSpinBackwardsTime;
+        public double kStallTimeout;
+        public int kStallLimit;
+        public double kOnStallLimit;
+    }
+
+    public static class IntakeOpenerConstants {
+        public boolean kIsInverted;
+        public double kCurrentLimit;
+        public double kThresholdLimit;
+        public double kTriggerThresholdTime;
+        public double kOpenAngle;
+        public double kClosedAngle;
+        public double kPotentiometerAngleMultiplier;
+        public double kPotentiometerOffset;
+        public double kMaxVelocity;
+        public double kMaxAcceleration;
     }
 
     public static class MixerConstants {
@@ -99,6 +118,8 @@ public abstract class RobotConstants extends RobotMap {
         public PIDSettings rightShooterSettings;
         public PIDSettings loaderPidSettings;
         public SimpleMotorFeedforward loaderFeedforward;
+        public PIDSettings intakeOpenerSettings;
+        public ArmFeedforward intakeOpenerFeedforward;
     }
 
     public static class MotionProfilingConstants {

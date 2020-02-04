@@ -1,6 +1,7 @@
 package frc.robot.constants.robots;
 
 import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.constants.RobotConstants;
 import frc.robot.utils.PIDSettings;
@@ -30,8 +31,25 @@ public class RobotA extends RobotConstants {
         trigonDriveConstants.kThreshold = 0.5;
 
         // Intake Constants
-        intakeConstants.kIntakeReversed = false;
-        intakeConstants.kIntakeDefaultPower = 0.3;
+        intakeConstants.kIsInverted = false;
+        intakeConstants.kDefaultIntakePower = 0.85;
+        intakeConstants.kStallLimit = 20;
+        intakeConstants.kSpinBackwardsTime = 0.5;
+        intakeConstants.kStallTimeout = 100;
+
+        //Intake opener
+        intakeOpenerConstants.kIsInverted = false;
+        intakeOpenerConstants.kCurrentLimit = 0;
+        intakeOpenerConstants.kThresholdLimit = 0;
+        intakeOpenerConstants.kTriggerThresholdTime = 0;
+        intakeOpenerConstants.kOpenAngle = 0;
+        intakeOpenerConstants.kClosedAngle = 0;
+        intakeOpenerConstants.kPotentiometerAngleMultiplier = 1200;
+        intakeOpenerConstants.kPotentiometerOffset = 0;
+        intakeOpenerConstants.kMaxVelocity = 40; // angle to second
+        intakeOpenerConstants.kMaxAcceleration = 10; //angle to second ^ 2
+        controlConstants.intakeOpenerSettings = new PIDSettings(0, 0, 0, 0, 0);
+        controlConstants.intakeOpenerFeedforward = new ArmFeedforward(0, 0, 0, 0);
 
         // Mixer Constants
         mixerConstants.kMixerMaxStall = 30;
@@ -110,7 +128,9 @@ public class RobotA extends RobotConstants {
         can.kTemporaryTalonForLeftDrivetrainEncoder = 7;
         can.kTemporaryTalonForRightDrivetrainEncoder = 8;
         // Intake Map
-        can.kIntakeSparkMax = 11;
+        can.kCellIntakeSparkMax = 11;
+        can.kIntakeOpenerTalonSRX = 16;
+        analogInput.kIntakeOpenerPotentiometer = 1;
         // Mixer Map
         can.kMixerTalonSRX = 12;
         // Loader Map

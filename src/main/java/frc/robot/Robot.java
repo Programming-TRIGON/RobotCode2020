@@ -11,6 +11,7 @@ import frc.robot.constants.robots.RobotA;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intakeopener.IntakeOpener;
 import frc.robot.subsystems.led.LED;
 import frc.robot.subsystems.loader.Loader;
 import frc.robot.subsystems.mixer.Mixer;
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
 
     public static Drivetrain drivetrain;
     public static Intake intake;
+    public static IntakeOpener intakeOpener;
     public static Mixer mixer;
     public static Loader loader;
     public static Shooter shooter;
@@ -48,6 +50,7 @@ public class Robot extends TimedRobot {
         // Subsystems:
         drivetrain = new Drivetrain();
         intake = new Intake();
+        intakeOpener = new IntakeOpener();
         mixer = new Mixer();
         loader = new Loader();
         shooter = new Shooter();
@@ -69,11 +72,11 @@ public class Robot extends TimedRobot {
 
         // set up command logging
         CommandScheduler.getInstance().onCommandInitialize(
-                command -> DriverStationLogger.logToDS("Starting to run " + command.getName().toLowerCase()));
+            command -> DriverStationLogger.logToDS("Starting to run " + command.getName()));
         CommandScheduler.getInstance().onCommandInterrupt(
-                command -> DriverStationLogger.logToDS("Interrupting " + command.getName().toLowerCase()));
+            command -> DriverStationLogger.logToDS("Interrupting " + command.getName()));
         CommandScheduler.getInstance()
-                .onCommandFinish(command -> DriverStationLogger.logToDS(command.getName() + " is finished"));
+            .onCommandFinish(command -> DriverStationLogger.logToDS(command.getName() + " is finished"));
 
         DriverStationLogger.logToDS("Robot initialization complete");
     }
