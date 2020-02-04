@@ -35,7 +35,8 @@ public class OpenIntake extends CommandBase {
      */
     public OpenIntake() {
         addRequirements(intakeOpener);
-        pidController = new TrigonProfiledPIDController("Intake PID Settings");
+        pidController = new TrigonProfiledPIDController("Intake Opener PID Settings");
+        feedforward = robotConstants.controlConstants.intakeOpenerFeedforward;
     }
 
     @Override

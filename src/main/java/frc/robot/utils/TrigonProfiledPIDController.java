@@ -53,8 +53,14 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
      *                        been changed from the dashboard
      */
     public TrigonProfiledPIDController(String dashboardKey, double defaultGoal) {
-        super(0, 0, 0, new Constraints());
+        this(dashboardKey, defaultGoal, new Constraints());
+        SmartDashboard.putData("PID/" + dashboardKey, this);
+    }
+
+    public TrigonProfiledPIDController(String dashboardKey, double defaultGoal, Constraints constraints) {
+        super(0, 0, 0, constraints);
         setGoal(defaultGoal);
+        this.constraints = constraints;
         SmartDashboard.putData("PID/" + dashboardKey, this);
     }
 

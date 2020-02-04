@@ -6,6 +6,7 @@ import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
 import frc.robot.subsystems.drivetrain.RotateDrivetrain;
+import frc.robot.subsystems.intakeopener.OpenIntake;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
@@ -49,6 +50,11 @@ public class DashboardDataContainer {
         putNumber("Intake/Intake power", 0);
         putData("Intake/Override intake", new OverrideCommand(intake,
             () -> getNumber("Intake/Intake power", 0)));
+        //intake opener dashboard data
+        putNumber("IntakeOpener/Intake Opener power", 0);
+        putData("IntakeOpener/Override intake opener", new OverrideCommand(intakeOpener,
+            () -> getNumber("IntakeOpener/Intake Opener power", 0)));
+        putData("IntakeOpener/Tune PID", new OpenIntake());
         // Command groups data
         putData("CommandGroup/Auto Shoot", new AutoShoot());
         putData("CommandGroup/Collect Cell", new CollectCell());
