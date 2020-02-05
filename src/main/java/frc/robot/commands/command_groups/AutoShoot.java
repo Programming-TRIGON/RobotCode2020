@@ -78,8 +78,10 @@ public class AutoShoot extends SequentialCommandGroup {
                         new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower),
                         () -> Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance))*/
                     new SetLoaderSpeed(() -> (Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance) ?
-                        robotConstants.loaderConstants.kDefaultPower : robotConstants.loaderConstants.kDefaultBackwardsPower))
-            ));
+                        robotConstants.loaderConstants.kDefaultPower : robotConstants.loaderConstants.kDefaultBackwardsPower)
+                )
+            )
+        );
     }
 
     @Override

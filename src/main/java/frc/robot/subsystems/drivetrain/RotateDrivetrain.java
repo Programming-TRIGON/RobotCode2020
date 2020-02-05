@@ -11,11 +11,17 @@ public class RotateDrivetrain extends CommandBase {
     private TrigonPIDController pidController;
     private DoubleSupplier desiredAngle;
 
+    /**
+     * Rotates the drivetrain in place.
+     * @param desiredAngle the desired angle to turn by the gyro.
+     */
     public RotateDrivetrain(double desiredAngle) {
         this(() -> desiredAngle);
     }
+   
     /**
      * Rotates the drivetrain in place.
+     * @param desiredAngle the desired angle to turn by the gyro. 
      */
     public RotateDrivetrain(DoubleSupplier desiredAngle) {
         addRequirements(drivetrain);

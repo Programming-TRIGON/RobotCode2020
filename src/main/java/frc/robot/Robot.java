@@ -66,14 +66,16 @@ public class Robot extends TimedRobot {
         limelight = new Limelight();
         oi = new OI();
         dashboardDataContainer = new DashboardDataContainer();
-
         autoChooser = new SendableChooser<>();
+
         autoChooser.setDefaultOption("Simple Auto", new SimpleAuto());
-        autoChooser.addOption("In Line With Trench Auto", new TrenchAuto(StartingPose.kLineUpWithTrenchRun));
-        autoChooser.addOption("Facing Power Port To Trench Auto", new TrenchAuto(StartingPose.kFacingPowerPort));
-        autoChooser.addOption("Facing Power Port To middle field", new MiddleFieldAuto(StartingPose.kFacingPowerPort));
-        autoChooser.addOption("Facing Right Of Power Port To middle field", new MiddleFieldAuto(StartingPose.kFacingRightOfPowerPort));
+        autoChooser.addOption("TrenchAuto: In line with Trench", new TrenchAuto(StartingPose.kLineUpWithTrenchRun));
+        autoChooser.addOption("TrenchAuto: Facing Power Port", new TrenchAuto(StartingPose.kFacingPowerPort));
+        autoChooser.addOption("MiddleFieldAuto: Facing Power Port", new MiddleFieldAuto(StartingPose.kFacingPowerPort));
+        autoChooser.addOption("MiddleFieldAuto: Facing right of Power Port", new MiddleFieldAuto(StartingPose.kFacingRightOfPowerPort));
+        
         SmartDashboard.putData("Auto/autoChooser", autoChooser);
+        
         // We configure the logger here since it needs the container of all the
         // subsystems
         Logger.configureLoggingNTOnly(this, "Logging");
