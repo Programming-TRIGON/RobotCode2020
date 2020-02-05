@@ -70,6 +70,7 @@ public class Robot extends TimedRobot {
         // We configure the logger here since it needs the container of all the
         // subsystems
         Logger.configureLoggingNTOnly(this, "Logging");
+
         // set up command logging
         CommandScheduler.getInstance().onCommandInitialize(
             command -> DriverStationLogger.logToDS("Starting to run " + command.getName()));
@@ -78,6 +79,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance()
             .onCommandFinish(command -> DriverStationLogger.logToDS(command.getName() + " is finished"));
 
+        // disable LiveWindow 
         LiveWindow.disableAllTelemetry();
         LiveWindow.setEnabled(false);
 
