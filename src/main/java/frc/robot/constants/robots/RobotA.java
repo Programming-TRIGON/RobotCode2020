@@ -43,7 +43,7 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.kThresholdLimit = 0;
         intakeOpenerConstants.kTriggerThresholdTime = 0;
         intakeOpenerConstants.kOpenAngle = 0;
-        intakeOpenerConstants.kClosedAngle = 0;
+        intakeOpenerConstants.kClosedAngle = 30;
         intakeOpenerConstants.kPotentiometerAngleMultiplier = 1200;
         intakeOpenerConstants.kPotentiometerOffset = 0;
         intakeOpenerConstants.kMaxVelocity = 40; // angle to second
@@ -116,6 +116,14 @@ public class RobotA extends RobotConstants {
         controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
         controlConstants.visionRotationSettings = new PIDSettings(0, 0, 0, 0, 0);
         controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
+
+        // Auto Constants
+        autoConstants.kSimpleAutoPower = -0.3;
+        autoConstants.kSimpleAutoTimeout = 0.85;
+        autoConstants.kTrenchAutoRotateToPortAngle = 0;
+        autoConstants.kMiddleFieldAutoRotateToPortAngle = 167.0;
+        autoConstants.kMiddleFieldAutoRotateLeftAngle = 60;
+        autoConstants.kMiddleFieldAutoRotateRightAngle = -15;
 
         /* Robot Map */
         // Drivetrain Map

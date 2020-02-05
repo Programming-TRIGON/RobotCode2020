@@ -1,6 +1,7 @@
 package frc.robot.commands.command_groups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.SpinMixer;
@@ -19,6 +20,7 @@ import static frc.robot.Robot.*;
  * and loading and shooting the cells once it reaches the desired speed.
  */
 public class AutoShoot extends SequentialCommandGroup {
+    private static final double kAutoWaitTimeAfterShot = 0.1;
 
     /**
      * Constructs automatic shooting sequence with shooter velocities based on vision.
@@ -78,8 +80,11 @@ public class AutoShoot extends SequentialCommandGroup {
                         new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower),
                         () -> Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance))*/
                     new SetLoaderSpeed(() -> (Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance) ?
-                        robotConstants.loaderConstants.kDefaultPower : robotConstants.loaderConstants.kDefaultBackwardsPower))
-            ));
+                        robotConstants.loaderConstants.kDefaultPower : robotConstants.loaderConstants.kDefaultBackwardsPower)
+                )
+            ),
+            new WaitCommand(kAutoWaitTimeAfterShot)
+        );
     }
 
     @Override

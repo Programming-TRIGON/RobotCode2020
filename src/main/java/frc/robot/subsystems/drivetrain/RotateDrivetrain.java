@@ -13,6 +13,15 @@ public class RotateDrivetrain extends CommandBase {
 
     /**
      * Rotates the drivetrain in place.
+     * @param desiredAngle the desired angle to turn by the gyro.
+     */
+    public RotateDrivetrain(double desiredAngle) {
+        this(() -> desiredAngle);
+    }
+   
+    /**
+     * Rotates the drivetrain in place.
+     * @param desiredAngle the desired angle to turn by the gyro. 
      */
     public RotateDrivetrain(DoubleSupplier desiredAngle) {
         addRequirements(drivetrain);

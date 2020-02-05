@@ -18,6 +18,8 @@ import static frc.robot.Robot.robotConstants;
 public class IntakeOpener extends OverridableSubsystem implements Loggable {
     private final WPI_TalonSRX talonSRX;
     private final AnalogPotentiometer potentiometer;
+    private OpenIntake defaultCommand;
+    private double desiredAngle;
     private double velocity;
     private double lastPosition;
     private double lastTimestamp;
@@ -33,6 +35,10 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
         potentiometer = new AnalogPotentiometer(robotConstants.analogInput.kIntakeOpenerPotentiometer,
             robotConstants.intakeOpenerConstants.kPotentiometerAngleMultiplier,
             robotConstants.intakeOpenerConstants.kPotentiometerOffset);
+        desiredAngle = robotConstants.intakeOpenerConstants.kClosedAngle;
+        defaultCommand = new OpenIntake(() -> desiredAngle, this);
+        setDefaultCommand(defaultCommand);
+        defaultCommand.removeRequirements();
     }
 
     @Override
@@ -62,6 +68,15 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
         return velocity;
     }
 
+    public void openIntake(boolean open) {
+        desiredAngle = open ? robotConstants.intakeOpenerConstants.kOpenAngle :
+            robotConstants.intakeOpenerConstants.kClosedAngle;
+    }
+
+    public boolean isAtGoal() {
+        return defaultCommand.isAtGoal();
+    }
+
     @Override
     public void periodic() {
         final double newTimestamp = Timer.getFPGATimestamp();
@@ -70,5 +85,10 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
         velocity = (newPosition - lastPosition) / dt;
         lastPosition = newPosition;
         lastTimestamp = newTimestamp;
+    }
+
+    @Override
+    public OpenIntake getDefaultCommand() {
+        return defaultCommand;
     }
 }
