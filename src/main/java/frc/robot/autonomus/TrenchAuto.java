@@ -9,7 +9,7 @@ import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.FollowPath;
 import frc.robot.subsystems.drivetrain.RotateDrivetrain;
-import frc.robot.subsystems.intakeopener.OpenIntake;
+import frc.robot.subsystems.intakeopener.SetDesiredOpenerAngle;
 
 import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.robotConstants;
@@ -28,10 +28,8 @@ public class TrenchAuto extends SequentialCommandGroup {
             // We get the desired angle by the initial pose rotation in the path.
             new RotateDrivetrain(() ->
                 autoPath.getPath().getTrajectory().getInitialPose().getRotation().getDegrees()),
-            parallel(
-                new FollowPath(autoPath),
-                new OpenIntake(true)
-            ),
+            new FollowPath(autoPath),
+            new SetDesiredOpenerAngle(true),
             deadline(
                 new FollowPath(AutoPath.InTrench),
                 new CollectCell()

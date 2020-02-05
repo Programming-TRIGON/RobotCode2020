@@ -18,9 +18,16 @@ import static frc.robot.Robot.robotConstants;
 public class IntakeOpener extends OverridableSubsystem implements Loggable {
     private final WPI_TalonSRX talonSRX;
     private final AnalogPotentiometer potentiometer;
+    private OpenIntake defaultCommand;
+    private double desiredAngle;
     private double velocity;
     private double lastPosition;
     private double lastTimestamp;
+
+    @Override
+    public OpenIntake getDefaultCommand() {
+        return defaultCommand;
+    }
 
     public IntakeOpener() {
         talonSRX = new WPI_TalonSRX(robotConstants.can.kIntakeOpenerTalonSRX);
@@ -33,6 +40,10 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
         potentiometer = new AnalogPotentiometer(robotConstants.analogInput.kIntakeOpenerPotentiometer,
             robotConstants.intakeOpenerConstants.kPotentiometerAngleMultiplier,
             robotConstants.intakeOpenerConstants.kPotentiometerOffset);
+        desiredAngle = robotConstants.intakeOpenerConstants.kClosedAngle;
+        defaultCommand = new OpenIntake(() -> desiredAngle, this);
+        setDefaultCommand(defaultCommand);
+        defaultCommand.removeRequirements();
     }
 
     @Override
@@ -60,6 +71,15 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     /** @return The change in angle per delta time */
     public double getVelocity() {
         return velocity;
+    }
+
+    public void openIntake(boolean open) {
+        desiredAngle = open ? robotConstants.intakeOpenerConstants.kOpenAngle :
+            robotConstants.intakeOpenerConstants.kClosedAngle;
+    }
+
+    public boolean isAtGoal() {
+        return defaultCommand.isAtGoal();
     }
 
     @Override
