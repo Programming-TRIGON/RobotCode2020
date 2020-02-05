@@ -28,7 +28,6 @@ public class Robot extends TimedRobot {
     private SendableChooser<Command> autoChooser;
     private DashboardDataContainer dashboardDataContainer;
 
-    public static OI oi;
     public static Drivetrain drivetrain;
     public static Intake intake;
     public static IntakeOpener intakeOpener;
