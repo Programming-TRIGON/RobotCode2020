@@ -33,8 +33,6 @@ public class TrigonXboxController extends XboxController {
         startButton = new JoystickButton(this, Button.kStart.value);
         rumbleAmount = -1;
         notifier = new Notifier(this::notifierPeriodic);
-
-        notifier.startPeriodic(kIntermittentRumbleTime);
     }
 
     public JoystickButton getButtonA() {
@@ -103,7 +101,7 @@ public class TrigonXboxController extends XboxController {
     /**
      * Set the rumble output for the HID. this method affects both motors.
      *
-     * @param value The normalized value (0 to 1) to set the rumble to
+     * @param power The normalized value (0 to 1) to set the rumble to
      */
     public void setRumble(double power) {
         setRumble(RumbleType.kLeftRumble, power);
@@ -117,9 +115,13 @@ public class TrigonXboxController extends XboxController {
      */
     public void intermittentRumble(int quantity) {
         rumbleAmount = quantity * 2 - 1;
+        notifier.startPeriodic(kIntermittentRumbleTime);
     }
 
     public void notifierPeriodic() {
+        if (rumbleAmount == 0) {
+            notifier.stop();
+        }
         if (rumbleAmount >= 0) {
             if (rumbleAmount % 2 == 1)
                 setRumble(1);
