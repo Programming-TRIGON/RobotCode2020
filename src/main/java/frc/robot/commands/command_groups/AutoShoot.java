@@ -69,10 +69,7 @@ public class AutoShoot extends SequentialCommandGroup {
         TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort, drivetrain);
         addCommands(
             deadline(
-                sequence(
                     setShooterVelocity,
-                    new WaitCommand(0.1)
-                ),
                 new SpinMixer(),
                 turnToTarget,
                 sequence(
@@ -84,7 +81,8 @@ public class AutoShoot extends SequentialCommandGroup {
                     new SetLoaderSpeed(() -> (Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance) ?
                         robotConstants.loaderConstants.kDefaultPower : robotConstants.loaderConstants.kDefaultBackwardsPower)
                 )
-            )
+            ),
+            new WaitCommand(0.1)
         );
     }
 
