@@ -3,7 +3,6 @@ package frc.robot.autonomus;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.motion_profiling.AutoPath;
@@ -24,7 +23,6 @@ public class TrenchAuto extends SequentialCommandGroup {
         addCommands(
             new InstantCommand(() -> drivetrain.resetOdometry(autoPath.getPath().getTrajectory().getInitialPose())),
             new AutoShoot(true),
-            new WaitCommand(0.1),
             // We get the desired angle by the initial pose rotation in the path.
             new RotateDrivetrain(() ->
                 autoPath.getPath().getTrajectory().getInitialPose().getRotation().getDegrees()),

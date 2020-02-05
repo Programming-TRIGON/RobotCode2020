@@ -1,6 +1,7 @@
 package frc.robot.commands.command_groups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.SpinMixer;
@@ -68,7 +69,10 @@ public class AutoShoot extends SequentialCommandGroup {
         TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort, drivetrain);
         addCommands(
             deadline(
-                setShooterVelocity,
+                parallel(
+                    setShooterVelocity,
+                    new WaitCommand(0.1)
+                ),
                 new SpinMixer(),
                 turnToTarget,
                 sequence(
