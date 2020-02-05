@@ -24,11 +24,6 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     private double lastPosition;
     private double lastTimestamp;
 
-    @Override
-    public OpenIntake getDefaultCommand() {
-        return defaultCommand;
-    }
-
     public IntakeOpener() {
         talonSRX = new WPI_TalonSRX(robotConstants.can.kIntakeOpenerTalonSRX);
         talonSRX.setInverted(robotConstants.intakeOpenerConstants.kIsInverted);
@@ -90,5 +85,10 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
         velocity = (newPosition - lastPosition) / dt;
         lastPosition = newPosition;
         lastTimestamp = newTimestamp;
+    }
+
+    @Override
+    public OpenIntake getDefaultCommand() {
+        return defaultCommand;
     }
 }

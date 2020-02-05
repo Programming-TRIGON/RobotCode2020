@@ -20,6 +20,7 @@ import static frc.robot.Robot.*;
  * and loading and shooting the cells once it reaches the desired speed.
  */
 public class AutoShoot extends SequentialCommandGroup {
+    private static final double kAutoWaitTimeAfterShot = 0.1;
 
     /**
      * Constructs automatic shooting sequence with shooter velocities based on vision.
@@ -69,7 +70,7 @@ public class AutoShoot extends SequentialCommandGroup {
         TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort, drivetrain);
         addCommands(
             deadline(
-                    setShooterVelocity,
+                setShooterVelocity,
                 new SpinMixer(),
                 turnToTarget,
                 sequence(
@@ -82,7 +83,7 @@ public class AutoShoot extends SequentialCommandGroup {
                         robotConstants.loaderConstants.kDefaultPower : robotConstants.loaderConstants.kDefaultBackwardsPower)
                 )
             ),
-            new WaitCommand(0.1)
+            new WaitCommand(kAutoWaitTimeAfterShot)
         );
     }
 

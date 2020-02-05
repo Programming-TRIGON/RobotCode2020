@@ -31,8 +31,7 @@ public class OpenIntake extends CommandBase {
     }
 
     /**
-     * Either opens the Intake subsystem or closes it with PID. This constructor is
-     * used for tuning PID using the dashboard.
+     * Either opens the Intake subsystem or closes it with PID.
      */
     public OpenIntake(DoubleSupplier angleSupplier, IntakeOpener intakeOpener) {
         this.intakeOpener = intakeOpener;
@@ -43,10 +42,6 @@ public class OpenIntake extends CommandBase {
         this.angleSupplier = angleSupplier;
         feedforward = robotConstants.controlConstants.intakeOpenerFeedforward;
         isTuning = false;
-    }
-
-    public void removeRequirements() {
-        m_requirements.clear();
     }
 
     @Override
@@ -81,5 +76,9 @@ public class OpenIntake extends CommandBase {
 
     public void stopTuning() {
         isTuning = false;
+    }
+
+    public void removeRequirements() {
+        m_requirements.clear();
     }
 }

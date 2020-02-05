@@ -26,8 +26,8 @@ public class TrenchAuto extends SequentialCommandGroup {
             // We get the desired angle by the initial pose rotation in the path.
             new RotateDrivetrain(() ->
                 autoPath.getPath().getTrajectory().getInitialPose().getRotation().getDegrees()),
-            new FollowPath(autoPath),
             new SetDesiredOpenerAngle(true),
+            new FollowPath(autoPath),
             deadline(
                 new FollowPath(AutoPath.InTrench),
                 new CollectCell()

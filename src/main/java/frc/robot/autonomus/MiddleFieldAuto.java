@@ -1,5 +1,6 @@
 package frc.robot.autonomus;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
@@ -8,7 +9,7 @@ import frc.robot.motion_profiling.FollowPath;
 import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.intakeopener.SetDesiredOpenerAngle;
 
-import static frc.robot.Robot.robotConstants;
+import static frc.robot.Robot.*;
 import static frc.robot.motion_profiling.AutoPath.FacingPowerPortToMiddleField;
 import static frc.robot.motion_profiling.AutoPath.RightOfPortToMiddleField;
 
@@ -20,6 +21,7 @@ public class MiddleFieldAuto extends SequentialCommandGroup {
         AutoPath autoPath = startingPose ==
             StartingPose.kFacingRightOfPowerPort ? RightOfPortToMiddleField : FacingPowerPortToMiddleField;
         addCommands(
+            new InstantCommand(() -> drivetrain.resetOdometry(autoPath.getPath().getTrajectory().getInitialPose())),
             new AutoShoot(true),
             new RotateDrivetrain(() ->
                 autoPath.getPath().getTrajectory().getInitialPose().getRotation().getDegrees()),
