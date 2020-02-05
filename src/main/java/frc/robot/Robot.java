@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -77,6 +78,10 @@ public class Robot extends TimedRobot {
             command -> DriverStationLogger.logToDS("Interrupting " + command.getName()));
         CommandScheduler.getInstance()
             .onCommandFinish(command -> DriverStationLogger.logToDS(command.getName() + " is finished"));
+
+        // disable LiveWindow 
+        LiveWindow.disableAllTelemetry();
+        LiveWindow.setEnabled(false);
 
         DriverStationLogger.logToDS("Robot initialization complete");
     }
