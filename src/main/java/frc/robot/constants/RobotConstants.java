@@ -147,5 +147,9 @@ public abstract class RobotConstants extends RobotMap {
     public static class AutoConstants {
         public double kSimpleAutoPower;
         public double kSimpleAutoTimeout;
+        public double kTrenchAutoRotateToPortAngle;
+        public double kMiddleFieldAutoRotateToPortAngle;
+        public double kMiddleFieldAutoRotateLeftAngle;
+        public double kMiddleFieldAutoRotateRightAngle;
     }
 }

@@ -118,8 +118,12 @@ public class RobotA extends RobotConstants {
         controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         // Auto Constants
-        autoConstants.kSimpleAutoPower = 0.5;
-        autoConstants.kSimpleAutoTimeout = 0.2;
+        autoConstants.kSimpleAutoPower = 0.3;
+        autoConstants.kSimpleAutoTimeout = 0.85;
+        autoConstants.kTrenchAutoRotateToPortAngle = 0;
+        autoConstants.kMiddleFieldAutoRotateToPortAngle = 167.0;
+        autoConstants.kMiddleFieldAutoRotateLeftAngle = 60;
+        autoConstants.kMiddleFieldAutoRotateRightAngle = -15;
 
         /* Robot Map */
         // Drivetrain Map

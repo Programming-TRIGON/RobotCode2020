@@ -11,6 +11,9 @@ public class RotateDrivetrain extends CommandBase {
     private TrigonPIDController pidController;
     private DoubleSupplier desiredAngle;
 
+    public RotateDrivetrain(double desiredAngle) {
+        this(() -> desiredAngle);
+    }
     /**
      * Rotates the drivetrain in place.
      */

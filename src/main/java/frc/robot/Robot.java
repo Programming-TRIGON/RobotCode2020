@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.autonomus.RendezvousAuto;
+import frc.robot.autonomus.MiddleFieldAuto;
 import frc.robot.autonomus.SimpleAuto;
 import frc.robot.autonomus.StartingPose;
 import frc.robot.autonomus.TrenchAuto;
@@ -71,8 +71,8 @@ public class Robot extends TimedRobot {
         autoChooser.setDefaultOption("Simple Auto", new SimpleAuto());
         autoChooser.addOption("In Line With Trench Auto", new TrenchAuto(StartingPose.kLineUpWithTrenchRun));
         autoChooser.addOption("Facing Power Port To Trench Auto", new TrenchAuto(StartingPose.kFacingPowerPort));
-        autoChooser.addOption("Facing Power Port To middle field", new RendezvousAuto(StartingPose.kFacingPowerPort));
-        autoChooser.addOption("Facing Right Of Power Port To middle field", new RendezvousAuto(StartingPose.kFacingRightOfPowerPort));
+        autoChooser.addOption("Facing Power Port To middle field", new MiddleFieldAuto(StartingPose.kFacingPowerPort));
+        autoChooser.addOption("Facing Right Of Power Port To middle field", new MiddleFieldAuto(StartingPose.kFacingRightOfPowerPort));
         SmartDashboard.putData("Auto/autoChooser", autoChooser);
         // We configure the logger here since it needs the container of all the
         // subsystems

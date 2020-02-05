@@ -13,17 +13,13 @@ import static frc.robot.Robot.robotConstants;
  * This auto command moves away from the initiation line (by a timeout) and shoots 3 cells.
  */
 public class SimpleAuto extends SequentialCommandGroup {
-
-    private final DoubleSupplier timeout;
-    private RunCommand runCommand;
     private Timer timer;
 
     public SimpleAuto(DoubleSupplier timeout) {
-        this.timeout = timeout;
         timer = new Timer();
         addCommands(new RunCommand(() -> drivetrain.arcadeDrive(0, robotConstants.autoConstants.kSimpleAutoPower),
             drivetrain).withInterrupt(() -> timer.hasPeriodPassed(timeout.getAsDouble())),
-            new AutoShoot()
+            new AutoShoot(true)
         );
     }
 
@@ -37,8 +33,8 @@ public class SimpleAuto extends SequentialCommandGroup {
 
     @Override
     public void initialize() {
+        super.initialize();
         timer.reset();
         timer.start();
-        super.initialize();
     }
 }
