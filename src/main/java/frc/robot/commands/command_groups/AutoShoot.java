@@ -69,7 +69,7 @@ public class AutoShoot extends SequentialCommandGroup {
         TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort, drivetrain);
         addCommands(
             deadline(
-                parallel(
+                sequence(
                     setShooterVelocity,
                     new WaitCommand(0.1)
                 ),
