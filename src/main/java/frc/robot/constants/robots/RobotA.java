@@ -64,6 +64,7 @@ public class RobotA extends RobotConstants {
         climbConstants.kHookThresholdLimit = 0;
         climbConstants.kHookCurrentTimeout = 0;
         climbConstants.kClimbCurrentLimit = 0;
+        climbConstants.kDefaultClimbPower = 0;
 
         // Shooter Constants
         shooterConstants.kWheelRadius = 1;
