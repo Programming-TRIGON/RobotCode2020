@@ -64,6 +64,7 @@ public class RobotA extends RobotConstants {
         climbConstants.kHookThresholdLimit = 0;
         climbConstants.kHookCurrentTimeout = 0;
         climbConstants.kClimbCurrentLimit = 0;
+        climbConstants.kDefaultClimbPower = 0;
 
         // Shooter Constants
         shooterConstants.kWheelRadius = 1;
@@ -124,6 +125,9 @@ public class RobotA extends RobotConstants {
         autoConstants.kMiddleFieldAutoRotateToPortAngle = 167.0;
         autoConstants.kMiddleFieldAutoRotateLeftAngle = 60;
         autoConstants.kMiddleFieldAutoRotateRightAngle = -15;
+
+        //OI Constants
+        oiConstants.kDeltaTriggersInterruptDifference = 0.5;
 
         /* Robot Map */
         // Drivetrain Map
