@@ -2,6 +2,7 @@ package frc.robot.utils;
 
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.OverrideCommand;
+import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
@@ -21,20 +22,21 @@ import static frc.robot.Robot.*;
  * dashboard.
  */
 public class DashboardDataContainer {
-    // private DashboardController dashboardController;
-
+    
     public DashboardDataContainer() {
-        //dashboardController = new DashboardController();
-
-        // Mixer dashboard data:
+        // Mixer dashboard data
         putNumber("Mixer/Mixer power", 0);
         putData("Mixer/Spin mixer",
             new SpinMixer(() -> getNumber("Mixer/Mixer power", 0)));
         putData("Mixer/Override", new OverrideCommand(mixer,
             () -> getNumber("Mixer/Mixer power", 0)));
-        // drivetrain dashboard data
+        // Drivetrain dashboard data
         putData("Drivetrain/Tune drivetrain rotate PID", new RotateDrivetrain());
-        // Shooter dashboard data:
+        putData("Drivetrain/Reset Encoders", new RunWhenDisabledCommand(drivetrain::resetEncoders, drivetrain));
+        putData("Drivetrain/Reset Gyro", new RunWhenDisabledCommand(drivetrain::resetGyro, drivetrain));
+        putData("Drivetrain/Calibrate Gyro", new RunWhenDisabledCommand(drivetrain::calibrateGyro, drivetrain));
+        putData("Drivetrain/Reset Odometry", new RunWhenDisabledCommand(drivetrain::resetOdometry, drivetrain));
+        // Shooter dashboard data
         putNumber("Shooter/Shooting velocity setpoint", ShooterVelocity.kDefault.getVelocity());
         putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
         putData("Shooter/Set shooting velocity", new SetShooterVelocity(() -> getNumber("Shooter/Shooting Velocity Setpoint", 0)));
@@ -42,15 +44,15 @@ public class DashboardDataContainer {
         putNumber("Shooter/Override Power", 0);
         putData("Shooter/Override", new OverrideCommand(shooter,
             () -> getNumber("Shooter/Override Power", 0)));
-        //loader dashboard data
+        // Loader dashboard data
         putNumber("Loader/Loader Power", 0);
         putData("Loader/Override", new OverrideCommand(loader,
             () -> getNumber("Loader/Loader Power", 0)));
-        //intake dashboard data
+        // Intake dashboard data
         putNumber("Intake/Intake power", 0);
         putData("Intake/Override intake", new OverrideCommand(intake,
             () -> getNumber("Intake/Intake power", 0)));
-        //intake opener dashboard data
+        // IntakeOpener dashboard data
         putNumber("IntakeOpener/Intake Opener power", 0);
         putData("IntakeOpener/Override intake opener", new OverrideCommand(intakeOpener,
             () -> getNumber("IntakeOpener/Intake Opener power", 0)));
@@ -66,6 +68,5 @@ public class DashboardDataContainer {
 
     public void update() {
         Logger.updateEntries();
-        // dashboardController.update();
     }
 }
