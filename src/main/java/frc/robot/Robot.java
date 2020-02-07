@@ -69,11 +69,11 @@ public class Robot extends TimedRobot {
         dashboardDataContainer = new DashboardDataContainer();
         autoChooser = new SendableChooser<>();
 
-        autoChooser.setDefaultOption("Simple Auto", new SimpleAuto());
+        /*autoChooser.setDefaultOption("Simple Auto", new SimpleAuto());
         autoChooser.addOption("TrenchAuto: In line with Trench", new TrenchAuto(StartingPose.kLineUpWithTrenchRun));
         autoChooser.addOption("TrenchAuto: Facing Power Port", new TrenchAuto(StartingPose.kFacingPowerPort));
         autoChooser.addOption("MiddleFieldAuto: Facing Power Port", new MiddleFieldAuto(StartingPose.kFacingPowerPort));
-        autoChooser.addOption("MiddleFieldAuto: Facing right of Power Port", new MiddleFieldAuto(StartingPose.kFacingRightOfPowerPort));
+        autoChooser.addOption("MiddleFieldAuto: Facing right of Power Port", new MiddleFieldAuto(StartingPose.kFacingRightOfPowerPort));*/
         
         SmartDashboard.putData("Auto/autoChooser", autoChooser);
         
