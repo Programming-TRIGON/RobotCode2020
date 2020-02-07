@@ -15,7 +15,6 @@ import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.utils.TrigonXboxController;
 
 import static frc.robot.Robot.drivetrain;
-import static frc.robot.Robot.climb;
 import static frc.robot.Robot.robotConstants;
 
 /**
@@ -76,7 +75,7 @@ public class OI {
         driverXbox.getButtonX().whenPressed(driverAutoShoot);
         driverXbox.getButtonA().whenHeld(driverCollectCell);
         driverXbox.getButtonY().whenPressed(driverCollectFromFeeder);
-        climb.setDefaultCommand(driverClimb);
+        driverXbox.getRightStickButton().toggleWhenPressed(driverClimb);
         // TODO bind driver commands here
     }
 
