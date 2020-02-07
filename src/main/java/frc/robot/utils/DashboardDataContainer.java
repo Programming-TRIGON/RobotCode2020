@@ -42,11 +42,13 @@ public class DashboardDataContainer {
         // Shooter dashboard data
         putNumber("Shooter/Shooting velocity setpoint", ShooterVelocity.kDefault.getVelocity());
         putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
-        putData("Shooter/Set shooting velocity", new SetShooterVelocity(() -> getNumber("Shooter/Shooting Velocity Setpoint", 0)));
+        putData("Shooter/Set shooting velocity", new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
         putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
         putNumber("Shooter/Override Power", 0);
         putData("Shooter/Override", new OverrideCommand(shooter,
             () -> getNumber("Shooter/Override Power", 0)));
+        putData("Shooter/Calibrate shooter velocity", new CalibrateShooterVelocity(oi.getDriverXboxController()::getAButton,
+            () -> getNumber("Shooter/Shooting velocity setpoint", 0), 100, 100)); // TODO: set starting distance and delta distance!
         /*//Loader dashboard data
         putNumber("Loader/Loader Power", 0);
         putData("Loader/Override", new OverrideCommand(loader,
