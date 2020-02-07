@@ -20,6 +20,7 @@ public abstract class RobotConstants extends RobotMap {
     public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
     public VisionConstants visionConstants = new VisionConstants();
     public AutoConstants autoConstants = new AutoConstants();
+    public OIConstants oiConstants = new OIConstants();
 
     public static class DrivetrainConstants {
         public double kWheelDiameter;
@@ -104,6 +105,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kHookCurrentLimit;
         public double kHookCurrentTimeout;
         public int kClimbCurrentLimit;
+        public int kDefaultClimbPower;
     }
 
     /**
@@ -151,5 +153,9 @@ public abstract class RobotConstants extends RobotMap {
         public double kMiddleFieldAutoRotateToPortAngle;
         public double kMiddleFieldAutoRotateLeftAngle;
         public double kMiddleFieldAutoRotateRightAngle;
+    }
+
+    public static class OIConstants {
+        public double kDeltaTriggersInterruptDifference;
     }
 }

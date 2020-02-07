@@ -5,11 +5,17 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.command_groups.AutoShoot;
+import frc.robot.commands.command_groups.CollectCell;
+import frc.robot.commands.command_groups.CollectFromFeeder;
+import frc.robot.subsystems.climb.ClimbWithXbox;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.utils.TrigonXboxController;
 
 import static frc.robot.Robot.drivetrain;
+import static frc.robot.Robot.robotConstants;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -20,6 +26,12 @@ public class OI {
     private static final int kOperatorPort = 1;
     private TrigonXboxController driverXbox;
     private TrigonXboxController operatorXbox;
+    // driver commands
+    private Command driverAutoShoot;
+    private Command driverCollectCell;
+    private Command driverCollectFromFeeder;
+    private Command driverClimb;
+    private Command driverDriveWithXbox;
 
     public OI() {
         driverXbox = new TrigonXboxController(kDriverPort);
@@ -48,11 +60,22 @@ public class OI {
     }
 
     private void createDriverCommands() {
-        drivetrain.setDefaultCommand(new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), driverXbox::getDeltaTriggers));
-        // TODO create driver commands here
+        driverDriveWithXbox = new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), driverXbox::getDeltaTriggers);
+        driverAutoShoot = new AutoShoot().withInterrupt(() -> Math
+                .abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
+        driverCollectCell = new CollectCell();
+        driverCollectFromFeeder = new CollectFromFeeder().withInterrupt(() -> Math
+                .abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
+        driverClimb = new ClimbWithXbox(() -> driverXbox.getY(Hand.kRight),
+                () -> driverXbox.getBButton() ? robotConstants.climbConstants.kDefaultClimbPower : 0);
     }
 
     private void bindDriverCommands() {
+        drivetrain.setDefaultCommand(driverDriveWithXbox);
+        driverXbox.getButtonX().whenPressed(driverAutoShoot);
+        driverXbox.getButtonA().whenHeld(driverCollectCell);
+        driverXbox.getButtonY().whenPressed(driverCollectFromFeeder);
+        driverXbox.getRightStickButton().toggleWhenPressed(driverClimb);
         // TODO bind driver commands here
     }
 
