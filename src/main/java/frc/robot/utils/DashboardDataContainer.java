@@ -55,7 +55,10 @@ public class DashboardDataContainer {
         putNumber("IntakeOpener/Intake Opener power", 0);
         putData("IntakeOpener/Override intake opener", new OverrideCommand(intakeOpener,
             () -> getNumber("IntakeOpener/Intake Opener power", 0)));
-        putData("IntakeOpener/Tune PID", new OpenIntake());
+        putData("IntakeOpener/Tune PID", new StartEndCommand(() -> intakeOpener.getDefaultCommand().enableTuning(),
+            () -> intakeOpener.getDefaultCommand().stopTuning(), intakeOpener));
+        putData("IntakeOpener/Open", new SetDesiredOpenerAngle(true));
+        putData("IntakeOpener/Close", new SetDesiredOpenerAngle(false));
         // Command groups data
         putData("CommandGroup/Auto Shoot", new AutoShoot());
         putData("CommandGroup/Collect Cell", new CollectCell());

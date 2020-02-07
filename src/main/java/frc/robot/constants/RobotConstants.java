@@ -19,6 +19,8 @@ public abstract class RobotConstants extends RobotMap {
     public ControlConstants controlConstants = new ControlConstants();
     public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
     public VisionConstants visionConstants = new VisionConstants();
+    public AutoConstants autoConstants = new AutoConstants();
+    public OIConstants oiConstants = new OIConstants();
 
     public static class DrivetrainConstants {
         public double kWheelDiameter;
@@ -104,6 +106,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kHookCurrentLimit;
         public double kHookCurrentTimeout;
         public int kClimbCurrentLimit;
+        public int kDefaultClimbPower;
     }
 
     /**
@@ -142,5 +145,18 @@ public abstract class RobotConstants extends RobotMap {
         public double kLimelightOffsetY;
         public double kLimelightAngleOffset;
         public double kTargetNotFoundWaitTime;
+    }
+
+    public static class AutoConstants {
+        public double kSimpleAutoPower;
+        public double kSimpleAutoTimeout;
+        public double kTrenchAutoRotateToPortAngle;
+        public double kMiddleFieldAutoRotateToPortAngle;
+        public double kMiddleFieldAutoRotateLeftAngle;
+        public double kMiddleFieldAutoRotateRightAngle;
+    }
+
+    public static class OIConstants {
+        public double kDeltaTriggersInterruptDifference;
     }
 }

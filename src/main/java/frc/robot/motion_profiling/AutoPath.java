@@ -1,15 +1,11 @@
 package frc.robot.motion_profiling;
 
-import static frc.robot.Robot.fieldConstants;
-
 /**
  * This enum represent and hold the instances of auto paths
  */
 public enum AutoPath {
-    ExamplePath(new Path(new Waypoint(0, 0, 0), new Waypoint(fieldConstants.feederConstants.SIDE_WALL_TO_MIDDLE_FEEDER,
-        fieldConstants.feederConstants.ROCKET_TO_FEEDER, 90))), // this example uses field constants
-    ExampleReversePath(new Path(true, new Waypoint(0, 0, 0), new Waypoint(3, 2, 90))),
-    ExamplePathFromFile("TestPath");
+    FacingPowerPortToTrenchStart, InLineWithTrenchToTrenchStart, InTrench,
+    ReversedInTrench, RightOfPortToMiddleField, FacingPowerPortToMiddleField;
 
     private final Path path;
 

@@ -43,7 +43,7 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.kThresholdLimit = 0;
         intakeOpenerConstants.kTriggerThresholdTime = 0;
         intakeOpenerConstants.kOpenAngle = 0;
-        intakeOpenerConstants.kClosedAngle = 0;
+        intakeOpenerConstants.kClosedAngle = 30;
         intakeOpenerConstants.kPotentiometerAngleMultiplier = 1200;
         intakeOpenerConstants.kPotentiometerOffset = 0;
         intakeOpenerConstants.kMaxVelocity = 40; // angle to second
@@ -64,6 +64,7 @@ public class RobotA extends RobotConstants {
         climbConstants.kHookThresholdLimit = 0;
         climbConstants.kHookCurrentTimeout = 0;
         climbConstants.kClimbCurrentLimit = 0;
+        climbConstants.kDefaultClimbPower = 0;
 
         // Shooter Constants
         shooterConstants.kRampTime = 0.5;
@@ -118,6 +119,17 @@ public class RobotA extends RobotConstants {
         controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
         controlConstants.visionRotationSettings = new PIDSettings(0, 0, 0, 0, 0);
         controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
+
+        // Auto Constants
+        autoConstants.kSimpleAutoPower = -0.3;
+        autoConstants.kSimpleAutoTimeout = 0.85;
+        autoConstants.kTrenchAutoRotateToPortAngle = 0;
+        autoConstants.kMiddleFieldAutoRotateToPortAngle = 167.0;
+        autoConstants.kMiddleFieldAutoRotateLeftAngle = 60;
+        autoConstants.kMiddleFieldAutoRotateRightAngle = -15;
+
+        //OI Constants
+        oiConstants.kDeltaTriggersInterruptDifference = 0.5;
 
         /* Robot Map */
         // Drivetrain Map
