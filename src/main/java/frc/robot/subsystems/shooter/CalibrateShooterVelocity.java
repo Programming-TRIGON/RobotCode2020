@@ -5,6 +5,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utils.Logger;
+import frc.robot.vision.Target;
 
 import static frc.robot.Robot.*;
 
@@ -60,6 +61,7 @@ public class CalibrateShooterVelocity extends CommandBase {
   public void initialize() {
     logger = new Logger("shooter velocity calibration.csv", "distance", "robot measured distance", "limelight distance", "velocity");
     drivetrain.resetEncoders();
+    limelight.startVision(Target.PowerPort);
     isPressed = false;
   }
 
@@ -80,11 +82,12 @@ public class CalibrateShooterVelocity extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     shooter.stopMove();
+    limelight.stopVision();
     logger.close();
   }
 
   @Override
   public boolean isFinished() {
-    return currentDistance > deltaDistance * amountOfLogs;
+    return currentDistance > deltaDistance * amountOfLogs + startingDistance;
   }
 }

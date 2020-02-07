@@ -60,13 +60,13 @@ public class OI {
 
     private void createDriverCommands() {
         /*driverDriveWithXbox = new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), driverXbox::getDeltaTriggers);
-        driverAutoShoot = new AutoShoot().withInterrupt(() -> Math
+        SmartDashboard.getNumber("left", 0)driverAutoShoot = new AutoShoot().withInterrupt(() -> Math
                 .abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
         driverCollectCell = new CollectCell();
         driverCollectFromFeeder = new CollectFromFeeder().withInterrupt(() -> Math
                 .abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
         driverClimb = new ClimbWithXbox(() -> driverXbox.getY(Hand.kRight),
-                () -> driverXbox.getBButton() ? robotConstants.climbConstants.kDefaultClimbPower : 0);*/
+            () -> driverXbox.getBButton() ? robotConstants.climbConstants.kDefaultClimbPower : 0);*/
     }
 
     private void bindDriverCommands() {
