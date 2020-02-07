@@ -126,6 +126,9 @@ public class RobotA extends RobotConstants {
         autoConstants.kMiddleFieldAutoRotateLeftAngle = 60;
         autoConstants.kMiddleFieldAutoRotateRightAngle = -15;
 
+        //OI Constants
+        oiConstants.kDeltaTriggersInterruptDifference = 0.5;
+
         /* Robot Map */
         // Drivetrain Map
         can.kDrivetrainLeftFrontTalonFX = 1;
