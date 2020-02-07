@@ -1,15 +1,12 @@
 package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import frc.robot.Robot;
-import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.OverrideCommand;
-import frc.robot.commands.command_groups.AutoShoot;
-import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.commands.RunWhenDisabledCommand;
+import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.subsystems.drivetrain.RotateDrivetrain;
+import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.shooter.CalibrateShooterVelocity;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
@@ -49,11 +46,13 @@ public class DashboardDataContainer {
             () -> getNumber("Shooter/Override Power", 0)));
         putData("Shooter/Calibrate shooter velocity", new CalibrateShooterVelocity(oi.getDriverXboxController()::getAButton,
             () -> getNumber("Shooter/Shooting velocity setpoint", 0), 100, 100)); // TODO: set starting distance and delta distance!
-        /*//Loader dashboard data
+        //Loader dashboard data
         putNumber("Loader/Loader Power", 0);
-        putData("Loader/Override", new OverrideCommand(loader,
+        putData("Loader/Spin Loader by value", new SetLoaderSpeed(
             () -> getNumber("Loader/Loader Power", 0)));
-        // Intake dashboard data
+        putData("Loader/Spin Loader", new SetLoaderSpeed());
+        putData("Loader/Move with joystick", new OverrideCommand(loader, () -> oi.getDriverXboxController().getY(Hand.kLeft)));
+        /*// Intake dashboard data
         putNumber("Intake/Intake power", 0);
         putData("Intake/Override intake", new OverrideCommand(intake,
             () -> getNumber("Intake/Intake power", 0)));
@@ -66,27 +65,8 @@ public class DashboardDataContainer {
         putData("IntakeOpener/Open", new SetDesiredOpenerAngle(true));
         putData("IntakeOpener/Close", new SetDesiredOpenerAngle(false));
         // Command groups data
-        putData("CommandGroup/Auto Shoot", new AutoShoot());
         putData("CommandGroup/Collect Cell", new CollectCell());
         putData("CommandGroup/Collect From Feeder", new CollectFromFeeder()); */
-
-        //added for testing:
-        putNumber("Shooter/Shooting velocity setpoint", ShooterVelocity.kDefault.getVelocity());
-        putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
-        putData("Shooter/Set shooting velocity", new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
-        putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
-        putNumber("Shooter/Override Power", 0);
-        putData("Shooter/Override", new OverrideCommand(shooter,
-            () -> getNumber("Shooter/Override Power", 0)));
-        putData("Shooter/Calibrate shooter velocity", new CalibrateShooterVelocity(oi.getDriverXboxController()::getAButton,
-            () -> getNumber("Shooter/Shooting velocity setpoint", 0), 100, 100)); // TODO: set starting distance and delta distance!
-            () -> getNumber("Shooter/Shooting velocity setpoint", 0), 100)); // TODO: set starting distance!
-        //loader dashboard data
-        putNumber("Loader/Loader Power", 0);
-        putData("Loader/Spin Loader by value", new SetLoaderSpeed(
-            () -> getNumber("Loader/Loader Power", 0)));
-        putData("Loader/Spin Loader", new SetLoaderSpeed());
-        putData("Loader/Move with joystick", new OverrideCommand(loader, () -> oi.getDriverXboxController().getY(Hand.kLeft)));
         putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
     }
 
