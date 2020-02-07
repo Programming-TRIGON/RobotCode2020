@@ -10,11 +10,7 @@ public class RunWhenDisabledCommand extends InstantCommand {
     public RunWhenDisabledCommand(Runnable toRun, Subsystem... requirements) {
         super(toRun, requirements);
     }
-
-    public RunWhenDisabledCommand() {
-        super();
-    }
-
+    
     @Override
     public boolean runsWhenDisabled() {
         return true;
