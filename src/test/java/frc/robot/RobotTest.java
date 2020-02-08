@@ -41,7 +41,7 @@ public class RobotTest {
     }
 
     @Test
-    public void robotInit() {
+    public void robotPeriodicTest() {
         robot.robotPeriodic();
     }
 
@@ -51,7 +51,6 @@ public class RobotTest {
         robot.autonomousPeriodic();
     }
 
-
     @Test
     public void teleopTest() {
         robot.teleopInit();
@@ -60,8 +59,8 @@ public class RobotTest {
 
     @Test
     public void commandsTest() {
-        Command[] commands = new Command[]{
-        new SetLoaderSpeed(),
+        Command[] commands = new Command[] {
+            new SetLoaderSpeed(),
             new SpinMixer(),
             new SetIntakeSpeed(Robot.robotConstants.intakeConstants.kDefaultIntakePower),
             new CheesySetShooterVelocity(),
@@ -85,13 +84,14 @@ public class RobotTest {
             new SimpleAuto(),
             new TrenchAuto(StartingPose.kFacingPowerPort),
             new MiddleFieldAuto(StartingPose.kFacingPowerPort),
-    };
+        };
 
         for (Command command : commands) {
             command.initialize();
             command.execute();
             command.isFinished();
             command.end(false);
+            command.end(true);
         }
     }
 }
