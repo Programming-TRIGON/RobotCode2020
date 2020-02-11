@@ -1,5 +1,6 @@
 package frc.robot.utils;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.RunWhenDisabledCommand;
@@ -14,7 +15,8 @@ import frc.robot.subsystems.shooter.SetShooterVelocity;
 import frc.robot.subsystems.shooter.ShooterVelocity;
 import io.github.oblarg.oblog.Logger;
 
-import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.*;
+import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.getNumber;
+import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putData;
 import static frc.robot.Robot.*;
 
 /**
@@ -22,10 +24,10 @@ import static frc.robot.Robot.*;
  * dashboard.
  */
 public class DashboardDataContainer {
-    
+
     public DashboardDataContainer() {
         // Mixer dashboard data
-        putNumber("Mixer/Mixer power", 0);
+        putDefaultNumber("Mixer/Mixer power", 0);
         putData("Mixer/Spin mixer",
             new SpinMixer(() -> getNumber("Mixer/Mixer power", 0)));
         putData("Mixer/Override", new OverrideCommand(mixer,
@@ -37,23 +39,23 @@ public class DashboardDataContainer {
         putData("Drivetrain/Calibrate Gyro", new RunWhenDisabledCommand(drivetrain::calibrateGyro, drivetrain));
         putData("Drivetrain/Reset Odometry", new RunWhenDisabledCommand(drivetrain::resetOdometry, drivetrain));
         // Shooter dashboard data
-        putNumber("Shooter/Shooting velocity setpoint", ShooterVelocity.kDefault.getVelocity());
+        putDefaultNumber("Shooter/Shooting velocity setpoint", ShooterVelocity.kDefault.getVelocity());
         putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
         putData("Shooter/Set shooting velocity", new SetShooterVelocity(() -> getNumber("Shooter/Shooting Velocity Setpoint", 0)));
         putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
-        putNumber("Shooter/Override Power", 0);
+        putDefaultNumber("Shooter/Override Power", 0);
         putData("Shooter/Override", new OverrideCommand(shooter,
             () -> getNumber("Shooter/Override Power", 0)));
         // Loader dashboard data
-        putNumber("Loader/Loader Power", 0);
+        putDefaultNumber("Loader/Loader Power", 0);
         putData("Loader/Override", new OverrideCommand(loader,
             () -> getNumber("Loader/Loader Power", 0)));
         // Intake dashboard data
-        putNumber("Intake/Intake power", 0);
+        putDefaultNumber("Intake/Intake power", 0);
         putData("Intake/Override intake", new OverrideCommand(intake,
             () -> getNumber("Intake/Intake power", 0)));
         // IntakeOpener dashboard data
-        putNumber("IntakeOpener/Intake Opener power", 0);
+        putDefaultNumber("IntakeOpener/Intake Opener power", 0);
         putData("IntakeOpener/Override intake opener", new OverrideCommand(intakeOpener,
             () -> getNumber("IntakeOpener/Intake Opener power", 0)));
         putData("IntakeOpener/Tune PID", new StartEndCommand(() -> intakeOpener.getDefaultCommand().enableTuning(),
@@ -64,6 +66,16 @@ public class DashboardDataContainer {
         putData("CommandGroup/Auto Shoot", new AutoShoot());
         putData("CommandGroup/Collect Cell", new CollectCell());
         putData("CommandGroup/Collect From Feeder", new CollectFromFeeder());
+    }
+
+    /**
+     * Sets the SmartDashboard entry's value if it does not exist.
+     *
+     * @param key the smartDashboard key
+     * @param defaultValue the default value to set
+     */
+    private void putDefaultNumber(String key, double defaultValue) {
+        SmartDashboard.getEntry(key).setDefaultNumber(defaultValue);
     }
 
     public void update() {
