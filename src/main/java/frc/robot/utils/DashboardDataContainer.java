@@ -11,6 +11,8 @@ import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putData;
 import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.oi;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * DashboardDataContainer contains all the data to be viewed or put in the
  * dashboard.
@@ -64,7 +66,8 @@ public class DashboardDataContainer {
         putData("Drivetrain/Go to feeder", new FollowTarget(Target.Feeder, "Follow target PID"));
         putData("Drivetrain/Turn to port", new TurnToTarget(Target.PowerPort, drivetrain, "Turn PID"));
         putData("Drivetrain/Calibrate power port distance", new CalibrateVisionDistance(() -> oi.getDriverXboxController().getButtonA().get(), Target.PowerPort, 200));
-        putData("Drivetrain/Calibrate feeder distance", new CalibrateVisionDistance(() -> oi.getDriverXboxController().getButtonA().get(), Target.Feeder, 0));
+        SmartDashboard.putBoolean("log", false);
+        putData("Drivetrain/Calibrate feeder distance", new CalibrateVisionDistance(() -> SmartDashboard.getBoolean("log", false), Target.Feeder, 0));
     }
 
     public void update() {

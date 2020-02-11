@@ -85,8 +85,7 @@ public class Limelight implements Loggable {
     //TODO: set real function
     private double getDistanceFromFeeder() {
         double x = getTy();
-        return robotConstants.visionConstants.kDistanceFromFeederACoefficient * Math.pow(x, 2) +
-            robotConstants.visionConstants.kDistanceFromFeederBCoefficient * x;
+        return 1.5482 * Math.pow(x, 3) - 14.323 * Math.pow(x, 2) + 56.164 * x;
     }
 
     /**
