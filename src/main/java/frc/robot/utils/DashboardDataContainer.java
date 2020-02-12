@@ -1,5 +1,9 @@
 package frc.robot.utils;
 
+import frc.robot.commands.RunWhenDisabledCommand;
+import frc.robot.motion_profiling.AutoPath;
+import frc.robot.motion_profiling.CalibrateFeedforward;
+import frc.robot.motion_profiling.FollowPath;
 import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.vision.CalibrateVisionDistance;
 import frc.robot.vision.FollowTarget;
@@ -65,6 +69,14 @@ public class DashboardDataContainer {
         putData("Drivetrain/Turn to port", new TurnToTarget(Target.PowerPort, drivetrain, "Turn PID"));
         putData("Drivetrain/Calibrate power port distance", new CalibrateVisionDistance(() -> oi.getDriverXboxController().getButtonA().get(), Target.PowerPort, 200));
         putData("Drivetrain/Calibrate feeder distance", new CalibrateVisionDistance(() -> oi.getDriverXboxController().getButtonA().get(), Target.Feeder, 0));
+        putData("Motion Profiling/Calibrate Feedforward", new CalibrateFeedforward());
+        FollowPath TrenchPathCommand = new FollowPath(AutoPath.FacingPowerPortToTrenchStart);
+        TrenchPathCommand.enableTuning();
+        putData("Motion Profiling/Power Port to Trench", TrenchPathCommand);
+        putData("Drivetrain/Reset Encoders", new RunWhenDisabledCommand(drivetrain::resetEncoders, drivetrain));
+        putData("Drivetrain/Reset Gyro", new RunWhenDisabledCommand(drivetrain::resetGyro, drivetrain));
+        putData("Drivetrain/Calibrate Gyro", new RunWhenDisabledCommand(drivetrain::calibrateGyro, drivetrain));
+        putData("Drivetrain/Reset Odometry", new RunWhenDisabledCommand(drivetrain::resetOdometry, drivetrain));
     }
 
     public void update() {
