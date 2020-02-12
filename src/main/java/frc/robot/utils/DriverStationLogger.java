@@ -2,8 +2,6 @@ package frc.robot.utils;
 
 import com.ctre.phoenix.ErrorCode;
 
-import static frc.robot.Robot.led;
-
 /**
  * Driver station logger is class for logging to the DS.
  * Logs can be found in the driver station log file viewer, at the Event List label.
@@ -17,7 +15,7 @@ public class DriverStationLogger {
     }
 
     public static void logErrorToDS(String errorLog) {
-        led.startEmergencyLED();
+//        led.startEmergencyLED();
         System.err.println("!!!!!!!!!!!!!!!!!!! DS error log: " + errorLog + " !!!!!!!!!!!!!!!!!!!");
     }
 

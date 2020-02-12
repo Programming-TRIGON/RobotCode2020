@@ -1,8 +1,9 @@
 package frc.robot.subsystems.drivetrain;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.RobotController;
@@ -31,7 +32,6 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
 
     private TrigonDrive drivetrain;
 
-    private WPI_TalonSRX rightEncoder;
     private WPI_TalonSRX leftEncoder;
     private Pigeon gyro;
 
@@ -60,17 +60,13 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         drivetrain.setDeadband(0);
         tuneTrigonDrive();
 
-        // TODO: set correct talons for encoders.
-        leftEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForLeftDrivetrainEncoder);
-        rightEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForRightDrivetrainEncoder);
-
-        DriverStationLogger.logErrorToDS(leftEncoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
+        leftEncoder = new WPI_TalonSRX(robotConstants.can.kDrivetrainLeftEncoder);
+        DriverStationLogger.logErrorToDS(leftEncoder.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative),
             "Could not set left drivetrain encoder");
-        DriverStationLogger.logErrorToDS(rightEncoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
+        DriverStationLogger.logErrorToDS(rightFront.configSelectedFeedbackSensor(RemoteFeedbackDevice.RemoteSensor0),
             "Could not set right drivetrain encoder");
 
-        // TODO: set correct port for pigeon gyro.
-        gyro = new Pigeon(robotConstants.can.kDrivetrainLeftRearTalonFX);
+        gyro = new Pigeon(robotConstants.can.kPigeon);
         DriverStationLogger.logErrorToDS(gyro.resetGyroWithErrorCode(),
             "Could not reset pigeon gyro");
 
@@ -147,12 +143,12 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
 
     @Log(name = "Drivetrain/Right Ticks")
     public int getRightTicks() {
-        return rightEncoder.getSelectedSensorPosition();
+        return rightFront.getSelectedSensorPosition();
     }
 
     public void resetEncoders() {
         leftEncoder.setSelectedSensorPosition(0);
-        rightEncoder.setSelectedSensorPosition(0);
+        rightFront.setSelectedSensorPosition(0);
     }
 
     /**
@@ -181,7 +177,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
      */
     @Log(name = "Drivetrain/Right Velocity")
     public double getRightVelocity() {
-        return rightEncoder.getSelectedSensorVelocity() * 10
+        return rightFront.getSelectedSensorVelocity() * 10
             / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
     }
 

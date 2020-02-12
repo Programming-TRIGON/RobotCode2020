@@ -24,8 +24,7 @@ public abstract class RobotMap {
         public int kDrivetrainRightRearTalonFX;
         public int kDrivetrainRightMiddleTalonFX;
         public int kDrivetrainRightFrontTalonFX;
-        public int kTemporaryTalonForRightDrivetrainEncoder;
-        public int kTemporaryTalonForLeftDrivetrainEncoder;
+        public int kDrivetrainLeftEncoder;
         // Intake ports
         public int kCellIntakeSparkMax;
         // Intake opener ports
@@ -40,6 +39,7 @@ public abstract class RobotMap {
         // Climb ports
         public int kClimbSparkMax;
         public int kHookTalonSRX;
+        public int kPigeon;
     }
 
     public static class DIO {
