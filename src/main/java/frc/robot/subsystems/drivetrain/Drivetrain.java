@@ -66,8 +66,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         DriverStationLogger.logErrorToDS(rightFront.configSelectedFeedbackSensor(RemoteFeedbackDevice.RemoteSensor0),
             "Could not set right drivetrain encoder");
 
-        // TODO: set correct port for pigeon gyro.
-        gyro = new Pigeon(robotConstants.can.kDrivetrainLeftRearTalonFX);
+        gyro = new Pigeon(robotConstants.can.kPigeon);
         DriverStationLogger.logErrorToDS(gyro.resetGyroWithErrorCode(),
             "Could not reset pigeon gyro");
 

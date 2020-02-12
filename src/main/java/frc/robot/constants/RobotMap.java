@@ -39,6 +39,7 @@ public abstract class RobotMap {
         // Climb ports
         public int kClimbSparkMax;
         public int kHookTalonSRX;
+        public int kPigeon;
     }
 
     public static class DIO {
