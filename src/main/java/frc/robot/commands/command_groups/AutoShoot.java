@@ -1,5 +1,6 @@
 package frc.robot.commands.command_groups;
 
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -25,7 +26,6 @@ import static frc.robot.Robot.*;
  * and shooting the cells once it reaches the desired speed.
  */
 public class AutoShoot extends SequentialCommandGroup {
-    private static final int kBlinkAmount = 3000;
     private static final double kAutoWaitTimeAfterShot = 0.1;
     private DoubleSupplier speedSupplier;
     private CheesySetShooterVelocity setShooterVelocity;
@@ -83,7 +83,11 @@ public class AutoShoot extends SequentialCommandGroup {
         TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort, drivetrain);
         addCommands(deadline(
                 setShooterVelocity,
-                new RunCommand(() -> setShooterVelocity.isCellBeingShot() ? led.setColor(LEDColor.Gold) : led.setColor(LEDColor.Blue), led),
+                // new RunCommand(() -> setShooterVelocity.isCellBeingShot() ?
+                // led.setColor(LEDColor.Gold) : led.setColor(LEDColor.Blue), led),
+                new ConditionalCommand(new RunCommand(() -> led.setColor(LEDColor.Gold), led),
+                        new RunCommand(() -> led.setColor(LEDColor.Blue), led),
+                        () -> setShooterVelocity.isCellBeingShot()),
                 turnToTarget,
                 sequence(new WaitUntilCommand(() -> setShooterVelocity.readyToShoot() && turnToTarget.isOnTarget()),
                         /*

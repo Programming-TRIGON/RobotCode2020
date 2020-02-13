@@ -111,7 +111,7 @@ public class CheesySetShooterVelocity extends CommandBase {
             spinUpExecute();
             break;
         case HoldWhenReady:
-            // set avarage calculated kF to both shooter sides and set kP, kI and kD values
+            // set average calculated kF to both shooter sides and set kP, kI and kD values
             // for cheesy control;
             prepareShooterToHoldState();
             break;
@@ -200,7 +200,7 @@ public class CheesySetShooterVelocity extends CommandBase {
 
     /**
      * @return whether the shooter is ready to shoot cells. Shooter must be in Hold
-     *         state (cheesy shooting contorl) and on target velocity. The velocity
+     *         state (cheesy shooting control) and on target velocity. The velocity
      *         tolerance is taken from
      *         {@link frc.robot.constants.RobotConstants.ShooterConstants#kVelocityTolerance}
      */
