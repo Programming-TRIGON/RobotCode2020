@@ -83,8 +83,6 @@ public class AutoShoot extends SequentialCommandGroup {
         TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort, drivetrain);
         addCommands(deadline(
                 setShooterVelocity,
-                // new RunCommand(() -> setShooterVelocity.isCellBeingShot() ?
-                // led.setColor(LEDColor.Gold) : led.setColor(LEDColor.Blue), led),
                 new ConditionalCommand(new RunCommand(() -> led.setColor(LEDColor.Gold), led),
                         new RunCommand(() -> led.setColor(LEDColor.Blue), led),
                         () -> setShooterVelocity.isCellBeingShot()),
