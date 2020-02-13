@@ -1,10 +1,7 @@
 package frc.robot.subsystems.climb;
 
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -34,8 +31,6 @@ public class Climb extends SubsystemBase {
 
         hookTalonSRX.setNeutralMode(NeutralMode.Coast);
         climbSparkMax.setIdleMode(IdleMode.kCoast);
-
-        hookTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder);
 
         climbSparkMax.burnFlash();
     }

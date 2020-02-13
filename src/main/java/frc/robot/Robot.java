@@ -33,8 +33,6 @@ public class Robot extends TimedRobot {
     private SendableChooser<Command> autoChooser;
     private DashboardDataContainer dashboardDataContainer;
 
-    public static RobotConstants robotConstants;
-    public static FieldConstants fieldConstants;
     public static Drivetrain drivetrain;
     public static Intake intake;
     public static IntakeOpener intakeOpener;
@@ -45,6 +43,9 @@ public class Robot extends TimedRobot {
     public static LED led;
     public static Limelight limelight;
     public static OI oi;
+    public static RobotConstants robotConstants;
+    public static FieldConstants fieldConstants;
+
     @Override
     public void robotInit() {
 
@@ -112,7 +113,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         DriverStationLogger.logToDS("Autonomous starting");
-        //led.stopEmergencyLED();
+        led.stopEmergencyLED();
 
         autoCommand = autoChooser.getSelected();
         if (autoCommand != null) {

@@ -59,7 +59,7 @@ public class RobotTest {
 
     @Test
     public void commandsTest() {
-        Command[] commands = new Command[]{
+        Command[] commands = new Command[] {
             new SetLoaderSpeed(),
             new SpinMixer(),
             new SetIntakeSpeed(Robot.robotConstants.intakeConstants.kDefaultIntakePower),
@@ -76,7 +76,7 @@ public class RobotTest {
             new RotateDrivetrain(),
             new DriveWithXbox(() -> 0, () -> 0),
             new SensorCheck(),
-            new MoveMovableSubsystem(Robot.drivetrain, () -> 0),
+            new MoveMovableSubsystem(Robot.loader, () -> 0),
             new OverrideCommand(Robot.shooter, () -> 0),
             new CollectCell(),
             new CollectFromFeeder(),
