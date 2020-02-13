@@ -15,12 +15,12 @@ public class RobotA extends RobotConstants {
     public RobotA() {
         /* Robot Constants */
         // Drivetrain Constants
-        drivetrainConstants.kWheelDiameter = 0;
+        drivetrainConstants.kWheelDiameter = 15.748;
         drivetrainConstants.kWheelBaseWidth = 0;
         drivetrainConstants.kRobotLength = 0;
         drivetrainConstants.kRobotWidth = 0;
-        drivetrainConstants.kLeftEncoderTicksPerMeter = 1;
-        drivetrainConstants.kRightEncoderTicksPerMeter = 1;
+        drivetrainConstants.kLeftEncoderTicksPerMeter = 8216;
+        drivetrainConstants.kRightEncoderTicksPerMeter = 8237;
         drivetrainConstants.kRampRate = 0.1;
         drivetrainConstants.kCurrentLimit = 1;
         drivetrainConstants.kTriggerThresholdCurrent = 1;

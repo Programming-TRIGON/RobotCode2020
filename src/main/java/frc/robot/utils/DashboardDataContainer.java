@@ -5,6 +5,7 @@ import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
+import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.vision.CalibrateVisionDistance;
 import frc.robot.vision.FollowTarget;
@@ -15,6 +16,8 @@ import io.github.oblarg.oblog.Logger;
 import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.*;
 import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.oi;
+
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 
 /**
  * DashboardDataContainer contains all the data to be viewed or put in the
@@ -41,6 +44,7 @@ public class DashboardDataContainer {
         putData("Drivetrain/Reset Odometry", new RunWhenDisabledCommand(drivetrain::resetOdometry, drivetrain));
         putNumber("Drivetrain/Simple Auto timout", 0);
         putData("Drivetrain/Simple Auto", new SimpleAuto(() -> getNumber("Drivetrain/Simple Auto timout", 0)));
+        putData("Drivetrain/Drive with xbox", new DriveWithXbox(() -> oi.getDriverXboxController().getX(Hand.kLeft), oi.getDriverXboxController()::getDeltaTriggers));
     }
 
     public void update() {
