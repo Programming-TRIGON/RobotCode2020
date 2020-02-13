@@ -25,6 +25,8 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.kCurrentLimit = 1;
         drivetrainConstants.kTriggerThresholdCurrent = 1;
         drivetrainConstants.kTriggerThresholdTime = 1;
+        drivetrainConstants.kRightEncoderInverted = true;
+        drivetrainConstants.kLeftEncoderInverted = false;
 
         // Trigon Drive Constants
         trigonDriveConstants.kSensitivity = 1;
@@ -119,8 +121,8 @@ public class RobotA extends RobotConstants {
         controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         // Auto Constants
-        autoConstants.kSimpleAutoPower = -0.3;
-        autoConstants.kSimpleAutoTimeout = 0.85;
+        autoConstants.kSimpleAutoPower = -0.2;
+        autoConstants.kSimpleAutoTimeout = 0.6;
         autoConstants.kTrenchAutoRotateToPortAngle = 0;
         autoConstants.kMiddleFieldAutoRotateToPortAngle = 167.0;
         autoConstants.kMiddleFieldAutoRotateLeftAngle = 60;
@@ -138,7 +140,7 @@ public class RobotA extends RobotConstants {
         can.kDrivetrainRightMiddleTalonFX = 5;
         can.kDrivetrainRightRearTalonFX = 6;
         can.kDrivetrainLeftEncoder = 13;
-        can.kPigeon = 10;
+        can.kPigeonTalonSRX = 10;
         // Intake Map
         can.kCellIntakeSparkMax = 11;
         can.kIntakeOpenerTalonSRX = 16;
@@ -152,8 +154,8 @@ public class RobotA extends RobotConstants {
         can.kRightShooterTalonFX = 15;
         dio.kSwitchShooter = 0;
         // Climb Map
-        can.kHookTalonSRX = 13;
-        can.kClimbSparkMax = 14;
+        can.kHookTalonSRX = 14;
+        can.kClimbSparkMax = 12;
         // PWM Map
         pwm.kLedController = 0;
         // I2C Port

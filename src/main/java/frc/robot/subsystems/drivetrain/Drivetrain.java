@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.RobotController;
@@ -21,6 +22,7 @@ import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
+import static frc.robot.Robot.climb;
 
 public class Drivetrain extends SubsystemBase implements MovableSubsystem, Loggable {
     private WPI_TalonFX leftRear;
@@ -32,7 +34,8 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
 
     private TrigonDrive drivetrain;
 
-    private WPI_TalonSRX leftEncoder;
+    private TalonSRX leftEncoder;
+    private TalonSRX rightEncoder;
     private Pigeon gyro;
 
     private DifferentialDriveKinematics kinematics;
@@ -60,13 +63,17 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         drivetrain.setDeadband(0);
         tuneTrigonDrive();
 
-        leftEncoder = new WPI_TalonSRX(robotConstants.can.kDrivetrainLeftEncoder);
+        leftEncoder = new TalonSRX(robotConstants.can.kDrivetrainLeftEncoder);
         DriverStationLogger.logErrorToDS(leftEncoder.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative),
             "Could not set left drivetrain encoder");
-        DriverStationLogger.logErrorToDS(rightFront.configSelectedFeedbackSensor(RemoteFeedbackDevice.RemoteSensor0),
-            "Could not set right drivetrain encoder");
+        leftEncoder.setSensorPhase(robotConstants.drivetrainConstants.kLeftEncoderInverted);
 
-        gyro = new Pigeon(robotConstants.can.kPigeon);
+        rightEncoder = climb.getHookTalonSRXInstance();
+        DriverStationLogger.logErrorToDS(rightEncoder.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative),
+            "Could not set right drivetrain encoder");
+        rightEncoder.setSensorPhase(robotConstants.drivetrainConstants.kRightEncoderInverted);
+
+        gyro = new Pigeon(new TalonSRX(robotConstants.can.kPigeonTalonSRX));
         DriverStationLogger.logErrorToDS(gyro.resetGyroWithErrorCode(),
             "Could not reset pigeon gyro");
 
@@ -143,12 +150,12 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
 
     @Log(name = "Drivetrain/Right Ticks")
     public int getRightTicks() {
-        return rightFront.getSelectedSensorPosition();
+        return rightEncoder.getSelectedSensorPosition();
     }
 
     public void resetEncoders() {
         leftEncoder.setSelectedSensorPosition(0);
-        rightFront.setSelectedSensorPosition(0);
+        rightEncoder.setSelectedSensorPosition(0);
     }
 
     /**
@@ -177,7 +184,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
      */
     @Log(name = "Drivetrain/Right Velocity")
     public double getRightVelocity() {
-        return rightFront.getSelectedSensorVelocity() * 10
+        return rightEncoder.getSelectedSensorVelocity() * 10
             / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
     }
 
@@ -238,7 +245,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     }
 
     public double getRightMotorOutputVoltage() {
-        return rightFront.getMotorOutputVoltage();
+        return rightEncoder.getMotorOutputVoltage();
     }
 
     public void setTrigonDriveSensitivity(double sensitivity) {
@@ -267,7 +274,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     }
 
     private void configTalonFX(WPI_TalonFX motor, WPI_TalonFX master) {
-        if (motor != master)
+        if(motor != master)
             motor.follow(master);
         motor.setNeutralMode(NeutralMode.Coast);
         motor.configOpenloopRamp(robotConstants.drivetrainConstants.kRampRate);
