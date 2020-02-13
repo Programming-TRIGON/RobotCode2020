@@ -3,21 +3,19 @@ package frc.robot.subsystems.shooter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Robot;
-import frc.robot.subsystems.led.LEDColor;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.robotConstants;
 import static frc.robot.Robot.shooter;
 
 /**
- * This command spins the wheel in the desired velocity in order to shoot the power cells.
+ * This command spins the wheel in the desired velocity in order to shoot the
+ * power cells.
  */
 public class CheesySetShooterVelocity extends CommandBase {
 
     private static final int kLoadedCellsInAuto = 5;
     private static final int kMinimumKfSamples = 20;
-    private static final int kBlinkAmount = 3000;
     private DoubleSupplier velocitySetpoint;
     private CheesyShooterState currentShooterState;
     private boolean isAuto;
@@ -65,14 +63,16 @@ public class CheesySetShooterVelocity extends CommandBase {
     }
 
     /**
-     * @param velocitySetpoint The setpoint used for calculation the PID velocity error in RPM.
+     * @param velocitySetpoint The setpoint used for calculation the PID velocity
+     *                         error in RPM.
      */
     public CheesySetShooterVelocity(double velocitySetpoint) {
         this(velocitySetpoint, false);
     }
 
     /**
-     * @param velocitySetpoint The setpoint used for calculation the PID velocity error in RPM.
+     * @param velocitySetpoint The setpoint used for calculation the PID velocity
+     *                         error in RPM.
      * @param isAuto           Whether the command is run in autonomous.
      */
     public CheesySetShooterVelocity(double velocitySetpoint, boolean isAuto) {
@@ -91,7 +91,6 @@ public class CheesySetShooterVelocity extends CommandBase {
 
     @Override
     public void initialize() {
-        Robot.led.blinkColor(LEDColor.Gold, kBlinkAmount);
         setpoint = velocitySetpoint.getAsDouble();
         currentShooterState = CheesyShooterState.SpinUp;
         kfSamplesAmount = 0;
@@ -106,18 +105,19 @@ public class CheesySetShooterVelocity extends CommandBase {
     @Override
     public void execute() {
         SmartDashboard.putString("Shooter/Current Cheesy shooter state", currentShooterState.toString());
-        switch(currentShooterState) {
-            case SpinUp:
-                // reach target velocity in close loop control and calculate kF
-                spinUpExecute();
-                break;
-            case HoldWhenReady:
-                // set avarage calculated kF to both shooter sides and set kP, kI and kD values for cheesy control; 
-                prepareShooterToHoldState();
-                break;
-            default:
-                // switch to cheesy control with calculated kF    
-                holdExecute();
+        switch (currentShooterState) {
+        case SpinUp:
+            // reach target velocity in close loop control and calculate kF
+            spinUpExecute();
+            break;
+        case HoldWhenReady:
+            // set avarage calculated kF to both shooter sides and set kP, kI and kD values
+            // for cheesy control;
+            prepareShooterToHoldState();
+            break;
+        default:
+            // switch to cheesy control with calculated kF
+            holdExecute();
         }
     }
 
@@ -130,20 +130,22 @@ public class CheesySetShooterVelocity extends CommandBase {
             leftKfSamplesSum = 0;
             rightKfSamplesSum = 0;
         }
-        if (kMinimumKfSamples <= kfSamplesAmount) 
+        if (kMinimumKfSamples <= kfSamplesAmount)
             currentShooterState = CheesyShooterState.HoldWhenReady;
     }
 
     private void prepareShooterToHoldState() {
         // set PID gains of the two sides of the shooter for cheesy control
         shooter.setProfileSlot(true);
-        // set feedforward gains of the two sides of the shooter to the calculated gains from SpinUp state 
+        // set feedforward gains of the two sides of the shooter to the calculated gains
+        // from SpinUp state
         shooter.configFeedforwardGains(leftKfSamplesSum / kfSamplesAmount, rightKfSamplesSum / kfSamplesAmount);
         currentShooterState = CheesyShooterState.Hold;
     }
 
     private void holdExecute() {
-        // The shooter might heat up after extended use so we need to make sure to update kF if the shooter too much fast.
+        // The shooter might heat up after extended use so we need to make sure to
+        // update kF if the shooter too much fast.
         if (shooter.getAverageVelocity() > setpoint) {
             updateKf();
             shooter.configFeedforwardGains(leftKfSamplesSum / kfSamplesAmount, rightKfSamplesSum / kfSamplesAmount);
@@ -151,29 +153,30 @@ public class CheesySetShooterVelocity extends CommandBase {
         // If in auto, check how many cells were shot.
         if (isAuto) {
             SmartDashboard.putNumber("Shooter/Cells Shot", cellsShot);
-            boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageVelocity()) >= robotConstants.shooterConstants.kShootingBallZone;
-            countShotCells(isCellBeingShot);
+            countShotCells(isCellBeingShot());
         }
     }
 
+    public boolean isCellBeingShot() {
+        return Math.abs(setpoint - shooter.getAverageVelocity()) >= robotConstants.shooterConstants.kShootingBallZone;
+    }
+
     private void countShotCells(boolean isCellBeingShot) {
-        if(isCellBeingShot && !isInZone) {
+        if (isCellBeingShot && !isInZone) {
             isInZone = true;
-            cellsShot++; 
+            cellsShot++;
         } else if (!isCellBeingShot && isInZone) {
             isInZone = false;
         }
 
-        /*if (!isInZone && isCellBeingShot &&
-            Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.kWaitTimeZone) {
-            isInZone = true;
-            firstTimeInZone = Timer.getFPGATimestamp();
-            cellsShot++;
-        } else if (isInZone && !isCellBeingShot &&
-            Timer.getFPGATimestamp() - firstTimeInZone > robotConstants.shooterConstants.kWaitTimeZone) {
-            isInZone = false;
-            firstTimeOutsideZone = Timer.getFPGATimestamp();
-        }*/
+        /*
+         * if (!isInZone && isCellBeingShot && Timer.getFPGATimestamp() -
+         * firstTimeOutsideZone > robotConstants.shooterConstants.kWaitTimeZone) {
+         * isInZone = true; firstTimeInZone = Timer.getFPGATimestamp(); cellsShot++; }
+         * else if (isInZone && !isCellBeingShot && Timer.getFPGATimestamp() -
+         * firstTimeInZone > robotConstants.shooterConstants.kWaitTimeZone) { isInZone =
+         * false; firstTimeOutsideZone = Timer.getFPGATimestamp(); }
+         */
     }
 
     private void updateKf() {
@@ -192,18 +195,18 @@ public class CheesySetShooterVelocity extends CommandBase {
         if (!interrupted)
             shooter.stopMove();
         shooter.setProfileSlot(false);
-        SmartDashboard.putString("Shooter/Current Cheesy shooter state", "No state"); 
+        SmartDashboard.putString("Shooter/Current Cheesy shooter state", "No state");
     }
 
     /**
-     * @return whether the shooter is ready to shoot cells.
-     * Shooter must be in Hold state (cheesy shooting contorl) and on target velocity.
-     * The velocity tolerance is taken from {@link frc.robot.constants.RobotConstants.ShooterConstants#kVelocityTolerance}
+     * @return whether the shooter is ready to shoot cells. Shooter must be in Hold
+     *         state (cheesy shooting contorl) and on target velocity. The velocity
+     *         tolerance is taken from
+     *         {@link frc.robot.constants.RobotConstants.ShooterConstants#kVelocityTolerance}
      */
-    public boolean readyToShoot() { 
-        return Math.abs(getError()) <
-            robotConstants.shooterConstants.kVelocityTolerance 
-            && currentShooterState == CheesyShooterState.Hold;
+    public boolean readyToShoot() {
+        return Math.abs(getError()) < robotConstants.shooterConstants.kVelocityTolerance
+                && currentShooterState == CheesyShooterState.Hold;
     }
 
     public double getError() {

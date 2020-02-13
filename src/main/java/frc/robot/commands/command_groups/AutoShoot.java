@@ -1,8 +1,10 @@
 package frc.robot.commands.command_groups;
 
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.subsystems.led.LEDColor;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.MixerPower;
@@ -18,16 +20,20 @@ import java.util.function.Supplier;
 import static frc.robot.Robot.*;
 
 /**
- * This command group responsible for spinning the mixer, rotating the drivetrain to target, spinning the shooter in the desired speed,
- * and loading and shooting the cells once it reaches the desired speed.
+ * This command group responsible for spinning the mixer, rotating the
+ * drivetrain to target, spinning the shooter in the desired speed, and loading
+ * and shooting the cells once it reaches the desired speed.
  */
 public class AutoShoot extends SequentialCommandGroup {
+    private static final int kBlinkAmount = 3000;
     private static final double kAutoWaitTimeAfterShot = 0.1;
     private DoubleSupplier speedSupplier;
     private CheesySetShooterVelocity setShooterVelocity;
 
     /**
-     * Constructs automatic shooting sequence with shooter velocities based on vision.
+     * Constructs automatic shooting sequence with shooter velocities based on
+     * vision.
+     * 
      * @see Limelight#getDesiredShooterVelocity()
      */
     public AutoShoot() {
@@ -35,7 +41,9 @@ public class AutoShoot extends SequentialCommandGroup {
     }
 
     /**
-     * Constructs automatic shooting sequence with shooter velocities based on vision.
+     * Constructs automatic shooting sequence with shooter velocities based on
+     * vision.
+     * 
      * @param isAuto whether the command group should stop automatically
      * @see Limelight#getDesiredShooterVelocity()
      */
@@ -52,7 +60,7 @@ public class AutoShoot extends SequentialCommandGroup {
 
     /**
      * @param speedSupplier supplier of the desired speed
-     * @param isAuto whether the command group should stop automatically
+     * @param isAuto        whether the command group should stop automatically
      */
     public AutoShoot(Supplier<ShooterVelocity> speedSupplier, boolean isAuto) {
         this(() -> speedSupplier.get().getVelocity(), isAuto);
@@ -67,35 +75,35 @@ public class AutoShoot extends SequentialCommandGroup {
 
     /**
      * @param speedSupplier supplier of the desired speed in RPM
-     * @param isAuto whether the command group should stop automatically
+     * @param isAuto        whether the command group should stop automatically
      */
     public AutoShoot(DoubleSupplier speedSupplier, boolean isAuto) {
         this.speedSupplier = speedSupplier;
         this.setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, isAuto);
         TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort, drivetrain);
-        addCommands(
-            deadline(
+        addCommands(deadline(
                 setShooterVelocity,
+                new RunCommand(() -> setShooterVelocity.isCellBeingShot() ? led.setColor(LEDColor.Gold) : led.setColor(LEDColor.Blue), led),
                 turnToTarget,
-                sequence(
-                    new WaitUntilCommand(() ->
-                        setShooterVelocity.readyToShoot() && turnToTarget.isOnTarget()),
-                    /*new RunTwoCommands(SetLoaderVelocity.defaultSetLoaderVelocityCommand(),
-                        new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower),
-                        () -> Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance))*/
-                    parallel(new SpinMixer(MixerPower.MixForShoot),
-                        new SetLoaderSpeed(LoaderPower.DefaultLoadToShoot))//this::getDesiredLoaderSpeed))
-                ),
-                new WaitCommand(kAutoWaitTimeAfterShot)
-            )
-        );
+                sequence(new WaitUntilCommand(() -> setShooterVelocity.readyToShoot() && turnToTarget.isOnTarget()),
+                        /*
+                         * new RunTwoCommands(SetLoaderVelocity.defaultSetLoaderVelocityCommand(), new
+                         * MoveMovableSubsystem(loader, () ->
+                         * robotConstants.loaderConstants.kDefaultBackwardsPower), () ->
+                         * Math.abs(setShooterVelocity.getError()) <
+                         * robotConstants.shooterConstants.kStopLoadingTolerance))
+                         */
+                        parallel(new SpinMixer(MixerPower.MixForShoot),
+                                new SetLoaderSpeed(LoaderPower.DefaultLoadToShoot))// this::getDesiredLoaderSpeed))
+                ), new WaitCommand(kAutoWaitTimeAfterShot)));
     }
 
     private double getDesiredLoaderSpeed() {
         if (Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance)
             if (speedSupplier.getAsDouble() < robotConstants.loaderConstants.kFarawayShooterSpeed)
                 return LoaderPower.DefaultLoadToShoot.getPower();
-            else return LoaderPower.FarShoot.getPower();
+            else
+                return LoaderPower.FarShoot.getPower();
         return LoaderPower.DefaultBackwardsForMix.getPower();
     }
 
