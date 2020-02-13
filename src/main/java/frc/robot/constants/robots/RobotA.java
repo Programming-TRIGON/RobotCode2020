@@ -115,9 +115,9 @@ public class RobotA extends RobotConstants {
         visionConstants.kLimelightOffsetX = 0;
         visionConstants.kLimelightOffsetY = 0;
         visionConstants.kLimelightAngleOffset = 0;
-        visionConstants.kTargetNotFoundWaitTime = 0.1;
+        visionConstants.kTargetNotFoundWaitTime = 0.5;
         controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
-        controlConstants.visionRotationSettings = new PIDSettings(0, 0, 0, 0, 0);
+        controlConstants.visionRotationSettings = new PIDSettings(0.0185, 0.00025, 0.0005, 1, 1);
         controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         // Auto Constants

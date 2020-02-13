@@ -74,8 +74,8 @@ public class Limelight implements Loggable {
      */
     @Log(name = "Limelight/Vision Distance")
     public double getDistance() {
-        if (getTarget() == Target.PowerPort)
-            return getDistanceFromPowerPort();
+        // if (getTarget() == Target.PowerPort)
+        //     return getDistanceFromPowerPort();
         return getDistanceFromFeeder();
     }
 
@@ -108,7 +108,7 @@ public class Limelight implements Loggable {
      * @return the angle from the middle of the robot to the target
      */
     public double getAngle() {
-        return getTx();
+        return -getTx();
     }
 
     /**

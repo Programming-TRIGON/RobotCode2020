@@ -32,7 +32,6 @@ public class DashboardDataContainer {
         putData("Drivetrain/Turn to port", new TurnToTarget(Target.PowerPort, drivetrain, "Turn PID"));
         putData("Drivetrain/Calibrate power port distance", new CalibrateVisionDistance(() -> oi.getDriverXboxController().getButtonA().get(), Target.PowerPort, 200));
         putBoolean("log", false);
-        putData("Drivetrain/Calibrate feeder distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 0));
         putData("Drivetrain/Calibrate feeder distance", new CalibrateVisionDistance(() -> oi.getDriverXboxController().getButtonA().get(), Target.Feeder, 0));
         putData("Motion Profiling/Calibrate Feedforward", new CalibrateFeedforward());
         FollowPath TrenchPathCommand = new FollowPath(AutoPath.FacingPowerPortToTrenchStart);

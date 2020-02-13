@@ -7,8 +7,8 @@ import java.util.function.BooleanSupplier;
 import static frc.robot.Robot.*;
 
 public class CalibrateVisionDistance extends CommandBase {
-    private static final int kDefaultDeltaDistance = 30;
-    private static final int kDefaultAmountOfLogs = 12;
+    private static final int kDefaultDeltaDistance = 15;
+    private static final int kDefaultAmountOfLogs = 8;
     private double currentDistance;
     private boolean isPressed;
     private BooleanSupplier logButton;
