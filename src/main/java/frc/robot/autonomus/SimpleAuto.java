@@ -1,6 +1,7 @@
 package frc.robot.autonomus;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.command_groups.AutoShoot;
@@ -19,6 +20,7 @@ public class SimpleAuto extends SequentialCommandGroup {
         timer = new Timer();
         addCommands(new RunCommand(() -> drivetrain.arcadeDrive(0, robotConstants.autoConstants.kSimpleAutoPower),
             drivetrain).withInterrupt(() -> timer.hasPeriodPassed(timeout.getAsDouble())),
+            new InstantCommand(drivetrain::stopMove),
             new AutoShoot(true)
         );
     }

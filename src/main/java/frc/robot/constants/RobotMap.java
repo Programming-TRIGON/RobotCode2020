@@ -24,8 +24,8 @@ public abstract class RobotMap {
         public int kDrivetrainRightRearTalonFX;
         public int kDrivetrainRightMiddleTalonFX;
         public int kDrivetrainRightFrontTalonFX;
-        public int kTemporaryTalonForRightDrivetrainEncoder;
-        public int kTemporaryTalonForLeftDrivetrainEncoder;
+        public int kDrivetrainLeftEncoder;
+        public int kPigeonTalonSRX;
         // Intake ports
         public int kCellIntakeSparkMax;
         // Intake opener ports

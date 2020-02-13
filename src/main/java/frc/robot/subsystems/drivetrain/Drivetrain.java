@@ -1,8 +1,10 @@
 package frc.robot.subsystems.drivetrain;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.RobotController;
@@ -20,6 +22,7 @@ import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
+import static frc.robot.Robot.climb;
 
 public class Drivetrain extends SubsystemBase implements MovableSubsystem, Loggable {
     private WPI_TalonFX leftRear;
@@ -31,8 +34,8 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
 
     private TrigonDrive drivetrain;
 
-    private WPI_TalonSRX rightEncoder;
-    private WPI_TalonSRX leftEncoder;
+    private TalonSRX leftEncoder;
+    private TalonSRX rightEncoder;
     private Pigeon gyro;
 
     private DifferentialDriveKinematics kinematics;
@@ -58,18 +61,19 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
 
         drivetrain = new TrigonDrive(leftFront, rightFront);
         drivetrain.setDeadband(0);
+        tuneTrigonDrive();
 
-        // TODO: set correct talons for encoders.
-        leftEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForLeftDrivetrainEncoder);
-        rightEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForRightDrivetrainEncoder);
-
-        DriverStationLogger.logErrorToDS(leftEncoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
+        leftEncoder = new TalonSRX(robotConstants.can.kDrivetrainLeftEncoder);
+        DriverStationLogger.logErrorToDS(leftEncoder.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative),
             "Could not set left drivetrain encoder");
-        DriverStationLogger.logErrorToDS(rightEncoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
-            "Could not set right drivetrain encoder");
+        leftEncoder.setSensorPhase(robotConstants.drivetrainConstants.kLeftEncoderInverted);
 
-        // TODO: set correct port for pigeon gyro.
-        gyro = new Pigeon(robotConstants.can.kDrivetrainLeftRearTalonFX);
+        rightEncoder = climb.getHookTalonSRXInstance();
+        DriverStationLogger.logErrorToDS(rightEncoder.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative),
+            "Could not set right drivetrain encoder");
+        rightEncoder.setSensorPhase(robotConstants.drivetrainConstants.kRightEncoderInverted);
+
+        gyro = new Pigeon(new TalonSRX(robotConstants.can.kPigeonTalonSRX));
         DriverStationLogger.logErrorToDS(gyro.resetGyroWithErrorCode(),
             "Could not reset pigeon gyro");
 
@@ -109,7 +113,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
      */
     public void voltageTankDrive(double leftVoltage, double rightVoltage) {
         tankDrive(leftVoltage / RobotController.getBatteryVoltage(),
-                rightVoltage / RobotController.getBatteryVoltage());
+            rightVoltage / RobotController.getBatteryVoltage());
     }
 
     /**
@@ -121,7 +125,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
 
     // Gyro functions
     @Log(name = "Drivetrain/Angle")
-    double getAngle() {
+    public double getAngle() {
         return Math.IEEEremainder(gyro.getAngle(), 360);
     }
 
@@ -144,7 +148,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         return leftEncoder.getSelectedSensorPosition();
     }
 
-    @Log(name = "Drivetrain/Left Ticks")
+    @Log(name = "Drivetrain/Right Ticks")
     public int getRightTicks() {
         return rightEncoder.getSelectedSensorPosition();
     }
@@ -181,7 +185,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     @Log(name = "Drivetrain/Right Velocity")
     public double getRightVelocity() {
         return rightEncoder.getSelectedSensorVelocity() * 10
-                / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
+            / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
     }
 
     /**
@@ -190,7 +194,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     @Log(name = "Drivetrain/Left Velocity")
     public double getLeftVelocity() {
         return leftEncoder.getSelectedSensorVelocity() * 10
-                / robotConstants.drivetrainConstants.kLeftEncoderTicksPerMeter;
+            / robotConstants.drivetrainConstants.kLeftEncoderTicksPerMeter;
     }
 
     @Log(name = "Drivetrain/Average Velocity")
@@ -241,7 +245,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     }
 
     public double getRightMotorOutputVoltage() {
-        return rightFront.getMotorOutputVoltage();
+        return rightEncoder.getMotorOutputVoltage();
     }
 
     public void setTrigonDriveSensitivity(double sensitivity) {
@@ -270,13 +274,13 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     }
 
     private void configTalonFX(WPI_TalonFX motor, WPI_TalonFX master) {
-        if (motor != master)
+        if(motor != master)
             motor.follow(master);
         motor.setNeutralMode(NeutralMode.Coast);
-        motor.configClosedloopRamp(robotConstants.drivetrainConstants.kRampRate);
+        motor.configOpenloopRamp(robotConstants.drivetrainConstants.kRampRate);
         motor.configStatorCurrentLimit(
-                new StatorCurrentLimitConfiguration(true, robotConstants.drivetrainConstants.kCurrentLimit,
-                        robotConstants.drivetrainConstants.kTriggerThresholdCurrent,
-                        robotConstants.drivetrainConstants.kTriggerThresholdTime));
+            new StatorCurrentLimitConfiguration(false, robotConstants.drivetrainConstants.kCurrentLimit,
+                robotConstants.drivetrainConstants.kTriggerThresholdCurrent,
+                robotConstants.drivetrainConstants.kTriggerThresholdTime));
     }
 }

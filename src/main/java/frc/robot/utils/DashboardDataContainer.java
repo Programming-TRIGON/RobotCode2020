@@ -2,21 +2,28 @@ package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import frc.robot.autonomus.SimpleAuto;
 import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
+import frc.robot.motion_profiling.AutoPath;
+import frc.robot.motion_profiling.CalibrateFeedforward;
+import frc.robot.motion_profiling.FollowPath;
 import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.intakeopener.SetDesiredOpenerAngle;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
 import frc.robot.subsystems.shooter.ShooterVelocity;
+import frc.robot.vision.CalibrateVisionDistance;
+import frc.robot.vision.FollowTarget;
+import frc.robot.vision.Target;
+import frc.robot.vision.TurnToTarget;
 import io.github.oblarg.oblog.Logger;
 
-import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.getNumber;
-import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putData;
+import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.*;
 import static frc.robot.Robot.*;
 
 /**
@@ -33,7 +40,18 @@ public class DashboardDataContainer {
         putData("Mixer/Override", new OverrideCommand(mixer,
             () -> getNumber("Mixer/Mixer power", 0)));
         // Drivetrain dashboard data
-        putData("Drivetrain/Tune drivetrain rotate PID", new RotateDrivetrain());
+        putData("Drivetrain/Rotate drivetrain", new RotateDrivetrain());
+        putData("Drivetrain/Go to feeder", new FollowTarget(Target.Feeder, "Follow target PID"));
+        putData("Drivetrain/Turn to port", new TurnToTarget(Target.PowerPort, drivetrain, "Turn PID"));
+        putData("Drivetrain/Calibrate power port distance", new CalibrateVisionDistance(() -> oi.getDriverXboxController().getButtonA().get(), Target.PowerPort, 200));
+        putBoolean("Drivetrain/Log Vision Distance", false);
+        putData("Drivetrain/Calibrate feeder distance", new CalibrateVisionDistance(() -> oi.getDriverXboxController().getButtonA().get(), Target.Feeder, 0));
+        putData("Motion Profiling/Calibrate Feedforward", new CalibrateFeedforward());
+        FollowPath TrenchPathCommand = new FollowPath(AutoPath.FacingPowerPortToTrenchStart);
+        TrenchPathCommand.enableTuning();
+        putData("Motion Profiling/Power Port to Trench", TrenchPathCommand);
+        putNumber("Drivetrain/Simple Auto timout", 0);
+        putData("Drivetrain/Simple Auto", new SimpleAuto(() -> getNumber("Drivetrain/Simple Auto timeout", 0)));
         putData("Drivetrain/Reset Encoders", new RunWhenDisabledCommand(drivetrain::resetEncoders, drivetrain));
         putData("Drivetrain/Reset Gyro", new RunWhenDisabledCommand(drivetrain::resetGyro, drivetrain));
         putData("Drivetrain/Calibrate Gyro", new RunWhenDisabledCommand(drivetrain::calibrateGyro, drivetrain));

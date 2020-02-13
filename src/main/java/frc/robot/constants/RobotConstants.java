@@ -33,6 +33,8 @@ public abstract class RobotConstants extends RobotMap {
         public double kCurrentLimit;
         public double kTriggerThresholdCurrent;
         public double kTriggerThresholdTime;
+        public boolean kRightEncoderInverted;
+        public boolean kLeftEncoderInverted;
     }
 
     public static class TrigonDriveConstants {

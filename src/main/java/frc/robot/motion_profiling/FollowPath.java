@@ -140,7 +140,6 @@ public class FollowPath extends CommandBase {
     @Override
     public void initialize() {
         if (isTuning) {
-            drivetrain.resetOdometry(m_trajectory.getInitialPose());
             try {
                 String serializedTrajectory =
                     SmartDashboard.getString(
@@ -149,6 +148,7 @@ public class FollowPath extends CommandBase {
             } catch (JsonProcessingException e) {
                 DriverStationLogger.logErrorToDS("Failed to deserialize trajectory");
             }
+            drivetrain.resetOdometry(m_trajectory.getInitialPose());
         }
         m_prevTime = 0;
         var initialState = m_trajectory.sample(0);
@@ -214,6 +214,7 @@ public class FollowPath extends CommandBase {
     }
 
     public void enableTuning() {
+        isTuning = true;
         SmartDashboard.putData("PID/motionProfilingLeft", m_leftController);
         SmartDashboard.putData("PID/motionProfilingRight", m_rightController);
     }
