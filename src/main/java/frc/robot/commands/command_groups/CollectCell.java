@@ -20,6 +20,7 @@ public class CollectCell extends ParallelCommandGroup {
         addCommands(
             new SetDesiredOpenerAngle(true),
             sequence(
+                new RunCommand(() -> led.setColor(LEDColor.Blue), led),
                 new WaitUntilCommand(intakeOpener::isAtGoal),
                 parallel(
                     new SetIntakeSpeed(() -> robotConstants.intakeConstants.kDefaultIntakePower),
