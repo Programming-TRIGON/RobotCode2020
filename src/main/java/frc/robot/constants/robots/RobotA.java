@@ -139,7 +139,7 @@ public class RobotA extends RobotConstants {
         can.kDrivetrainLeftEncoder = 13;
         can.kPigeonTalonSRX = 10;
         // Intake Map
-        can.kCellIntakeSparkMax = 12;
+        can.kCellIntakeSparkMax = 8;
         can.kIntakeOpenerTalonSRX = 9;
         analogInput.kIntakeOpenerPotentiometer = 1;
         // Mixer Map
