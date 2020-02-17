@@ -10,6 +10,7 @@ import com.revrobotics.EncoderType;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
 
@@ -43,8 +44,13 @@ public class Climb extends SubsystemBase implements Loggable {
         climbSparkMax.burnFlash();
     }
 
+    @Log(name = "Climb/Hook Rotations")
+    public double getHookRotations() {
+        return hookPotentiometer.get();
+    }
+
     public void setHookPower(double power) {
-        if((power > 0 && hookPotentiometer.get() >= robotConstants.climbConstants.kMaxHookRotations)
+        if((power > 0 && getHookRotations() >= robotConstants.climbConstants.kMaxHookRotations)
             || (power < 0 && hookPotentiometer.get() <= 0))
             hookTalonSRX.set(0);
         else
