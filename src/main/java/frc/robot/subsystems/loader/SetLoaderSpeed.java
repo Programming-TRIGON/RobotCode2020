@@ -17,7 +17,7 @@ public class SetLoaderSpeed extends CommandBase {
      * the loader at the power of LoaderPower.DefaultLoadToShoot.
      */
     public SetLoaderSpeed() {
-        this(LoaderPower.DefaultLoadToShoot);
+        this(LoaderPower.LoadToShoot);
     }
 
     public SetLoaderSpeed(LoaderPower loaderPower) {

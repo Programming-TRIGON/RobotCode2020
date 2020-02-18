@@ -13,7 +13,7 @@ public class SetLoaderSpeedPID extends CommandBase {
   DoubleSupplier setpoint;
 
   public SetLoaderSpeedPID() {
-    this(LoaderPower.DefaultLoadToShoot);
+    this(LoaderPower.LoadToShoot);
   }
 
   public SetLoaderSpeedPID(LoaderPower loaderPower) {

@@ -84,7 +84,7 @@ public class AutoShoot extends SequentialCommandGroup {
                         new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower),
                         () -> Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance))*/
                     parallel(new SpinMixer(MixerPower.MixForShoot),
-                        new SetLoaderSpeed(LoaderPower.DefaultLoadToShoot))//this::getDesiredLoaderSpeed))
+                        new SetLoaderSpeed(LoaderPower.LoadToShoot))//this::getDesiredLoaderSpeed))
                 ),
                 new WaitCommand(kAutoWaitTimeAfterShot)
             )
@@ -94,9 +94,9 @@ public class AutoShoot extends SequentialCommandGroup {
     private double getDesiredLoaderSpeed() {
         if (Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance)
             if (speedSupplier.getAsDouble() < robotConstants.loaderConstants.kFarawayShooterSpeed)
-                return LoaderPower.DefaultLoadToShoot.getPower();
+                return LoaderPower.LoadToShoot.getPower();
             else return LoaderPower.FarShoot.getPower();
-        return LoaderPower.DefaultBackwardsForMix.getPower();
+        return LoaderPower.UnloadForOrder.getPower();
     }
 
     @Override
