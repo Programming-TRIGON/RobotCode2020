@@ -64,7 +64,7 @@ public class RobotTest {
             new SetIntakeSpeed(Robot.robotConstants.intakeConstants.kDefaultIntakePower),
             new CheesySetShooterVelocity(),
             openIntake(true),
-            new ClimbWithXbox(() -> 0, () -> 0),
+            //new ClimbWithXbox(() -> 0, () -> 0),
             new CalibrateVisionDistance(() -> false, Target.Feeder, 0),
             new FollowTarget(Target.Feeder),
             new TurnToTarget(Target.Feeder, Robot.drivetrain),

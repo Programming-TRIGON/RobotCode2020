@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.autonomus.SimpleAuto;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.OverrideCommand;
+import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
@@ -62,6 +63,7 @@ public class DashboardDataContainer {
         putData("Shooter/Turn to port", new TurnToTarget(Target.PowerPort, drivetrain, "Turn PID"));
 
         putData("Drivetrain/Calibrate Feedforward", new CalibrateFeedforward());
+        putData("Drivetrain/Reset Encoders", new RunWhenDisabledCommand(drivetrain::resetEncoders));
         // Intake dashboard data
         putDefaultNumber("Intake/Intake power", 0);
         putData("Intake/Override intake", new OverrideCommand(intake,

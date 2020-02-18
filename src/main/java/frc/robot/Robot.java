@@ -14,6 +14,7 @@ import frc.robot.constants.FieldConstants;
 import frc.robot.constants.RobotConstants;
 import frc.robot.constants.fields.HomeField;
 import frc.robot.constants.robots.RobotA;
+import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.intake.Intake;
@@ -70,6 +71,7 @@ public class Robot extends TimedRobot {
         autoChooser = new SendableChooser<>();
 
         autoChooser.setDefaultOption("Simple Auto", new SimpleAuto());
+        autoChooser.addOption("Calibrate Feedforward", new CalibrateFeedforward());
         autoChooser.addOption("TrenchAuto: In line with Trench", new TrenchAuto(StartingPose.kLineUpWithTrenchRun));
         autoChooser.addOption("TrenchAuto: Facing Power Port", new TrenchAuto(StartingPose.kFacingPowerPort));
         autoChooser.addOption("MiddleFieldAuto: Facing Power Port", new MiddleFieldAuto(StartingPose.kFacingPowerPort));

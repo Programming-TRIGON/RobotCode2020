@@ -54,8 +54,4 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     public WPI_TalonSRX getTalonSRX() {
         return talonSRX;
     }
-
-    public WPI_TalonSRX getTalonSRX() {
-        return talonSRX;
-    }
 }

@@ -242,7 +242,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     }
 
     public double getRightMotorOutputVoltage() {
-        return rightEncoder.getMotorOutputVoltage();
+        return rightFront.getMotorOutputVoltage();
     }
 
     public void setTrigonDriveSensitivity(double sensitivity) {
