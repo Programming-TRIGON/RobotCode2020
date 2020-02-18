@@ -97,7 +97,7 @@ public class AutoShoot extends SequentialCommandGroup {
             if (speedSupplier.getAsDouble() < robotConstants.loaderConstants.kFarawayShooterSpeed)
                 return LoaderPower.LoadToShoot;
             else return LoaderPower.FarShoot;
-        return LoaderPower.UnloadForOrder;
+        return LoaderPower.UnloadForSort;
     }
 
     @Override

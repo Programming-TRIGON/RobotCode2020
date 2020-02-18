@@ -21,7 +21,7 @@ public class SpinMixerByTime extends CommandBase {
      * the mixer at the power of {@link MixerPower#MixForShoot}
      */
     public SpinMixerByTime() {
-      this(MixerPower.MixForOrder);
+      this(MixerPower.MixForSort);
     }
 
     public SpinMixerByTime(MixerPower mixerPower) {

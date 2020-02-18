@@ -55,9 +55,9 @@ public class DashboardDataContainer {
         putData("CommandGroup/Mix and Load", new ParallelCommandGroup(
             new SetLoaderSpeedPID(LoaderPower.FarShoot),
             new SpinMixer(MixerPower.MixForShoot)));
-        putData("CommandGroup/Order Balls", new ParallelCommandGroup(
-            new SetLoaderSpeed(LoaderPower.UnloadForOrder),
-            new SpinMixerByTime(MixerPower.MixForOrder)));
+        putData("CommandGroup/Sort Balls", new ParallelCommandGroup(
+            new SetLoaderSpeed(LoaderPower.UnloadForSort),
+            new SpinMixerByTime(MixerPower.MixForSort)));
         putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0), true));
     }
 

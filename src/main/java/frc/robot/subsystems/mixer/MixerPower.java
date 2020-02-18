@@ -2,7 +2,7 @@ package frc.robot.subsystems.mixer;
 
 public enum MixerPower {
     MixForShoot(0.65),
-    MixForOrder(0.3);
+    MixForSort(0.3);
 
     private final double power;
 
