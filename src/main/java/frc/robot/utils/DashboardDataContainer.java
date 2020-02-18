@@ -3,13 +3,21 @@ package frc.robot.utils;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import frc.robot.autonomus.SimpleAuto;
+import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.command_groups.AutoShoot;
+import frc.robot.commands.command_groups.CollectCell;
+import frc.robot.commands.command_groups.CollectFromFeeder;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.loader.SetLoaderSpeedPID;
 import frc.robot.subsystems.mixer.MixerPower;
+import frc.robot.motion_profiling.FollowPath;
+import frc.robot.subsystems.drivetrain.RotateDrivetrain;
+import frc.robot.subsystems.intakeopener.CloseIntake;
+import frc.robot.subsystems.intakeopener.OpenIntake;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
 import frc.robot.subsystems.shooter.CalibrateShooterVelocity;
@@ -21,6 +29,7 @@ import io.github.oblarg.oblog.Logger;
 
 import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.*;
 import static frc.robot.Robot.*;
+import static frc.robot.subsystems.intakeopener.OpenIntake.openIntake;
 
 /**
  * DashboardDataContainer contains all the data to be viewed or put in the
@@ -53,8 +62,22 @@ public class DashboardDataContainer {
         putData("Shooter/Turn to port", new TurnToTarget(Target.PowerPort, drivetrain, "Turn PID"));
 
         putData("Drivetrain/Calibrate Feedforward", new CalibrateFeedforward());
-
-        // CommandGroup dashboard data
+        // Intake dashboard data
+        putDefaultNumber("Intake/Intake power", 0);
+        putData("Intake/Override intake", new OverrideCommand(intake,
+            () -> getNumber("Intake/Intake power", 0)));
+        // IntakeOpener dashboard data
+        putDefaultNumber("Intake Opener/Intake Opener power", 0);
+        putData("Intake Opener/Override intake opener", new OverrideCommand(intakeOpener,
+            () -> getNumber("Intake Opener/Intake Opener power", 0)));
+        putData("Intake Opener/Tune Open PID", new OpenIntake());
+        putData("Intake Opener/Tune Close PID", new CloseIntake());
+        putData("Intake Opener/Open Intake", openIntake(true));
+        putData("Intake Opener/Close Intake", openIntake(false));
+        putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
+        // Command groups data
+        putData("CommandGroup/Collect Cell", new CollectCell());
+        putData("CommandGroup/Collect From Feeder", new CollectFromFeeder());
         putData("CommandGroup/Mix and Load", new ParallelCommandGroup(
             new SetLoaderSpeedPID(LoaderPower.FarShoot),
             new SpinMixer(MixerPower.MixForShoot)));
