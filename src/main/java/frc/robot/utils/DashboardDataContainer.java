@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.command_groups.AutoShoot;
+import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.loader.SetLoaderSpeedPID;
@@ -50,6 +51,8 @@ public class DashboardDataContainer {
         putData("Shooter/Calibrate shooter velocity", new CalibrateShooterVelocity(oi.getDriverXboxController()::getAButton,
             () -> getNumber("Shooter/Shooting velocity setpoint", 0), 100, 100)); // TODO: set starting distance and delta distance!
         putData("Shooter/Turn to port", new TurnToTarget(Target.PowerPort, drivetrain, "Turn PID"));
+
+        putData("Drivetrain/Calibrate Feedforward", new CalibrateFeedforward());
 
         // CommandGroup dashboard data
         putData("CommandGroup/Mix and Load", new ParallelCommandGroup(
