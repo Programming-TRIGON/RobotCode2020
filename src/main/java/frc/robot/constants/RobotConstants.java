@@ -1,5 +1,7 @@
 package frc.robot.constants;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.utils.PIDSettings;
 
@@ -44,6 +46,7 @@ public abstract class RobotConstants extends RobotMap {
     public static class IntakeConstants {
         public boolean kIsInverted;
         public double kDefaultIntakePower;
+		public double kFeederIntakePower;
         public double kSpinBackwardsTime;
         public double kStallTimeout;
         public int kStallLimit;

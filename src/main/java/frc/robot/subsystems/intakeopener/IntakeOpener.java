@@ -48,7 +48,7 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     /** @return The angle of the potentiometer parallel to the floor. */
     @Log(name = "IntakeOpener/Angle")
     public double getAngle() {
-        return -(potentiometer.get() - 600);
+        return potentiometer.get();
     }
 
     public WPI_TalonSRX getTalonSRX() {

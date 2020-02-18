@@ -34,7 +34,8 @@ public class RobotA extends RobotConstants {
         // Intake Constants
         intakeConstants.kIsInverted = true;
         intakeConstants.kDefaultIntakePower = 0.85;
-        intakeConstants.kStallLimit = 80;
+        intakeConstants.kFeederIntakePower = -0.4;
+        intakeConstants.kStallLimit = 40;
         intakeConstants.kSpinBackwardsTime = 0.5;
         intakeConstants.kStallTimeout = 100;
 
@@ -43,13 +44,13 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.kCurrentLimit = 0;
         intakeOpenerConstants.kThresholdLimit = 0;
         intakeOpenerConstants.kTriggerThresholdTime = 0;
-        intakeOpenerConstants.kOpenAngle = 37.599743;
-        intakeOpenerConstants.kClosedAngle = -9;
-        intakeOpenerConstants.kPotentiometerAngleMultiplier = 1200;
-        intakeOpenerConstants.kPotentiometerOffset = 0;
+        intakeOpenerConstants.kOpenAngle = 46.599743;
+        intakeOpenerConstants.kClosedAngle = 0;
+        intakeOpenerConstants.kPotentiometerAngleMultiplier = -1200;
+        intakeOpenerConstants.kPotentiometerOffset = 609;
         intakeOpenerConstants.kTimeout = 0.5;
-        controlConstants.openIntakeSettings = new PIDSettings(0.012, 0.01, 0,1,10);
-        controlConstants.closeIntakeSettings = new PIDSettings(0.015, 0.015, 0,1,10);
+        controlConstants.openIntakeSettings = new PIDSettings(0.012, 0.01, 0,1, 10);
+        controlConstants.closeIntakeSettings = new PIDSettings(0.015, 0.015, 0,1, 10);
 
         // Mixer Constants
         mixerConstants.kMixerMaxStall = 30;
