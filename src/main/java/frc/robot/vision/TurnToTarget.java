@@ -2,17 +2,20 @@ package frc.robot.vision;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.MovableSubsystem;
+import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.PIDSettings;
 import frc.robot.utils.TrigonPIDController;
 
 import static frc.robot.Robot.limelight;
 import static frc.robot.Robot.robotConstants;
+import static frc.robot.Robot.led;
 
 /**
  * this is just template for a subsystem turn to target command. It will be
  * probably changed according the game and the robot.
  */
 public class TurnToTarget extends CommandBase {
+    private static final int kBlinkAmount = 15;
     private MovableSubsystem subsystem;
     private Target target;
     private TrigonPIDController rotationPIDController;
@@ -38,7 +41,7 @@ public class TurnToTarget extends CommandBase {
      *                     in the smart dashboard
      */
     public TurnToTarget(Target target, MovableSubsystem subsystem, String dashboardKey) {
-        addRequirements(subsystem);
+        addRequirements(subsystem, led);
         this.target = target;
         this.subsystem = subsystem;
         rotationPIDController = new TrigonPIDController(dashboardKey);
@@ -49,6 +52,7 @@ public class TurnToTarget extends CommandBase {
         rotationPIDController.reset();
         // Configure the limelight to start computing vision.
         limelight.startVision(target);
+        led.blinkColor(LEDColor.Green, kBlinkAmount);
     }
 
     @Override
