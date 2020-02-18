@@ -10,6 +10,7 @@ import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
+import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
@@ -64,6 +65,11 @@ public class DashboardDataContainer {
 
         putData("Drivetrain/Calibrate Feedforward", new CalibrateFeedforward());
         putData("Drivetrain/Reset Encoders", new RunWhenDisabledCommand(drivetrain::resetEncoders));
+        putData("Drivetrain/Reset Odometry", new RunWhenDisabledCommand(drivetrain::resetOdometry));
+        putData("Drivetrain/Reset Gyro", new RunWhenDisabledCommand(drivetrain::resetGyro));
+        putData("Drivetrain/Calibrate Gyro", new RunWhenDisabledCommand(drivetrain::calibrateGyro));
+        
+        putData("Motion Profiling/Simple Path", new FollowPath(AutoPath.FacingPowerPortToTrenchStart.getPath(), true));
         // Intake dashboard data
         putDefaultNumber("Intake/Intake power", 0);
         putData("Intake/Override intake", new OverrideCommand(intake,
