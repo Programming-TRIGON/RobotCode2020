@@ -160,7 +160,7 @@ public class RobotA extends RobotConstants {
         dio.kSwitchShooter = 0;
         // Climb Map
         can.kHookTalonSRX = 14;
-        analogInput.kHookPotentiometer = 1;
+        analogInput.kHookPotentiometer = 2;
         can.kClimbSparkMax = 12;
         // PWM Map
         pwm.kLedController = 0;
