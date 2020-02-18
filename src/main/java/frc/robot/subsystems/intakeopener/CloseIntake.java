@@ -7,25 +7,25 @@ import java.util.function.DoubleSupplier;
 import static frc.robot.Robot.intakeOpener;
 import static frc.robot.Robot.robotConstants;
 
-public class OpenIntake extends CommandBase {
+public class CloseIntake extends CommandBase {
     private DoubleSupplier angleSupplier;
     private TrigonPIDController pidController;
 
     /**
-     * Either opens the Intake subsystem or closes it with PID.
+     * Either Closes the Intake subsystem or closes it with PID.
      */
-    public OpenIntake(DoubleSupplier angleSupplier) {
+    public CloseIntake(DoubleSupplier angleSupplier) {
         addRequirements(intakeOpener);
-        pidController = new TrigonPIDController(robotConstants.controlConstants.openIntakeSettings);
+        pidController = new TrigonPIDController(robotConstants.controlConstants.closeIntakeSettings);
         this.angleSupplier = angleSupplier;
     }
 
     /**
-     * Constructs Open Intake with PID tuning
+     * Constructs Close Intake with PID tuning
      */
-    public OpenIntake() {
+    public CloseIntake() {
         addRequirements(intakeOpener);
-        pidController = new TrigonPIDController("Open Intake");
+        pidController = new TrigonPIDController("Close Intake");
     }
 
     @Override

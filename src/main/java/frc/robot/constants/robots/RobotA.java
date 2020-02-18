@@ -1,7 +1,6 @@
 package frc.robot.constants.robots;
 
 import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.constants.RobotConstants;
 import frc.robot.utils.PIDSettings;
@@ -22,8 +21,8 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.kLeftEncoderTicksPerMeter = 8216;
         drivetrainConstants.kRightEncoderTicksPerMeter = 8237;
         drivetrainConstants.kRampRate = 0.1;
-        drivetrainConstants.kCurrentLimit = 1;
-        drivetrainConstants.kTriggerThresholdCurrent = 1;
+        drivetrainConstants.kCurrentLimit = 40;
+        drivetrainConstants.kTriggerThresholdCurrent = 40;
         drivetrainConstants.kTriggerThresholdTime = 1;
         drivetrainConstants.kRightEncoderInverted = true;
         drivetrainConstants.kLeftEncoderInverted = false;
@@ -33,9 +32,10 @@ public class RobotA extends RobotConstants {
         trigonDriveConstants.kThreshold = 0.5;
 
         // Intake Constants
-        intakeConstants.kIsInverted = false;
+        intakeConstants.kIsInverted = true;
         intakeConstants.kDefaultIntakePower = 0.85;
-        intakeConstants.kStallLimit = 20;
+        intakeConstants.kFeederIntakePower = -0.4;
+        intakeConstants.kStallLimit = 40;
         intakeConstants.kSpinBackwardsTime = 0.5;
         intakeConstants.kStallTimeout = 100;
 
@@ -44,14 +44,13 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.kCurrentLimit = 0;
         intakeOpenerConstants.kThresholdLimit = 0;
         intakeOpenerConstants.kTriggerThresholdTime = 0;
-        intakeOpenerConstants.kOpenAngle = 0;
-        intakeOpenerConstants.kClosedAngle = 30;
-        intakeOpenerConstants.kPotentiometerAngleMultiplier = 1200;
-        intakeOpenerConstants.kPotentiometerOffset = 0;
-        intakeOpenerConstants.kMaxVelocity = 40; // angle to second
-        intakeOpenerConstants.kMaxAcceleration = 10; //angle to second ^ 2
-        controlConstants.intakeOpenerSettings = new PIDSettings(0, 0, 0, 0, 0);
-        controlConstants.intakeOpenerFeedforward = new ArmFeedforward(0, 0, 0, 0);
+        intakeOpenerConstants.kOpenAngle = 46.599743;
+        intakeOpenerConstants.kClosedAngle = 0;
+        intakeOpenerConstants.kPotentiometerAngleMultiplier = -1200;
+        intakeOpenerConstants.kPotentiometerOffset = 609;
+        intakeOpenerConstants.kTimeout = 0.5;
+        controlConstants.openIntakeSettings = new PIDSettings(0.012, 0.01, 0,1, 10);
+        controlConstants.closeIntakeSettings = new PIDSettings(0.015, 0.015, 0,1, 10);
 
         // Mixer Constants
         mixerConstants.kMixerMaxStall = 30;
@@ -140,11 +139,10 @@ public class RobotA extends RobotConstants {
         can.kDrivetrainRightMiddleTalonFX = 5;
         can.kDrivetrainRightRearTalonFX = 6;
         can.kDrivetrainLeftEncoder = 13;
-        can.kPigeonTalonSRX = 10;
         // Intake Map
-        can.kCellIntakeSparkMax = 11;
-        can.kIntakeOpenerTalonSRX = 16;
-        analogInput.kIntakeOpenerPotentiometer = 1;
+        can.kCellIntakeSparkMax = 7;
+        can.kIntakeOpenerTalonSRX = 10;
+        analogInput.kIntakeOpenerPotentiometer = 0;
         // Mixer Map
         can.kMixerTalonSRX = 11;
         // Loader Map

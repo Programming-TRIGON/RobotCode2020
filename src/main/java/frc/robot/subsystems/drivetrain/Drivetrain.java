@@ -2,11 +2,9 @@ package frc.robot.subsystems.drivetrain;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.RemoteFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -21,8 +19,7 @@ import frc.robot.utils.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
-import static frc.robot.Robot.robotConstants;
-import static frc.robot.Robot.climb;
+import static frc.robot.Robot.*;
 
 public class Drivetrain extends SubsystemBase implements MovableSubsystem, Loggable {
     private WPI_TalonFX leftRear;
@@ -73,7 +70,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
             "Could not set right drivetrain encoder");
         rightEncoder.setSensorPhase(robotConstants.drivetrainConstants.kRightEncoderInverted);
 
-        gyro = new Pigeon(new TalonSRX(robotConstants.can.kPigeonTalonSRX));
+        gyro = new Pigeon(intakeOpener.getTalonSRX());
         DriverStationLogger.logErrorToDS(gyro.resetGyroWithErrorCode(),
             "Could not reset pigeon gyro");
 

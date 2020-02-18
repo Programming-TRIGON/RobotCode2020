@@ -5,7 +5,7 @@ package frc.robot.motion_profiling;
  */
 public enum AutoPath {
     FacingPowerPortToTrenchStart, InLineWithTrenchToTrenchStart, InTrench,
-    ReversedInTrench, RightOfPortToMiddleField, FacingPowerPortToMiddleField;
+    ReverseInTrench, RightOfPortToMiddleField, FacingPowerPortToMiddleField;
 
     private final Path path;
 
