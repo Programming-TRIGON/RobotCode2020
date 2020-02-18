@@ -3,7 +3,10 @@ package frc.robot.commands.command_groups;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
+import frc.robot.subsystems.loader.SetLoaderSpeedPID;
+import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.ShooterVelocity;
@@ -21,6 +24,8 @@ import static frc.robot.Robot.*;
  */
 public class AutoShoot extends SequentialCommandGroup {
     private static final double kAutoWaitTimeAfterShot = 0.1;
+    private DoubleSupplier speedSupplier;
+    private CheesySetShooterVelocity setShooterVelocity;
 
     /**
      * Constructs automatic shooting sequence with shooter velocities based on vision.
@@ -66,25 +71,33 @@ public class AutoShoot extends SequentialCommandGroup {
      * @param isAuto whether the command group should stop automatically
      */
     public AutoShoot(DoubleSupplier speedSupplier, boolean isAuto) {
-        CheesySetShooterVelocity setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, isAuto);
+        this.speedSupplier = speedSupplier;
+        this.setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, isAuto);
         TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort, drivetrain);
         addCommands(
             deadline(
                 setShooterVelocity,
-                new SpinMixer(),
                 turnToTarget,
                 sequence(
                     new WaitUntilCommand(() ->
-                        setShooterVelocity.isOnTarget() && turnToTarget.isOnTarget()),
+                        setShooterVelocity.readyToShoot() && turnToTarget.isOnTarget()),
                     /*new RunTwoCommands(SetLoaderVelocity.defaultSetLoaderVelocityCommand(),
                         new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower),
                         () -> Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance))*/
-                    new SetLoaderSpeed(() -> (Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance) ?
-                        robotConstants.loaderConstants.kDefaultPower : robotConstants.loaderConstants.kDefaultBackwardsPower)
-                )
-            ),
-            new WaitCommand(kAutoWaitTimeAfterShot)
+                    parallel(new SpinMixer(MixerPower.MixForShoot),
+                        new SetLoaderSpeedPID(LoaderPower.LoadToShoot))//this::getDesiredLoaderSpeed))
+                ),
+                new WaitCommand(kAutoWaitTimeAfterShot)
+            )
         );
+    }
+
+    private LoaderPower getDesiredLoaderSpeed() {
+        if (Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance)
+            if (speedSupplier.getAsDouble() < robotConstants.loaderConstants.kFarawayShooterSpeed)
+                return LoaderPower.LoadToShoot;
+            else return LoaderPower.FarShoot;
+        return LoaderPower.UnloadForSort;
     }
 
     @Override

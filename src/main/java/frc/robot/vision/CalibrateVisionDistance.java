@@ -1,5 +1,6 @@
 package frc.robot.vision;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utils.Logger;
 import java.util.function.BooleanSupplier;
@@ -21,7 +22,7 @@ public class CalibrateVisionDistance extends CommandBase {
     /**
      * @param logButton whenever the supplier toggles to true - log the values.
      * @param target the target to calibrate its distance
-     * @param startingDistance the starting distance between the robot and the target at the beginning of the measurement 
+     * @param startingDistance the starting distance between the robot and the target at the beginning of the measurement
      */
     public CalibrateVisionDistance(BooleanSupplier logButton, Target target, double startingDistance) {
         this(logButton, target, startingDistance, kDefaultDeltaDistance);
@@ -30,7 +31,7 @@ public class CalibrateVisionDistance extends CommandBase {
     /**
      * @param logButton whenever the supplier toggles to true - log the values.
      * @param target the target to calibrate its distance
-     * @param startingDistance the starting distance between the robot and the target at the beginning of the measurement 
+     * @param startingDistance the starting distance between the robot and the target at the beginning of the measurement
      * @param deltaDistance the distance between each log.
      */
     public CalibrateVisionDistance(BooleanSupplier logButton, Target target, double startingDistance, double deltaDistance) {
@@ -40,7 +41,7 @@ public class CalibrateVisionDistance extends CommandBase {
     /**
      * @param logButton whenever the supplier toggles to true - log the values.
      * @param target the target to calibrate its distance
-     * @param startingDistance the starting distance between the robot and the target at the beginning of the measurement 
+     * @param startingDistance the starting distance between the robot and the target at the beginning of the measurement
      * @param deltaDistance the distance between each log.
      * @param amountOfLogs  how much times the command will log the data before it ends.
      */
@@ -65,6 +66,7 @@ public class CalibrateVisionDistance extends CommandBase {
 
     @Override
     public void execute() {
+        SmartDashboard.putNumber("Calibrate distance - current distance", currentDistance);
         if (logButton.getAsBoolean()) {
             if (!isPressed) {
                 isPressed = true;
@@ -77,12 +79,11 @@ public class CalibrateVisionDistance extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return currentDistance > deltaDistance * amountOfLogs + startingDistance;
+        return currentDistance > deltaDistance * amountOfLogs;
     }
 
     @Override
     public void end(boolean interrupted) {
-        limelight.stopVision();
         logger.close();
     }
 

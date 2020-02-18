@@ -53,9 +53,11 @@ public class TurnToTarget extends CommandBase {
 
     @Override
     public void execute() {
-        if (limelight.getTv())
-            subsystem.move(rotationPIDController.calculate(limelight.getAngle()));
-        else
+        if (limelight.getTv()) {
+            double pidOutput = rotationPIDController.calculate(limelight.getAngle());
+            subsystem.move(pidOutput + (Math.signum(pidOutput) * 0.005));
+            // subsystem.move(pidOutput);
+        } else
             // The target wasn't found
             subsystem.stopMove();
     }
@@ -63,7 +65,7 @@ public class TurnToTarget extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         subsystem.stopMove();
-        limelight.stopVision();
+        //limelight.stopVision();
     }
 
     public boolean isOnTarget() {

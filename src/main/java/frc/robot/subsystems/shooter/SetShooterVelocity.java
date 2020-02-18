@@ -1,6 +1,7 @@
 package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.DoubleSupplier;
 
@@ -38,7 +39,7 @@ public class SetShooterVelocity extends CommandBase {
      * @see frc.robot.subsystems.shooter.ShooterVelocity#kDefault
      */
     public SetShooterVelocity(boolean isAuto) {
-        this(ShooterVelocity.kDefault, isAuto);
+        this(ShooterVelocity.Default, isAuto);
     }
 
     /**
@@ -91,12 +92,11 @@ public class SetShooterVelocity extends CommandBase {
 
     @Override
     public void execute() {
-        shooter.setVelocity(setpoint);
+        shooter.setVelocity(velocitySetpoint.getAsDouble());
         // If in auto, check how many cells were shot.
         if (isAuto) {
-            boolean isCellBeingShot = shooter.isSwitchPressed();
-            //We might want to use current in order to count the amount of shot cells instead of using limit switches
-            //boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageSpeed()) < robotConstants.shooterConstants.kShootingBallZone;
+            SmartDashboard.putNumber("Shooter/Cells Shot", cellsShot);
+            boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageVelocity()) < robotConstants.shooterConstants.kShootingBallZone;
             countShotCells(isCellBeingShot);
         }
     }
@@ -137,6 +137,6 @@ public class SetShooterVelocity extends CommandBase {
     public double getError() {
         if(shooter.isOverridden())
             return 0;
-        return shooter.getAverageSpeed() - setpoint;
+        return shooter.getAverageVelocity() - setpoint;
     }
 }

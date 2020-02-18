@@ -54,12 +54,15 @@ public class RobotA extends RobotConstants {
         controlConstants.intakeOpenerFeedforward = new ArmFeedforward(0, 0, 0, 0);
 
         // Mixer Constants
-        mixerConstants.kMixerMaxStall = 30;
+        mixerConstants.kMixerMaxStall = 20;
         mixerConstants.kIsInverted = false;
-        mixerConstants.kRampUpTime = 0;
-        mixerConstants.kStallWaitTime = 0.2;
-        mixerConstants.kBackwardsSpinTime = 0.2;
-        mixerConstants.kDefaultPower = 0.5;
+        mixerConstants.kRampTime = 0.25;
+        mixerConstants.kSpinByTimeRampTime = 3;
+        mixerConstants.kStallWaitTime = 0.3;
+        mixerConstants.kTotalStallWaitTime = 1.5;
+        mixerConstants.kBackwardsSpinTimeHighSpeed = 0.35;
+        mixerConstants.kBackwardsSpinTimeLowSpeed = 1;
+        mixerConstants.kSpinMixerByTime = 2;
 
         // Climb Constants
         climbConstants.kHookCurrentLimit = 0;
@@ -69,34 +72,30 @@ public class RobotA extends RobotConstants {
         climbConstants.kDefaultClimbPower = 0;
 
         // Shooter Constants
+        shooterConstants.kRampTime = 0.5;
         shooterConstants.kWheelRadius = 1;
-        shooterConstants.kLeftUnitsPerRotation = 1;
-        shooterConstants.kRightUnitsPerRotation = 1;
-        shooterConstants.kShootingBallZone = 2000;
+        shooterConstants.kLeftUnitsPerRotation = 2048;
+        shooterConstants.kRightUnitsPerRotation = 2048;
+        shooterConstants.kShootingBallZone = 125;
         shooterConstants.kWaitTimeZone = 0;
         shooterConstants.kIsLeftMotorInverted = false;
-        shooterConstants.kIsRightMotorInverted = false;
+        shooterConstants.kIsRightMotorInverted = true;
         shooterConstants.kIsLeftEncoderInverted = false;
         shooterConstants.kIsRightEncoderInverted = false;
         shooterConstants.kStopLoadingTolerance = 10;
-        controlConstants.leftShooterSettings = PIDSettings.fromTalonSettings(0, 0, 0, 0, 0);
-        controlConstants.rightShooterSettings = PIDSettings.fromTalonSettings(0, 0, 0, 0, 0);
+        shooterConstants.kVelocityTolerance = 20;
+        controlConstants.leftShooterSettings = PIDSettings.fromTalonSettings(0.045, 0.00000175, 1, 0.0512, 2);
+        controlConstants.rightShooterSettings = PIDSettings.fromTalonSettings(0.05, 0.0000023, 1, 0.0488, 2);
+        controlConstants.leftShooterCheesySettings = PIDSettings.fromTalonSettings(0.095, 0, 2.5, 0.05165, 0);
+        controlConstants.rightShooterCheesySettings = PIDSettings.fromTalonSettings(0.085, 0, 2.5, 0.0492, 0);
 
         // Loader Constants
-        loaderConstants.kRampRate = 0;
-        loaderConstants.kCurrentLimit = 0;
-        loaderConstants.kThresholdLimit = 0;
-        loaderConstants.kTimeout = 0;
-        loaderConstants.kTicksPerRotation = 1;
-        loaderConstants.kDefaultVelocity = 0.5;
-        loaderConstants.kStallLimit = 20;
-        loaderConstants.kSpinBackwardsTime = 1;
-        loaderConstants.kDefaultBackwardsPower = -0.2;
-        loaderConstants.kOnStallPower = -0.3;
-        loaderConstants.kDefaultPower = 0.3;
-        loaderConstants.kStallWaitTime = 0.4;
-        controlConstants.loaderFeedforward = new SimpleMotorFeedforward(0, 0, 0);
-        controlConstants.loaderPidSettings = new PIDSettings(0, 0, 0, 0, 0);
+        loaderConstants.kIsInverted = true;
+        loaderConstants.kIsEncoderInverted = false;
+        loaderConstants.kRampRate = 0.25;
+        loaderConstants.kTicksPerRotation = 4096;
+        loaderConstants.kFarawayShooterSpeed = 5000;
+        controlConstants.loaderSettings = PIDSettings.fromTalonSettings(0.02, 0.000001, 1.5, 0.141, 2);
 
         // Motion Profiling Constants
         motionProfilingConstants.kMaxVelocity = 0;

@@ -3,11 +3,9 @@ package frc.robot;
 import edu.wpi.first.networktables.EntryListenerFlags;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.utils.TrigonXboxController;
 
 import static frc.robot.Robot.drivetrain;
@@ -55,7 +53,7 @@ public class OI {
     }
 
     private void createDriverCommands() {
-        driverDriveWithXbox = new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), driverXbox::getDeltaTriggers);
+        //driverDriveWithXbox = new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), driverXbox::getDeltaTriggers);
        // driverAutoShoot = new AutoShoot().withInterrupt(() -> Math
        //         .abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
        // driverCollectCell = new CollectCell();

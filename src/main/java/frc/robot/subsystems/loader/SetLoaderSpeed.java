@@ -1,34 +1,27 @@
 package frc.robot.subsystems.loader;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.loader;
-import static frc.robot.Robot.robotConstants;
 
 /**
- * Spins the mixer during the game for putting balls in the loader, if the
+ * Spins the loader during the game for putting balls in the shooter, if the
  * current is too big the motor power flips.
  */
 public class SetLoaderSpeed extends CommandBase {
     private DoubleSupplier power;
-    private double lastTimeNotOnStall;
-    private double backwardsSpinStartTime;
 
     /**
      * This constructor creates the command that spins
-     * the mixer at the power of {@link frc.robot.constants.RobotConstants.LoaderConstants#kDefaultPower}
+     * the loader at the power of LoaderPower.DefaultLoadToShoot.
      */
     public SetLoaderSpeed() {
-        this(robotConstants.loaderConstants.kDefaultPower);
+        this(LoaderPower.LoadToShoot);
     }
 
-    /**
-     * gets a double for motor power
-     */
-    public SetLoaderSpeed(double power) {
-        this(() -> power);
+    public SetLoaderSpeed(LoaderPower loaderPower) {
+        this(loaderPower::getPower);
     }
 
     /**
@@ -40,25 +33,8 @@ public class SetLoaderSpeed extends CommandBase {
     }
 
     @Override
-    public void initialize() {
-        lastTimeNotOnStall = Timer.getFPGATimestamp();
-        backwardsSpinStartTime = 0;
-    }
-
-    @Override
     public void execute() {
-        if (Timer.getFPGATimestamp() - backwardsSpinStartTime < robotConstants.loaderConstants.kSpinBackwardsTime)
-            loader.move(-power.getAsDouble());
-        else {
-            if (!loader.getIsInStall()) {
-                lastTimeNotOnStall = Timer.getFPGATimestamp();
-            }
-            if (Timer.getFPGATimestamp() - lastTimeNotOnStall > robotConstants.loaderConstants.kStallWaitTime) {
-                backwardsSpinStartTime = Timer.getFPGATimestamp();
-                loader.move(-power.getAsDouble());
-            } else
-                loader.move(power.getAsDouble());
-        }
+        loader.move(power.getAsDouble());
     }
 
     @Override

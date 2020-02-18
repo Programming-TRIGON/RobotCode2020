@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 public abstract class OverridableSubsystem extends SubsystemBase implements MovableSubsystem {
     protected boolean overridden;
     protected Notifier overrideNotifier;
+    private DoubleSupplier overrideSupplier;
 
     public abstract void overriddenMove(double power);
 
@@ -18,11 +19,16 @@ public abstract class OverridableSubsystem extends SubsystemBase implements Mova
             overriddenMove(power);
     }
 
-    public void startOverride(DoubleSupplier moveSupplier) {
+    public void startOverride() {
         DriverStationLogger.logToDS("Overriding " + getName());
-        overrideNotifier = new Notifier(() -> overriddenMove(moveSupplier.getAsDouble()));
+        overrideNotifier = new Notifier(() -> overriddenMove(overrideSupplier.getAsDouble()));
         overrideNotifier.startPeriodic(Robot.kDefaultPeriod);
         overridden = true;
+    }
+
+    public void startOverride(DoubleSupplier powerSupplier) {
+        setOverrideSupplier(powerSupplier);
+        startOverride();
     }
 
     public void stopOverride() {
@@ -37,5 +43,9 @@ public abstract class OverridableSubsystem extends SubsystemBase implements Mova
 
     public boolean isOverridden() {
         return overridden;
+    }
+
+    public void setOverrideSupplier(DoubleSupplier overrideSupplier) {
+        this.overrideSupplier = overrideSupplier;
     }
 }

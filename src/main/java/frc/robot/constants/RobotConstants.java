@@ -68,24 +68,20 @@ public abstract class RobotConstants extends RobotMap {
         public double kMixerMaxStall;
         public boolean kIsInverted;
         public double kStallWaitTime;
-        public double kBackwardsSpinTime;
-        public double kRampUpTime;
-        public double kDefaultPower;
+        public double kTotalStallWaitTime;
+        public double kSpinMixerByTime;
+        public double kBackwardsSpinTimeLowSpeed;
+        public double kBackwardsSpinTimeHighSpeed;
+        public double kRampTime;
+        public double kSpinByTimeRampTime;
     }
 
     public static class LoaderConstants {
+        public boolean kIsInverted;
+        public boolean kIsEncoderInverted;
         public double kRampRate;
-        public double kCurrentLimit;
-        public double kThresholdLimit;
-        public double kTimeout;
         public double kTicksPerRotation;
-        public double kDefaultVelocity;
-        public double kSpinBackwardsTime;
-        public double kStallWaitTime;
-        public double kDefaultBackwardsPower;
-        public double kOnStallPower;
-        public double kStallLimit;
-        public double kDefaultPower;
+        public double kFarawayShooterSpeed;
     }
 
     public static class ShooterConstants {
@@ -96,6 +92,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kShootingBallZone;
         public double kWaitTimeZone;
         public double kStopLoadingTolerance;
+        public double kVelocityTolerance;
         public boolean kIsLeftMotorInverted;
         public boolean kIsRightMotorInverted;
         public boolean kIsLeftEncoderInverted;
@@ -121,7 +118,9 @@ public abstract class RobotConstants extends RobotMap {
         public PIDSettings drivetrainRotateSettings;
         public PIDSettings leftShooterSettings;
         public PIDSettings rightShooterSettings;
-        public PIDSettings loaderPidSettings;
+        public PIDSettings leftShooterCheesySettings;
+        public PIDSettings rightShooterCheesySettings;
+        public PIDSettings loaderSettings;
         public SimpleMotorFeedforward loaderFeedforward;
         public PIDSettings intakeOpenerSettings;
         public ArmFeedforward intakeOpenerFeedforward;
