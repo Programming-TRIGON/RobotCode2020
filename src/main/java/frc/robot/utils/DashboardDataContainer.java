@@ -18,7 +18,8 @@ import frc.robot.vision.Target;
 import frc.robot.vision.TurnToTarget;
 import io.github.oblarg.oblog.Logger;
 
-import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.*;
+import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putData;
+import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.getNumber;
 import static frc.robot.Robot.*;
 
 /**
@@ -45,7 +46,7 @@ public class DashboardDataContainer {
         putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0), false));
         putData("Shooter/Set shooting velocity", new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
         putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
-        putNumber("Shooter/Override Power", 0);
+        putDefaultNumber("Shooter/Override Power", 0);
         putData("Shooter/Override", new OverrideCommand(shooter));
         putData("Shooter/Calibrate shooter velocity", new CalibrateShooterVelocity(oi.getDriverXboxController()::getAButton,
             () -> getNumber("Shooter/Shooting velocity setpoint", 0), 100, 100)); // TODO: set starting distance and delta distance!

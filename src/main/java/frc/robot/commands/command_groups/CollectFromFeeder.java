@@ -5,12 +5,11 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
-import frc.robot.subsystems.intakeopener.OpenIntake;
-import frc.robot.subsystems.intakeopener.SetDesiredOpenerAngle;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
+import frc.robot.subsystems.intakeopener.SetIntakeState;
 import frc.robot.vision.FollowTarget;
 import frc.robot.vision.LedMode;
 import frc.robot.vision.Target;
@@ -32,12 +31,14 @@ public class CollectFromFeeder extends SequentialCommandGroup {
                  beforeStarting(() -> distanceOffset = drivetrain.getAverageDistance()).
                  withInterrupt(() -> drivetrain.getAverageDistance() - distanceOffset
                   == kDistanceFromFeeder),
-                    new SetDesiredOpenerAngle(true),
-                    new SetIntakeSpeed(-robotConstants.intakeConstants.kDefaultIntakePower),
                 new SpinMixerByTime(MixerPower.MixForSort),
                 new SetLoaderSpeed(LoaderPower.UnloadForSort),
                 new StartEndCommand(() -> limelight.setLedMode(LedMode.Blink), 
-                () -> limelight.setLedMode(LedMode.Off))
+                () -> limelight.setLedMode(LedMode.Off)),
+                sequence(
+                    new SetIntakeState(false),
+                    new SetIntakeSpeed(robotConstants.intakeConstants.kFeederIntakePower)
+                )
             )
         );
     }
