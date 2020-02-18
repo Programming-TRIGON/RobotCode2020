@@ -22,6 +22,9 @@ public class SetIntakeSpeed extends CommandBase {
     public SetIntakeSpeed(double speed) {
         this(() -> speed);
     }
+    public SetIntakeSpeed() {
+        this(robotConstants.intakeConstants.kDefaultIntakePower);
+    }
 
     @Override
     public void initialize() {

@@ -35,7 +35,7 @@ public class TrigonPIDController extends PIDController {
      *                     in the smart dashboard
      */
     public TrigonPIDController(String dashboardKey) {
-        this(dashboardKey, 0);
+        this(dashboardKey, SmartDashboard.getNumber("PID/" + dashboardKey + "/setpoint", 0));
     }
 
     /**
@@ -48,7 +48,9 @@ public class TrigonPIDController extends PIDController {
      * @param defaultSetpoint The default setpoint to use if the setpoint hasn't been changed from the dashboard
      */
     public TrigonPIDController(String dashboardKey, double defaultSetpoint) {
-        super(0, 0, 0);
+        super(SmartDashboard.getNumber("PID/" + dashboardKey + "/p", 0),
+            SmartDashboard.getNumber("PID/" + dashboardKey + "/i", 0),
+            SmartDashboard.getNumber("PID/" + dashboardKey + "/d", 0));
         setSetpoint(defaultSetpoint);
         isTuning = true;
         SmartDashboard.putData("PID/" + dashboardKey, this);

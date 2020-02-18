@@ -1,61 +1,52 @@
 package frc.robot.subsystems.intakeopener;
 
-import edu.wpi.first.wpilibj.controller.ArmFeedforward;
-import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.TrigonProfiledPIDController;
+import frc.robot.utils.TrigonPIDController;
+import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.intakeOpener;
 import static frc.robot.Robot.robotConstants;
 
 public class OpenIntake extends CommandBase {
-    private TrigonProfiledPIDController pidController;
-    private ArmFeedforward feedforward;
+    private DoubleSupplier angleSupplier;
+    private TrigonPIDController pidController;
 
     /**
-     * Either opens the Intake subsystem or closes it with PID
-     *
-     * @param isOpen true - opens the Intake, false - closes it.
+     * Either opens the Intake subsystem or closes it with PID.
      */
-    public OpenIntake(boolean isOpen) {
+    public OpenIntake(DoubleSupplier angleSupplier) {
         addRequirements(intakeOpener);
-        pidController = new TrigonProfiledPIDController(robotConstants.controlConstants.intakeOpenerSettings, 
-            new Constraints(robotConstants.intakeOpenerConstants.kMaxVelocity,
-            robotConstants.intakeOpenerConstants.kMaxAcceleration));
-        if (isOpen)
-            pidController.setGoal(robotConstants.intakeOpenerConstants.kOpenAngle);
-        else
-            pidController.setGoal(robotConstants.intakeOpenerConstants.kClosedAngle);
-        feedforward = robotConstants.controlConstants.intakeOpenerFeedforward;
+        pidController = new TrigonPIDController(robotConstants.controlConstants.openIntakeSettings);
+        this.angleSupplier = angleSupplier;
     }
 
     /**
-     * Either opens the Intake subsystem or closes it with PID. This constructor is
-     * used for tuning PID using the dashboard.
+     * Constructs Open Intake with PID tuning
      */
     public OpenIntake() {
         addRequirements(intakeOpener);
-        pidController = new TrigonProfiledPIDController("Intake Opener PID Settings");
-        feedforward = robotConstants.controlConstants.intakeOpenerFeedforward;
+        pidController = new TrigonPIDController("Open Intake");
     }
 
     @Override
     public void initialize() {
-        pidController.reset(intakeOpener.getAngle());
+        pidController.reset();
     }
 
     @Override
     public void execute() {
-        intakeOpener.setIntakeOpenerVoltage(pidController.calculate(intakeOpener.getAngle(), -1, 1)
-            + feedforward.calculate(pidController.getSetpoint().position, pidController.getSetpoint().velocity));
+        if (!pidController.isTuning())
+            pidController.setSetpoint(angleSupplier.getAsDouble());
+        intakeOpener.move(pidController.calculate(intakeOpener.getAngle(), -1, 1));
+    }
+
+    @Override
+    public boolean isFinished() {
+        return pidController.atSetpoint();
     }
 
     @Override
     public void end(boolean interrupted) {
         intakeOpener.stopMove();
-    }
-
-    public boolean isAtGoal() {
-        return pidController.atGoal();
     }
 }

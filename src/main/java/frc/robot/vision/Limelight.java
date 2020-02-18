@@ -74,8 +74,8 @@ public class Limelight implements Loggable {
      */
     @Log(name = "Limelight/Vision Distance")
     public double getDistance() {
-        if (getTarget() == Target.PowerPort)
-            return getDistanceFromPowerPort();
+        // if (getTarget() == Target.PowerPort)
+        //     return getDistanceFromPowerPort();
         return getDistanceFromFeeder();
     }
 
@@ -85,8 +85,7 @@ public class Limelight implements Loggable {
     //TODO: set real function
     private double getDistanceFromFeeder() {
         double x = getTy();
-        return robotConstants.visionConstants.kDistanceFromFeederACoefficient * Math.pow(x, 2) +
-            robotConstants.visionConstants.kDistanceFromFeederBCoefficient * x;
+        return 1.5482 * Math.pow(x, 3) - 14.323 * Math.pow(x, 2) + 56.164 * x;
     }
 
     /**
@@ -109,7 +108,7 @@ public class Limelight implements Loggable {
      * @return the angle from the middle of the robot to the target
      */
     public double getAngle() {
-        return getTx();
+        return -getTx();
     }
 
     /**

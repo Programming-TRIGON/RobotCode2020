@@ -1,13 +1,12 @@
 package frc.robot.subsystems.drivetrain;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.music.Orchestra;
-
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -22,7 +21,7 @@ import frc.robot.utils.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
-import static frc.robot.Robot.robotConstants;
+import static frc.robot.Robot.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,8 +36,8 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
 
     private TrigonDrive drivetrain;
 
-    private WPI_TalonSRX rightEncoder;
-    private WPI_TalonSRX leftEncoder;
+    private TalonSRX leftEncoder;
+    private TalonSRX rightEncoder;
     private Pigeon gyro;
 
     private DifferentialDriveKinematics kinematics;
@@ -68,19 +67,19 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         drivetrain.setDeadband(0);
         tuneTrigonDrive();
 
-        // TODO: set correct talons for encoders.
-        leftEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForLeftDrivetrainEncoder);
-        rightEncoder = new WPI_TalonSRX(robotConstants.can.kTemporaryTalonForRightDrivetrainEncoder);
-
-        DriverStationLogger.logErrorToDS(leftEncoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
+        leftEncoder = new TalonSRX(robotConstants.can.kDrivetrainLeftEncoder);
+        DriverStationLogger.logErrorToDS(leftEncoder.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative),
             "Could not set left drivetrain encoder");
-        DriverStationLogger.logErrorToDS(rightEncoder.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 0),
-            "Could not set right drivetrain encoder");
+        leftEncoder.setSensorPhase(robotConstants.drivetrainConstants.kLeftEncoderInverted);
 
-        // TODO: set correct port for pigeon gyro.
-        //gyro = new Pigeon(robotConstants.can.kDrivetrainLeftRearTalonFX);
-        /*DriverStationLogger.logErrorToDS(gyro.resetGyroWithErrorCode(),
-            "Could not reset pigeon gyro");*/
+        rightEncoder = climb.getHookTalonSRXInstance();
+        DriverStationLogger.logErrorToDS(rightEncoder.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative),
+            "Could not set right drivetrain encoder");
+        rightEncoder.setSensorPhase(robotConstants.drivetrainConstants.kRightEncoderInverted);
+
+        gyro = new Pigeon(intakeOpener.getTalonSRX());
+        DriverStationLogger.logErrorToDS(gyro.resetGyroWithErrorCode(),
+            "Could not reset pigeon gyro");
 
         kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.kWheelBaseWidth);
         odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
@@ -131,10 +130,9 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     }
 
     // Gyro functions
-    //@Log(name = "Drivetrain/Angle")
+    @Log(name = "Drivetrain/Angle")
     public double getAngle() {
-        return 0;
-        //return Math.IEEEremainder(gyro.getAngle(), 360);
+        return Math.IEEEremainder(gyro.getAngle(), 360);
     }
 
     public double getRadianAngle() {
@@ -253,7 +251,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     }
 
     public double getRightMotorOutputVoltage() {
-        return rightFront.getMotorOutputVoltage();
+        return rightEncoder.getMotorOutputVoltage();
     }
 
     public void setTrigonDriveSensitivity(double sensitivity) {
@@ -301,7 +299,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     }
 
     private void configTalonFX(WPI_TalonFX motor, WPI_TalonFX master) {
-        if (motor != master)
+        if(motor != master)
             motor.follow(master);
         motor.setNeutralMode(NeutralMode.Coast);
         motor.configOpenloopRamp(robotConstants.drivetrainConstants.kRampRate);

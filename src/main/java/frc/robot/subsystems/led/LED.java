@@ -30,8 +30,6 @@ public class LED extends SubsystemBase {
         blinkingAmount = -1;
         notifier = new Notifier(this::notifierPeriodic);
         rand = new Random();
-
-        notifier.startPeriodic(kBlinkTime);
     }
 
     public void setColor(LEDColor color) {
@@ -65,6 +63,7 @@ public class LED extends SubsystemBase {
         turnOffLED();
         blinkColor = color;
         blinkingAmount = quantity * 2 - 1;
+        notifier.startPeriodic(kBlinkTime);
     }
 
     public boolean isLedOn() {
@@ -72,11 +71,13 @@ public class LED extends SubsystemBase {
     }
 
     public void notifierPeriodic() {
-        if (blinkingAmount == 0)
+        if (blinkingAmount == 0) {
             setColor(lastColorBeforeBlink);
+            notifier.stop();
+        }
         if (blinkingAmount > 0) {
             LEDColor colorToSet;
-            if (blinkingAmount % 2 == 1)
+            if (blinkingAmount % 2 == 0)
                 colorToSet = LEDColor.Off;
             else
                 colorToSet = blinkColor;

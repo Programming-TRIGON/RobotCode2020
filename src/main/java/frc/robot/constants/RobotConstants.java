@@ -1,6 +1,7 @@
 package frc.robot.constants;
 
-import edu.wpi.first.wpilibj.controller.ArmFeedforward;
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.utils.PIDSettings;
 
@@ -19,6 +20,8 @@ public abstract class RobotConstants extends RobotMap {
     public ControlConstants controlConstants = new ControlConstants();
     public MotionProfilingConstants motionProfilingConstants = new MotionProfilingConstants();
     public VisionConstants visionConstants = new VisionConstants();
+    public AutoConstants autoConstants = new AutoConstants();
+    public OIConstants oiConstants = new OIConstants();
 
     public static class DrivetrainConstants {
         public double kWheelDiameter;
@@ -31,6 +34,8 @@ public abstract class RobotConstants extends RobotMap {
         public double kCurrentLimit;
         public double kTriggerThresholdCurrent;
         public double kTriggerThresholdTime;
+        public boolean kRightEncoderInverted;
+        public boolean kLeftEncoderInverted;
     }
 
     public static class TrigonDriveConstants {
@@ -41,6 +46,7 @@ public abstract class RobotConstants extends RobotMap {
     public static class IntakeConstants {
         public boolean kIsInverted;
         public double kDefaultIntakePower;
+		public double kFeederIntakePower;
         public double kSpinBackwardsTime;
         public double kStallTimeout;
         public int kStallLimit;
@@ -56,8 +62,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kClosedAngle;
         public double kPotentiometerAngleMultiplier;
         public double kPotentiometerOffset;
-        public double kMaxVelocity;
-        public double kMaxAcceleration;
+        public double kTimeout;
     }
 
     public static class MixerConstants {
@@ -103,6 +108,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kHookCurrentLimit;
         public double kHookCurrentTimeout;
         public int kClimbCurrentLimit;
+        public int kDefaultClimbPower;
     }
 
     /**
@@ -118,8 +124,8 @@ public abstract class RobotConstants extends RobotMap {
         public PIDSettings rightShooterSettings;
         public PIDSettings loaderPidSettings;
         public SimpleMotorFeedforward loaderFeedforward;
-        public PIDSettings intakeOpenerSettings;
-        public ArmFeedforward intakeOpenerFeedforward;
+        public PIDSettings openIntakeSettings;
+        public PIDSettings closeIntakeSettings;
     }
 
     public static class MotionProfilingConstants {
@@ -141,5 +147,18 @@ public abstract class RobotConstants extends RobotMap {
         public double kLimelightOffsetY;
         public double kLimelightAngleOffset;
         public double kTargetNotFoundWaitTime;
+    }
+
+    public static class AutoConstants {
+        public double kSimpleAutoPower;
+        public double kSimpleAutoTimeout;
+        public double kTrenchAutoRotateToPortAngle;
+        public double kMiddleFieldAutoRotateToPortAngle;
+        public double kMiddleFieldAutoRotateLeftAngle;
+        public double kMiddleFieldAutoRotateRightAngle;
+    }
+
+    public static class OIConstants {
+        public double kDeltaTriggersInterruptDifference;
     }
 }

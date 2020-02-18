@@ -33,8 +33,6 @@ public class TrigonXboxController extends XboxController {
         startButton = new JoystickButton(this, Button.kStart.value);
         rumbleAmount = -1;
         notifier = new Notifier(this::notifierPeriodic);
-
-        notifier.startPeriodic(kIntermittentRumbleTime);
     }
 
     public JoystickButton getButtonA() {
@@ -122,9 +120,13 @@ public class TrigonXboxController extends XboxController {
      */
     public void intermittentRumble(int quantity) {
         rumbleAmount = quantity * 2 - 1;
+        notifier.startPeriodic(kIntermittentRumbleTime);
     }
 
     public void notifierPeriodic() {
+        if (rumbleAmount == 0) {
+            notifier.stop();
+        }
         if (rumbleAmount >= 0) {
             if (rumbleAmount % 2 == 1)
                 setRumble(1);
