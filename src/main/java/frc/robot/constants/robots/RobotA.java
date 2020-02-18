@@ -132,9 +132,9 @@ public class RobotA extends RobotConstants {
 
         /* Robot Map */
         // Drivetrain Map
-        can.kDrivetrainLeftFrontTalonFX = 3;
+        can.kDrivetrainLeftFrontTalonFX = 1;
         can.kDrivetrainLeftMiddleTalonFX = 2;
-        can.kDrivetrainLeftRearTalonFX = 1;
+        can.kDrivetrainLeftRearTalonFX = 3;
         can.kDrivetrainRightFrontTalonFX = 4;
         can.kDrivetrainRightMiddleTalonFX = 5;
         can.kDrivetrainRightRearTalonFX = 6;
