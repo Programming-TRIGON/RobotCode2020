@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 import static frc.robot.Robot.drivetrain;
+import static frc.robot.Robot.robotConstants;
 
 public class CalibrateFeedforward extends CommandBase {
     private NetworkTableEntry autoSpeedEntry;
@@ -30,6 +31,7 @@ public class CalibrateFeedforward extends CommandBase {
     @Override
     public void initialize() {
         NetworkTableInstance.getDefault().setUpdateRate(kUpdateRate);
+        drivetrain.setRampRate(0);
     }
 
     @Override
@@ -72,5 +74,6 @@ public class CalibrateFeedforward extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         drivetrain.stopMove();
+        drivetrain.setRampRate(robotConstants.drivetrainConstants.kRampRate);
     }
 }

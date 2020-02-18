@@ -270,11 +270,20 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         odometry.update(Rotation2d.fromDegrees(getAngle()), getLeftDistance(), getRightDistance());
     }
 
+    public void setRampRate(double rampRate) {
+        leftFront.configOpenloopRamp(rampRate);
+        leftMiddle.configOpenloopRamp(rampRate);
+        leftRear.configOpenloopRamp(rampRate);
+        rightFront.configOpenloopRamp(rampRate);
+        rightMiddle.configOpenloopRamp(rampRate);
+        rightRear.configOpenloopRamp(rampRate);
+    }
+
     private void configTalonFX(WPI_TalonFX motor, WPI_TalonFX master) {
         if(motor != master)
             motor.follow(master);
         motor.setNeutralMode(NeutralMode.Coast);
-        motor.configOpenloopRamp(0);
+        motor.configOpenloopRamp(robotConstants.drivetrainConstants.kRampRate);
         motor.configStatorCurrentLimit(
             new StatorCurrentLimitConfiguration(true, robotConstants.drivetrainConstants.kCurrentLimit,
                 robotConstants.drivetrainConstants.kTriggerThresholdCurrent,
