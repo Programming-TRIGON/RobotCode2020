@@ -20,8 +20,8 @@ public class Mixer extends OverridableSubsystem implements Loggable {
         talonSRX = new WPI_TalonSRX(robotConstants.can.kMixerTalonSRX);
         talonSRX.setNeutralMode(NeutralMode.Coast);
         talonSRX.setInverted(robotConstants.mixerConstants.kIsInverted);
-        talonSRX.configOpenloopRamp(robotConstants.mixerConstants.kRampUpTime);
         talonSRX.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+        setOpenloopRamp(robotConstants.mixerConstants.kRampTime);
     }
 
     @Override
@@ -40,5 +40,9 @@ public class Mixer extends OverridableSubsystem implements Loggable {
      */
     public boolean isInStall() {
         return Math.abs(getCurrent()) >= robotConstants.mixerConstants.kMixerMaxStall;
+    }
+
+    public void setOpenloopRamp(double rampTime) {
+        talonSRX.configOpenloopRamp(rampTime);
     }
 }

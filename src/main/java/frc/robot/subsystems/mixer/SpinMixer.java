@@ -1,6 +1,5 @@
 package frc.robot.subsystems.mixer;
 
-import edu.wpi.first.hal.sim.DriverStationSim;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utils.DriverStationLogger;
@@ -52,7 +51,7 @@ public class SpinMixer extends CommandBase {
         lastTimeNotOnStall = Timer.getFPGATimestamp();
         backwardsSpinStartTime = 0;
         stalled = false;
-        // For Test!! remove later...
+        // TODO: For Test!! remove later...
         mixer.stopOverride();
     }
 

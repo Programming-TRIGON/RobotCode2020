@@ -10,6 +10,7 @@ import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.loader.SetLoaderSpeedPID;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixer;
+import frc.robot.subsystems.mixer.SpinMixerByTime;
 import frc.robot.subsystems.shooter.CalibrateShooterVelocity;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
@@ -37,6 +38,7 @@ public class DashboardDataContainer {
         putDefaultNumber("Mixer/Mixer power", 0);
         putData("Mixer/Override", new OverrideCommand(mixer));
         putData("Mixer/Spin Mixer", new SpinMixer(() -> getNumber("Mixer/Mixer power", 0)));
+        putData("Mixer/Spin Mixer By Time", new SpinMixerByTime(() -> getNumber("Mixer/Mixer power", 0)));
 
         // Shooter dashboard data
         putDefaultNumber("Shooter/Shooting velocity setpoint", 3050);
