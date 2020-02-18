@@ -38,6 +38,16 @@ public class DashboardDataContainer {
         putData("Songs/Play loaded song", new StartEndCommand(drivetrain::playSong, drivetrain::stopSong, drivetrain));
     }
 
+    /**
+     * Sets the SmartDashboard entry's value if it does not exist.
+     *
+     * @param key the smartDashboard key
+     * @param defaultValue the default value to set
+     */
+    private void putDefaultNumber(String key, double defaultValue) {
+        SmartDashboard.getEntry(key).setDefaultNumber(defaultValue);
+    }
+
     public void update() {
         Logger.updateEntries();
     }

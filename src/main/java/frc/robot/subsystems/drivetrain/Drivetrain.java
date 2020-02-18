@@ -23,8 +23,7 @@ import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 public class Drivetrain extends SubsystemBase implements MovableSubsystem, Loggable {
     private WPI_TalonFX leftRear;
@@ -84,7 +83,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.kWheelBaseWidth);
         odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
 
-        orchestra = new Orchestra(new ArrayList<TalonFX>(Arrays.asList(leftRear, leftMiddle, leftFront, rightRear, rightMiddle, rightFront)));
+        orchestra = new Orchestra(List.of(leftRear, leftMiddle, leftFront, rightRear, rightMiddle, rightFront));
     }
 
     // Drive functions
@@ -295,7 +294,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     }
 
     public void periodic() {
-        //odometry.update(Rotation2d.fromDegrees(getAngle()), getLeftDistance(), getRightDistance());
+        odometry.update(Rotation2d.fromDegrees(getAngle()), getLeftDistance(), getRightDistance());
     }
 
     private void configTalonFX(WPI_TalonFX motor, WPI_TalonFX master) {
