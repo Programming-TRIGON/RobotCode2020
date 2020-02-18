@@ -99,10 +99,10 @@ public class RobotA extends RobotConstants {
         motionProfilingConstants.kMaxVelocity = 0;
         motionProfilingConstants.kMaxAcceleration = 0;
         motionProfilingConstants.kMaxCentripetalAcceleration = 0;
-        motionProfilingConstants.kP = 0;
-        motionProfilingConstants.kReverseKp = 0;
-        controlConstants.motionProfilingSettings = new SimpleMotorFeedforward(0, 0, 0);
-        controlConstants.motionProfilingReverseSettings = new SimpleMotorFeedforward(0, 0, 0);
+        motionProfilingConstants.kP = 1.3;
+        motionProfilingConstants.kReverseKp = 1.26;
+        controlConstants.motionProfilingSettings = new SimpleMotorFeedforward(0.135, 2.47, 0.347);
+        controlConstants.motionProfilingReverseSettings = new SimpleMotorFeedforward(0.129, 2.47, 0.334);
 
         // Vision Constants
         visionConstants.kDistanceFromPortACoefficient = 0;
