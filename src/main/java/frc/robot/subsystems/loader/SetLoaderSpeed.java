@@ -21,7 +21,7 @@ public class SetLoaderSpeed extends CommandBase {
     }
 
     public SetLoaderSpeed(LoaderPower loaderPower) {
-        this(() -> loaderPower.getPower());
+        this(loaderPower::getPower);
     }
 
     /**

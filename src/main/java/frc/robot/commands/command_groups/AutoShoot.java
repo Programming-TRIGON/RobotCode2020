@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
+import frc.robot.subsystems.loader.SetLoaderSpeedPID;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
@@ -84,19 +85,19 @@ public class AutoShoot extends SequentialCommandGroup {
                         new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower),
                         () -> Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance))*/
                     parallel(new SpinMixer(MixerPower.MixForShoot),
-                        new SetLoaderSpeed(LoaderPower.LoadToShoot))//this::getDesiredLoaderSpeed))
+                        new SetLoaderSpeedPID(LoaderPower.LoadToShoot))//this::getDesiredLoaderSpeed))
                 ),
                 new WaitCommand(kAutoWaitTimeAfterShot)
             )
         );
     }
 
-    private double getDesiredLoaderSpeed() {
+    private LoaderPower getDesiredLoaderSpeed() {
         if (Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance)
             if (speedSupplier.getAsDouble() < robotConstants.loaderConstants.kFarawayShooterSpeed)
-                return LoaderPower.LoadToShoot.getPower();
-            else return LoaderPower.FarShoot.getPower();
-        return LoaderPower.UnloadForOrder.getPower();
+                return LoaderPower.LoadToShoot;
+            else return LoaderPower.FarShoot;
+        return LoaderPower.UnloadForOrder;
     }
 
     @Override

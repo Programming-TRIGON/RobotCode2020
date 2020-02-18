@@ -30,7 +30,13 @@ public class Loader extends OverridableSubsystem implements Loggable {
         DriverStationLogger.logErrorToDS(talonSRX.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.RemoteSensor1, 0, 0),
             "Could not set loader encoder");
         talonSRX.setSensorPhase(robotConstants.loaderConstants.kIsEncoderInverted);
+        
+        configPIDFGains();
     }
+
+	public int getTicks() {
+		return talonSRX.getSelectedSensorPosition();
+	}
 
     @Log(name = "Loader/Velocity")
     public double getVelocity() {

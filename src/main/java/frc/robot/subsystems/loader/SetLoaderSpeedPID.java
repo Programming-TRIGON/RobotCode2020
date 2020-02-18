@@ -17,7 +17,7 @@ public class SetLoaderSpeedPID extends CommandBase {
   }
 
   public SetLoaderSpeedPID(LoaderPower loaderPower) {
-    this(loaderPower::getPower);
+    this(loaderPower::getRPM);
   }
 
   public SetLoaderSpeedPID(DoubleSupplier setpoint) {

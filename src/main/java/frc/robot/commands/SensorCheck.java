@@ -4,13 +4,12 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.utils.DriverStationLogger;
 
-import static frc.robot.Robot.drivetrain;
-import static frc.robot.Robot.shooter;
+import static frc.robot.Robot.*;
 
 public class SensorCheck extends CommandBase {
     private static final double kCheckTime = 1;
     private static final double kStartCheckTime = 0.7; // 0 to 1 (Percent)
-    private static final int kSensorsAmount = 4 /*5*/;
+    private static final int kSensorsAmount = 5;
     private static final double kPowerToMove = 0.1;
     private double initialTime;
     private int[] initialSensorPosition; // Ticks units
@@ -33,21 +32,21 @@ public class SensorCheck extends CommandBase {
         initialSensorPosition[1] = drivetrain.getRightTicks();
         initialSensorPosition[2] = shooter.getLeftTicks();
         initialSensorPosition[3] = shooter.getRightTicks();
-        // initialSensorPosition[4] = loader.getTicks();
+        initialSensorPosition[4] = loader.getTicks();
     }
 
     @Override
     public void execute() {
         drivetrain.move(kPowerToMove);
         shooter.move(kPowerToMove);
-        // loader.move(kPowerToMove);
+        loader.move(kPowerToMove);
         // After kStartCheckTime of the kCheckTime passed we start check for sensors error
         if (Timer.getFPGATimestamp() - initialTime >= kCheckTime * kStartCheckTime) {
             checkError(0, drivetrain.getLeftTicks(), "Left drivetrain encoder disconnect");
             checkError(1, drivetrain.getRightTicks(), "Right drivetrain encoder disconnect");
             checkError(2, shooter.getLeftTicks(), "Left shooter encoder disconnect");
             checkError(3, shooter.getRightTicks(), "Right shooter encoder disconnect");
-            // checkError(4, loader.getTicks(), "Loader encoder disconnect");
+            checkError(4, loader.getTicks(), "Loader encoder disconnect");
         }
     }
 
@@ -60,7 +59,7 @@ public class SensorCheck extends CommandBase {
     public void end(boolean interrupted) {
         drivetrain.stopMove();
         shooter.stopMove();
-        // loader.stopMove();
+        loader.stopMove();
         // Check if none error detected, reports that all encoders are fine
         for (boolean error : hasFoundError) {
             if (error)

@@ -95,7 +95,7 @@ public class RobotA extends RobotConstants {
         loaderConstants.kRampRate = 0.25;
         loaderConstants.kTicksPerRotation = 4096;
         loaderConstants.kFarawayShooterSpeed = 5000;
-        controlConstants.loaderSettings = PIDSettings.fromTalonSettings(0, 0, 0, 0.133, 0);
+        controlConstants.loaderSettings = PIDSettings.fromTalonSettings(0.02, 0.000001, 1.5, 0.141, 2);
 
         // Motion Profiling Constants
         motionProfilingConstants.kMaxVelocity = 0;
