@@ -6,7 +6,9 @@ import frc.robot.autonomus.SimpleAuto;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.RunWhenDisabledCommand;
+import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
+import frc.robot.commands.command_groups.CollectFromFeeder;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
@@ -79,10 +81,13 @@ public class DashboardDataContainer {
             () -> getNumber("Intake Opener/Intake Opener power", 0)));
         putData("Intake Opener/Tune Open PID", new OpenIntake());
         putData("Intake Opener/Tune Close PID", new CloseIntake());
-        putData("collect", new CollectCell());
         putData("Intake Opener/Open Intake", openIntake(true));
         putData("Intake Opener/Close Intake", openIntake(false));
         putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
+        // Command groups data
+        putData("CommandGroup/Auto Shoot", new AutoShoot());
+        putData("CommandGroup/Collect Cell", new CollectCell());
+        putData("CommandGroup/Collect From Feeder", new CollectFromFeeder());
     }
 
     /**

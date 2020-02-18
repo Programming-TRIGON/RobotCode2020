@@ -48,8 +48,8 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.kPotentiometerAngleMultiplier = 1200;
         intakeOpenerConstants.kPotentiometerOffset = 0;
         intakeOpenerConstants.kTimeout = 0.5;
-        controlConstants.intakeOpenerSettings = new PIDSettings(0.012, 0.01, 0,1,10);
-        controlConstants.intakeCloserSettings = new PIDSettings(0.015, 0.015, 0,1,10);
+        controlConstants.openIntakeSettings = new PIDSettings(0.012, 0.01, 0,1,10);
+        controlConstants.closeIntakeSettings = new PIDSettings(0.015, 0.015, 0,1,10);
 
         // Mixer Constants
         mixerConstants.kMixerMaxStall = 30;

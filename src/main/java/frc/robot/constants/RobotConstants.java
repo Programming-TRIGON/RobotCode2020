@@ -121,8 +121,8 @@ public abstract class RobotConstants extends RobotMap {
         public PIDSettings rightShooterSettings;
         public PIDSettings loaderPidSettings;
         public SimpleMotorFeedforward loaderFeedforward;
-        public PIDSettings intakeOpenerSettings;
-        public PIDSettings intakeCloserSettings;
+        public PIDSettings openIntakeSettings;
+        public PIDSettings closeIntakeSettings;
     }
 
     public static class MotionProfilingConstants {

@@ -15,11 +15,8 @@ import static frc.robot.Robot.robotConstants;
  * This subsystem is responsible for opening the intake and closing it.
  */
 public class IntakeOpener extends OverridableSubsystem implements Loggable {
-    private final WPI_TalonSRX talonSRX;
-    private final AnalogPotentiometer potentiometer;
-    private double velocity;
-    private double lastPosition;
-    private double lastTimestamp;
+    private WPI_TalonSRX talonSRX;
+    private AnalogPotentiometer potentiometer;
 
     public IntakeOpener() {
         talonSRX = new WPI_TalonSRX(robotConstants.can.kIntakeOpenerTalonSRX);
@@ -41,29 +38,17 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
 
     @Override
     public void move(double power) {
-        if (!isOverridden()) {
             if ((getAngle() >= robotConstants.intakeOpenerConstants.kOpenAngle && power > 0)
                 || (getAngle() <= robotConstants.intakeOpenerConstants.kClosedAngle && power < 0))
                 super.move(0);
             else
                 super.move(power);
-        }
     }
 
     /** @return The angle of the potentiometer parallel to the floor. */
     @Log(name = "IntakeOpener/Angle")
     public double getAngle() {
         return -(potentiometer.get() - 600);
-    }
-
-    @Override
-    public void periodic() {
-        final double newTimestamp = Timer.getFPGATimestamp();
-        final double dt = newTimestamp - lastTimestamp;
-        final double newPosition = getAngle();
-        velocity = (newPosition - lastPosition) / dt;
-        lastPosition = newPosition;
-        lastTimestamp = newTimestamp;
     }
 
     public WPI_TalonSRX getTalonSRX() {

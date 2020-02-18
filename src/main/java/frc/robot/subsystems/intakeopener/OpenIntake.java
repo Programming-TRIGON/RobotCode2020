@@ -30,7 +30,7 @@ public class OpenIntake extends CommandBase {
      */
     public OpenIntake(DoubleSupplier angleSupplier) {
         addRequirements(intakeOpener);
-        pidController = new TrigonPIDController(robotConstants.controlConstants.intakeOpenerSettings);
+        pidController = new TrigonPIDController(robotConstants.controlConstants.openIntakeSettings);
         this.angleSupplier = angleSupplier;
     }
 
@@ -39,7 +39,7 @@ public class OpenIntake extends CommandBase {
      */
     public OpenIntake() {
         addRequirements(intakeOpener);
-        pidController = new TrigonPIDController("Intake Opener");
+        pidController = new TrigonPIDController("Open Intake");
     }
 
     @Override

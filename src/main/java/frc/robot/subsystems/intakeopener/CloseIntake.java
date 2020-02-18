@@ -16,7 +16,7 @@ public class CloseIntake extends CommandBase {
      */
     public CloseIntake(DoubleSupplier angleSupplier) {
         addRequirements(intakeOpener);
-        pidController = new TrigonPIDController(robotConstants.controlConstants.intakeOpenerSettings);
+        pidController = new TrigonPIDController(robotConstants.controlConstants.closeIntakeSettings);
         this.angleSupplier = angleSupplier;
     }
 
@@ -25,7 +25,7 @@ public class CloseIntake extends CommandBase {
      */
     public CloseIntake() {
         addRequirements(intakeOpener);
-        pidController = new TrigonPIDController("Intake Closer");
+        pidController = new TrigonPIDController("Close Intake");
     }
 
     @Override
