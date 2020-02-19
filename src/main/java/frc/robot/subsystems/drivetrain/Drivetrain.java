@@ -19,7 +19,8 @@ import frc.robot.utils.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
-import static frc.robot.Robot.*;
+import static frc.robot.Robot.climb;
+import static frc.robot.Robot.robotConstants;
 
 public class Drivetrain extends SubsystemBase implements MovableSubsystem, Loggable {
     private WPI_TalonFX leftRear;
@@ -70,7 +71,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
             "Could not set right drivetrain encoder");
         rightEncoder.setSensorPhase(robotConstants.drivetrainConstants.kRightEncoderInverted);
 
-        gyro = new Pigeon(intakeOpener.getTalonSRX());
+        gyro = new Pigeon(new TalonSRX(robotConstants.can.kPigeonTalonSRX));
         DriverStationLogger.logErrorToDS(gyro.resetGyroWithErrorCode(),
             "Could not reset pigeon gyro");
 

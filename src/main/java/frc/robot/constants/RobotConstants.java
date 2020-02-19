@@ -1,7 +1,5 @@
 package frc.robot.constants;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.utils.PIDSettings;
 
@@ -51,17 +49,18 @@ public abstract class RobotConstants extends RobotMap {
         public double kStallTimeout;
         public int kStallLimit;
         public double kOnStallLimit;
-    }
 
+    }
     public static class IntakeOpenerConstants {
+        public boolean kIsSensorInverted;
         public boolean kIsInverted;
         public double kCurrentLimit;
         public double kThresholdLimit;
         public double kTriggerThresholdTime;
         public double kOpenAngle;
         public double kClosedAngle;
-        public double kPotentiometerAngleMultiplier;
-        public double kPotentiometerOffset;
+        public double kTicksPerRotation;
+        public double kEncoderOffset;
         public double kTimeout;
     }
 

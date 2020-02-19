@@ -39,6 +39,7 @@ public abstract class RobotMap {
         // Climb ports
         public int kClimbSparkMax;
         public int kHookTalonSRX;
+        public int kPigeonTalonSRX;
     }
 
     public static class DIO {
@@ -54,6 +55,5 @@ public abstract class RobotMap {
     }
 
     public static class AnalogInput {
-        public int kIntakeOpenerPotentiometer;
     }
 }
