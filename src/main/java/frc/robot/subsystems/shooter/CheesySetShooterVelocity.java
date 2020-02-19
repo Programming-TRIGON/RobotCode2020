@@ -1,6 +1,5 @@
 package frc.robot.subsystems.shooter;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.DoubleSupplier;
@@ -13,11 +12,11 @@ import static frc.robot.Robot.shooter;
  */
 public class CheesySetShooterVelocity extends CommandBase {
 
-    private static final int kLoadedCellsInAuto = 5;
     private static final int kMinimumKfSamples = 20;
+    private static final int kMaxCellCapacity = 5;
     private DoubleSupplier velocitySetpoint;
     private CheesyShooterState currentShooterState;
-    private boolean isAuto;
+    private int amountOfCells;
     private double setpoint;
     private double kfSamplesAmount;
     private double leftKfSamplesSum;
@@ -30,60 +29,60 @@ public class CheesySetShooterVelocity extends CommandBase {
     /**
      * Constructs a shoot command with default RPM setpoint.
      *
-     * @see frc.robot.subsystems.shooter.ShooterVelocity#kDefault
+     * @see frc.robot.subsystems.shooter.ShooterVelocity#Default
      */
     public CheesySetShooterVelocity() {
-        this(false);
+        this(kMaxCellCapacity);
     }
 
     /**
      * Constructs a shoot command with default RPM setpoint.
      *
-     * @param isAuto whether the command should stop after shooting 3 cells
-     * @see frc.robot.subsystems.shooter.ShooterVelocity#kDefault
+     * @param amountOfCells whether the command should stop after shooting 3 cells
+     * @see frc.robot.subsystems.shooter.ShooterVelocity#Default
      */
-    public CheesySetShooterVelocity(boolean isAuto) {
-        this(ShooterVelocity.Default, isAuto);
+    public CheesySetShooterVelocity(int amountOfCells) {
+        this(ShooterVelocity.Default, amountOfCells);
     }
 
     /**
      * @param velocity the velocity setpoint the talon fx will try to achieve.
      */
     public CheesySetShooterVelocity(ShooterVelocity velocity) {
-        this(velocity, false);
+        this(velocity, kMaxCellCapacity);
     }
 
     /**
      * @param velocity the velocity setpoint the talon fx will try to achieve.
-     * @param isAuto   whether the command should stop after shooting 3 cells
+     * @param amountOfCells   whether the command should stop after shooting 3 cells
      */
-    public CheesySetShooterVelocity(ShooterVelocity velocity, boolean isAuto) {
-        this(velocity.getVelocity(), isAuto);
+    public CheesySetShooterVelocity(ShooterVelocity velocity, int amountOfCells) {
+        this(velocity.getVelocity(), amountOfCells);
     }
 
     /**
      * @param velocitySetpoint The setpoint used for calculation the PID velocity error in RPM.
      */
     public CheesySetShooterVelocity(double velocitySetpoint) {
-        this(velocitySetpoint, false);
+        this(velocitySetpoint, kMaxCellCapacity);
     }
 
     /**
      * @param velocitySetpoint The setpoint used for calculation the PID velocity error in RPM.
-     * @param isAuto           Whether the command is run in autonomous.
+     * @param amountOfCells           Whether the command is run in autonomous.
      */
-    public CheesySetShooterVelocity(double velocitySetpoint, boolean isAuto) {
-        this(() -> velocitySetpoint, isAuto);
+    public CheesySetShooterVelocity(double velocitySetpoint, int amountOfCells) {
+        this(() -> velocitySetpoint, amountOfCells);
     }
 
     public CheesySetShooterVelocity(DoubleSupplier velocitySetpointSupplier) {
-        this(velocitySetpointSupplier, false);
+        this(velocitySetpointSupplier, kMaxCellCapacity);
     }
 
-    public CheesySetShooterVelocity(DoubleSupplier velocitySetpointSupplier, boolean isAuto) {
+    public CheesySetShooterVelocity(DoubleSupplier velocitySetpointSupplier, int amountOfCells) {
         addRequirements(shooter);
         velocitySetpoint = velocitySetpointSupplier;
-        this.isAuto = isAuto;
+        this.amountOfCells = amountOfCells;
     }
 
     @Override
@@ -102,7 +101,7 @@ public class CheesySetShooterVelocity extends CommandBase {
     @Override
     public void execute() {
         SmartDashboard.putString("Shooter/Current Cheesy shooter state", currentShooterState.toString());
-        switch(currentShooterState) {
+        switch (currentShooterState) {
             case SpinUp:
                 // reach target velocity in close loop control and calculate kF
                 spinUpExecute();
@@ -126,7 +125,7 @@ public class CheesySetShooterVelocity extends CommandBase {
             leftKfSamplesSum = 0;
             rightKfSamplesSum = 0;
         }
-        if (kMinimumKfSamples <= kfSamplesAmount) 
+        if (kMinimumKfSamples <= kfSamplesAmount)
             currentShooterState = CheesyShooterState.HoldWhenReady;
     }
 
@@ -144,32 +143,19 @@ public class CheesySetShooterVelocity extends CommandBase {
             updateKf();
             shooter.configFeedforwardGains(leftKfSamplesSum / kfSamplesAmount, rightKfSamplesSum / kfSamplesAmount);
         }
-        // If in auto, check how many cells were shot.
-        if (isAuto) {
-            SmartDashboard.putNumber("Shooter/Cells Shot", cellsShot);
-            boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageVelocity()) >= robotConstants.shooterConstants.kShootingBallZone;
-            countShotCells(isCellBeingShot);
-        }
+        // Check how many cells were shot.
+        SmartDashboard.putNumber("Shooter/Cells Shot", cellsShot);
+        boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageVelocity()) >= robotConstants.shooterConstants.kShootingBallZone;
+        countShotCells(isCellBeingShot);
     }
 
     private void countShotCells(boolean isCellBeingShot) {
-        if(isCellBeingShot && !isInZone) {
+        if (isCellBeingShot && !isInZone) {
             isInZone = true;
             cellsShot++; 
         } else if (!isCellBeingShot && isInZone) {
             isInZone = false;
         }
-
-        /*if (!isInZone && isCellBeingShot &&
-            Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.kWaitTimeZone) {
-            isInZone = true;
-            firstTimeInZone = Timer.getFPGATimestamp();
-            cellsShot++;
-        } else if (isInZone && !isCellBeingShot &&
-            Timer.getFPGATimestamp() - firstTimeInZone > robotConstants.shooterConstants.kWaitTimeZone) {
-            isInZone = false;
-            firstTimeOutsideZone = Timer.getFPGATimestamp();
-        }*/
     }
 
     private void updateKf() {
@@ -180,7 +166,7 @@ public class CheesySetShooterVelocity extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return isAuto && cellsShot >= kLoadedCellsInAuto;
+        return cellsShot >= amountOfCells;
     }
 
     @Override
@@ -188,7 +174,7 @@ public class CheesySetShooterVelocity extends CommandBase {
         if (!interrupted)
             shooter.stopMove();
         shooter.setProfileSlot(false);
-        SmartDashboard.putString("Shooter/Current Cheesy shooter state", "No state"); 
+        SmartDashboard.putString("Shooter/Current Cheesy shooter state", "No state");
     }
 
     /**
@@ -196,9 +182,9 @@ public class CheesySetShooterVelocity extends CommandBase {
      * Shooter must be in Hold state (cheesy shooting contorl) and on target velocity.
      * The velocity tolerance is taken from {@link frc.robot.constants.RobotConstants.ShooterConstants#kVelocityTolerance}
      */
-    public boolean readyToShoot() { 
+    public boolean readyToShoot() {
         return Math.abs(getError()) <
-            robotConstants.shooterConstants.kVelocityTolerance 
+            robotConstants.shooterConstants.kVelocityTolerance
             && currentShooterState == CheesyShooterState.Hold;
     }
 

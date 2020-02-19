@@ -18,8 +18,8 @@ import frc.robot.vision.Target;
 import frc.robot.vision.TurnToTarget;
 import io.github.oblarg.oblog.Logger;
 
-import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putData;
 import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.getNumber;
+import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putData;
 import static frc.robot.Robot.*;
 
 /**
@@ -43,7 +43,7 @@ public class DashboardDataContainer {
 
         // Shooter dashboard data
         putDefaultNumber("Shooter/Shooting velocity setpoint", 3050);
-        putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0), false));
+        putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
         putData("Shooter/Set shooting velocity", new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
         putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
         putDefaultNumber("Shooter/Override Power", 0);
@@ -59,7 +59,7 @@ public class DashboardDataContainer {
         putData("CommandGroup/Sort Balls", new ParallelCommandGroup(
             new SetLoaderSpeed(LoaderPower.UnloadForSort),
             new SpinMixerByTime(MixerPower.MixForSort)));
-        putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0), true));
+        putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
     }
 
     /**
