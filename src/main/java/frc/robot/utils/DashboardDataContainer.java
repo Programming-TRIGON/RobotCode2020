@@ -76,8 +76,12 @@ public class DashboardDataContainer {
         putDefaultNumber("Intake Opener/Intake Opener power", 0);
         putData("Intake Opener/Override intake opener", new OverrideCommand(intakeOpener,
             () -> getNumber("Intake Opener/Intake Opener power", 0)));
-        putData("Intake Opener/Tune Open PID", new OpenIntake());
-        putData("Intake Opener/Tune Close PID", new CloseIntake());
+        putDefaultNumber("Intake Opener/Open Setpoint", 0);
+        putDefaultNumber("Intake Opener/Close Setpoint", 0);
+        putData("Intake Opener/Tune Open PID", new OpenIntake(
+            () -> getNumber("Intake Opener/Open Setpoint", 0), true));
+        putData("Intake Opener/Tune Open PID", new OpenIntake(
+            () -> getNumber("Intake Opener/Close Setpoint", 0), false));
         putData("Intake Opener/Open Intake", new SetIntakeState(true));
         putData("Intake Opener/Close Intake", new SetIntakeState(false));
         putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
