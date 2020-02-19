@@ -68,8 +68,8 @@ public class RobotA extends RobotConstants {
         climbConstants.kHookThresholdLimit = 0;
         climbConstants.kHookCurrentTimeout = 0;
         climbConstants.kHookPotentiometerAngleMultiplier = 10;
-        climbConstants.kHookPotentiometerOffset = -0.5;
-        climbConstants.kMaxHookRotations = 7.5;
+        climbConstants.kHookPotentiometerOffset = -0.76;
+        climbConstants.kMaxHookRotations = 5;
         climbConstants.kIsClimbInverted = true;
         climbConstants.kClimbCurrentLimit = 80;
         climbConstants.kDefaultClimbPower = 0;
@@ -146,6 +146,7 @@ public class RobotA extends RobotConstants {
         can.kDrivetrainRightMiddleTalonFX = 5;
         can.kDrivetrainRightRearTalonFX = 6;
         can.kDrivetrainLeftEncoder = 13;
+        can.kPigeonTalonSRX = 9;
         // Intake Map
         can.kCellIntakeSparkMax = 7;
         can.kIntakeOpenerTalonSRX = 10;
@@ -161,7 +162,7 @@ public class RobotA extends RobotConstants {
         // Climb Map
         can.kHookTalonSRX = 14;
         analogInput.kHookPotentiometer = 3;
-        can.kClimbSparkMax = 12;
+        can.kClimbSparkMax = 8;
         // PWM Map
         pwm.kLedController = 0;
         // I2C Port

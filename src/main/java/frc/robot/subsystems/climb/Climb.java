@@ -30,7 +30,7 @@ public class Climb extends SubsystemBase implements Loggable {
             new SupplyCurrentLimitConfiguration(false, robotConstants.climbConstants.kHookCurrentLimit,
                 robotConstants.climbConstants.kHookThresholdLimit, robotConstants.climbConstants.kHookCurrentTimeout));
         hookTalonSRX.setInverted(robotConstants.climbConstants.kIsHookInverted);
-        hookTalonSRX.setNeutralMode(NeutralMode.Coast);
+        hookTalonSRX.setNeutralMode(NeutralMode.Brake);
 
         hookPotentiometer = new AnalogPotentiometer(robotConstants.analogInput.kHookPotentiometer, 
             robotConstants.climbConstants.kHookPotentiometerAngleMultiplier,

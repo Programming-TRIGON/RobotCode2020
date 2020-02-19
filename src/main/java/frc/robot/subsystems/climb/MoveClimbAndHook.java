@@ -23,6 +23,7 @@ public class MoveClimbAndHook extends CommandBase {
     }
 
     @Override
+    
     public void execute() {
         Robot.climb.setClimbPower(climbPower.getAsDouble());
         Robot.climb.setHookPower(hookPower.getAsDouble());

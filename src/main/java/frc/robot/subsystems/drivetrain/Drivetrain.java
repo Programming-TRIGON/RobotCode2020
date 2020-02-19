@@ -70,7 +70,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
             "Could not set right drivetrain encoder");
         rightEncoder.setSensorPhase(robotConstants.drivetrainConstants.kRightEncoderInverted);
 
-        gyro = new Pigeon(intakeOpener.getTalonSRX());
+        gyro = new Pigeon(new TalonSRX(robotConstants.can.kPigeonTalonSRX));
         DriverStationLogger.logErrorToDS(gyro.resetGyroWithErrorCode(),
             "Could not reset pigeon gyro");
 
