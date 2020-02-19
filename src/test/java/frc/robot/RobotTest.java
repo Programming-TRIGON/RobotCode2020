@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.autonomus.MiddleFieldAuto;
 import frc.robot.autonomus.SimpleAuto;
 import frc.robot.autonomus.StartingPose;
+import frc.robot.autonomus.StealAuto;
 import frc.robot.autonomus.TrenchAuto;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.OverrideCommand;
@@ -80,6 +81,7 @@ public class RobotTest {
             new SimpleAuto(),
             new TrenchAuto(StartingPose.kFacingPowerPort),
             new MiddleFieldAuto(StartingPose.kFacingPowerPort),
+            new StealAuto(),
         };
 
         for (Command command : commands) {

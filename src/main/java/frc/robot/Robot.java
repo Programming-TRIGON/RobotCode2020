@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.autonomus.MiddleFieldAuto;
 import frc.robot.autonomus.SimpleAuto;
 import frc.robot.autonomus.StartingPose;
+import frc.robot.autonomus.StealAuto;
 import frc.robot.autonomus.TrenchAuto;
 import frc.robot.constants.FieldConstants;
 import frc.robot.constants.RobotConstants;
@@ -72,6 +73,7 @@ public class Robot extends TimedRobot {
 
         autoChooser.setDefaultOption("Simple Auto", new SimpleAuto());
         autoChooser.addOption("Calibrate Feedforward", new CalibrateFeedforward());
+        autoChooser.addOption("StealAuto", new StealAuto());
         autoChooser.addOption("TrenchAuto: In line with Trench", new TrenchAuto(StartingPose.kLineUpWithTrenchRun));
         autoChooser.addOption("TrenchAuto: Facing Power Port", new TrenchAuto(StartingPose.kFacingPowerPort));
         autoChooser.addOption("MiddleFieldAuto: Facing Power Port", new MiddleFieldAuto(StartingPose.kFacingPowerPort));
