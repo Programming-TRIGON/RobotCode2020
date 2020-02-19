@@ -1,11 +1,13 @@
 package frc.robot.subsystems.intakeopener;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.OverridableSubsystem;
+import frc.robot.utils.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
@@ -16,7 +18,7 @@ import static frc.robot.Robot.robotConstants;
  */
 public class IntakeOpener extends OverridableSubsystem implements Loggable {
     private WPI_TalonSRX talonSRX;
-    private AnalogPotentiometer potentiometer;
+    private boolean isTuning;
 
     public IntakeOpener() {
         talonSRX = new WPI_TalonSRX(robotConstants.can.kIntakeOpenerTalonSRX);
@@ -26,9 +28,7 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
             new SupplyCurrentLimitConfiguration(false, robotConstants.intakeOpenerConstants.kCurrentLimit,
                 robotConstants.intakeOpenerConstants.kThresholdLimit,
                 robotConstants.intakeOpenerConstants.kTriggerThresholdTime));
-        potentiometer = new AnalogPotentiometer(robotConstants.analogInput.kIntakeOpenerPotentiometer,
-            robotConstants.intakeOpenerConstants.kPotentiometerAngleMultiplier,
-            robotConstants.intakeOpenerConstants.kPotentiometerOffset);
+        talonSRX.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
     }
 
     @Override
@@ -38,20 +38,69 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
 
     @Override
     public void move(double power) {
-            if ((getAngle() >= robotConstants.intakeOpenerConstants.kOpenAngle && power > 0)
-                || (getAngle() <= robotConstants.intakeOpenerConstants.kClosedAngle && power < 0))
-                super.move(0);
-            else
-                super.move(power);
+        if ((getAngle() >= robotConstants.intakeOpenerConstants.kOpenAngle && power > 0)
+            || (getAngle() <= robotConstants.intakeOpenerConstants.kClosedAngle && power < 0))
+            super.move(0);
+        else
+            super.move(power);
     }
 
-    /** @return The angle of the potentiometer parallel to the floor. */
+    /** @return The angle of the encoder. */
     @Log(name = "IntakeOpener/Angle")
     public double getAngle() {
-        return potentiometer.get();
+        return talonSRX.getSelectedSensorPosition() / robotConstants.intakeOpenerConstants.kTicksPerRotation;
+    }
+
+    /**
+     * @param slot 0 is for opening, 1 is for closing
+     */
+    public void changeSlot(int slot) {
+        talonSRX.selectProfileSlot(slot, 0);
     }
 
     public WPI_TalonSRX getTalonSRX() {
         return talonSRX;
+    }
+
+    public void openIntake() {
+        talonSRX.selectProfileSlot(0, 0);
+        setIntakePosition(robotConstants.intakeOpenerConstants.kOpenAngle);
+    }
+
+    public void closeIntake() {
+        talonSRX.selectProfileSlot(1, 0);
+        setIntakePosition(robotConstants.intakeOpenerConstants.kClosedAngle);
+    }
+
+    public void setIntakePosition(double position) {
+        talonSRX.set(ControlMode.Position, position * robotConstants.intakeOpenerConstants.kTicksPerRotation);
+    }
+
+    public void enableTuning() {
+        DriverStationLogger.logToDS("Intake Opener tuning enabled");
+        SmartDashboard.putData("PID/Intake Opener Settings", robotConstants.controlConstants.openIntakeSettings);
+        SmartDashboard.putData("PID/Intake Closer Settings", robotConstants.controlConstants.closeIntakeSettings);
+        isTuning = true;
+    }
+
+    public void disableTuning() {
+        isTuning = false;
+    }
+
+    private void configPIDFGains() {
+        talonSRX.config_kP(0, robotConstants.controlConstants.openIntakeSettings.getKP());
+        talonSRX.config_kI(0, robotConstants.controlConstants.openIntakeSettings.getKI());
+        talonSRX.config_kD(0, robotConstants.controlConstants.openIntakeSettings.getKD());
+        talonSRX.config_kF(0, robotConstants.controlConstants.openIntakeSettings.getKF());
+        talonSRX.config_kP(1, robotConstants.controlConstants.closeIntakeSettings.getKP());
+        talonSRX.config_kI(1, robotConstants.controlConstants.closeIntakeSettings.getKI());
+        talonSRX.config_kD(1, robotConstants.controlConstants.closeIntakeSettings.getKD());
+        talonSRX.config_kF(1, robotConstants.controlConstants.closeIntakeSettings.getKF());
+    }
+
+    @Override
+    public void periodic() {
+        if (isTuning)
+            configPIDFGains();
     }
 }
