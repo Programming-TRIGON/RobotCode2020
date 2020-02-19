@@ -38,17 +38,19 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
 
     @Override
     public void move(double power) {
-        if ((getAngle() >= robotConstants.intakeOpenerConstants.kOpenAngle && power > 0)
-            || (getAngle() <= robotConstants.intakeOpenerConstants.kClosedAngle && power < 0))
-            super.move(0);
-        else
-            super.move(power);
+        if (!overridden)
+            if ((getAngle() >= robotConstants.intakeOpenerConstants.kOpenAngle && power > 0)
+                || (getAngle() <= robotConstants.intakeOpenerConstants.kClosedAngle && power < 0))
+                super.move(0);
+            else
+                super.move(power);
     }
 
-    /** @return The angle of the encoder. */
+    /** @return The angle measured by the encoder */
     @Log(name = "IntakeOpener/Angle")
     public double getAngle() {
-        return talonSRX.getSelectedSensorPosition() / robotConstants.intakeOpenerConstants.kTicksPerRotation;
+        return talonSRX.getSelectedSensorPosition() / robotConstants.intakeOpenerConstants.kTicksPerRotation * 360 
+            + robotConstants.intakeOpenerConstants.kEncoderOffset;
     }
 
     /**
@@ -58,22 +60,18 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
         talonSRX.selectProfileSlot(slot, 0);
     }
 
-    public WPI_TalonSRX getTalonSRX() {
-        return talonSRX;
-    }
-
     public void openIntake() {
         talonSRX.selectProfileSlot(0, 0);
-        setIntakePosition(robotConstants.intakeOpenerConstants.kOpenAngle);
+        setIntakeAngle(robotConstants.intakeOpenerConstants.kOpenAngle);
     }
 
     public void closeIntake() {
         talonSRX.selectProfileSlot(1, 0);
-        setIntakePosition(robotConstants.intakeOpenerConstants.kClosedAngle);
+        setIntakeAngle(robotConstants.intakeOpenerConstants.kClosedAngle);
     }
 
-    public void setIntakePosition(double position) {
-        talonSRX.set(ControlMode.Position, position * robotConstants.intakeOpenerConstants.kTicksPerRotation);
+    public void setIntakeAngle(double angle) {
+        talonSRX.set(ControlMode.Position, angle / 360 * robotConstants.intakeOpenerConstants.kTicksPerRotation);
     }
 
     public void enableTuning() {

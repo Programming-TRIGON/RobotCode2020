@@ -7,35 +7,35 @@ import static frc.robot.Robot.intakeOpener;
 import static frc.robot.Robot.robotConstants;
 
 public class OpenIntake extends CommandBase {
-    private boolean isOpen;
+    private boolean open;
     private DoubleSupplier angleSupplier;
 
     /**
      * Either opens the Intake subsystem or closes it with PID.
      */
-    public OpenIntake(DoubleSupplier angleSupplier, boolean isOpen) {
-        this.isOpen = isOpen;
+    public OpenIntake(DoubleSupplier angleSupplier, boolean open) {
         addRequirements(intakeOpener);
+        this.open = open;
         this.angleSupplier = angleSupplier;
     }
 
-    public OpenIntake(double setpoint, boolean isOpen){
-        this(() -> setpoint, isOpen);
+    public OpenIntake(double setpoint, boolean open){
+        this(() -> setpoint, open);
     }
 
-    public OpenIntake(boolean isOpen) {
-        this(isOpen ? robotConstants.intakeOpenerConstants.kOpenAngle :
-            robotConstants.intakeOpenerConstants.kClosedAngle, isOpen);
+    public OpenIntake(boolean open) {
+        this(open ? robotConstants.intakeOpenerConstants.kOpenAngle :
+            robotConstants.intakeOpenerConstants.kClosedAngle, open);
     }
 
     @Override
     public void initialize() {
-        intakeOpener.changeSlot(isOpen ? 0 : 1);
+        intakeOpener.changeSlot(open ? 0 : 1);
     }
 
     @Override
     public void execute() {
-        intakeOpener.setIntakePosition(angleSupplier.getAsDouble());
+        intakeOpener.setIntakeAngle(angleSupplier.getAsDouble());
     }
 
     @Override

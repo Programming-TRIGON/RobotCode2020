@@ -10,7 +10,6 @@ public class SetIntakeState extends SequentialCommandGroup {
   * @param isOpen true - opens the Intake, false - closes it.
   */
   public SetIntakeState(boolean isOpen) {
-            addCommands(new OpenIntake(isOpen).
-                withTimeout(robotConstants.intakeOpenerConstants.kTimeout));
+    addCommands(new OpenIntake(isOpen).withTimeout(robotConstants.intakeOpenerConstants.kTimeout));
   }
 }
