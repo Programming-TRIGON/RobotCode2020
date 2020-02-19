@@ -46,7 +46,7 @@ public class Climb extends SubsystemBase implements Loggable {
 
     @Log(name = "Climb/Hook Rotations")
     public double getHookRotations() {
-        return hookPotentiometer.get();
+        return hookPotentiometer.get(); 
     }
 
     public void setHookPower(double power) {

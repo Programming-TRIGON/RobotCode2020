@@ -68,8 +68,8 @@ public class RobotA extends RobotConstants {
         climbConstants.kHookCurrentLimit = 0;
         climbConstants.kHookThresholdLimit = 0;
         climbConstants.kHookCurrentTimeout = 0;
-        climbConstants.kHookPotentiometerAngleMultiplier = 3600;
-        climbConstants.kHookPotentiometerOffset = 0;
+        climbConstants.kHookPotentiometerAngleMultiplier = 10;
+        climbConstants.kHookPotentiometerOffset = -0.5;
         climbConstants.kMaxHookRotations = 7.5;
         climbConstants.kIsClimbInverted = true;
         climbConstants.kClimbCurrentLimit = 80;
@@ -162,7 +162,7 @@ public class RobotA extends RobotConstants {
         dio.kSwitchShooter = 0;
         // Climb Map
         can.kHookTalonSRX = 14;
-        analogInput.kHookPotentiometer = 1;
+        analogInput.kHookPotentiometer = 3;
         can.kClimbSparkMax = 12;
         // PWM Map
         pwm.kLedController = 0;
