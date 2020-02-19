@@ -68,10 +68,12 @@ public class DashboardDataContainer {
         putData("Drivetrain/Calibrate Gyro", new RunWhenDisabledCommand(drivetrain::calibrateGyro));
         
         putData("Motion Profiling/Simple Path", new FollowPath(AutoPath.FacingPowerPortToTrenchStart.getPath(), true));
+        
         // Intake dashboard data
         putDefaultNumber("Intake/Intake power", 0);
         putData("Intake/Override intake", new OverrideCommand(intake,
             () -> getNumber("Intake/Intake power", 0)));
+        
         // IntakeOpener dashboard data
         putDefaultNumber("Intake Opener/Intake Opener power", 0);
         putData("Intake Opener/Override intake opener", new OverrideCommand(intakeOpener,
@@ -85,6 +87,7 @@ public class DashboardDataContainer {
         putData("Intake Opener/Open Intake", new SetIntakeState(true));
         putData("Intake Opener/Close Intake", new SetIntakeState(false));
         putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
+        
         // Command groups data
         putData("CommandGroup/Collect Cell", new CollectCell());
         putData("CommandGroup/Collect From Feeder", new CollectFromFeeder());
