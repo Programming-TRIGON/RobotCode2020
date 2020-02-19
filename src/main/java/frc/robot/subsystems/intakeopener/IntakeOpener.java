@@ -28,7 +28,7 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
             new SupplyCurrentLimitConfiguration(false, robotConstants.intakeOpenerConstants.kCurrentLimit,
                 robotConstants.intakeOpenerConstants.kThresholdLimit,
                 robotConstants.intakeOpenerConstants.kTriggerThresholdTime));
-        talonSRX.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+        talonSRX.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
     }
 
     @Override

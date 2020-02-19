@@ -16,7 +16,6 @@ import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.loader.SetLoaderSpeedPID;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.motion_profiling.FollowPath;
-import frc.robot.subsystems.intakeopener.CloseIntake;
 import frc.robot.subsystems.intakeopener.OpenIntake;
 import frc.robot.subsystems.intakeopener.SetIntakeState;
 import frc.robot.subsystems.mixer.SpinMixer;
