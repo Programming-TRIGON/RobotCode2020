@@ -12,20 +12,6 @@ public class OpenIntake extends CommandBase {
     private TrigonPIDController pidController;
 
     /**
-     * Either opens the Intake subsystem or closes it with PID
-     *
-     * @param isOpen true - opens the Intake, false - closes it.
-     */
-    public static CommandBase openIntake(boolean isOpen) {
-        if (isOpen)
-            return new OpenIntake(() -> robotConstants.intakeOpenerConstants.kOpenAngle).
-                withTimeout(robotConstants.intakeOpenerConstants.kTimeout);
-        else
-            return new CloseIntake(() -> robotConstants.intakeOpenerConstants.kClosedAngle).
-                withTimeout(robotConstants.intakeOpenerConstants.kTimeout);
-    }
-
-    /**
      * Either opens the Intake subsystem or closes it with PID.
      */
     public OpenIntake(DoubleSupplier angleSupplier) {

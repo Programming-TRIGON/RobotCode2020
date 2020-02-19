@@ -11,7 +11,6 @@ import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 
 import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.robotConstants;
-import static frc.robot.subsystems.intakeopener.OpenIntake.openIntake;
 
 /**
  * This auto command shoots 3 balls and then goes to collect more cells from the trench run
@@ -26,10 +25,7 @@ public class TrenchAuto extends SequentialCommandGroup {
             // We get the desired angle by the initial pose rotation in the path.
             new RotateDrivetrain(() ->
                 autoPath.getPath().getTrajectory().getInitialPose().getRotation().getDegrees()),
-            parallel(
-                openIntake(true),
-                new FollowPath(autoPath)
-            ),
+            new OpenIntakeAndFollowPath(autoPath),
             deadline(
                 new FollowPath(AutoPath.InTrench),
                 new CollectCell()

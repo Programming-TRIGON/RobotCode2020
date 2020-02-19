@@ -3,7 +3,6 @@ package frc.robot.utils;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import frc.robot.autonomus.SimpleAuto;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.RunWhenDisabledCommand;
@@ -17,9 +16,9 @@ import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.loader.SetLoaderSpeedPID;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.motion_profiling.FollowPath;
-import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.intakeopener.CloseIntake;
 import frc.robot.subsystems.intakeopener.OpenIntake;
+import frc.robot.subsystems.intakeopener.SetIntakeState;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
 import frc.robot.subsystems.shooter.CalibrateShooterVelocity;
@@ -31,7 +30,6 @@ import io.github.oblarg.oblog.Logger;
 
 import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.*;
 import static frc.robot.Robot.*;
-import static frc.robot.subsystems.intakeopener.OpenIntake.openIntake;
 
 /**
  * DashboardDataContainer contains all the data to be viewed or put in the
@@ -80,8 +78,8 @@ public class DashboardDataContainer {
             () -> getNumber("Intake Opener/Intake Opener power", 0)));
         putData("Intake Opener/Tune Open PID", new OpenIntake());
         putData("Intake Opener/Tune Close PID", new CloseIntake());
-        putData("Intake Opener/Open Intake", openIntake(true));
-        putData("Intake Opener/Close Intake", openIntake(false));
+        putData("Intake Opener/Open Intake", new SetIntakeState(true));
+        putData("Intake Opener/Close Intake", new SetIntakeState(false));
         putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
         // Command groups data
         putData("CommandGroup/Collect Cell", new CollectCell());

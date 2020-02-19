@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.OverridableSubsystem;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
@@ -48,7 +47,7 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     /** @return The angle of the potentiometer parallel to the floor. */
     @Log(name = "IntakeOpener/Angle")
     public double getAngle() {
-        return -(potentiometer.get() - 600);
+        return potentiometer.get();
     }
 
     public WPI_TalonSRX getTalonSRX() {

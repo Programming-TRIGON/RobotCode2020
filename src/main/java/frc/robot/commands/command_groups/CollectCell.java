@@ -8,16 +8,16 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
 
 import static frc.robot.Robot.robotConstants;
-import static frc.robot.subsystems.intakeopener.OpenIntake.openIntake;
+import frc.robot.subsystems.intakeopener.SetIntakeState;
 
 public class CollectCell extends SequentialCommandGroup {
     public CollectCell() {
         addCommands(
-            openIntake(true),
-                parallel(new SetIntakeSpeed(() -> robotConstants.intakeConstants.kDefaultIntakePower),
-                    new SpinMixerByTime(MixerPower.MixForSort),
-                    new SetLoaderSpeed(LoaderPower.UnloadForSort)
-                )
+            new SetIntakeState(true),
+            parallel(new SetIntakeSpeed(() -> robotConstants.intakeConstants.kDefaultIntakePower),
+                new SpinMixerByTime(MixerPower.MixForSort),
+                new SetLoaderSpeed(LoaderPower.UnloadForSort)
+            )
         );
     }
 }

@@ -44,6 +44,7 @@ public abstract class RobotConstants extends RobotMap {
     public static class IntakeConstants {
         public boolean kIsInverted;
         public double kDefaultIntakePower;
+		public double kFeederIntakePower;
         public double kSpinBackwardsTime;
         public double kStallTimeout;
         public int kStallLimit;

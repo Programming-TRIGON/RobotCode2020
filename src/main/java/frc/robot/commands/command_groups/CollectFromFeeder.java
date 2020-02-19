@@ -9,6 +9,7 @@ import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
+import frc.robot.subsystems.intakeopener.SetIntakeState;
 import frc.robot.vision.FollowTarget;
 import frc.robot.vision.LedMode;
 import frc.robot.vision.Target;
@@ -17,7 +18,6 @@ import static frc.robot.Robot.oi;
 import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.limelight;
 import static frc.robot.Robot.robotConstants;
-import static frc.robot.subsystems.intakeopener.OpenIntake.openIntake;
 
 public class CollectFromFeeder extends SequentialCommandGroup {
     private double distanceOffset;
@@ -32,7 +32,7 @@ public class CollectFromFeeder extends SequentialCommandGroup {
                  withInterrupt(() -> drivetrain.getAverageDistance() - distanceOffset
                   == kDistanceFromFeeder),
                   sequence(
-                    openIntake(false),
+                    new SetIntakeState(false),
                     new SetIntakeSpeed(-robotConstants.intakeConstants.kDefaultIntakePower)
                   ),
                 new SpinMixerByTime(MixerPower.MixForSort),

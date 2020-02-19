@@ -18,6 +18,7 @@ import frc.robot.subsystems.climb.ClimbWithXbox;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
+import frc.robot.subsystems.intakeopener.SetIntakeState;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
@@ -27,8 +28,6 @@ import frc.robot.vision.Target;
 import frc.robot.vision.TurnToTarget;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import static frc.robot.subsystems.intakeopener.OpenIntake.openIntake;
 
 public class RobotTest {
     private static Robot robot;
@@ -63,8 +62,8 @@ public class RobotTest {
             new SpinMixer(),
             new SetIntakeSpeed(Robot.robotConstants.intakeConstants.kDefaultIntakePower),
             new CheesySetShooterVelocity(),
-            openIntake(true),
-            //new ClimbWithXbox(() -> 0, () -> 0),
+            new SetIntakeState(true),
+            new ClimbWithXbox(() -> 0, () -> 0),
             new CalibrateVisionDistance(() -> false, Target.Feeder, 0),
             new FollowTarget(Target.Feeder),
             new TurnToTarget(Target.Feeder, Robot.drivetrain),
