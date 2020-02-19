@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.DoubleSupplier;
@@ -22,7 +23,6 @@ public class CheesySetShooterVelocity extends CommandBase {
     private double leftKfSamplesSum;
     private double rightKfSamplesSum;
     private double firstTimeOutsideZone;
-    private double firstTimeInZone;
     private boolean isInZone;
     private int cellsShot;
 
@@ -152,9 +152,16 @@ public class CheesySetShooterVelocity extends CommandBase {
     private void countShotCells(boolean isCellBeingShot) {
         if (isCellBeingShot && !isInZone) {
             isInZone = true;
-            cellsShot++; 
-        } else if (!isCellBeingShot && isInZone) {
-            isInZone = false;
+            cellsShot++;
+        } else if (!isCellBeingShot) {
+            if (isInZone) {
+                firstTimeOutsideZone = Timer.getFPGATimestamp();
+                isInZone = false;
+            }
+            if (Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.kWaitTimeZone) {
+                cellsShot++;
+                firstTimeOutsideZone = Timer.getFPGATimestamp();
+            }
         }
     }
 
