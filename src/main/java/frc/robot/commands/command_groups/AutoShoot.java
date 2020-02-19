@@ -80,18 +80,19 @@ public class AutoShoot extends SequentialCommandGroup {
                 sequence(
                     new WaitUntilCommand(() ->
                         setShooterVelocity.readyToShoot() && turnToTarget.isOnTarget()),
-                    /*new RunTwoCommands(SetLoaderVelocity.defaultSetLoaderVelocityCommand(),
-                        new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower),
-                        () -> Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance))*/
                     parallel(new SpinMixer(MixerPower.MixForShoot),
-                        new SetLoaderSpeedPID(LoaderPower.LoadToShoot))//this::getDesiredLoaderSpeed))
+                        new SetLoaderSpeedPID(LoaderPower.LoadToShoot))
                 ),
                 new WaitCommand(kAutoWaitTimeAfterShot)
             )
         );
     }
 
-    private LoaderPower getDesiredLoaderSpeed() {
+    /**
+     * @return the desired loader velocity in RPM,
+     * determined by how far the robot is from the power port and how big is the velocity error.
+     */
+    private LoaderPower getDesiredLoaderVelocity() {
         if (Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance)
             if (speedSupplier.getAsDouble() < robotConstants.loaderConstants.kFarawayShooterSpeed)
                 return LoaderPower.LoadToShoot;
