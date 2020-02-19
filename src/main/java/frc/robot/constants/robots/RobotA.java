@@ -33,7 +33,7 @@ public class RobotA extends RobotConstants {
 
         // Intake Constants
         intakeConstants.kIsInverted = true;
-        intakeConstants.kDefaultIntakePower = 0.85;
+        intakeConstants.kDefaultIntakePower = 0.35;
         intakeConstants.kFeederIntakePower = -0.4;
         intakeConstants.kStallLimit = 40;
         intakeConstants.kSpinBackwardsTime = 0.5;

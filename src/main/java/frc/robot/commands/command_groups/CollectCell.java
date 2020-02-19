@@ -6,15 +6,13 @@ import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.MixerPower;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
-
-import static frc.robot.Robot.robotConstants;
 import frc.robot.subsystems.intakeopener.SetIntakeState;
 
 public class CollectCell extends SequentialCommandGroup {
     public CollectCell() {
         addCommands(
             new SetIntakeState(true),
-            parallel(new SetIntakeSpeed(() -> robotConstants.intakeConstants.kDefaultIntakePower),
+            parallel(new SetIntakeSpeed(),
                 new SpinMixerByTime(MixerPower.MixForSort),
                 new SetLoaderSpeed(LoaderPower.UnloadForSort)
             )
