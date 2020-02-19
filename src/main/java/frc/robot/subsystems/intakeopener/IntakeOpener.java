@@ -89,11 +89,9 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
         talonSRX.config_kP(0, robotConstants.controlConstants.openIntakeSettings.getKP());
         talonSRX.config_kI(0, robotConstants.controlConstants.openIntakeSettings.getKI());
         talonSRX.config_kD(0, robotConstants.controlConstants.openIntakeSettings.getKD());
-        talonSRX.config_kF(0, robotConstants.controlConstants.openIntakeSettings.getKF());
         talonSRX.config_kP(1, robotConstants.controlConstants.closeIntakeSettings.getKP());
         talonSRX.config_kI(1, robotConstants.controlConstants.closeIntakeSettings.getKI());
         talonSRX.config_kD(1, robotConstants.controlConstants.closeIntakeSettings.getKD());
-        talonSRX.config_kF(1, robotConstants.controlConstants.closeIntakeSettings.getKF());
     }
 
     @Override
