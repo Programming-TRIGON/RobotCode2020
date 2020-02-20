@@ -40,7 +40,8 @@ public class CollectFromFeeder extends SequentialCommandGroup {
                     new OpenIntake(robotConstants.intakeOpenerConstants.kFeederClosedAngle, false),
                     new SetIntakeSpeed(robotConstants.intakeConstants.kFeederIntakePower)
                 )
-            )
+            ),
+            new OpenIntake(false)
         );
     }
 }

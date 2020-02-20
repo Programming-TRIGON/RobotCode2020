@@ -12,6 +12,7 @@ import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
 import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
+import frc.robot.subsystems.intakeopener.OpenIntake;
 import frc.robot.utils.TrigonXboxController;
 
 import static frc.robot.Robot.drivetrain;
@@ -32,6 +33,7 @@ public class OI {
     private Command driverCollectFromFeeder;
     private Command driverClimb;
     private Command driverDriveWithXbox;
+    private Command driverCloseIntake;
 
     public OI() {
         driverXbox = new TrigonXboxController(kDriverPort);
@@ -64,6 +66,7 @@ public class OI {
         driverAutoShoot = new AutoShoot().withInterrupt(() -> Math
             .abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
         driverCollectCell = new CollectCell();
+        driverCloseIntake = new OpenIntake(false);
         driverCollectFromFeeder = new CollectFromFeeder(this);
         driverClimb = new MoveClimbAndHook(() -> driverXbox.getY(Hand.kRight),
             () -> driverXbox.getBButton() ? robotConstants.climbConstants.kDefaultClimbPower : 0);
@@ -72,7 +75,7 @@ public class OI {
     private void bindDriverCommands() {
         drivetrain.setDefaultCommand(driverDriveWithXbox);
         driverXbox.getButtonX().whenPressed(driverAutoShoot);
-        driverXbox.getButtonA().whenHeld(driverCollectCell);
+        driverXbox.getButtonA().whenHeld(driverCollectCell).whenReleased(driverCloseIntake);
         driverXbox.getButtonY().whenPressed(driverCollectFromFeeder);
         driverXbox.getStartXboxButton().toggleWhenPressed(driverClimb);
     }
