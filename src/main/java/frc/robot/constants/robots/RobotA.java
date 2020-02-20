@@ -50,6 +50,7 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.kTriggerThresholdTime = 0;
         intakeOpenerConstants.kOpenAngle = 118.652344;
         intakeOpenerConstants.kClosedAngle = 0;
+        intakeOpenerConstants.kFeederClosedAngle = 20;
         intakeOpenerConstants.kTicksPerRotation = 4096;
         intakeOpenerConstants.kEncoderOffset = 0;
         intakeOpenerConstants.kTimeout = 0.5;

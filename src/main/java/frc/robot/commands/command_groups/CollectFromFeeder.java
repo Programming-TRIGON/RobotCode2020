@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.OI;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
+import frc.robot.subsystems.intakeopener.OpenIntake;
 import frc.robot.subsystems.intakeopener.SetIntakeState;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
@@ -36,7 +37,7 @@ public class CollectFromFeeder extends SequentialCommandGroup {
                 new StartEndCommand(() -> limelight.setLedMode(LedMode.Blink),
                     () -> limelight.setLedMode(LedMode.Off)),
                 sequence(
-                    new SetIntakeState(false),
+                    new OpenIntake(robotConstants.intakeOpenerConstants.kFeederClosedAngle, false),
                     new SetIntakeSpeed(robotConstants.intakeConstants.kFeederIntakePower)
                 )
             )
