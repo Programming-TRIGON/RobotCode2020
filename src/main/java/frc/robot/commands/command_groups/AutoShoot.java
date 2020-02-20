@@ -76,10 +76,13 @@ public class AutoShoot extends SequentialCommandGroup {
         addCommands(
             deadline(
                 setShooterVelocity,
-                turnToTarget,
+                //turnToTarget,
                 sequence(
                     new WaitUntilCommand(() ->
-                        setShooterVelocity.readyToShoot() && turnToTarget.isOnTarget()),
+                        setShooterVelocity.readyToShoot()), // && turnToTarget.isOnTarget()),
+                    /*new RunTwoCommands(SetLoaderVelocity.defaultSetLoaderVelocityCommand(),
+                        new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower),
+                        () -> Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance))*/
                     parallel(new SpinMixer(MixerPower.MixForShoot),
                         new SetLoaderSpeedPID(LoaderPower.LoadToShoot))
                 ),

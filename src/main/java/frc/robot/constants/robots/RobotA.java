@@ -97,8 +97,8 @@ public class RobotA extends RobotConstants {
         shooterConstants.kIsRightEncoderInverted = false;
         shooterConstants.kStopLoadingTolerance = 10;
         shooterConstants.kVelocityTolerance = 20;
-        controlConstants.leftShooterSettings = PIDSettings.fromTalonSettings(0.045, 0.00000175, 1, 0.0512, 2);
-        controlConstants.rightShooterSettings = PIDSettings.fromTalonSettings(0.05, 0.0000023, 1, 0.0488, 2);
+        controlConstants.leftShooterSettings = PIDSettings.fromTalonSettings(0.095, 0.00000975, 1, 0.0512, 2);
+        controlConstants.rightShooterSettings = PIDSettings.fromTalonSettings(0.1, 0.0000093, 1, 0.0488, 2);
         controlConstants.leftShooterCheesySettings = PIDSettings.fromTalonSettings(0.095, 0, 2.5, 0.05165, 0);
         controlConstants.rightShooterCheesySettings = PIDSettings.fromTalonSettings(0.085, 0, 2.5, 0.0492, 0);
 
@@ -129,7 +129,7 @@ public class RobotA extends RobotConstants {
         visionConstants.kLimelightAngleOffset = 0;
         visionConstants.kTargetNotFoundWaitTime = 0.5;
         controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
-        controlConstants.visionRotationSettings = new PIDSettings(0.0185, 0.00025, 0.0005, 1, 1);
+        controlConstants.visionRotationSettings = new PIDSettings(0.0185, 0.00025, 0.0005, 5, 5);
         controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         // Auto Constants
