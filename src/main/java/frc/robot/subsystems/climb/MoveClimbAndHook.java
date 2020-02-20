@@ -2,14 +2,17 @@ package frc.robot.subsystems.climb;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.DriverStationLogger;
 
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.climb;
 import static frc.robot.Robot.robotConstants;
+import static frc.robot.Robot.led;
 
 public class MoveClimbAndHook extends CommandBase {
+    private static final int kBlinkingAmount = 15;
     private static final double kThreshold = 0.12;
     private static final double kHookTimeToMove = 0.5;
     private DoubleSupplier hookPower;
@@ -28,13 +31,14 @@ public class MoveClimbAndHook extends CommandBase {
      * @param climbPower The power to give the climb motors.
      */
     public MoveClimbAndHook(DoubleSupplier hookPower, DoubleSupplier climbPower) {
-        addRequirements(climb);
+        addRequirements(climb, led);
         this.hookPower = hookPower;
         this.climbPower = climbPower;
     }
 
     @Override
     public void initialize() {
+        led.blinkColor(LEDColor.White, kBlinkingAmount);
         potentiometerDisconnected = false;
         startPotentiometerValue = climb.getHookRotations();
         lastTimeHookNotMooved = Timer.getFPGATimestamp();
