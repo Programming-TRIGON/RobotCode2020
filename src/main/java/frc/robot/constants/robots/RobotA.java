@@ -26,6 +26,8 @@ public class RobotA extends RobotConstants {
         drivetrainConstants.kTriggerThresholdTime = 1;
         drivetrainConstants.kRightEncoderInverted = true;
         drivetrainConstants.kLeftEncoderInverted = false;
+        drivetrainConstants.kClimbDriveDistance = 0.1;
+        controlConstants.driveForClimbSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         // Trigon Drive Constants
         trigonDriveConstants.kSensitivity = 1;
@@ -68,11 +70,18 @@ public class RobotA extends RobotConstants {
         mixerConstants.kSpinMixerByTime = 2;
 
         // Climb Constants
+        climbConstants.kIsHookInverted = false;
         climbConstants.kHookCurrentLimit = 0;
         climbConstants.kHookThresholdLimit = 0;
         climbConstants.kHookCurrentTimeout = 0;
-        climbConstants.kClimbCurrentLimit = 0;
-        climbConstants.kDefaultClimbPower = 0;
+        climbConstants.kHookPotentiometerAngleMultiplier = 10;
+        climbConstants.kHookPotentiometerOffset = -1.36;
+        climbConstants.kPotentiometerChangeError = 0.5;
+        climbConstants.kMaxHookRotations = 5;
+        climbConstants.kIsClimbInverted = true;
+        climbConstants.kClimbCurrentLimit = 80;
+        climbConstants.kDefaultClimbPower = 0.5;
+        climbConstants.kClimbRampTime = 0.5;
 
         // Shooter Constants
         shooterConstants.kRampTime = 0.5;
@@ -156,6 +165,7 @@ public class RobotA extends RobotConstants {
         dio.kSwitchShooter = 0;
         // Climb Map
         can.kHookTalonSRX = 14;
+        analogInput.kHookPotentiometer = 3;
         can.kClimbSparkMax = 8;
         // PWM Map
         pwm.kLedController = 0;

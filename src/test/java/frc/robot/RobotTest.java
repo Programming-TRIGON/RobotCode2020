@@ -11,7 +11,7 @@ import frc.robot.commands.command_groups.CollectFromFeeder;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
-import frc.robot.subsystems.climb.ClimbWithXbox;
+import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
@@ -62,7 +62,9 @@ public class RobotTest {
             new FindOpenerOffset(),
             new CheesySetShooterVelocity(),
             new SetIntakeState(true),
-            new ClimbWithXbox(() -> 0, () -> 0),
+            new SetIntakeState(false),
+            new MoveClimbAndHook(() -> 0, () -> 0),
+            new SetIntakeState(true),
             new CalibrateVisionDistance(() -> false, Target.Feeder, 0),
             new FollowTarget(Target.Feeder),
             new TurnToTarget(Target.Feeder, Robot.drivetrain),
