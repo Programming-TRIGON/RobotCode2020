@@ -14,7 +14,8 @@ import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.utils.TrigonXboxController;
 
-import static frc.robot.Robot.*;
+import static frc.robot.Robot.drivetrain;
+import static frc.robot.Robot.robotConstants;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -60,17 +61,20 @@ public class OI {
 
     private void createDriverCommands() {
         driverDriveWithXbox = new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), driverXbox::getDeltaTriggers);
-        driverAutoShoot = new AutoShoot().withInterrupt(() -> Math.abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
+        driverAutoShoot = new AutoShoot().withInterrupt(() -> Math
+                .abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
         driverCollectCell = new CollectCell();
-        driverCollectFromFeeder = new CollectFromFeeder().withInterrupt(() -> Math.abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
-        driverClimb = new MoveClimbAndHook(() -> driverXbox.getY(Hand.kRight), () -> driverXbox.getBButton() ? robotConstants.climbConstants.kDefaultClimbPower : 0);
+        driverCollectFromFeeder = new CollectFromFeeder().withInterrupt(() -> Math
+                .abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
+        driverClimb = new MoveClimbAndHook(() -> driverXbox.getY(Hand.kRight),
+                () -> driverXbox.getBButton() ? robotConstants.climbConstants.kDefaultClimbPower : 0);
     }
 
     private void bindDriverCommands() {
         drivetrain.setDefaultCommand(driverDriveWithXbox);
-        /*driverXbox.getButtonX().whenPressed(driverAutoShoot);
+        driverXbox.getButtonX().whenPressed(driverAutoShoot);
         driverXbox.getButtonA().whenHeld(driverCollectCell);
-        driverXbox.getButtonY().whenPressed(driverCollectFromFeeder);*/
+        driverXbox.getButtonY().whenPressed(driverCollectFromFeeder);
         driverXbox.getStartXboxButton().toggleWhenPressed(driverClimb);
     }
 
