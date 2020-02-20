@@ -19,6 +19,7 @@ import static frc.robot.Robot.robotConstants;
 public class IntakeOpener extends OverridableSubsystem implements Loggable {
     private WPI_TalonSRX talonSRX;
     private boolean isTuning;
+    private boolean foundOffset;
 
     public IntakeOpener() {
         talonSRX = new WPI_TalonSRX(robotConstants.can.kIntakeOpenerTalonSRX);
@@ -28,7 +29,8 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
             new SupplyCurrentLimitConfiguration(false, robotConstants.intakeOpenerConstants.kCurrentLimit,
                 robotConstants.intakeOpenerConstants.kThresholdLimit,
                 robotConstants.intakeOpenerConstants.kTriggerThresholdTime));
-        talonSRX.configSelectedFeedbackSensor(FeedbackDevice.PulseWidthEncodedPosition);
+        talonSRX.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+        foundOffset = false;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     @Override
     public void move(double power) {
         if (!overridden)
-            if ((getAngle() >= robotConstants.intakeOpenerConstants.kOpenAngle && power > 0)
+            if (foundOffset && (getAngle() >= robotConstants.intakeOpenerConstants.kOpenAngle && power > 0)
                 || (getAngle() <= robotConstants.intakeOpenerConstants.kClosedAngle && power < 0))
                 super.move(0);
             else
@@ -98,5 +100,23 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     public void periodic() {
         if (isTuning)
             configPIDFGains();
+    }
+
+    @Log(name = "IntakeOpener/Current")
+    public double getCurrent() {
+        return Math.abs(talonSRX.getStatorCurrent());
+    }
+
+    public void resetEncoder() {
+        System.out.println(talonSRX.setSelectedSensorPosition(0).value + "!!!!!!!!!!!!!!");
+        talonSRX.setSelectedSensorPosition(0);
+    }
+
+    public boolean hasFoundOffset() {
+        return foundOffset;
+    }
+
+    public void setFoundOffset(boolean foundOffset) {
+        this.foundOffset = foundOffset;
     }
 }

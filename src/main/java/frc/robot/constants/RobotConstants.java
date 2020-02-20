@@ -62,6 +62,8 @@ public abstract class RobotConstants extends RobotMap {
         public double kTicksPerRotation;
         public double kEncoderOffset;
         public double kTimeout;
+        public double kFindOffsetPower;
+        public double kStallLimit;
     }
 
     public static class MixerConstants {

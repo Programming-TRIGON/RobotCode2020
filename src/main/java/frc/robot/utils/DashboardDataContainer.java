@@ -11,6 +11,7 @@ import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
+import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 import frc.robot.subsystems.intakeopener.OpenIntake;
 import frc.robot.subsystems.intakeopener.SetIntakeState;
 import frc.robot.subsystems.loader.LoaderPower;
@@ -81,11 +82,13 @@ public class DashboardDataContainer {
         putDefaultNumber("Intake Opener/Close Setpoint", 0);
         putData("Intake Opener/Tune Open PID", new OpenIntake(
             () -> getNumber("Intake Opener/Open Setpoint", 0), true));
-        putData("Intake Opener/Tune Open PID", new OpenIntake(
+        putData("Intake Opener/Tune Close PID", new OpenIntake(
             () -> getNumber("Intake Opener/Close Setpoint", 0), false));
+        putData("Intake Opener/Enable Tuning", new RunWhenDisabledCommand(intakeOpener::enableTuning));
         putData("Intake Opener/Open Intake", new SetIntakeState(true));
         putData("Intake Opener/Close Intake", new SetIntakeState(false));
         putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
+        putData("Intake Opener/Find Offset", new FindOpenerOffset());
         
         // Command groups data
         putData("CommandGroup/Collect Cell", new CollectCell());
