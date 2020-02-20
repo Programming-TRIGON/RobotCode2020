@@ -38,6 +38,6 @@ public class Intake extends OverridableSubsystem implements Loggable{
     }
 
 	public boolean getIsInStall() {
-		return false/*getOutputCurrent() > robotConstants.intakeConstants.kStallLimit*/;
+		return getOutputCurrent() > robotConstants.intakeConstants.kStallLimit;
 	}
 }

@@ -18,18 +18,6 @@ import static frc.robot.Robot.*;
 public class DashboardDataContainer {
 
     public DashboardDataContainer() {
-        // Climb testing
-        putDefaultNumber("Climb/Hook power", 0);
-        putDefaultNumber("Climb/Climb power", 0);
-        putData("Climb/Climb and Hook with dashboard",
-                new MoveClimbAndHook(() -> getNumber("Climb/Hook power", 0), () -> getNumber("Climb/Climb power", 0)));
-        putData("Climb/Climb and Hook with xbox", new MoveClimbAndHook(() -> oi.getOperatorXboxController().getY(Hand.kLeft),
-                () -> oi.getOperatorXboxController().getY(Hand.kRight)));
-        // Command groups data
-        putData("CommandGroup/Auto Shoot", new AutoShoot());
-        putData("CommandGroup/Collect Cell", new CollectCell());
-        putData("CommandGroup/Collect From Feeder", new CollectFromFeeder());
-
     }
 
     /**
