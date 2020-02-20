@@ -9,6 +9,7 @@ import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
+
 /**
  * Intake collects POWER CELLS into the robot using one motor rolling strips.
  */
