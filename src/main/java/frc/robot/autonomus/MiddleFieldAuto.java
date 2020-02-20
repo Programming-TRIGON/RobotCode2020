@@ -21,7 +21,7 @@ public class MiddleFieldAuto extends SequentialCommandGroup {
             StartingPose.kFacingRightOfPowerPort ? RightOfPortToMiddleField : FacingPowerPortToMiddleField;
         addCommands(
             new InstantCommand(() -> drivetrain.resetOdometry(autoPath.getPath().getTrajectory().getInitialPose())),
-            new AutoShoot(true),
+            new AutoShoot(3),
             new RotateDrivetrain(() ->
                 autoPath.getPath().getTrajectory().getInitialPose().getRotation().getDegrees()),
             new OpenIntakeAndFollowPath(autoPath),
@@ -33,7 +33,7 @@ public class MiddleFieldAuto extends SequentialCommandGroup {
                 new CollectCell()
             ),
             new RotateDrivetrain(robotConstants.autoConstants.kMiddleFieldAutoRotateToPortAngle),
-            new AutoShoot(),
+            new AutoShoot(3),
             new SetIntakeState(false)
         );
     }

@@ -21,7 +21,7 @@ public class TrenchAuto extends SequentialCommandGroup {
             AutoPath.FacingPowerPortToTrenchStart : AutoPath.InLineWithTrenchToTrenchStart;
         addCommands(
             new InstantCommand(() -> drivetrain.resetOdometry(autoPath.getPath().getTrajectory().getInitialPose())),
-            new AutoShoot(true),
+            new AutoShoot(3),
             // We get the desired angle by the initial pose rotation in the path.
             new RotateDrivetrain(() ->
                 autoPath.getPath().getTrajectory().getInitialPose().getRotation().getDegrees()),
@@ -32,7 +32,7 @@ public class TrenchAuto extends SequentialCommandGroup {
             ),
             new FollowPath(AutoPath.ReverseInTrench),
             new RotateDrivetrain(robotConstants.autoConstants.kTrenchAutoRotateToPortAngle),
-            new AutoShoot()
+            new AutoShoot(5)
         );
     }
 }

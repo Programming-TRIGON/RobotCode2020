@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.subsystems.loader.LoaderPower;
-import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.loader.SetLoaderSpeedPID;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixer;
@@ -32,47 +31,47 @@ public class AutoShoot extends SequentialCommandGroup {
      * @see Limelight#getDesiredShooterVelocity()
      */
     public AutoShoot() {
-        this(false);
+        this(5);
     }
 
     /**
      * Constructs automatic shooting sequence with shooter velocities based on vision.
-     * @param isAuto whether the command group should stop automatically
+     * @param amountOfCells how many cells to shoot before the command ends
      * @see Limelight#getDesiredShooterVelocity()
      */
-    public AutoShoot(boolean isAuto) {
-        this(limelight::getDesiredShooterVelocity, isAuto);
+    public AutoShoot(int amountOfCells) {
+        this(limelight::getDesiredShooterVelocity, amountOfCells);
     }
 
     /**
      * @param speedSupplier supplier of the desired speed
      */
     public AutoShoot(Supplier<ShooterVelocity> speedSupplier) {
-        this(speedSupplier, false);
+        this(speedSupplier, 5);
     }
 
     /**
      * @param speedSupplier supplier of the desired speed
-     * @param isAuto whether the command group should stop automatically
+     * @param amountOfCells how many cells to shoot before the command ends
      */
-    public AutoShoot(Supplier<ShooterVelocity> speedSupplier, boolean isAuto) {
-        this(() -> speedSupplier.get().getVelocity(), isAuto);
+    public AutoShoot(Supplier<ShooterVelocity> speedSupplier, int amountOfCells) {
+        this(() -> speedSupplier.get().getVelocity(), amountOfCells);
     }
 
     /**
      * @param speedSupplier supplier of the desired speed in RPM
      */
     public AutoShoot(DoubleSupplier speedSupplier) {
-        this(speedSupplier, false);
+        this(speedSupplier, 5);
     }
 
     /**
      * @param speedSupplier supplier of the desired speed in RPM
-     * @param isAuto whether the command group should stop automatically
+     * @param amountOfCells how many cells to shoot before the command ends
      */
-    public AutoShoot(DoubleSupplier speedSupplier, boolean isAuto) {
+    public AutoShoot(DoubleSupplier speedSupplier, int amountOfCells) {
         this.speedSupplier = speedSupplier;
-        this.setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, isAuto);
+        this.setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, amountOfCells);
         TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort, drivetrain);
         addCommands(
             deadline(
@@ -81,18 +80,19 @@ public class AutoShoot extends SequentialCommandGroup {
                 sequence(
                     new WaitUntilCommand(() ->
                         setShooterVelocity.readyToShoot() && turnToTarget.isOnTarget()),
-                    /*new RunTwoCommands(SetLoaderVelocity.defaultSetLoaderVelocityCommand(),
-                        new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower),
-                        () -> Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance))*/
                     parallel(new SpinMixer(MixerPower.MixForShoot),
-                        new SetLoaderSpeedPID(LoaderPower.LoadToShoot))//this::getDesiredLoaderSpeed))
+                        new SetLoaderSpeedPID(LoaderPower.LoadToShoot))
                 ),
                 new WaitCommand(kAutoWaitTimeAfterShot)
             )
         );
     }
 
-    private LoaderPower getDesiredLoaderSpeed() {
+    /**
+     * @return the desired loader velocity in RPM,
+     * determined by how far the robot is from the power port and how big is the velocity error.
+     */
+    private LoaderPower getDesiredLoaderVelocity() {
         if (Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance)
             if (speedSupplier.getAsDouble() < robotConstants.loaderConstants.kFarawayShooterSpeed)
                 return LoaderPower.LoadToShoot;

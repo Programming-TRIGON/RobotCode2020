@@ -27,7 +27,8 @@ import frc.robot.vision.Target;
 import frc.robot.vision.TurnToTarget;
 import io.github.oblarg.oblog.Logger;
 
-import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.*;
+import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.getNumber;
+import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.putData;
 import static frc.robot.Robot.*;
 
 /**
@@ -51,10 +52,10 @@ public class DashboardDataContainer {
 
         // Shooter dashboard data
         putDefaultNumber("Shooter/Shooting velocity setpoint", 3050);
-        putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0), false));
+        putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
         putData("Shooter/Set shooting velocity", new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
         putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
-        putNumber("Shooter/Override Power", 0);
+        putDefaultNumber("Shooter/Override Power", 0);
         putData("Shooter/Override", new OverrideCommand(shooter));
         putData("Shooter/Calibrate shooter velocity", new CalibrateShooterVelocity(oi.getDriverXboxController()::getAButton,
             () -> getNumber("Shooter/Shooting velocity setpoint", 0), 100, 100)); // TODO: set starting distance and delta distance!
@@ -68,12 +69,12 @@ public class DashboardDataContainer {
         putData("Drivetrain/Calibrate Drive", new RunWhenDisabledCommand(drivetrain::tuneTrigonDrive));
 
         putData("Motion Profiling/Simple Path", new FollowPath(AutoPath.FacingPowerPortToTrenchStart.getPath(), true));
-        
+
         // Intake dashboard data
         putDefaultNumber("Intake/Intake power", 0);
         putData("Intake/Override intake", new OverrideCommand(intake,
             () -> getNumber("Intake/Intake power", 0)));
-        
+
         // IntakeOpener dashboard data
         putDefaultNumber("Intake Opener/Intake Opener power", 0);
         putData("Intake Opener/Override intake opener", new OverrideCommand(intakeOpener,
@@ -90,16 +91,16 @@ public class DashboardDataContainer {
         putData("Intake Opener/Close Intake", new SetIntakeState(false));
         putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
         putData("Intake Opener/Find Offset", new FindOpenerOffset());
-        
+
         // Command groups data
         putData("CommandGroup/Collect Cell", new CollectCell());
         putData("CommandGroup/Mix and Load", new ParallelCommandGroup(
-            new SetLoaderSpeedPID(LoaderPower.FarShoot),
+            new SetLoaderSpeedPID(LoaderPower.LoadToShoot),
             new SpinMixer(MixerPower.MixForShoot)));
         putData("CommandGroup/Sort Balls", new ParallelCommandGroup(
             new SetLoaderSpeed(LoaderPower.UnloadForSort),
             new SpinMixerByTime(MixerPower.MixForSort)));
-        putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0), true));
+        putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
     }
 
     /**

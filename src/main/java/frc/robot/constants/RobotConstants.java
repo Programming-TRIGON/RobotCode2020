@@ -50,6 +50,7 @@ public abstract class RobotConstants extends RobotMap {
         public int kCurrentLimit;
         public double kOnStallLimit;
     }
+
     public static class IntakeOpenerConstants {
         public boolean kIsSensorInverted;
         public boolean kIsInverted;

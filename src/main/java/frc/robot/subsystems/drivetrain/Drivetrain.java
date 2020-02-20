@@ -19,7 +19,8 @@ import frc.robot.utils.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
-import static frc.robot.Robot.*;
+import static frc.robot.Robot.climb;
+import static frc.robot.Robot.robotConstants;
 
 public class Drivetrain extends SubsystemBase implements MovableSubsystem, Loggable {
     private WPI_TalonFX leftRear;

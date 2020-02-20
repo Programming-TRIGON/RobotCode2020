@@ -7,10 +7,13 @@ import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.intakeopener.SetIntakeState;
 import frc.robot.subsystems.led.LEDColor;
+import frc.robot.subsystems.mixer.SpinMixerByTime;
 
 import static frc.robot.Robot.led;
+import static frc.robot.Robot.robotConstants;
 
 public class CollectCell extends SequentialCommandGroup {
     public CollectCell() {

@@ -25,20 +25,20 @@ public class CollectFromFeeder extends SequentialCommandGroup {
         addCommands(
             new SetIntakeState(true),
             new FollowTarget(Target.Feeder),
-            parallel(
+            deadline(
                 new DriveWithXbox(() -> oi.getDriverXboxController().getX(Hand.kLeft),
                     oi.getDriverXboxController()::getDeltaTriggers).
                     beforeStarting(() -> distanceOffset = drivetrain.getAverageDistance()).
                     withInterrupt(() -> drivetrain.getAverageDistance() - distanceOffset
                         == kDistanceFromFeeder),
-                sequence(
-                    new SetIntakeState(false),
-                    new SetIntakeSpeed(-robotConstants.intakeConstants.kDefaultIntakePower)
-                ),
                 new SpinMixerByTime(MixerPower.MixForSort),
                 new SetLoaderSpeed(LoaderPower.UnloadForSort),
                 new StartEndCommand(() -> limelight.setLedMode(LedMode.Blink),
-                    () -> limelight.setLedMode(LedMode.Off))
+                    () -> limelight.setLedMode(LedMode.Off)),
+                sequence(
+                    new SetIntakeState(false),
+                    new SetIntakeSpeed(robotConstants.intakeConstants.kFeederIntakePower)
+                )
             )
         );
     }
