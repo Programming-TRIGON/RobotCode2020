@@ -9,10 +9,10 @@ import static frc.robot.Robot.*;
 public class SensorCheck extends CommandBase {
     private static final double kCheckTime = 1;
     private static final double kStartCheckTime = 0.7; // 0 to 1 (Percent)
-    private static final int kSensorsAmount = 5;
+    private static final int kSensorsAmount = 6;
     private static final double kPowerToMove = 0.1;
     private double initialTime;
-    private int[] initialSensorPosition; // Ticks units
+    private double[] initialSensorPosition; // Ticks units
     private boolean[] hasFoundError;
 
     /**
@@ -20,7 +20,7 @@ public class SensorCheck extends CommandBase {
      * disconnected.
      */
     public SensorCheck() {
-        initialSensorPosition = new int[kSensorsAmount];
+        initialSensorPosition = new double[kSensorsAmount];
         hasFoundError = new boolean[kSensorsAmount];
     }
 
@@ -33,6 +33,7 @@ public class SensorCheck extends CommandBase {
         initialSensorPosition[2] = shooter.getLeftTicks();
         initialSensorPosition[3] = shooter.getRightTicks();
         initialSensorPosition[4] = loader.getTicks();
+        initialSensorPosition[5] = intakeOpener.getAngle();
     }
 
     @Override
@@ -47,6 +48,7 @@ public class SensorCheck extends CommandBase {
             checkError(2, shooter.getLeftTicks(), "Left shooter encoder disconnect");
             checkError(3, shooter.getRightTicks(), "Right shooter encoder disconnect");
             checkError(4, loader.getTicks(), "Loader encoder disconnect");
+            checkError(5, intakeOpener.getAngle(), "IntakeOpener encoder disconnect");
         }
     }
 
@@ -74,7 +76,7 @@ public class SensorCheck extends CommandBase {
      * @param currentSensorPosition the current sensor position to compare with the initial sensor position.
      * @param errorLog the error to log to the driver station.
      */
-    private void checkError(int index, int currentSensorPosition, String errorLog) {
+    private void checkError(int index, double currentSensorPosition, String errorLog) {
         if (!hasFoundError[index] && currentSensorPosition == initialSensorPosition[index]) {
             DriverStationLogger.logErrorToDS(errorLog);
             hasFoundError[index] = true;
