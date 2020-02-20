@@ -3,6 +3,7 @@ package frc.robot.vision;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.TrigonPIDController;
 
 import static frc.robot.Robot.*;
@@ -34,7 +35,7 @@ public class FollowTarget extends CommandBase {
      *                     in the smart dashboard
      */
     public FollowTarget(Target target, String dashboardKey) {
-        addRequirements(Robot.drivetrain);
+        addRequirements(Robot.drivetrain, led);
         this.target = target;
         // distancePIDController = new TrigonPIDController(dashboardKey + " - distance", target.getDistance());
         rotationPIDController = new TrigonPIDController(dashboardKey + " - rotation", 0);
@@ -47,6 +48,7 @@ public class FollowTarget extends CommandBase {
         lastTimeSeenTarget = Timer.getFPGATimestamp();
         // Configure the limelight to start computing vision.
         limelight.startVision(target);
+        led.setColor(LEDColor.Green);
     }
 
     @Override
@@ -72,5 +74,6 @@ public class FollowTarget extends CommandBase {
     public void end(boolean interrupted) {
         Robot.drivetrain.stopMove();
         limelight.stopVision();
+        led.turnOffLED();
     }
 }
