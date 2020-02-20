@@ -30,7 +30,6 @@ public class TrenchAuto extends SequentialCommandGroup {
                 new FollowPath(AutoPath.InTrench),
                 new CollectCell()
             ),
-            new FollowPath(AutoPath.ReverseInTrench),
             new RotateDrivetrain(robotConstants.autoConstants.kTrenchAutoRotateToPortAngle),
             new AutoShoot(5)
         );
