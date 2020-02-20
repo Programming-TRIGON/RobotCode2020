@@ -47,9 +47,8 @@ public abstract class RobotConstants extends RobotMap {
 		public double kFeederIntakePower;
         public double kSpinBackwardsTime;
         public double kStallTimeout;
-        public int kStallLimit;
+        public int kCurrentLimit;
         public double kOnStallLimit;
-
     }
     public static class IntakeOpenerConstants {
         public boolean kIsSensorInverted;

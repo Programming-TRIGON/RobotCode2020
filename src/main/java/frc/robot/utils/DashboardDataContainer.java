@@ -84,6 +84,7 @@ public class DashboardDataContainer {
             () -> getNumber("Intake Opener/Open Setpoint", 0), true));
         putData("Intake Opener/Tune Close PID", new OpenIntake(
             () -> getNumber("Intake Opener/Close Setpoint", 0), false));
+        putData("Intake Opener/Reset Encoder", new RunWhenDisabledCommand(intakeOpener::resetEncoder));
         putData("Intake Opener/Enable Tuning", new RunWhenDisabledCommand(intakeOpener::enableTuning));
         putData("Intake Opener/Open Intake", new SetIntakeState(true));
         putData("Intake Opener/Close Intake", new SetIntakeState(false));

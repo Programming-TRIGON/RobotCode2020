@@ -23,7 +23,7 @@ public class FindOpenerOffset extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         intakeOpener.stopMove();
-        if (!interrupted) {
+        if (!interrupted && !intakeOpener.hasFoundOffset()) {
             intakeOpener.resetEncoder();
             intakeOpener.setFoundOffset(true);
         }

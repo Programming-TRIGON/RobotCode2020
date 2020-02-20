@@ -20,7 +20,7 @@ public class Intake extends OverridableSubsystem implements Loggable{
         sparkMax = new CANSparkMax(robotConstants.can.kCellIntakeSparkMax, MotorType.kBrushless);
         sparkMax.setInverted(robotConstants.intakeConstants.kIsInverted);
         sparkMax.setIdleMode(IdleMode.kCoast);
-        sparkMax.setSmartCurrentLimit(robotConstants.intakeConstants.kStallLimit);
+        sparkMax.setSmartCurrentLimit(robotConstants.intakeConstants.kCurrentLimit);
         sparkMax.getEncoder(EncoderType.kHallSensor, 42);
         sparkMax.burnFlash();
     }
@@ -39,6 +39,6 @@ public class Intake extends OverridableSubsystem implements Loggable{
     }
 
 	public boolean getIsInStall() {
-		return getOutputCurrent() > robotConstants.intakeConstants.kStallLimit;
+		return getOutputCurrent() > robotConstants.intakeConstants.kOnStallLimit;
 	}
 }
