@@ -7,10 +7,14 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.command_groups.AutoShoot;
+import frc.robot.commands.command_groups.CollectCell;
+import frc.robot.commands.command_groups.CollectFromFeeder;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.utils.TrigonXboxController;
 
 import static frc.robot.Robot.drivetrain;
+import static frc.robot.Robot.robotConstants;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -56,21 +60,20 @@ public class OI {
 
     private void createDriverCommands() {
        driverDriveWithXbox = new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), driverXbox::getDeltaTriggers);
-       // driverAutoShoot = new AutoShoot().withInterrupt(() -> Math
-       //         .abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
-       // driverCollectCell = new CollectCell();
-       // driverCollectFromFeeder = new CollectFromFeeder().withInterrupt(() -> Math
-       //         .abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
+        driverAutoShoot = new AutoShoot().withInterrupt(() -> Math
+                .abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
+        driverCollectCell = new CollectCell();
+        driverCollectFromFeeder = new CollectFromFeeder(this);
        // driverClimb = new ClimbWithXbox(() -> driverXbox.getY(Hand.kRight),
          //       () -> driverXbox.getBButton() ? robotConstants.climbConstants.kDefaultClimbPower : 0);
     }
 
     private void bindDriverCommands() {
         drivetrain.setDefaultCommand(driverDriveWithXbox);
-        /*driverXbox.getButtonX().whenPressed(driverAutoShoot);
+        driverXbox.getButtonX().whenPressed(driverAutoShoot);
         driverXbox.getButtonA().whenHeld(driverCollectCell);
         driverXbox.getButtonY().whenPressed(driverCollectFromFeeder);
-        driverXbox.getRightStickButton().toggleWhenPressed(driverClimb);*/
+//        driverXbox.getRightStickButton().toggleWhenPressed(driverClimb);
         // TODO bind driver commands here
     }
 

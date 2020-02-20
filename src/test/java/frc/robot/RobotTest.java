@@ -1,11 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.autonomus.MiddleFieldAuto;
-import frc.robot.autonomus.SimpleAuto;
-import frc.robot.autonomus.StartingPose;
-import frc.robot.autonomus.StealAuto;
-import frc.robot.autonomus.TrenchAuto;
+import frc.robot.autonomus.*;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.SensorCheck;
@@ -76,7 +72,7 @@ public class RobotTest {
             new MoveMovableSubsystem(Robot.loader, () -> 0),
             new OverrideCommand(Robot.shooter, () -> 0),
             new CollectCell(),
-            new CollectFromFeeder(),
+            new CollectFromFeeder(Robot.oi),
             new AutoShoot(),
             new SimpleAuto(),
             new TrenchAuto(StartingPose.kFacingPowerPort),

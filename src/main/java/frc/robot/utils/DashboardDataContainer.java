@@ -8,16 +8,15 @@ import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
-import frc.robot.commands.command_groups.CollectFromFeeder;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
+import frc.robot.motion_profiling.FollowPath;
+import frc.robot.subsystems.intakeopener.OpenIntake;
+import frc.robot.subsystems.intakeopener.SetIntakeState;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.loader.SetLoaderSpeedPID;
 import frc.robot.subsystems.mixer.MixerPower;
-import frc.robot.motion_profiling.FollowPath;
-import frc.robot.subsystems.intakeopener.OpenIntake;
-import frc.robot.subsystems.intakeopener.SetIntakeState;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
 import frc.robot.subsystems.shooter.CalibrateShooterVelocity;
@@ -65,7 +64,8 @@ public class DashboardDataContainer {
         putData("Drivetrain/Reset Odometry", new RunWhenDisabledCommand(drivetrain::resetOdometry));
         putData("Drivetrain/Reset Gyro", new RunWhenDisabledCommand(drivetrain::resetGyro));
         putData("Drivetrain/Calibrate Gyro", new RunWhenDisabledCommand(drivetrain::calibrateGyro));
-        
+        putData("Drivetrain/Calibrate Drive", new RunWhenDisabledCommand(drivetrain::tuneTrigonDrive));
+
         putData("Motion Profiling/Simple Path", new FollowPath(AutoPath.FacingPowerPortToTrenchStart.getPath(), true));
         
         // Intake dashboard data
@@ -89,7 +89,6 @@ public class DashboardDataContainer {
         
         // Command groups data
         putData("CommandGroup/Collect Cell", new CollectCell());
-        putData("CommandGroup/Collect From Feeder", new CollectFromFeeder());
         putData("CommandGroup/Mix and Load", new ParallelCommandGroup(
             new SetLoaderSpeedPID(LoaderPower.FarShoot),
             new SpinMixer(MixerPower.MixForShoot)));
