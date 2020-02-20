@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
-import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.DriverStationLogger;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
@@ -22,7 +21,6 @@ import java.util.function.Supplier;
 import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.robotConstants;
-import static frc.robot.Robot.led;
 
 
 /**
@@ -165,7 +163,6 @@ public class FollowPath extends CommandBase {
         m_rightController.reset();
         updateXY(m_trajectory.getInitialPose());
         SmartDashboard.putBoolean("Falcon/IsFollowingPath", true);
-        led.setColor(LEDColor.Green);
     }
 
     @Override

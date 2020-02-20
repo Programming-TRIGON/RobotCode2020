@@ -8,7 +8,6 @@ import frc.robot.autonomus.TrenchAuto;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.SensorCheck;
-import frc.robot.commands.command_groups.AutoClimb;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
@@ -16,7 +15,6 @@ import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
 import frc.robot.subsystems.climb.MoveClimbAndHook;
-import frc.robot.subsystems.drivetrain.DriveForClimb;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
@@ -67,7 +65,6 @@ public class RobotTest {
             new SetIntakeState(true),
             new SetIntakeState(false),
             new MoveClimbAndHook(() -> 0, () -> 0),
-            new AutoClimb(),
             new SetIntakeState(true),
             new CalibrateVisionDistance(() -> false, Target.Feeder, 0),
             new FollowTarget(Target.Feeder),
@@ -75,7 +72,6 @@ public class RobotTest {
             new CalibrateFeedforward(),
             new FollowPath(AutoPath.FacingPowerPortToMiddleField),
             new RotateDrivetrain(),
-            new DriveForClimb(0),
             new DriveWithXbox(() -> 0, () -> 0),
             new SensorCheck(),
             new MoveMovableSubsystem(Robot.loader, () -> 0),

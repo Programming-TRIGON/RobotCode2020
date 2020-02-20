@@ -111,6 +111,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kHookCurrentTimeout;
         public double kHookPotentiometerAngleMultiplier;
         public double kHookPotentiometerOffset;
+        public double kPotentiometerChangeError;
         public double kMaxHookRotations;
         public boolean kIsClimbInverted;
         public int kClimbCurrentLimit;
