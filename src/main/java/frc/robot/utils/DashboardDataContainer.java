@@ -54,7 +54,7 @@ public class DashboardDataContainer {
 
         // CommandGroup dashboard data
         putData("CommandGroup/Mix and Load", new ParallelCommandGroup(
-            new SetLoaderSpeedPID(LoaderPower.FarShoot),
+            new SetLoaderSpeedPID(LoaderPower.LoadToShoot),
             new SpinMixer(MixerPower.MixForShoot)));
         putData("CommandGroup/Sort Balls", new ParallelCommandGroup(
             new SetLoaderSpeed(LoaderPower.UnloadForSort),
