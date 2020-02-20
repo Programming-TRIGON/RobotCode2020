@@ -6,6 +6,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
+import static frc.robot.Robot.robotConstants;
+
 public class Limelight implements Loggable {
 
     public static final String kDefaultTableKey = "limelight";
@@ -72,8 +74,27 @@ public class Limelight implements Loggable {
      */
     @Log(name = "Limelight/Vision Distance")
     public double getDistance() {
+         if (getTarget() == Target.PowerPort)
+             return getDistanceFromPowerPort();
+        return getDistanceFromFeeder();
+    }
+
+    /**
+     * @return distance of the limelight from the feeder
+     */
+    private double getDistanceFromFeeder() {
         double x = getTy();
         return 1.5482 * Math.pow(x, 3) - 14.323 * Math.pow(x, 2) + 56.164 * x;
+    }
+
+    /**
+     * @return distance of limelight from the power port
+     */
+    //TODO: set real function
+    private double getDistanceFromPowerPort() {
+        double x = getTy();
+        return robotConstants.visionConstants.kDistanceFromPortACoefficient * Math.pow(x, 2) +
+            robotConstants.visionConstants.kDistanceFromPortBCoefficient * x;
     }
 
     @Log(name = "Limelight/Desired Shooter Velocity")
