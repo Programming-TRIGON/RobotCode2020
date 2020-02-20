@@ -3,6 +3,8 @@ package frc.robot.utils;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import io.github.oblarg.oblog.Logger;
 
+import static frc.robot.Robot.*;
+
 /**
  * DashboardDataContainer contains all the data to be viewed or put in the
  * dashboard.

@@ -26,10 +26,10 @@ public class LED extends SubsystemBase {
      */
     public LED() {
         ledController = new Spark(Robot.robotConstants.pwm.kLedController);
-        currentColor = LEDColor.Off;
         blinkingAmount = -1;
         notifier = new Notifier(this::notifierPeriodic);
         rand = new Random();
+        turnOffLED();
     }
 
     public void setColor(LEDColor color) {
