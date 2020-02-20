@@ -20,25 +20,25 @@ import static frc.robot.Robot.*;
 public class CollectFromFeeder extends SequentialCommandGroup {
     private double distanceOffset;
     private static final double kDistanceFromFeeder = 0.1;
+
     public CollectFromFeeder(OI oi) {
         addCommands(
+            new SetIntakeState(true),
             new FollowTarget(Target.Feeder),
             parallel(
-                new DriveWithXbox(() -> oi.
-                    getDriverXboxController().
-                    getX(Hand.kLeft),
-                 oi.getDriverXboxController()::getDeltaTriggers).
-                 beforeStarting(() -> distanceOffset = drivetrain.getAverageDistance()).
-                 withInterrupt(() -> drivetrain.getAverageDistance() - distanceOffset
-                  == kDistanceFromFeeder),
-                  sequence(
+                new DriveWithXbox(() -> oi.getDriverXboxController().getX(Hand.kLeft),
+                    oi.getDriverXboxController()::getDeltaTriggers).
+                    beforeStarting(() -> distanceOffset = drivetrain.getAverageDistance()).
+                    withInterrupt(() -> drivetrain.getAverageDistance() - distanceOffset
+                        == kDistanceFromFeeder),
+                sequence(
                     new SetIntakeState(false),
                     new SetIntakeSpeed(-robotConstants.intakeConstants.kDefaultIntakePower)
-                  ),
+                ),
                 new SpinMixerByTime(MixerPower.MixForSort),
                 new SetLoaderSpeed(LoaderPower.UnloadForSort),
-                new StartEndCommand(() -> limelight.setLedMode(LedMode.Blink), 
-                () -> limelight.setLedMode(LedMode.Off))
+                new StartEndCommand(() -> limelight.setLedMode(LedMode.Blink),
+                    () -> limelight.setLedMode(LedMode.Off))
             )
         );
     }
