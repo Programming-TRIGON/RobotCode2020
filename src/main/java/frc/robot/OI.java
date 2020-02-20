@@ -71,9 +71,9 @@ public class OI {
 
     private void bindDriverCommands() {
         drivetrain.setDefaultCommand(driverDriveWithXbox);
-        driverXbox.getButtonX().whenPressed(driverAutoShoot);
+        /*driverXbox.getButtonX().whenPressed(driverAutoShoot);
         driverXbox.getButtonA().whenHeld(driverCollectCell);
-        driverXbox.getButtonY().whenPressed(driverCollectFromFeeder);
+        driverXbox.getButtonY().whenPressed(driverCollectFromFeeder);*/
         driverXbox.getRightStickButton().toggleWhenPressed(driverClimb);
     }
 

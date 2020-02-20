@@ -72,7 +72,8 @@ public class RobotA extends RobotConstants {
         climbConstants.kMaxHookRotations = 5;
         climbConstants.kIsClimbInverted = true;
         climbConstants.kClimbCurrentLimit = 80;
-        climbConstants.kDefaultClimbPower = 0;
+        climbConstants.kDefaultClimbPower = 0.5;
+        climbConstants.kClimbRampTime = 0.5;
 
         // Shooter Constants
         shooterConstants.kWheelRadius = 1;

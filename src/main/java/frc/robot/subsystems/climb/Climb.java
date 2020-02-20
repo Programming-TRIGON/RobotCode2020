@@ -41,6 +41,7 @@ public class Climb extends SubsystemBase implements Loggable {
         climbSparkMax.getEncoder(EncoderType.kHallSensor, 42);
         climbSparkMax.setInverted(robotConstants.climbConstants.kIsClimbInverted);
         climbSparkMax.setIdleMode(IdleMode.kCoast);
+        climbSparkMax.setOpenLoopRampRate(robotConstants.climbConstants.kClimbRampTime);
         climbSparkMax.burnFlash();
     }
 

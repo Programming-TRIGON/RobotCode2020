@@ -114,7 +114,8 @@ public abstract class RobotConstants extends RobotMap {
         public double kMaxHookRotations;
         public boolean kIsClimbInverted;
         public int kClimbCurrentLimit;
-        public int kDefaultClimbPower;
+        public double kDefaultClimbPower;
+        public double kClimbRampTime;
     }
 
     /**
