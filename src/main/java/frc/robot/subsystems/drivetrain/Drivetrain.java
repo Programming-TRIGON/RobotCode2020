@@ -3,8 +3,9 @@ package frc.robot.subsystems.drivetrain;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import com.ctre.phoenix.music.Orchestra;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -18,6 +19,7 @@ import frc.robot.subsystems.MovableSubsystem;
 import frc.robot.utils.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
+import java.util.List;
 
 import static frc.robot.Robot.*;
 
@@ -37,6 +39,8 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
 
     private DifferentialDriveKinematics kinematics;
     private DifferentialDriveOdometry odometry;
+
+    private Orchestra orchestra; 
 
     /**
      * This is the subsystem of the drivetrain
@@ -76,6 +80,8 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
 
         kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.kWheelBaseWidth);
         odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
+
+        orchestra = new Orchestra(List.of(leftRear, leftMiddle, leftFront, rightRear, rightMiddle, rightFront));
     }
 
     // Drive functions
@@ -264,6 +270,25 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     /** Puts TrigonDrive class on the SmartDashboard for tuning */
     public void tuneTrigonDrive() {
         SmartDashboard.putData("Drivetrain/DifferentialDrive", drivetrain);
+    }
+
+    public void loadSong(Song song) {
+        orchestra.loadMusic(song.getPath());
+    }
+
+    public void playSong() {
+        drivetrain.setSafetyEnabled(false);
+        orchestra.play();
+    }
+
+    public void stopSong() {
+        orchestra.stop();
+        drivetrain.setSafetyEnabled(true);
+    }
+
+    @Log(name = "Drivetrain/Is playing song")
+    public boolean isPlayingSong() {
+        return orchestra.isPlaying();
     }
 
     public void periodic() {
