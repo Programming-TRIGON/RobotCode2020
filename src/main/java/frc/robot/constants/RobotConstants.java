@@ -36,6 +36,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kTriggerThresholdTime;
         public boolean kRightEncoderInverted;
         public boolean kLeftEncoderInverted;
+        public double kClimbDriveDistance;
     }
 
     public static class TrigonDriveConstants {
@@ -104,11 +105,18 @@ public abstract class RobotConstants extends RobotMap {
     }
 
     public static class ClimbConstants {
+        public boolean kIsHookInverted;
         public double kHookThresholdLimit;
         public double kHookCurrentLimit;
         public double kHookCurrentTimeout;
+        public double kHookPotentiometerAngleMultiplier;
+        public double kHookPotentiometerOffset;
+        public double kPotentiometerChangeError;
+        public double kMaxHookRotations;
+        public boolean kIsClimbInverted;
         public int kClimbCurrentLimit;
-        public int kDefaultClimbPower;
+        public double kDefaultClimbPower;
+        public double kClimbRampTime;
     }
 
     /**
@@ -120,6 +128,7 @@ public abstract class RobotConstants extends RobotMap {
         public PIDSettings visionRotationSettings;
         public PIDSettings visionDistanceSettings;
         public PIDSettings drivetrainRotateSettings;
+        public PIDSettings driveForClimbSettings;
         public PIDSettings leftShooterSettings;
         public PIDSettings rightShooterSettings;
         public PIDSettings loaderPidSettings;

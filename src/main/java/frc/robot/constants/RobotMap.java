@@ -25,6 +25,7 @@ public abstract class RobotMap {
         public int kDrivetrainRightMiddleTalonFX;
         public int kDrivetrainRightFrontTalonFX;
         public int kDrivetrainLeftEncoder;
+        public int kPigeonTalonSRX;
         // Intake ports
         public int kCellIntakeSparkMax;
         // Intake opener ports
@@ -55,5 +56,6 @@ public abstract class RobotMap {
 
     public static class AnalogInput {
         public int kIntakeOpenerPotentiometer;
+        public int kHookPotentiometer;
     }
 }

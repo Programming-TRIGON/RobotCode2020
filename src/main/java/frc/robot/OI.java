@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
-import frc.robot.subsystems.climb.ClimbWithXbox;
+import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.utils.TrigonXboxController;
 
@@ -66,7 +66,7 @@ public class OI {
         driverCollectCell = new CollectCell();
         driverCollectFromFeeder = new CollectFromFeeder().withInterrupt(() -> Math
                 .abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
-        driverClimb = new ClimbWithXbox(() -> driverXbox.getY(Hand.kRight),
+        driverClimb = new MoveClimbAndHook(() -> driverXbox.getY(Hand.kRight),
                 () -> driverXbox.getBButton() ? robotConstants.climbConstants.kDefaultClimbPower : 0);
     }
 
@@ -75,8 +75,7 @@ public class OI {
         driverXbox.getButtonX().whenPressed(driverAutoShoot);
         driverXbox.getButtonA().whenHeld(driverCollectCell);
         driverXbox.getButtonY().whenPressed(driverCollectFromFeeder);
-        driverXbox.getRightStickButton().toggleWhenPressed(driverClimb);
-        // TODO bind driver commands here
+        driverXbox.getStartXboxButton().toggleWhenPressed(driverClimb);
     }
 
     private void createOperatorCommands() {
