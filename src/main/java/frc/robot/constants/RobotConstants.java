@@ -61,7 +61,6 @@ public abstract class RobotConstants extends RobotMap {
         public double kOpenAngle;
         public double kClosedAngle;
         public double kTicksPerRotation;
-        public double kEncoderOffset;
         public double kTimeout;
         public double kFindOffsetPower;
         public double kStallLimit;
@@ -171,5 +170,6 @@ public abstract class RobotConstants extends RobotMap {
 
     public static class OIConstants {
         public double kDeltaTriggersInterruptDifference;
+        public double kSortAfterCollectCellTimeout; 
     }
 }

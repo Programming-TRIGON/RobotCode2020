@@ -10,9 +10,9 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
+import frc.robot.commands.command_groups.SortAfterCollectCell;
 import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
-import frc.robot.subsystems.intakeopener.OpenIntake;
 import frc.robot.utils.TrigonXboxController;
 
 import static frc.robot.Robot.drivetrain;
@@ -33,7 +33,7 @@ public class OI {
     private Command driverCollectFromFeeder;
     private Command driverClimb;
     private Command driverDriveWithXbox;
-    private Command driverCloseIntake;
+    private Command driverSortAfterCollectCell;
 
     public OI() {
         driverXbox = new TrigonXboxController(kDriverPort);
@@ -63,10 +63,10 @@ public class OI {
 
     private void createDriverCommands() {
         driverDriveWithXbox = new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), driverXbox::getDeltaTriggers);
-        driverAutoShoot = new AutoShoot().withInterrupt(() -> Math
-            .abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
+        driverAutoShoot = new AutoShoot().withInterrupt(() -> 
+            Math.abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
         driverCollectCell = new CollectCell();
-        driverCloseIntake = new OpenIntake(false);
+        driverSortAfterCollectCell = new SortAfterCollectCell().withTimeout(robotConstants.oiConstants.kSortAfterCollectCellTimeout);
         driverCollectFromFeeder = new CollectFromFeeder(this);
         driverClimb = new MoveClimbAndHook(() -> driverXbox.getY(Hand.kRight),
             () -> driverXbox.getBButton() ? robotConstants.climbConstants.kDefaultClimbPower : 0);
@@ -75,8 +75,7 @@ public class OI {
     private void bindDriverCommands() {
         drivetrain.setDefaultCommand(driverDriveWithXbox);
         driverXbox.getButtonX().whenPressed(driverAutoShoot);
-        //
-        driverXbox.getButtonB().whenHeld(driverCollectCell).whenReleased(driverCloseIntake);
+        driverXbox.getButtonB().whenHeld(driverCollectCell).whenReleased(driverSortAfterCollectCell);
         //driverXbox.getButtonY().whenPressed(driverCollectFromFeeder);
         driverXbox.getStartXboxButton().toggleWhenPressed(driverClimb);
     }

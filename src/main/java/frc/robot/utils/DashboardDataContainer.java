@@ -1,7 +1,9 @@
 package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.OverrideCommand;
@@ -90,7 +92,7 @@ public class DashboardDataContainer {
         putData("Intake Opener/Open Intake", new SetIntakeState(true));
         putData("Intake Opener/Close Intake", new SetIntakeState(false));
         putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
-        putData("Intake Opener/Find Offset", new FindOpenerOffset());
+        putData("Intake Opener/Find Offset", new SequentialCommandGroup(new FindOpenerOffset(), new InstantCommand(() -> intakeOpener.resetEncoder(), intakeOpener)));
 
         // Command groups data
         putData("CommandGroup/Collect Cell", new CollectCell());

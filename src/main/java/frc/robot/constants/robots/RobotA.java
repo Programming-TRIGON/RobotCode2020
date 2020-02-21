@@ -52,7 +52,6 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.kClosedAngle = 0;
         intakeOpenerConstants.kFeederClosedAngle = 20;
         intakeOpenerConstants.kTicksPerRotation = 4096;
-        intakeOpenerConstants.kEncoderOffset = 0;
         intakeOpenerConstants.kTimeout = 0.5;
         intakeOpenerConstants.kFindOffsetPower = -0.3;
         intakeOpenerConstants.kStallLimit = 10;
@@ -76,7 +75,7 @@ public class RobotA extends RobotConstants {
         climbConstants.kHookThresholdLimit = 0;
         climbConstants.kHookCurrentTimeout = 0;
         climbConstants.kHookPotentiometerAngleMultiplier = 10;
-        climbConstants.kHookPotentiometerOffset = -0.54;
+        climbConstants.kHookPotentiometerOffset = -1.04;
         climbConstants.kPotentiometerChangeError = 0.5;
         climbConstants.kMaxHookRotations = 5;
         climbConstants.kIsClimbInverted = true;
@@ -143,12 +142,13 @@ public class RobotA extends RobotConstants {
 
         //OI Constants
         oiConstants.kDeltaTriggersInterruptDifference = 0.25;
+        oiConstants.kSortAfterCollectCellTimeout = 4;
 
         /* Robot Map */
         // Drivetrain Map
-        can.kDrivetrainLeftFrontTalonFX = 1;
-        can.kDrivetrainLeftMiddleTalonFX = 2;
-        can.kDrivetrainLeftRearTalonFX = 3;
+        can.kDrivetrainLeftRearTalonFX = 1;
+        can.kDrivetrainLeftMiddleTalonFX = 2;        
+        can.kDrivetrainLeftFrontTalonFX = 3;
         can.kDrivetrainRightFrontTalonFX = 4;
         can.kDrivetrainRightMiddleTalonFX = 5;
         can.kDrivetrainRightRearTalonFX = 6;
@@ -158,9 +158,9 @@ public class RobotA extends RobotConstants {
         can.kCellIntakeSparkMax = 7;
         can.kIntakeOpenerTalonSRX = 10;
         // Mixer Map
-        can.kMixerTalonSRX = 11;
+        can.kMixerTalonSRX = 12;
         // Loader Map
-        can.kLoaderTalonSRX = 8;
+        can.kLoaderTalonSRX = 11;
         // Shooter Map
         can.kLeftShooterTalonFX = 16;
         can.kRightShooterTalonFX = 15;

@@ -51,8 +51,7 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     /** @return The angle measured by the encoder */
     @Log(name = "IntakeOpener/Angle")
     public double getAngle() {
-        return talonSRX.getSelectedSensorPosition() / robotConstants.intakeOpenerConstants.kTicksPerRotation * 360
-            + robotConstants.intakeOpenerConstants.kEncoderOffset;
+        return talonSRX.getSelectedSensorPosition() / robotConstants.intakeOpenerConstants.kTicksPerRotation * 360;
     }
 
     /**

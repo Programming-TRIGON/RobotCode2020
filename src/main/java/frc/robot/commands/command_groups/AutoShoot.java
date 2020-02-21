@@ -1,8 +1,6 @@
 package frc.robot.commands.command_groups;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.subsystems.loader.LoaderPower;
@@ -17,17 +15,14 @@ import frc.robot.vision.TurnToTarget;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-
 import static frc.robot.Robot.*;
 
 /**
- * This command group responsible for spinning the mixer, rotating the drivetrain to target, spinning the shooter in the desired speed,
- * and loading and shooting the cells once it reaches the desired speed.
+ * This command group responsible for spinning the mixer, rotating the drivetrain to target, spinning the shooter in the desired velocity,
+ * and loading and shooting the cells once it reaches the desired velocity.
  */
 public class AutoShoot extends SequentialCommandGroup {
     private static final double kAutoWaitTimeAfterShot = 0.1;
-    private DoubleSupplier speedSupplier;
     private CheesySetShooterVelocity setShooterVelocity;
 
     /**
@@ -74,7 +69,6 @@ public class AutoShoot extends SequentialCommandGroup {
      * @param amountOfCells how many cells to shoot before the command ends
      */
     public AutoShoot(DoubleSupplier speedSupplier, int amountOfCells) {
-        this.speedSupplier = speedSupplier;
         this.setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, amountOfCells);
         TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort, drivetrain);
         addCommands(
@@ -98,19 +92,13 @@ public class AutoShoot extends SequentialCommandGroup {
     }
 
     /**
-     * @return the desired loader velocity in RPM,
-     * determined by how far the robot is from the power port and how big is the velocity error.
+     * @return the desired mixer power,
+     * determined by how far the robot is from the power port and how big is the ty angle.
      */
     private MixerPower getDesiredMixerVelocity() {
         if (Math.abs(limelight.getTy()) > robotConstants.loaderConstants.kFarawayTyMeasurement)
             return MixerPower.MixForShoot;
         return MixerPower.MixForFarShoot;
-        
-        /*if (Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance)
-            if (speedSupplier.getAsDouble() < robotConstants.loaderConstants.kFarawayShooterSpeed)
-                return LoaderPower.LoadToShoot;
-            else return LoaderPower.FarShoot;
-        return LoaderPower.UnloadForSort;*/
     }
 
     @Override

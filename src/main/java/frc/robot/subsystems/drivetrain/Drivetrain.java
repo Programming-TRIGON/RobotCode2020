@@ -63,7 +63,8 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
 
         drivetrain = new TrigonDrive(leftFront, rightFront);
         drivetrain.setDeadband(0);
-        tuneTrigonDrive();
+        drivetrain.setSafetyEnabled(false);
+        //tuneTrigonDrive();
 
         leftEncoder = new TalonSRX(robotConstants.can.kDrivetrainLeftEncoder);
         DriverStationLogger.logErrorToDS(leftEncoder.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative),
@@ -287,13 +288,11 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     }
 
     public void playSong() {
-        drivetrain.setSafetyEnabled(false);
         orchestra.play();
     }
 
     public void stopSong() {
         orchestra.stop();
-        drivetrain.setSafetyEnabled(true);
     }
 
     @Log(name = "Drivetrain/Is playing song")
