@@ -121,6 +121,15 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         arcadeDrive(power, 0);
     }
 
+    public void setDrivetrainNeutralMode(NeutralMode neutralMode) {
+        leftRear.setNeutralMode(neutralMode);
+        leftMiddle.setNeutralMode(neutralMode);
+        leftFront.setNeutralMode(neutralMode);
+        rightRear.setNeutralMode(neutralMode);
+        rightMiddle.setNeutralMode(neutralMode);
+        rightFront.setNeutralMode(neutralMode);
+    }
+
     // Gyro functions
     @Log(name = "Drivetrain/Angle")
     public double getAngle() {

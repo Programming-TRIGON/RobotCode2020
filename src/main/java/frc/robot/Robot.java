@@ -67,6 +67,7 @@ public class Robot extends TimedRobot {
         limelight = new Limelight();
         oi = new OI();
         dashboardDataContainer = new DashboardDataContainer();
+
         autoChooser = new SendableChooser<>();
 
         autoChooser.setDefaultOption("Simple Auto", new SimpleAuto());
@@ -122,7 +123,7 @@ public class Robot extends TimedRobot {
 
         autoCommand = autoChooser.getSelected();
         if (autoCommand != null) {
-             /*findOffsetCommand.andThen(*/autoCommand/*)*/.schedule();
+            /*findOffsetCommand.andThen(*/autoCommand/*)*/.schedule();
         }
     }
 
@@ -136,7 +137,7 @@ public class Robot extends TimedRobot {
         if (autoCommand != null) {
             autoCommand.cancel();
         }
-//         findOffsetCommand.schedule();
+        //findOffsetCommand.schedule();
     }
 
     @Override

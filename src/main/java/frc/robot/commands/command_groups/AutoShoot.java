@@ -1,6 +1,8 @@
 package frc.robot.commands.command_groups;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.subsystems.loader.LoaderPower;
@@ -14,6 +16,8 @@ import frc.robot.vision.Target;
 import frc.robot.vision.TurnToTarget;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import static frc.robot.Robot.*;
 
@@ -83,7 +87,9 @@ public class AutoShoot extends SequentialCommandGroup {
                     /*new RunTwoCommands(SetLoaderVelocity.defaultSetLoaderVelocityCommand(),
                         new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower),
                         () -> Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance))*/
-                    parallel(new SpinMixer(getDesiredMixerVelocity()),
+                    parallel(
+                        //new StartEndCommand(() -> drivetrain.setDrivetrainNeutralMode(NeutralMode.Brake), () -> drivetrain.setDrivetrainNeutralMode(NeutralMode.Coast), drivetrain),
+                        new SpinMixer(getDesiredMixerVelocity()),
                         new SetLoaderSpeedPID(LoaderPower.LoadToShoot))
                 ),
                 new WaitCommand(kAutoWaitTimeAfterShot)

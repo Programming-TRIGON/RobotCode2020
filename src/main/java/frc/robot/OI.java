@@ -75,9 +75,10 @@ public class OI {
     private void bindDriverCommands() {
         drivetrain.setDefaultCommand(driverDriveWithXbox);
         driverXbox.getButtonX().whenPressed(driverAutoShoot);
-        //driverXbox.getButtonB().whenHeld(driverCollectCell).whenReleased(driverCloseIntake);
+        //
+        driverXbox.getButtonB().whenHeld(driverCollectCell).whenReleased(driverCloseIntake);
         //driverXbox.getButtonY().whenPressed(driverCollectFromFeeder);
-        //driverXbox.getStartXboxButton().toggleWhenPressed(driverClimb);
+        driverXbox.getStartXboxButton().toggleWhenPressed(driverClimb);
     }
 
     private void createOperatorCommands() {
