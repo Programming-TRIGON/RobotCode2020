@@ -178,7 +178,7 @@ public class CheesySetShooterVelocity extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return cellsShot >= amountOfCells;
+        return false; // cellsShot >= amountOfCells;
     }
 
     @Override

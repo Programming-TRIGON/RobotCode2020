@@ -96,9 +96,9 @@ public class RobotA extends RobotConstants {
         shooterConstants.kIsLeftEncoderInverted = false;
         shooterConstants.kIsRightEncoderInverted = false;
         shooterConstants.kStopLoadingTolerance = 10;
-        shooterConstants.kVelocityTolerance = 20;
-        controlConstants.leftShooterSettings = PIDSettings.fromTalonSettings(0.095, 0.00000975, 1, 0.0512, 2);
-        controlConstants.rightShooterSettings = PIDSettings.fromTalonSettings(0.1, 0.0000093, 1, 0.0488, 2);
+        shooterConstants.kVelocityTolerance = 50;
+        controlConstants.leftShooterSettings = PIDSettings.fromTalonSettings(0.095, 0.00000975, 1, 0.0502, 2);
+        controlConstants.rightShooterSettings = PIDSettings.fromTalonSettings(0.125, 0.0000093, 1, 0.0478, 2);
         controlConstants.leftShooterCheesySettings = PIDSettings.fromTalonSettings(0.095, 0, 2.5, 0.05165, 0);
         controlConstants.rightShooterCheesySettings = PIDSettings.fromTalonSettings(0.085, 0, 2.5, 0.0492, 0);
 
