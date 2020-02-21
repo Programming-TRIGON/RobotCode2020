@@ -85,7 +85,7 @@ public abstract class RobotConstants extends RobotMap {
         public boolean kIsEncoderInverted;
         public double kRampRate;
         public double kTicksPerRotation;
-        public double kFarawayShooterSpeed;
+        public double kFarawayTyMeasurement;
     }
 
     public static class ShooterConstants {
@@ -149,6 +149,7 @@ public abstract class RobotConstants extends RobotMap {
     public static class VisionConstants {
         public double kDistanceFromPortACoefficient;
         public double kDistanceFromPortBCoefficient;
+        public double kDistanceFromPortCCoefficient;
         public double kDistanceFromFeederACoefficient;
         public double kDistanceFromFeederBCoefficient;
         // Offsets are measured from the robot's center of rotation to the limelight

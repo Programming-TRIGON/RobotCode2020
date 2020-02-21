@@ -96,18 +96,18 @@ public class RobotA extends RobotConstants {
         shooterConstants.kIsLeftEncoderInverted = false;
         shooterConstants.kIsRightEncoderInverted = false;
         shooterConstants.kStopLoadingTolerance = 10;
-        shooterConstants.kVelocityTolerance = 50;
+        shooterConstants.kVelocityTolerance = 35;
         controlConstants.leftShooterSettings = PIDSettings.fromTalonSettings(0.095, 0.00000975, 1, 0.0502, 2);
         controlConstants.rightShooterSettings = PIDSettings.fromTalonSettings(0.125, 0.0000093, 1, 0.0478, 2);
-        controlConstants.leftShooterCheesySettings = PIDSettings.fromTalonSettings(0.095, 0, 2.5, 0.05165, 0);
-        controlConstants.rightShooterCheesySettings = PIDSettings.fromTalonSettings(0.085, 0, 2.5, 0.0492, 0);
+        controlConstants.leftShooterCheesySettings = PIDSettings.fromTalonSettings(0.085, 0, 2.5, 0.05165, 0);
+        controlConstants.rightShooterCheesySettings = PIDSettings.fromTalonSettings(0.075, 0, 2.5, 0.0492, 0);
 
         // Loader Constants
         loaderConstants.kIsInverted = true;
         loaderConstants.kIsEncoderInverted = false;
         loaderConstants.kRampRate = 0.25;
         loaderConstants.kTicksPerRotation = 4096;
-        loaderConstants.kFarawayShooterSpeed = 5000;
+        loaderConstants.kFarawayTyMeasurement = 13;
         controlConstants.loaderSettings = PIDSettings.fromTalonSettings(0.02, 0.000001, 1.5, 0.141, 2);
 
         // Motion Profiling Constants
@@ -120,8 +120,9 @@ public class RobotA extends RobotConstants {
         controlConstants.motionProfilingReverseSettings = new SimpleMotorFeedforward(0.129, 2.47, 0.334);
 
         // Vision Constants
-        visionConstants.kDistanceFromPortACoefficient = 0;
-        visionConstants.kDistanceFromPortBCoefficient = 0;
+        visionConstants.kDistanceFromPortACoefficient = 3.7168;
+        visionConstants.kDistanceFromPortBCoefficient = 122.23;
+        visionConstants.kDistanceFromPortCCoefficient = 3960.4;
         visionConstants.kDistanceFromFeederACoefficient = 0;
         visionConstants.kDistanceFromFeederBCoefficient = 0;
         visionConstants.kLimelightOffsetX = 0;
@@ -129,7 +130,7 @@ public class RobotA extends RobotConstants {
         visionConstants.kLimelightAngleOffset = 0;
         visionConstants.kTargetNotFoundWaitTime = 0.5;
         controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
-        controlConstants.visionRotationSettings = new PIDSettings(0.0185, 0.00025, 0.0005, 5, 5);
+        controlConstants.visionRotationSettings = new PIDSettings(0.04, 0.00055, 0.0005, 2, 2);
         controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         // Auto Constants
