@@ -3,6 +3,7 @@ package frc.robot.subsystems.intake;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import frc.robot.subsystems.OverridableSubsystem;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
@@ -21,6 +22,7 @@ public class Intake extends OverridableSubsystem implements Loggable{
         sparkMax.setIdleMode(IdleMode.kCoast);
         sparkMax.setSmartCurrentLimit(robotConstants.intakeConstants.kCurrentLimit);
         sparkMax.getEncoder();
+        sparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 65534);
         sparkMax.burnFlash();
     }
 
