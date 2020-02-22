@@ -4,8 +4,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.subsystems.OverridableSubsystem;
-import io.github.oblarg.oblog.Loggable;
-import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
 
@@ -13,7 +11,7 @@ import static frc.robot.Robot.robotConstants;
  * This class holds all of the methods for the Mixer subsystem, which holds
  * POWER CELLS in the robot for shooting.
  */
-public class Mixer extends OverridableSubsystem implements Loggable {
+public class Mixer extends OverridableSubsystem { // implements Loggable {
     private final WPI_TalonSRX talonSRX;
 
     public Mixer() {
@@ -29,7 +27,7 @@ public class Mixer extends OverridableSubsystem implements Loggable {
         talonSRX.set(power);
     }
 
-    @Log(name = "Mixer/Mixer Current")
+    // @Log(name = "Mixer/Mixer Current")
     public double getCurrent() {
         return talonSRX.getStatorCurrent();
     }

@@ -77,7 +77,7 @@ public class RobotA extends RobotConstants {
         climbConstants.kHookCurrentTimeout = 0;
         climbConstants.kHookPotentiometerAngleMultiplier = 10;
         climbConstants.kHookPotentiometerOffset = -1.04;
-        climbConstants.kPotentiometerChangeError = 0.5;
+        climbConstants.kPotentiometerChangeError = 1;
         climbConstants.kMaxHookRotations = 5;
         climbConstants.kIsClimbInverted = true;
         climbConstants.kClimbCurrentLimit = 80;
