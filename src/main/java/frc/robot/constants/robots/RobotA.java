@@ -54,6 +54,7 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.kTicksPerRotation = 4096;
         intakeOpenerConstants.kTimeout = 0.5;
         intakeOpenerConstants.kFindOffsetPower = -0.3;
+        intakeOpenerConstants.kEncoderOffset = -9;
         intakeOpenerConstants.kStallLimit = 10;
         controlConstants.openIntakeSettings = new PIDSettings(0.0015000, 0.000150000, 0,10, 10);
         controlConstants.closeIntakeSettings = new PIDSettings(0.25, 0.0003000, 0,1, 10);

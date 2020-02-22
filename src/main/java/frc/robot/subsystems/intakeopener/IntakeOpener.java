@@ -51,7 +51,8 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     /** @return The angle measured by the encoder */
     @Log(name = "IntakeOpener/Angle")
     public double getAngle() {
-        return talonSRX.getSelectedSensorPosition() / robotConstants.intakeOpenerConstants.kTicksPerRotation * 360;
+        return talonSRX.getSelectedSensorPosition() / robotConstants.intakeOpenerConstants.kTicksPerRotation * 360 +
+            robotConstants.intakeOpenerConstants.kFindOffsetPower;
     }
 
     /**
@@ -59,16 +60,6 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
      */
     public void changeSlot(int slot) {
         talonSRX.selectProfileSlot(slot, 0);
-    }
-
-    public void openIntake() {
-        talonSRX.selectProfileSlot(0, 0);
-        setIntakeAngle(robotConstants.intakeOpenerConstants.kOpenAngle);
-    }
-
-    public void closeIntake() {
-        talonSRX.selectProfileSlot(1, 0);
-        setIntakeAngle(robotConstants.intakeOpenerConstants.kClosedAngle);
     }
 
     public void setIntakeAngle(double angle) {
@@ -107,7 +98,7 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     }
 
     public void resetEncoder() {
-        talonSRX.setSelectedSensorPosition(0, 0, 10);
+        talonSRX.setSelectedSensorPosition(0, 0, 0);
     }
 
     public boolean hasFoundOffset() {
