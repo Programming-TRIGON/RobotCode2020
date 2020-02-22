@@ -47,7 +47,7 @@ public class AutoShoot extends SequentialCommandGroup {
      * @param speedSupplier supplier of the desired speed
      */
     public AutoShoot(Supplier<ShooterVelocity> speedSupplier) {
-        this(speedSupplier, 5);
+        this(() -> speedSupplier.get().getVelocity());
     }
 
     /**
@@ -62,7 +62,8 @@ public class AutoShoot extends SequentialCommandGroup {
      * @param speedSupplier supplier of the desired speed in RPM
      */
     public AutoShoot(DoubleSupplier speedSupplier) {
-        this(speedSupplier, 5);
+        this.setShooterVelocity = new CheesySetShooterVelocity(speedSupplier);
+        addCommandsToGroup(false);
     }
 
     /**
@@ -71,6 +72,10 @@ public class AutoShoot extends SequentialCommandGroup {
      */
     public AutoShoot(DoubleSupplier speedSupplier, int amountOfCells) {
         this.setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, amountOfCells);
+        addCommandsToGroup(true);
+    }
+
+    private void addCommandsToGroup(boolean isAuto) {
         TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort);
         addCommands(
             deadline(
@@ -80,7 +85,8 @@ public class AutoShoot extends SequentialCommandGroup {
                     new WaitUntilCommand(() ->
                         setShooterVelocity.readyToShoot()),
                     parallel(
-                        new SpinMixer(getDesiredMixerVelocity()),
+                        // new SpinMixer(isAuto ? MixerPower.MixForAuto : getDesiredMixerVelocity()),
+                        new SpinMixer(MixerPower.MixForShoot),
                         new SetLoaderSpeedPID(LoaderPower.LoadToShoot))
                 ),
                 new WaitCommand(kAutoWaitTimeAfterShot)
