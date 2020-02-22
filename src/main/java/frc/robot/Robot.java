@@ -137,7 +137,8 @@ public class Robot extends TimedRobot {
         if (autoCommand != null) {
             autoCommand.cancel();
         }
-        //findOffsetCommand.schedule();
+        if (!intakeOpener.hasFoundOffset())
+            findOffsetCommand.schedule();
     }
 
     @Override

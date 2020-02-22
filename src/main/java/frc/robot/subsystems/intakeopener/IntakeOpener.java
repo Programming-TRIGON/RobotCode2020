@@ -107,8 +107,7 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     }
 
     public void resetEncoder() {
-        System.out.println(talonSRX.setSelectedSensorPosition(0).value + "!!!!!!!!!!!!!!");
-        talonSRX.setSelectedSensorPosition(0);
+        talonSRX.setSelectedSensorPosition(0, 0, 10);
     }
 
     public boolean hasFoundOffset() {

@@ -4,12 +4,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.led.LEDColor;
-
 import java.util.function.DoubleSupplier;
 
-import static frc.robot.Robot.robotConstants;
-import static frc.robot.Robot.shooter;
-import static frc.robot.Robot.led;
+import static frc.robot.Robot.*;
 
 /**
  * This command spins the wheel in the desired velocity in order to shoot the power cells.
@@ -22,6 +19,7 @@ public class CheesySetShooterVelocity extends CommandBase {
     private DoubleSupplier velocitySetpoint;
     private CheesyShooterState currentShooterState;
     private int amountOfCells;
+    private boolean isAuto;
     private double setpoint;
     private double kfSamplesAmount;
     private double leftKfSamplesSum;
@@ -36,7 +34,7 @@ public class CheesySetShooterVelocity extends CommandBase {
      * @see frc.robot.subsystems.shooter.ShooterVelocity#Default
      */
     public CheesySetShooterVelocity() {
-        this(kMaxCellCapacity);
+        this(ShooterVelocity.Default);
     }
 
     /**
@@ -53,7 +51,7 @@ public class CheesySetShooterVelocity extends CommandBase {
      * @param velocity the velocity setpoint the talon fx will try to achieve.
      */
     public CheesySetShooterVelocity(ShooterVelocity velocity) {
-        this(velocity, kMaxCellCapacity);
+        this(velocity.getVelocity());
     }
 
     /**
@@ -68,7 +66,7 @@ public class CheesySetShooterVelocity extends CommandBase {
      * @param velocitySetpoint The setpoint used for calculation the PID velocity error in RPM.
      */
     public CheesySetShooterVelocity(double velocitySetpoint) {
-        this(velocitySetpoint, kMaxCellCapacity);
+        this(() -> velocitySetpoint);
     }
 
     /**
@@ -80,13 +78,16 @@ public class CheesySetShooterVelocity extends CommandBase {
     }
 
     public CheesySetShooterVelocity(DoubleSupplier velocitySetpointSupplier) {
-        this(velocitySetpointSupplier, kMaxCellCapacity);
+        addRequirements(shooter, led);
+        velocitySetpoint = velocitySetpointSupplier;
+        isAuto = false;
     }
 
     public CheesySetShooterVelocity(DoubleSupplier velocitySetpointSupplier, int amountOfCells) {
         addRequirements(shooter, led);
         velocitySetpoint = velocitySetpointSupplier;
         this.amountOfCells = amountOfCells;
+        isAuto = true;
     }
 
     @Override
@@ -148,10 +149,12 @@ public class CheesySetShooterVelocity extends CommandBase {
             updateKf();
             shooter.configFeedforwardGains(leftKfSamplesSum / kfSamplesAmount, rightKfSamplesSum / kfSamplesAmount);
         }
-        // Check how many cells were shot.
-        SmartDashboard.putNumber("Shooter/Cells Shot", cellsShot);
-        boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageVelocity()) >= robotConstants.shooterConstants.kShootingBallZone;
-        countShotCells(isCellBeingShot);
+        if (isAuto) {
+            // Check how many cells were shot.
+            SmartDashboard.putNumber("Shooter/Cells Shot", cellsShot);
+            boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageVelocity()) >= robotConstants.shooterConstants.kShootingBallZone;
+            countShotCells(isCellBeingShot);
+        }
     }
 
     private void countShotCells(boolean isCellBeingShot) {
@@ -178,7 +181,7 @@ public class CheesySetShooterVelocity extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false; // cellsShot >= amountOfCells;
+        return isAuto && cellsShot >= amountOfCells;
     }
 
     @Override
