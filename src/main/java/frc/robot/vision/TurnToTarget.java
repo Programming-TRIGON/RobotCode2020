@@ -8,6 +8,8 @@ import frc.robot.utils.TrigonPIDController;
 
 import static frc.robot.Robot.*;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 /**
  * this is just template for a drivetrain turn to target command. It will be
  * probably changed according the game and the robot.
@@ -64,8 +66,14 @@ public class TurnToTarget extends CommandBase {
     }
 
     @Override
+    public boolean isFinished() {
+        return isOnTarget();
+    }
+
+    @Override
     public void end(boolean interrupted) {
         drivetrain.stopMove();
+        drivetrain.setDrivetrainNeutralMode(NeutralMode.Brake);
         //limelight.stopVision();
     }
 

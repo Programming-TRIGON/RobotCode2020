@@ -14,6 +14,7 @@ import frc.robot.vision.Target;
 import frc.robot.vision.TurnToTarget;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import static frc.robot.Robot.*;
 
@@ -30,7 +31,7 @@ public class AutoShoot extends SequentialCommandGroup {
      * @see Limelight#getDesiredShooterVelocity()
      */
     public AutoShoot() {
-        this(5);
+        this(limelight::getDesiredShooterVelocity);
     }
 
     /**
@@ -74,15 +75,11 @@ public class AutoShoot extends SequentialCommandGroup {
         addCommands(
             deadline(
                 setShooterVelocity,
-                turnToTarget,
                 sequence(
+                    turnToTarget,
                     new WaitUntilCommand(() ->
-                        setShooterVelocity.readyToShoot() && turnToTarget.isOnTarget()),
-                    /*new RunTwoCommands(SetLoaderVelocity.defaultSetLoaderVelocityCommand(),
-                        new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower),
-                        () -> Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance))*/
+                        setShooterVelocity.readyToShoot()),
                     parallel(
-                        //new StartEndCommand(() -> drivetrain.setDrivetrainNeutralMode(NeutralMode.Brake), () -> drivetrain.setDrivetrainNeutralMode(NeutralMode.Coast), drivetrain),
                         new SpinMixer(getDesiredMixerVelocity()),
                         new SetLoaderSpeedPID(LoaderPower.LoadToShoot))
                 ),
@@ -106,5 +103,6 @@ public class AutoShoot extends SequentialCommandGroup {
         super.end(interrupted);
         // We stop the shooter since the SetShooterCommand does not stop the motors.
         shooter.stopMove();
+        drivetrain.setDrivetrainNeutralMode(NeutralMode.Coast);
     }
 }

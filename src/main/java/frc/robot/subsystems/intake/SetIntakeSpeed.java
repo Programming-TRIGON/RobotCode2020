@@ -44,7 +44,8 @@ public class SetIntakeSpeed extends CommandBase {
             DriverStationLogger.logToDS("A cell got stuck in the intake. Trying to release it");
             inStall = true;
             firstStallTimestamp = Timer.getFPGATimestamp();
-            initializeTimestamp = Timer.getFPGATimestamp();
+            // initializeTimestamp =
+             Timer.getFPGATimestamp();
             intake.move(-speedSupplier.getAsDouble());
         } else
             intake.move(speedSupplier.getAsDouble());

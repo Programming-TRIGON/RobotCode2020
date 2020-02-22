@@ -38,7 +38,7 @@ public class RobotA extends RobotConstants {
         intakeConstants.kDefaultIntakePower = 0.5;
         intakeConstants.kFeederIntakePower = -0.4;
         intakeConstants.kCurrentLimit = 40;
-        intakeConstants.kOnStallLimit = 35;
+        intakeConstants.kOnStallLimit = 45;
         intakeConstants.kSpinBackwardsTime = 0.5;
         intakeConstants.kStallTimeout = 0.5;
 
@@ -54,7 +54,7 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.kTicksPerRotation = 4096;
         intakeOpenerConstants.kTimeout = 0.5;
         intakeOpenerConstants.kFindOffsetPower = -0.3;
-        intakeOpenerConstants.kEncoderOffset = -9;
+        intakeOpenerConstants.kEncoderOffset = -8.7;
         intakeOpenerConstants.kStallLimit = 10;
         controlConstants.openIntakeSettings = new PIDSettings(0.0015000, 0.000150000, 0,10, 10);
         controlConstants.closeIntakeSettings = new PIDSettings(0.25, 0.0003000, 0,1, 10);
@@ -130,7 +130,7 @@ public class RobotA extends RobotConstants {
         visionConstants.kLimelightAngleOffset = 0;
         visionConstants.kTargetNotFoundWaitTime = 0.5;
         controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
-        controlConstants.visionRotationSettings = new PIDSettings(0.04, 0.00055, 0.0005, 2, 2);
+        controlConstants.visionRotationSettings = new PIDSettings(0.04, 0.00055, 0.0005, 1, 1);
         controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         // Auto Constants
