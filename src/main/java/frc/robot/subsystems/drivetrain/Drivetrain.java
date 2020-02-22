@@ -138,7 +138,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     }
 
     // Gyro functions
-    @Log(name = "Drivetrain/Angle")
+    // @Log(name = "Drivetrain/Angle")
     public double getAngle() {
         return Math.IEEEremainder(gyro.getAngle(), 360);
     }
@@ -157,12 +157,12 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     }
 
     // Encoders functions
-    @Log(name = "Drivetrain/Left Ticks")
+    // @Log(name = "Drivetrain/Left Ticks")
     public int getLeftTicks() {
         return leftEncoder.getSelectedSensorPosition();
     }
 
-    @Log(name = "Drivetrain/Right Ticks")
+    // @Log(name = "Drivetrain/Right Ticks")
     public int getRightTicks() {
         return rightEncoder.getSelectedSensorPosition();
     }
@@ -175,7 +175,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     /**
      * @return meters
      */
-    @Log(name = "Drivetrain/Left Distance")
+    // @Log(name = "Drivetrain/Left Distance")
     public double getLeftDistance() {
         return getLeftTicks() / robotConstants.drivetrainConstants.kLeftEncoderTicksPerMeter;
     }
@@ -183,12 +183,12 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     /**
      * @return meters
      */
-    @Log(name = "Drivetrain/Right Distance")
+    // @Log(name = "Drivetrain/Right Distance")
     public double getRightDistance() {
         return getRightTicks() / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
     }
 
-    @Log(name = "Drivetrain/Average Distance")
+    // @Log(name = "Drivetrain/Average Distance")
     public double getAverageDistance() {
         return (getLeftDistance() + getRightDistance()) / 2;
     }
@@ -196,7 +196,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     /**
      * @return meters per second
      */
-    @Log(name = "Drivetrain/Right Velocity")
+    // @Log(name = "Drivetrain/Right Velocity")
     public double getRightVelocity() {
         return rightEncoder.getSelectedSensorVelocity() * 10
             / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
@@ -205,13 +205,13 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     /**
      * @return meters per second
      */
-    @Log(name = "Drivetrain/Left Velocity")
+    // @Log(name = "Drivetrain/Left Velocity")
     public double getLeftVelocity() {
         return leftEncoder.getSelectedSensorVelocity() * 10
             / robotConstants.drivetrainConstants.kLeftEncoderTicksPerMeter;
     }
 
-    @Log(name = "Drivetrain/Average Velocity")
+    // @Log(name = "Drivetrain/Average Velocity")
     public double getAverageVelocity() {
         return (getLeftVelocity() + getRightVelocity()) / 2;
     }
@@ -295,7 +295,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         orchestra.stop();
     }
 
-    @Log(name = "Drivetrain/Is playing song")
+    // @Log(name = "Drivetrain/Is playing song")
     public boolean isPlayingSong() {
         return orchestra.isPlaying();
     }

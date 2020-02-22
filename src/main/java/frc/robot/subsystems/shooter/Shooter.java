@@ -8,15 +8,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.utils.DriverStationLogger;
-import io.github.oblarg.oblog.Loggable;
-import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
 
 /**
  * This subsystem handles shooting power cells into the outer and inner ports.
  */
-public class Shooter extends OverridableSubsystem implements Loggable {
+public class Shooter extends OverridableSubsystem { // implements Loggable {
     private WPI_TalonFX leftTalonFX;
     private WPI_TalonFX rightTalonFX;
     private boolean isTuning;
@@ -98,12 +96,12 @@ public class Shooter extends OverridableSubsystem implements Loggable {
         isTuning = false;
     }
 
-    @Log(name = "Shooter/Left Power")
+    // @Log(name = "Shooter/Left Power")
     public double getLeftPower() {
         return leftTalonFX.getMotorOutputPercent();
     }
 
-    @Log(name = "Shooter/Right Power")
+    // @Log(name = "Shooter/Right Power")
     public double getRightPower() {
         return rightTalonFX.getMotorOutputPercent();
     }
@@ -119,7 +117,7 @@ public class Shooter extends OverridableSubsystem implements Loggable {
     /**
      * @return the speed of the left shooter in RPM.
      */
-    @Log(name = "Shooter/Left Velocity")
+    // @Log(name = "Shooter/Left Velocity")
     public double getLeftVelocity() {
         return leftTalonFX.getSelectedSensorVelocity() * 600.0
             / robotConstants.shooterConstants.kLeftUnitsPerRotation;
@@ -128,7 +126,7 @@ public class Shooter extends OverridableSubsystem implements Loggable {
     /**
      * @return the velocity of the right shooter in RPM.
      */
-    @Log(name = "Shooter/Right Velocity")
+    // @Log(name = "Shooter/Right Velocity")
     public double getRightVelocity() {
         return rightTalonFX.getSelectedSensorVelocity() * 600.0
             / robotConstants.shooterConstants.kRightUnitsPerRotation;
@@ -137,7 +135,7 @@ public class Shooter extends OverridableSubsystem implements Loggable {
     /**
      * @return the velocity of the shooter in RPM.
      */
-    @Log(name = "Shooter/Average Velocity")
+    // @Log(name = "Shooter/Average Velocity")
     public double getAverageVelocity() {
         return (getLeftVelocity() + getRightVelocity()) / 2;
     }
