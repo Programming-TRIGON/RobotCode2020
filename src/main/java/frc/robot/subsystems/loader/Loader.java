@@ -7,12 +7,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.utils.DriverStationLogger;
-import io.github.oblarg.oblog.Loggable;
-import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
 
-public class Loader extends OverridableSubsystem implements Loggable {
+public class Loader extends OverridableSubsystem { // implements Loggable {
     private WPI_TalonSRX talonSRX;
     private boolean isTuning;
 
@@ -38,7 +36,7 @@ public class Loader extends OverridableSubsystem implements Loggable {
 		return talonSRX.getSelectedSensorPosition();
 	}
 
-    @Log(name = "Loader/Velocity")
+    // @Log(name = "Loader/Velocity")
     public double getVelocity() {
         return talonSRX.getSelectedSensorVelocity() * 600 / robotConstants.loaderConstants.kTicksPerRotation;
     }
