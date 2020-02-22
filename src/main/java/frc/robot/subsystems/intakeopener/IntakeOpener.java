@@ -63,7 +63,8 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     }
 
     public void setIntakeAngle(double angle) {
-        talonSRX.set(ControlMode.Position, angle / 360 * robotConstants.intakeOpenerConstants.kTicksPerRotation);
+        if (foundOffset)
+            talonSRX.set(ControlMode.Position, angle / 360 * robotConstants.intakeOpenerConstants.kTicksPerRotation);
     }
 
     public void enableTuning() {
