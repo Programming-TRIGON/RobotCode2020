@@ -47,8 +47,8 @@ public class MoveClimbAndHook extends CommandBase {
     @Override
     public void execute() {
         if(!potentiometerDisconnected && 
-            (Math.abs(climb.getHookRotations() - startPotentiometerValue) < robotConstants.climbConstants.kPotentiometerChangeError &&
-            Timer.getFPGATimestamp() - lastTimeHookNotMoved >= kHookTimeToMove)) {
+            Math.abs(climb.getHookRotations() - startPotentiometerValue) < robotConstants.climbConstants.kPotentiometerChangeError &&
+            Timer.getFPGATimestamp() - lastTimeHookNotMoved >= kHookTimeToMove) {
             DriverStationLogger.logErrorToDS("Hook potentiometer disconnected, limit forward input");
             sensitivity = 0.3;
             potentiometerDisconnected = true;
