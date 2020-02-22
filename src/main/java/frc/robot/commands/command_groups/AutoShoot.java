@@ -30,7 +30,7 @@ public class AutoShoot extends SequentialCommandGroup {
      * @see Limelight#getDesiredShooterVelocity()
      */
     public AutoShoot() {
-        this(5);
+        this(limelight::getDesiredShooterVelocity);
     }
 
     /**
@@ -46,7 +46,7 @@ public class AutoShoot extends SequentialCommandGroup {
      * @param speedSupplier supplier of the desired speed
      */
     public AutoShoot(Supplier<ShooterVelocity> speedSupplier) {
-        this(speedSupplier, 5);
+        this(() -> speedSupplier.get().getVelocity());
     }
 
     /**
@@ -61,7 +61,8 @@ public class AutoShoot extends SequentialCommandGroup {
      * @param speedSupplier supplier of the desired speed in RPM
      */
     public AutoShoot(DoubleSupplier speedSupplier) {
-        this(speedSupplier, 5);
+        this.setShooterVelocity = new CheesySetShooterVelocity(speedSupplier);
+        addCommandsToGroup(false);
     }
 
     /**
@@ -70,6 +71,10 @@ public class AutoShoot extends SequentialCommandGroup {
      */
     public AutoShoot(DoubleSupplier speedSupplier, int amountOfCells) {
         this.setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, amountOfCells);
+        addCommandsToGroup(true);
+    }
+
+    private void addCommandsToGroup(boolean isAuto) {
         TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort);
         addCommands(
             deadline(
@@ -83,7 +88,7 @@ public class AutoShoot extends SequentialCommandGroup {
                         () -> Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance))*/
                     parallel(
                         //new StartEndCommand(() -> drivetrain.setDrivetrainNeutralMode(NeutralMode.Brake), () -> drivetrain.setDrivetrainNeutralMode(NeutralMode.Coast), drivetrain),
-                        new SpinMixer(getDesiredMixerVelocity()),
+                        new SpinMixer(isAuto ? MixerPower.MixForAuto : getDesiredMixerVelocity()),
                         new SetLoaderSpeedPID(LoaderPower.LoadToShoot))
                 ),
                 new WaitCommand(kAutoWaitTimeAfterShot)

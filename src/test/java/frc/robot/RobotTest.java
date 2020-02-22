@@ -13,7 +13,6 @@ import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
 import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
-import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 import frc.robot.subsystems.intakeopener.SetIntakeState;
@@ -70,7 +69,6 @@ public class RobotTest {
             new TurnToTarget(Target.PowerPort),
             new CalibrateFeedforward(),
             new FollowPath(AutoPath.FacingPowerPortToMiddleField),
-            new RotateDrivetrain(),
             new DriveWithXbox(() -> 0, () -> 0),
             new SensorCheck(),
             new MoveMovableSubsystem(Robot.loader, () -> 0),
