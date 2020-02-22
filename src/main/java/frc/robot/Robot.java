@@ -123,7 +123,8 @@ public class Robot extends TimedRobot {
 
         autoCommand = autoChooser.getSelected();
         if (autoCommand != null) {
-            /*findOffsetCommand.andThen(*/autoCommand/*)*/.schedule();
+            drivetrain.setRampRate(0);
+            autoCommand.schedule();
         }
     }
 
@@ -137,6 +138,7 @@ public class Robot extends TimedRobot {
         if (autoCommand != null) {
             autoCommand.cancel();
         }
+        drivetrain.setRampRate(robotConstants.drivetrainConstants.kRampRate);
         if (!intakeOpener.hasFoundOffset())
             findOffsetCommand.schedule();
     }

@@ -61,7 +61,7 @@ public class DashboardDataContainer {
         putData("Shooter/Override", new OverrideCommand(shooter));
         putData("Shooter/Calibrate shooter velocity", new CalibrateShooterVelocity(oi.getDriverXboxController()::getAButton,
             () -> getNumber("Shooter/Shooting velocity setpoint", 0), 100, 100)); // TODO: set starting distance and delta distance!
-        putData("Shooter/Turn to port", new TurnToTarget(Target.PowerPort, drivetrain, "Turn PID"));
+        putData("Shooter/Turn to port", new TurnToTarget(Target.PowerPort, "Turn PID"));
 
         putData("Drivetrain/Calibrate Feedforward", new CalibrateFeedforward());
         putData("Drivetrain/Reset Encoders", new RunWhenDisabledCommand(drivetrain::resetEncoders));

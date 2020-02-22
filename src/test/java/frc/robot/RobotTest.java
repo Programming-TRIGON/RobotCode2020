@@ -67,7 +67,7 @@ public class RobotTest {
             new SetIntakeState(true),
             new CalibrateVisionDistance(() -> false, Target.Feeder, 0),
             new FollowTarget(Target.Feeder),
-            new TurnToTarget(Target.Feeder, Robot.drivetrain),
+            new TurnToTarget(Target.PowerPort),
             new CalibrateFeedforward(),
             new FollowPath(AutoPath.FacingPowerPortToMiddleField),
             new RotateDrivetrain(),

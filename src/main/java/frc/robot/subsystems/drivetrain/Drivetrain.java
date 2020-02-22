@@ -317,7 +317,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         if(motor != master)
             motor.follow(master);
         motor.setNeutralMode(NeutralMode.Coast);
-        motor.configOpenloopRamp(0);
+        motor.configOpenloopRamp(robotConstants.drivetrainConstants.kRampRate);
         motor.configStatorCurrentLimit(
             new StatorCurrentLimitConfiguration(true, robotConstants.drivetrainConstants.kCurrentLimit,
                 robotConstants.drivetrainConstants.kTriggerThresholdCurrent,

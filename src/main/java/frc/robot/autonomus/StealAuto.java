@@ -7,6 +7,7 @@ import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.FollowPath;
+import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 
 import static frc.robot.Robot.drivetrain;
 
@@ -19,7 +20,10 @@ public class StealAuto extends SequentialCommandGroup {
             new InstantCommand(() -> drivetrain.resetOdometry(AutoPath.InitLineToEnemyTrench.getPath().getTrajectory().getInitialPose())),
             deadline(
                 new FollowPath(AutoPath.InitLineToEnemyTrench),
-                new CollectCell()
+                sequence(
+                    new FindOpenerOffset(),
+                    new CollectCell()
+                )
             ),
             new FollowPath(AutoPath.EnemyTrenchToPort),
             new AutoShoot()

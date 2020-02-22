@@ -6,7 +6,9 @@ import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.subsystems.drivetrain.RotateDrivetrain;
+import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 import frc.robot.subsystems.intakeopener.SetIntakeState;
+
 import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.robotConstants;
 import static frc.robot.motion_profiling.AutoPath.FacingPowerPortToMiddleField;
@@ -20,10 +22,14 @@ public class MiddleFieldAuto extends SequentialCommandGroup {
         AutoPath autoPath = startingPose ==
             StartingPose.kFacingRightOfPowerPort ? RightOfPortToMiddleField : FacingPowerPortToMiddleField;
         addCommands(
-            new InstantCommand(() -> drivetrain.resetOdometry(autoPath.getPath().getTrajectory().getInitialPose())),
-            new AutoShoot(3),
-            new RotateDrivetrain(() ->
-                autoPath.getPath().getTrajectory().getInitialPose().getRotation().getDegrees()),
+            parallel(
+                sequence(new InstantCommand(() -> drivetrain.resetOdometry(autoPath.getPath().getTrajectory().getInitialPose())),
+                    new AutoShoot(3),
+                    new RotateDrivetrain(() ->
+                        autoPath.getPath().getTrajectory().getInitialPose().getRotation().getDegrees())
+                    ),
+                new FindOpenerOffset()
+            ),
             new OpenIntakeAndFollowPath(autoPath),
             deadline(
                 sequence(

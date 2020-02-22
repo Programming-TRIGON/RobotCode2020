@@ -70,7 +70,7 @@ public class AutoShoot extends SequentialCommandGroup {
      */
     public AutoShoot(DoubleSupplier speedSupplier, int amountOfCells) {
         this.setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, amountOfCells);
-        TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort, drivetrain);
+        TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort);
         addCommands(
             deadline(
                 setShooterVelocity,
