@@ -69,14 +69,13 @@ public class FollowTarget extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return /*Timer.getFPGATimestamp() - lastTimeSeenTarget > robotConstants.visionConstants.kTargetNotFoundWaitTime
-            ||*/ distancePIDController.atSetpoint();
+        return distancePIDController.atSetpoint();
     }
 
     @Override
     public void end(boolean interrupted) {
         drivetrain.stopMove();
-        // limelight.stopVision();
+         limelight.stopVision();
         led.turnOffLED();
     }
 }
