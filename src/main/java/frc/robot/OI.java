@@ -69,7 +69,7 @@ public class OI {
         driverSortAfterCollectCell = new SortAfterCollectCell().withTimeout(robotConstants.oiConstants.kSortAfterCollectCellTimeout);
         driverCollectFromFeeder = new CollectFromFeeder(this);
         driverClimb = new MoveClimbAndHook(() -> driverXbox.getY(Hand.kRight),
-            () -> driverXbox.getBButton() ? robotConstants.climbConstants.kDefaultClimbPower : 0);
+            () -> driverXbox.getYButton() ? robotConstants.climbConstants.kDefaultClimbPower : 0);
     }
 
     private void bindDriverCommands() {

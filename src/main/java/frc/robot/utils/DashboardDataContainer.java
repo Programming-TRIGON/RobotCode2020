@@ -95,6 +95,10 @@ public class DashboardDataContainer {
         putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
         putData("Intake Opener/Find Offset", new SequentialCommandGroup(new FindOpenerOffset(), new InstantCommand(() -> intakeOpener.resetEncoder(), intakeOpener)));
 
+        // Climb 
+        putData("Climb/Reverse Climb", new InstantCommand(() -> climb.setOppositeClimbPower(-0.4)));
+
+
         // Command groups data
         putData("CommandGroup/Collect Cell", new CollectCell());
         putData("CommandGroup/Mix and Load", new ParallelCommandGroup(

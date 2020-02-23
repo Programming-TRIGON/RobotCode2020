@@ -38,7 +38,7 @@ public class RobotA extends RobotConstants {
         intakeConstants.kDefaultIntakePower = 0.5;
         intakeConstants.kFeederIntakePower = -0.4;
         intakeConstants.kCurrentLimit = 40;
-        intakeConstants.kOnStallLimit = 45;
+        intakeConstants.kOnStallLimit = 35;
         intakeConstants.kSpinBackwardsTime = 0.5;
         intakeConstants.kStallTimeout = 0.5;
 
@@ -76,8 +76,8 @@ public class RobotA extends RobotConstants {
         climbConstants.kHookThresholdLimit = 0;
         climbConstants.kHookCurrentTimeout = 0;
         climbConstants.kHookPotentiometerAngleMultiplier = 10;
-        climbConstants.kHookPotentiometerOffset = -3.37;
-        climbConstants.kPotentiometerChangeError = 1;
+        climbConstants.kHookPotentiometerOffset = -3.54;
+        climbConstants.kPotentiometerChangeError = 0.2;
         climbConstants.kMaxHookRotations = 5;
         climbConstants.kIsClimbInverted = true;
         climbConstants.kClimbCurrentLimit = 80;
@@ -146,7 +146,7 @@ public class RobotA extends RobotConstants {
 
         //OI Constants
         oiConstants.kDeltaTriggersInterruptDifference = 0.25;
-        oiConstants.kSortAfterCollectCellTimeout = 2;
+        oiConstants.kSortAfterCollectCellTimeout = 3.5;
 
         /* Robot Map */
         // Drivetrain Map

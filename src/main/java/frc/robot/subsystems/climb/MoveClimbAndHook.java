@@ -11,7 +11,7 @@ import static frc.robot.Robot.*;
 public class MoveClimbAndHook extends CommandBase {
     private static final int kBlinkingAmount = 15;
     private static final double kThreshold = 0.12;
-    private static final double kHookTimeToMove = 0.5;
+    private static final double kHookTimeToMove = 2;
     private static final double kDrivetrainClimbSensitivity = 0.5;
     private DoubleSupplier hookPower;
     private DoubleSupplier climbPower;
@@ -46,16 +46,13 @@ public class MoveClimbAndHook extends CommandBase {
 
     @Override
     public void execute() {
-        if(!potentiometerDisconnected)
-            if(Math.abs(climb.getHookRotations() - startPotentiometerValue) < robotConstants.climbConstants.kPotentiometerChangeError) { 
-                System.out.println("Hook Moved enoght rotation!");
-                if(Timer.getFPGATimestamp() - lastTimeHookNotMoved >= kHookTimeToMove) {
-                    System.out.println("Hook Moved enoght time!");
-                    DriverStationLogger.logErrorToDS("Hook potentiometer disconnected, limit forward input");
-                    sensitivity = 0.3;
-                    potentiometerDisconnected = true;
-                }
-            }
+        if(!potentiometerDisconnected && 
+            Math.abs(climb.getHookRotations() - startPotentiometerValue) < robotConstants.climbConstants.kPotentiometerChangeError &&
+            Timer.getFPGATimestamp() - lastTimeHookNotMoved >= kHookTimeToMove) {
+            DriverStationLogger.logErrorToDS("Hook potentiometer disconnected, limit forward input");
+            sensitivity = 0.3;
+            potentiometerDisconnected = true;
+        }
         
         if(hookPower.getAsDouble() < kThreshold) {
             lastTimeHookNotMoved = Timer.getFPGATimestamp();
