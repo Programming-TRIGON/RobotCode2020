@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
@@ -15,8 +16,7 @@ import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.utils.TrigonXboxController;
 
-import static frc.robot.Robot.drivetrain;
-import static frc.robot.Robot.robotConstants;
+import static frc.robot.Robot.*;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -34,6 +34,8 @@ public class OI {
     private Command driverClimb;
     private Command driverDriveWithXbox;
     private Command driverSortAfterCollectCell;
+    // operator commands
+    private Command returnMixerControl;
 
     public OI() {
         driverXbox = new TrigonXboxController(kDriverPort);
@@ -76,26 +78,28 @@ public class OI {
         drivetrain.setDefaultCommand(driverDriveWithXbox);
         driverXbox.getButtonX().whenPressed(driverAutoShoot);
         driverXbox.getButtonB().whenHeld(driverCollectCell).whenReleased(driverSortAfterCollectCell);
-        //driverXbox.getButtonY().whenPressed(driverCollectFromFeeder);
+        driverXbox.getButtonY().whenPressed(driverCollectFromFeeder);
         driverXbox.getStartXboxButton().toggleWhenPressed(driverClimb);
     }
 
     private void createOperatorCommands() {
-        // TODO Create operator commands here
+        returnMixerControl = new InstantCommand(mixer::stopOverride);
     }
 
     /**
      * Binds commands to buttons (Hillel desires).
      */
     private void setHillelSettings() {
-        // TODO: Bind commands to to buttons
+        mixer.setOverrideSupplier(() -> operatorXbox.getY(Hand.kRight));
+        operatorXbox.getRightStickButton().whenPressed(returnMixerControl);
     }
 
     /**
      * Binds commands to buttons (Grossman desires).
      */
     private void setGrossmanSetting() {
-        // TODO: Bind commands to to buttons
+        mixer.setOverrideSupplier(() -> operatorXbox.getY(Hand.kRight));
+        operatorXbox.getRightStickButton().whenPressed(returnMixerControl);
     }
 
     public TrigonXboxController getDriverXboxController() {

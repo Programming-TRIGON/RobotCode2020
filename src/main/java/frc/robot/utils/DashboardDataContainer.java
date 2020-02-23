@@ -92,7 +92,7 @@ public class DashboardDataContainer {
         putData("Intake Opener/Find Offset", new FindOpenerOffset());
 
         // Climb 
-        putData("Climb/Reverse Climb", new InstantCommand(() -> climb.setOppositeClimbPower(-0.4)));
+        putData("Climb/Reverse Climb", new StartEndCommand(() -> climb.setOppositeClimbPower(-0.4), () -> climb.setOppositeClimbPower(0)).withTimeout(5));
 
 
         // Command groups data
