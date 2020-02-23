@@ -40,7 +40,7 @@ public class SetIntakeSpeed extends CommandBase {
             if (!intake.getIsInStall()) {
                 lastTimeNotOnStall = Timer.getFPGATimestamp();
             }
-            if (Timer.getFPGATimestamp() - lastTimeNotOnStall > robotConstants.intakeConstants.kStallTimeout) {
+            if (Timer.getFPGATimestamp() - lastTimeNotOnStall > robotConstants.intakeConstants.kStallWaitTime) {
                 backwardsSpinStartTime = Timer.getFPGATimestamp();
                 DriverStationLogger.logToDS("A Cell got stuck in the intake, trying to release it.");
                 intake.move(-speedSupplier.getAsDouble());
