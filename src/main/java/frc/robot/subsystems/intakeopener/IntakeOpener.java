@@ -99,15 +99,17 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     }
 
     public void resetEncoder() {
-        if (!foundOffset)
+        if (!foundOffset) {
             offset = -getAngle();
+            foundOffset = true;
+        }
     }
 
     public boolean hasFoundOffset() {
         return foundOffset;
     }
 
-    public void setFoundOffset(boolean foundOffset) {
+    private void setFoundOffset(boolean foundOffset) {
         this.foundOffset = foundOffset;
     }
 }

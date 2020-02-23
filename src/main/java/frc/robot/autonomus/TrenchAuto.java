@@ -26,7 +26,7 @@ public class TrenchAuto extends SequentialCommandGroup {
                     new InstantCommand(() -> drivetrain.resetOdometry(autoPath.getPath().getTrajectory().getInitialPose())),
                     new AutoShoot(3)
                 ),
-                new ConditionalCommand(new FindOpenerOffset(), new InstantCommand(), intakeOpener::hasFoundOffset)
+                new FindOpenerOffset(), new InstantCommand()
             ),
             new OpenIntakeAndFollowPath(autoPath),
             deadline(

@@ -89,7 +89,7 @@ public class DashboardDataContainer {
         putData("Intake Opener/Open Intake", new SetIntakeState(true));
         putData("Intake Opener/Close Intake", new SetIntakeState(false));
         putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
-        putData("Intake Opener/Find Offset", new FindOpenerOffset().andThen(new InstantCommand(() -> intakeOpener.resetEncoder(), intakeOpener)));
+        putData("Intake Opener/Find Offset", new FindOpenerOffset());
 
         // Climb 
         putData("Climb/Reverse Climb", new InstantCommand(() -> climb.setOppositeClimbPower(-0.4)));

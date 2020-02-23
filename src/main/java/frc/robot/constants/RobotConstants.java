@@ -63,6 +63,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kTicksPerRotation;
         public double kTimeout;
         public double kFindOffsetPower;
+        public double kFindOffsetWaitTime;
         public double kEncoderOffset;
         public double kStallLimit;
         public double kFeederClosedAngle;
