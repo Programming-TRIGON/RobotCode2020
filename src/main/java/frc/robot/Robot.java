@@ -16,7 +16,7 @@ import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.intake.Intake;
-import frc.robot.subsystems.intakeopener.CloseForOffset;
+import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 import frc.robot.subsystems.intakeopener.IntakeOpener;
 import frc.robot.subsystems.led.LED;
 import frc.robot.subsystems.loader.Loader;
@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
     private Command autoCommand;
     private SendableChooser<Command> autoChooser;
     private DashboardDataContainer dashboardDataContainer;
-    private CloseForOffset findOffsetCommand;
+    private FindOpenerOffset findOffsetCommand;
 
     public static Drivetrain drivetrain;
     public static Intake intake;
@@ -82,7 +82,7 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto/autoChooser", autoChooser);
         SmartDashboard.putData("Command Scheduler", CommandScheduler.getInstance());
 
-        findOffsetCommand = new CloseForOffset();
+        findOffsetCommand = new FindOpenerOffset();
 
         // We configure the logger here since it needs the container of all the subsystems
         Logger.configureLoggingNTOnly(this, "Logging");
@@ -141,8 +141,8 @@ public class Robot extends TimedRobot {
             autoCommand.cancel();
         }
         drivetrain.setRampRate(robotConstants.drivetrainConstants.kRampRate);
-        // if (!intakeOpener.hasFoundOffset())
-        //     findOffsetCommand.schedule();
+        if (!intakeOpener.hasFoundOffset())
+            findOffsetCommand.schedule();
     }
 
     @Override

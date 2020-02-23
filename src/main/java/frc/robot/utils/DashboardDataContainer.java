@@ -1,7 +1,6 @@
 package frc.robot.utils;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.MoveMovableSubsystem;
@@ -24,6 +23,7 @@ import frc.robot.subsystems.mixer.SpinMixerByTime;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
 import frc.robot.vision.CalibrateVisionDistance;
+import frc.robot.vision.FollowTarget;
 import frc.robot.vision.Target;
 import frc.robot.vision.TurnToTarget;
 import io.github.oblarg.oblog.Logger;
@@ -106,6 +106,7 @@ public class DashboardDataContainer {
         putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
         putBoolean("log", false);
         putData("Calibrate Vision Distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 120, 35, 10));
+        putData("FollowTarget", new FollowTarget( Target.Feeder, "FollowTarget"));
     }
 
     /**

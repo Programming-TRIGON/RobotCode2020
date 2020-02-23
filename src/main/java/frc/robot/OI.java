@@ -69,7 +69,7 @@ public class OI {
             Math.abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
         driverCollectCell = new CollectCell();
         driverSortAfterCollectCell = new SortAfterCollectCell().withTimeout(robotConstants.oiConstants.kSortAfterCollectCellTimeout);
-        driverCollectFromFeeder = new CollectFromFeeder(this);
+        driverCollectFromFeeder = new CollectFromFeeder();
         driverClimb = new MoveClimbAndHook(() -> driverXbox.getY(Hand.kRight),
             () -> driverXbox.getYButton() ? robotConstants.climbConstants.kDefaultClimbPower : 0);
     }

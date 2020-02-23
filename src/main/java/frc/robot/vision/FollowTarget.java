@@ -1,7 +1,9 @@
 package frc.robot.vision;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.TrigonPIDController;
 
@@ -15,6 +17,7 @@ public class FollowTarget extends CommandBase {
     private Target target;
     private TrigonPIDController rotationPIDController;
     private TrigonPIDController distancePIDController;
+    private double lastTimeSeenTarget;
 
     /**
      * @param target The target the robot will follow
@@ -36,6 +39,7 @@ public class FollowTarget extends CommandBase {
         addRequirements(drivetrain, led);
         this.target = target;
          distancePIDController = new TrigonPIDController(dashboardKey + " - distance", target.getDistance());
+         distancePIDController.setTolerance(robotConstants.controlConstants.visionDistanceSettings.getTolerance(), robotConstants.controlConstants.visionDistanceSettings.getDeltaTolerance());
         rotationPIDController = new TrigonPIDController(dashboardKey + " - rotation", 0);
     }
 
@@ -43,6 +47,7 @@ public class FollowTarget extends CommandBase {
     public void initialize() {
         distancePIDController.reset();
         rotationPIDController.reset();
+        lastTimeSeenTarget = Timer.getFPGATimestamp();
         // Configure the limelight to start computing vision.
         limelight.startVision(target);
         led.setColor(LEDColor.Green);
@@ -51,23 +56,27 @@ public class FollowTarget extends CommandBase {
     @Override
     public void execute() {
         if (limelight.getTv()) {
-            double distanceOutput = distancePIDController.calculate(limelight.getDistance());
+            double distance = limelight.getDistance();
             double rotationOutput = rotationPIDController.calculate(limelight.getAngle());
-            drivetrain.arcadeDrive(rotationOutput, distanceOutput);
+            drivetrain.arcadeDrive(rotationOutput, MathUtil.clamp(distance * distancePIDController.getP(), 0, 0.4));
+            lastTimeSeenTarget = Timer.getFPGATimestamp();
         } else
             // The target wasn't found, driver's control
+        {
             drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft), oi.getDriverXboxController().getDeltaTriggers());
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return limelight.getDistance() <= robotConstants.controlConstants.visionDistanceSettings.getTolerance();
+        return /*Timer.getFPGATimestamp() - lastTimeSeenTarget > robotConstants.visionConstants.kTargetNotFoundWaitTime
+            ||*/ distancePIDController.atSetpoint();
     }
 
     @Override
     public void end(boolean interrupted) {
         drivetrain.stopMove();
-        limelight.stopVision();
+        // limelight.stopVision();
         led.turnOffLED();
     }
 }

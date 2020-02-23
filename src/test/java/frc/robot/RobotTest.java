@@ -76,7 +76,7 @@ public class RobotTest {
             new MoveMovableSubsystem(Robot.loader, () -> 0),
             new OverrideCommand(Robot.shooter, () -> 0),
             new CollectCell(),
-            new CollectFromFeeder(Robot.oi),
+            new CollectFromFeeder(),
             new AutoShoot(),
             new SimpleAuto(),
             new TrenchAuto(StartingPose.kFacingPowerPort),

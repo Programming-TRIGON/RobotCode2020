@@ -159,9 +159,11 @@ public abstract class RobotConstants extends RobotMap {
         // Offsets are measured from the robot's center of rotation to the limelight
         // position.
         public double kLimelightOffsetX;
+        public double kMaximumDistancePower;
         public double kLimelightOffsetY;
         public double kLimelightAngleOffset;
         public double kTargetNotFoundWaitTime;
+        public double kDistanceFromFeederC;
     }
 
     public static class AutoConstants {
