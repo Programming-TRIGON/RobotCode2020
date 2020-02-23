@@ -22,18 +22,6 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     private boolean foundOffset;
     private double offset;
 
-    @Override
-    public void startOverride() {
-        super.startOverride();
-        disableSoftLimits();
-    }
-
-    @Override
-    public void stopOverride() {
-        super.stopOverride();
-        enableSoftLimits();
-    }
-
     public IntakeOpener() {
         talonSRX = new WPI_TalonSRX(robotConstants.can.kIntakeOpenerTalonSRX);
         talonSRX.setInverted(robotConstants.intakeOpenerConstants.kIsInverted);
@@ -92,6 +80,19 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     }
 
     @Override
+    public void startOverride() {
+        super.startOverride();
+        disableSoftLimits();
+    }
+
+    @Override
+    public void stopOverride() {
+        super.stopOverride();
+        enableSoftLimits();
+    }
+
+
+    @Override
     public void periodic() {
         if (isTuning)
             configPIDFGains();
@@ -112,10 +113,6 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
 
     public boolean hasFoundOffset() {
         return foundOffset;
-    }
-
-    private void setFoundOffset(boolean foundOffset) {
-        this.foundOffset = foundOffset;
     }
 
     private void enableSoftLimits() {
