@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.EncoderType;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,6 +43,7 @@ public class Climb extends SubsystemBase implements Loggable {
         climbSparkMax.setInverted(robotConstants.climbConstants.kIsClimbInverted);
         climbSparkMax.setIdleMode(IdleMode.kBrake);
         climbSparkMax.setOpenLoopRampRate(robotConstants.climbConstants.kClimbRampTime);
+        climbSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 65534);
         climbSparkMax.burnFlash();
     }
 
