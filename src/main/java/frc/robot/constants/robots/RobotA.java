@@ -39,7 +39,7 @@ public class RobotA extends RobotConstants {
         intakeConstants.kCurrentLimit = 40;
         intakeConstants.kOnStallLimit = 35;
         intakeConstants.kSpinBackwardsTime = 0.5;
-        intakeConstants.kStallWaitTime = 1;
+        intakeConstants.kStallWaitTime = 0.2;
 
         //Intake opener
         intakeOpenerConstants.kIsInverted = false;

@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -97,6 +98,8 @@ public class Robot extends TimedRobot {
         // Disable LiveWindow 
         LiveWindow.disableAllTelemetry();
         LiveWindow.setEnabled(false);
+
+        CameraServer.getInstance().startAutomaticCapture(0);
 
         DriverStationLogger.logToDS("Robot initialization complete");
     }
