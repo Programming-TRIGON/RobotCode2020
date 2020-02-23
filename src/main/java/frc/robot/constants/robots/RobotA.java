@@ -9,7 +9,6 @@ import frc.robot.utils.PIDSettings;
  * Constants and robot map for robot A.
  */
 public class RobotA extends RobotConstants {
-    // TODO: Set constants
 
     public RobotA() {
         /* Robot Constants */
