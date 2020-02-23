@@ -2,8 +2,7 @@ package frc.robot.vision;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.utils.PIDSettings;
+import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.TrigonPIDController;
 
 import static frc.robot.Robot.*;
@@ -25,8 +24,7 @@ public class TurnToTarget extends CommandBase {
     public TurnToTarget(Target target) {
         addRequirements(drivetrain);
         this.target = target;
-        PIDSettings rotationSettings = robotConstants.controlConstants.visionRotationSettings;
-        rotationPIDController = new TrigonPIDController(rotationSettings, 0);
+        rotationPIDController = new TrigonPIDController(robotConstants.controlConstants.visionRotationSettings, 0);
     }
 
     /**
@@ -47,6 +45,7 @@ public class TurnToTarget extends CommandBase {
         rotationPIDController.reset();
         // Configure the limelight to start computing vision.
         limelight.startVision(target);
+        led.setColor(LEDColor.Green);
     }
 
     @Override
@@ -74,6 +73,7 @@ public class TurnToTarget extends CommandBase {
     public void end(boolean interrupted) {
         drivetrain.stopMove();
         drivetrain.setDrivetrainNeutralMode(NeutralMode.Brake);
+        led.turnOffLED();
         //limelight.stopVision();
     }
 

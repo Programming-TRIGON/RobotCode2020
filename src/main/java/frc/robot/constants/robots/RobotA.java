@@ -76,7 +76,7 @@ public class RobotA extends RobotConstants {
         climbConstants.kHookThresholdLimit = 0;
         climbConstants.kHookCurrentTimeout = 0;
         climbConstants.kHookPotentiometerAngleMultiplier = 10;
-        climbConstants.kHookPotentiometerOffset = -1.04;
+        climbConstants.kHookPotentiometerOffset = -3.37;
         climbConstants.kPotentiometerChangeError = 1;
         climbConstants.kMaxHookRotations = 5;
         climbConstants.kIsClimbInverted = true;
@@ -97,6 +97,9 @@ public class RobotA extends RobotConstants {
         shooterConstants.kIsRightEncoderInverted = false;
         shooterConstants.kStopLoadingTolerance = 10;
         shooterConstants.kVelocityTolerance = 35;
+        shooterConstants.kLowBatteryVoltageForKfChanging = 11.65;
+        shooterConstants.kLowBatteryLeftKf = 0.0532;
+        shooterConstants.kLowBatteryRightKf = 0.0508;        
         controlConstants.leftShooterSettings = PIDSettings.fromTalonSettings(0.095, 0.00000975, 1, 0.0502, 2);
         controlConstants.rightShooterSettings = PIDSettings.fromTalonSettings(0.125, 0.0000093, 1, 0.0478, 2);
         controlConstants.leftShooterCheesySettings = PIDSettings.fromTalonSettings(0.085, 0, 2.5, 0.05165, 0);
@@ -129,8 +132,8 @@ public class RobotA extends RobotConstants {
         visionConstants.kLimelightOffsetY = 0;
         visionConstants.kLimelightAngleOffset = 0;
         visionConstants.kTargetNotFoundWaitTime = 0.5;
-        controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 0, 0);
-        controlConstants.visionRotationSettings = new PIDSettings(0.04, 0.00055, 0.0005, 1, 1);
+        controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 15, 15);
+        controlConstants.visionRotationSettings = new PIDSettings(0.04, 0.00055, 0.0005, 1, 0.5);
         controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         // Auto Constants
@@ -143,7 +146,7 @@ public class RobotA extends RobotConstants {
 
         //OI Constants
         oiConstants.kDeltaTriggersInterruptDifference = 0.25;
-        oiConstants.kSortAfterCollectCellTimeout = 4;
+        oiConstants.kSortAfterCollectCellTimeout = 2;
 
         /* Robot Map */
         // Drivetrain Map

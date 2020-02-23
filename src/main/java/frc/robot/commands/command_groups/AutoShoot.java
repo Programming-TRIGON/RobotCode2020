@@ -85,8 +85,7 @@ public class AutoShoot extends SequentialCommandGroup {
                     new WaitUntilCommand(() ->
                         setShooterVelocity.readyToShoot()),
                     parallel(
-                        // new SpinMixer(isAuto ? MixerPower.MixForAuto : getDesiredMixerVelocity()),
-                        new SpinMixer(MixerPower.MixForShoot),
+                        new SpinMixer(getDesiredMixerVelocity(isAuto)),
                         new SetLoaderSpeedPID(LoaderPower.LoadToShoot))
                 ),
                 new WaitCommand(kAutoWaitTimeAfterShot)
@@ -98,8 +97,10 @@ public class AutoShoot extends SequentialCommandGroup {
      * @return the desired mixer power,
      * determined by how far the robot is from the power port and how big is the ty angle.
      */
-    private MixerPower getDesiredMixerVelocity() {
-        if (Math.abs(limelight.getTy()) > robotConstants.loaderConstants.kFarawayTyMeasurement)
+    private MixerPower getDesiredMixerVelocity(boolean isAuto) {
+        if (isAuto)
+            return MixerPower.MixForAuto;
+        else if (Math.abs(limelight.getTy()) > robotConstants.loaderConstants.kFarawayTyMeasurement)
             return MixerPower.MixForShoot;
         return MixerPower.MixForFarShoot;
     }

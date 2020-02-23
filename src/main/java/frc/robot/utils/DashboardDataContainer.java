@@ -63,6 +63,7 @@ public class DashboardDataContainer {
             () -> getNumber("Shooter/Shooting velocity setpoint", 0), 100, 100)); // TODO: set starting distance and delta distance!
         putData("Shooter/Turn to port", new TurnToTarget(Target.PowerPort, "Turn PID"));
 
+        // Drivetrain
         putData("Drivetrain/Calibrate Feedforward", new CalibrateFeedforward());
         putData("Drivetrain/Reset Encoders", new RunWhenDisabledCommand(drivetrain::resetEncoders));
         putData("Drivetrain/Reset Odometry", new RunWhenDisabledCommand(drivetrain::resetOdometry));
@@ -70,7 +71,7 @@ public class DashboardDataContainer {
         putData("Drivetrain/Calibrate Gyro", new RunWhenDisabledCommand(drivetrain::calibrateGyro));
         putData("Drivetrain/Calibrate Drive", new RunWhenDisabledCommand(drivetrain::tuneTrigonDrive));
 
-        putData("Motion Profiling/Simple Path", new FollowPath(AutoPath.FacingPowerPortToTrenchStart.getPath(), true));
+        putData("Motion Profiling/Path Test", new FollowPath(AutoPath.FacingPowerPortToTrenchStart.getPath(), true));
 
         // Intake dashboard data
         putDefaultNumber("Intake/Intake power", 0);

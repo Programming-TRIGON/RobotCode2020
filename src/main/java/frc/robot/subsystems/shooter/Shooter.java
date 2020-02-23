@@ -8,13 +8,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.utils.DriverStationLogger;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 import static frc.robot.Robot.robotConstants;
 
 /**
  * This subsystem handles shooting power cells into the outer and inner ports.
  */
-public class Shooter extends OverridableSubsystem { // implements Loggable {
+public class Shooter extends OverridableSubsystem implements Loggable {
     private WPI_TalonFX leftTalonFX;
     private WPI_TalonFX rightTalonFX;
     private boolean isTuning;
@@ -117,7 +119,7 @@ public class Shooter extends OverridableSubsystem { // implements Loggable {
     /**
      * @return the speed of the left shooter in RPM.
      */
-    // @Log(name = "Shooter/Left Velocity")
+    @Log(name = "Shooter/Left Velocity")
     public double getLeftVelocity() {
         return leftTalonFX.getSelectedSensorVelocity() * 600.0
             / robotConstants.shooterConstants.kLeftUnitsPerRotation;
@@ -126,7 +128,7 @@ public class Shooter extends OverridableSubsystem { // implements Loggable {
     /**
      * @return the velocity of the right shooter in RPM.
      */
-    // @Log(name = "Shooter/Right Velocity")
+    @Log(name = "Shooter/Right Velocity")
     public double getRightVelocity() {
         return rightTalonFX.getSelectedSensorVelocity() * 600.0
             / robotConstants.shooterConstants.kRightUnitsPerRotation;
@@ -135,7 +137,7 @@ public class Shooter extends OverridableSubsystem { // implements Loggable {
     /**
      * @return the velocity of the shooter in RPM.
      */
-    // @Log(name = "Shooter/Average Velocity")
+    @Log(name = "Shooter/Average Velocity")
     public double getAverageVelocity() {
         return (getLeftVelocity() + getRightVelocity()) / 2;
     }
@@ -168,6 +170,16 @@ public class Shooter extends OverridableSubsystem { // implements Loggable {
     public void configFeedforwardGains(double leftKf, double rightKf) {
         leftTalonFX.config_kF(1, leftKf);
         rightTalonFX.config_kF(1, rightKf);
+    }
+
+    /**
+     * set the feedforward gains of the shooter in slot 0 (PIDF control).
+     * @param leftKf left feedforward gain
+     * @param rightKf right feedforward gain
+     */
+    public void configFeedforwardGainsSlot0(double leftKf, double rightKf) {
+        leftTalonFX.config_kF(0, leftKf);
+        rightTalonFX.config_kF(0, rightKf);
     }
 
     public void configCloseLoopPIDFGains() {

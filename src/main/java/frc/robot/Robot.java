@@ -83,11 +83,10 @@ public class Robot extends TimedRobot {
 
         findOffsetCommand = new FindOpenerOffset();
 
-        // We configure the logger here since it needs the container of all the
-        // subsystems
+        // We configure the logger here since it needs the container of all the subsystems
         Logger.configureLoggingNTOnly(this, "Logging");
 
-        // set up command logging
+        // Set up command logging
         CommandScheduler.getInstance().onCommandInitialize(
             command -> DriverStationLogger.logToDS("Starting to run " + command.getName()));
         CommandScheduler.getInstance().onCommandInterrupt(
@@ -95,7 +94,7 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance()
             .onCommandFinish(command -> DriverStationLogger.logToDS(command.getName() + " is finished"));
 
-        // disable LiveWindow 
+        // Disable LiveWindow 
         LiveWindow.disableAllTelemetry();
         LiveWindow.setEnabled(false);
 
@@ -139,8 +138,8 @@ public class Robot extends TimedRobot {
             autoCommand.cancel();
         }
         drivetrain.setRampRate(robotConstants.drivetrainConstants.kRampRate);
-        if (!intakeOpener.hasFoundOffset())
-            findOffsetCommand.schedule();
+        // if (!intakeOpener.hasFoundOffset())
+        //     findOffsetCommand.schedule();
     }
 
     @Override
