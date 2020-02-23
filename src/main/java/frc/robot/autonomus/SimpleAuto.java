@@ -21,7 +21,7 @@ public class SimpleAuto extends SequentialCommandGroup {
         addCommands(new RunCommand(() -> drivetrain.arcadeDrive(0, robotConstants.autoConstants.kSimpleAutoPower),
             drivetrain).withInterrupt(() -> timer.hasPeriodPassed(timeout.getAsDouble())),
             new InstantCommand(drivetrain::stopMove),
-            new AutoShoot(true)
+            new AutoShoot(3)
         );
     }
 

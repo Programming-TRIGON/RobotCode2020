@@ -37,6 +37,7 @@ public class SetIntakeSpeed extends CommandBase {
         if (Timer.getFPGATimestamp() - firstStallTimestamp < robotConstants.intakeConstants.kSpinBackwardsTime) {
             intake.move(-speedSupplier.getAsDouble());
             inStall = false;
+            initializeTimestamp = Timer.getFPGATimestamp();
             return;
         }
         if (!inStall && intake.getIsInStall()

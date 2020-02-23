@@ -3,7 +3,9 @@ package frc.robot.commands.command_groups;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
-import frc.robot.subsystems.loader.SetLoaderSpeed;
+import frc.robot.subsystems.loader.LoaderPower;
+import frc.robot.subsystems.loader.SetLoaderSpeedPID;
+import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.ShooterVelocity;
@@ -12,79 +14,95 @@ import frc.robot.vision.Target;
 import frc.robot.vision.TurnToTarget;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import static frc.robot.Robot.*;
 
 /**
- * This command group responsible for spinning the mixer, rotating the drivetrain to target, spinning the shooter in the desired speed,
- * and loading and shooting the cells once it reaches the desired speed.
+ * This command group responsible for spinning the mixer, rotating the drivetrain to target, spinning the shooter in the desired velocity,
+ * and loading and shooting the cells once it reaches the desired velocity.
  */
 public class AutoShoot extends SequentialCommandGroup {
     private static final double kAutoWaitTimeAfterShot = 0.1;
+    private CheesySetShooterVelocity setShooterVelocity;
 
     /**
      * Constructs automatic shooting sequence with shooter velocities based on vision.
      * @see Limelight#getDesiredShooterVelocity()
      */
     public AutoShoot() {
-        this(false);
+        this(limelight::getDesiredShooterVelocity);
     }
 
     /**
      * Constructs automatic shooting sequence with shooter velocities based on vision.
-     * @param isAuto whether the command group should stop automatically
+     * @param amountOfCells how many cells to shoot before the command ends
      * @see Limelight#getDesiredShooterVelocity()
      */
-    public AutoShoot(boolean isAuto) {
-        this(limelight::getDesiredShooterVelocity, isAuto);
+    public AutoShoot(int amountOfCells) {
+        this(limelight::getDesiredShooterVelocity, amountOfCells);
     }
 
     /**
      * @param speedSupplier supplier of the desired speed
      */
     public AutoShoot(Supplier<ShooterVelocity> speedSupplier) {
-        this(speedSupplier, false);
+        this(() -> speedSupplier.get().getVelocity());
     }
 
     /**
      * @param speedSupplier supplier of the desired speed
-     * @param isAuto whether the command group should stop automatically
+     * @param amountOfCells how many cells to shoot before the command ends
      */
-    public AutoShoot(Supplier<ShooterVelocity> speedSupplier, boolean isAuto) {
-        this(() -> speedSupplier.get().getVelocity(), isAuto);
+    public AutoShoot(Supplier<ShooterVelocity> speedSupplier, int amountOfCells) {
+        this(() -> speedSupplier.get().getVelocity(), amountOfCells);
     }
 
     /**
      * @param speedSupplier supplier of the desired speed in RPM
      */
     public AutoShoot(DoubleSupplier speedSupplier) {
-        this(speedSupplier, false);
+        this.setShooterVelocity = new CheesySetShooterVelocity(speedSupplier);
+        addCommandsToGroup(false);
     }
 
     /**
      * @param speedSupplier supplier of the desired speed in RPM
-     * @param isAuto whether the command group should stop automatically
+     * @param amountOfCells how many cells to shoot before the command ends
      */
-    public AutoShoot(DoubleSupplier speedSupplier, boolean isAuto) {
-        CheesySetShooterVelocity setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, isAuto);
-        TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort, drivetrain);
+    public AutoShoot(DoubleSupplier speedSupplier, int amountOfCells) {
+        this.setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, amountOfCells);
+        addCommandsToGroup(true);
+    }
+
+    private void addCommandsToGroup(boolean isAuto) {
+        TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort);
         addCommands(
             deadline(
                 setShooterVelocity,
-                new SpinMixer(),
-                turnToTarget,
                 sequence(
+                    turnToTarget,
                     new WaitUntilCommand(() ->
-                        setShooterVelocity.isOnTarget() && turnToTarget.isOnTarget()),
-                    /*new RunTwoCommands(SetLoaderVelocity.defaultSetLoaderVelocityCommand(),
-                        new MoveMovableSubsystem(loader, () -> robotConstants.loaderConstants.kDefaultBackwardsPower),
-                        () -> Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance))*/
-                    new SetLoaderSpeed(() -> (Math.abs(setShooterVelocity.getError()) < robotConstants.shooterConstants.kStopLoadingTolerance) ?
-                        robotConstants.loaderConstants.kDefaultPower : robotConstants.loaderConstants.kDefaultBackwardsPower)
-                )
-            ),
-            new WaitCommand(kAutoWaitTimeAfterShot)
+                        setShooterVelocity.readyToShoot()),
+                    parallel(
+                        new SpinMixer(getDesiredMixerVelocity(isAuto)),
+                        new SetLoaderSpeedPID(LoaderPower.LoadToShoot))
+                ),
+                new WaitCommand(kAutoWaitTimeAfterShot)
+            )
         );
+    }
+
+    /**
+     * @return the desired mixer power,
+     * determined by how far the robot is from the power port and how big is the ty angle.
+     */
+    private MixerPower getDesiredMixerVelocity(boolean isAuto) {
+        if (isAuto)
+            return MixerPower.MixForAuto;
+        else if (Math.abs(limelight.getTy()) > robotConstants.loaderConstants.kFarawayTyMeasurement)
+            return MixerPower.MixForShoot;
+        return MixerPower.MixForFarShoot;
     }
 
     @Override
@@ -92,5 +110,6 @@ public class AutoShoot extends SequentialCommandGroup {
         super.end(interrupted);
         // We stop the shooter since the SetShooterCommand does not stop the motors.
         shooter.stopMove();
+        drivetrain.setDrivetrainNeutralMode(NeutralMode.Coast);
     }
 }

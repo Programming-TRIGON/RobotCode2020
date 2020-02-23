@@ -1,7 +1,5 @@
 package frc.robot.constants;
 
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.utils.PIDSettings;
 
@@ -50,44 +48,44 @@ public abstract class RobotConstants extends RobotMap {
 		public double kFeederIntakePower;
         public double kSpinBackwardsTime;
         public double kStallTimeout;
-        public int kStallLimit;
+        public int kCurrentLimit;
         public double kOnStallLimit;
     }
 
     public static class IntakeOpenerConstants {
+        public boolean kIsSensorInverted;
         public boolean kIsInverted;
         public double kCurrentLimit;
         public double kThresholdLimit;
         public double kTriggerThresholdTime;
         public double kOpenAngle;
         public double kClosedAngle;
-        public double kPotentiometerAngleMultiplier;
-        public double kPotentiometerOffset;
+        public double kTicksPerRotation;
         public double kTimeout;
+        public double kFindOffsetPower;
+        public double kEncoderOffset;
+        public double kStallLimit;
+        public double kFeederClosedAngle;
     }
 
     public static class MixerConstants {
         public double kMixerMaxStall;
         public boolean kIsInverted;
         public double kStallWaitTime;
-        public double kBackwardsSpinTime;
-        public double kRampUpTime;
-        public double kDefaultPower;
+        public double kTotalStallWaitTime;
+        public double kSpinMixerByTime;
+        public double kBackwardsSpinTimeLowSpeed;
+        public double kBackwardsSpinTimeHighSpeed;
+        public double kRampTime;
+        public double kSpinByTimeRampTime;
     }
 
     public static class LoaderConstants {
+        public boolean kIsInverted;
+        public boolean kIsEncoderInverted;
         public double kRampRate;
-        public double kCurrentLimit;
-        public double kThresholdLimit;
-        public double kTimeout;
         public double kTicksPerRotation;
-        public double kDefaultVelocity;
-        public double kSpinBackwardsTime;
-        public double kStallWaitTime;
-        public double kDefaultBackwardsPower;
-        public double kOnStallPower;
-        public double kStallLimit;
-        public double kDefaultPower;
+        public double kFarawayTyMeasurement;
     }
 
     public static class ShooterConstants {
@@ -98,6 +96,10 @@ public abstract class RobotConstants extends RobotMap {
         public double kShootingBallZone;
         public double kWaitTimeZone;
         public double kStopLoadingTolerance;
+        public double kVelocityTolerance;
+        public double kLowBatteryVoltageForKfChanging;
+        public double kLowBatteryLeftKf;
+        public double kLowBatteryRightKf;
         public boolean kIsLeftMotorInverted;
         public boolean kIsRightMotorInverted;
         public boolean kIsLeftEncoderInverted;
@@ -131,7 +133,9 @@ public abstract class RobotConstants extends RobotMap {
         public PIDSettings driveForClimbSettings;
         public PIDSettings leftShooterSettings;
         public PIDSettings rightShooterSettings;
-        public PIDSettings loaderPidSettings;
+        public PIDSettings leftShooterCheesySettings;
+        public PIDSettings rightShooterCheesySettings;
+        public PIDSettings loaderSettings;
         public SimpleMotorFeedforward loaderFeedforward;
         public PIDSettings openIntakeSettings;
         public PIDSettings closeIntakeSettings;
@@ -148,6 +152,7 @@ public abstract class RobotConstants extends RobotMap {
     public static class VisionConstants {
         public double kDistanceFromPortACoefficient;
         public double kDistanceFromPortBCoefficient;
+        public double kDistanceFromPortCCoefficient;
         public double kDistanceFromFeederACoefficient;
         public double kDistanceFromFeederBCoefficient;
         // Offsets are measured from the robot's center of rotation to the limelight
@@ -169,5 +174,6 @@ public abstract class RobotConstants extends RobotMap {
 
     public static class OIConstants {
         public double kDeltaTriggersInterruptDifference;
+        public double kSortAfterCollectCellTimeout; 
     }
 }

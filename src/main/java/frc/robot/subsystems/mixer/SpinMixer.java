@@ -2,6 +2,8 @@ package frc.robot.subsystems.mixer;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.utils.DriverStationLogger;
+
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.mixer;
@@ -15,13 +17,18 @@ public class SpinMixer extends CommandBase {
     private DoubleSupplier power;
     private double lastTimeNotOnStall;
     private double backwardsSpinStartTime;
+    private boolean stalled;
 
     /**
      * This constructor creates the command that spins
-     * the mixer at the power of {@link frc.robot.constants.RobotConstants.MixerConstants#kDefaultPower}
+     * the mixer at the power of {@link MixerPower#MixForShoot}
      */
     public SpinMixer() {
-        this(robotConstants.mixerConstants.kDefaultPower);
+        this(MixerPower.MixForShoot);
+    }
+
+    public SpinMixer(MixerPower mixerPower) {
+        this(mixerPower.getPower());
     }
 
     /**
@@ -43,12 +50,17 @@ public class SpinMixer extends CommandBase {
     public void initialize() {
         lastTimeNotOnStall = Timer.getFPGATimestamp();
         backwardsSpinStartTime = 0;
+        stalled = false;
+        // TODO: For Test!! remove later...
+        mixer.stopOverride();
     }
 
     @Override
     public void execute() {
-        if (Timer.getFPGATimestamp() - backwardsSpinStartTime < robotConstants.mixerConstants.kBackwardsSpinTime)
+        if (Timer.getFPGATimestamp() - backwardsSpinStartTime < (power.getAsDouble() > 0.5 ? robotConstants.mixerConstants.kBackwardsSpinTimeHighSpeed : robotConstants.mixerConstants.kBackwardsSpinTimeLowSpeed))
             mixer.move(-power.getAsDouble());
+        else if (Timer.getFPGATimestamp() - lastTimeNotOnStall > robotConstants.mixerConstants.kTotalStallWaitTime)
+            stalled = true;
         else {
             if (!mixer.isInStall()) {
                 lastTimeNotOnStall = Timer.getFPGATimestamp();
@@ -62,7 +74,16 @@ public class SpinMixer extends CommandBase {
     }
 
     @Override
+    public boolean isFinished() {
+        return stalled;
+    }
+
+    @Override
     public void end(boolean interrupted) {
         mixer.stopMove();
+        if(stalled) {
+            mixer.startOverride();
+            DriverStationLogger.logErrorToDS("A ball got stuck in the mixer");
+        }
     }
 }

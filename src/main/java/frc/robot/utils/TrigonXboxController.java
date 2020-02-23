@@ -98,10 +98,6 @@ public class TrigonXboxController extends XboxController {
         return getTriggerAxis(Hand.kRight) - getTriggerAxis(Hand.kLeft);
     }
 
-    @Override
-    public double getY(Hand hand) {
-        return -super.getY(hand);
-    }
 
     /**
      * Set the rumble output for the HID. this method affects both motors.
@@ -121,6 +117,11 @@ public class TrigonXboxController extends XboxController {
     public void intermittentRumble(int quantity) {
         rumbleAmount = quantity * 2 - 1;
         notifier.startPeriodic(kIntermittentRumbleTime);
+    }
+
+    @Override
+    public double getY(Hand hand) {
+        return -super.getY(hand);
     }
 
     public void notifierPeriodic() {

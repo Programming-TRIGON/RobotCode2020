@@ -78,7 +78,7 @@ public class FollowPath extends CommandBase {
                 robotConstants.motionProfilingConstants.kP, 0, 0),
             new PIDController(path.isReversed() ? robotConstants.motionProfilingConstants.kReverseKp :
                 robotConstants.motionProfilingConstants.kP, 0, 0),
-            drivetrain::voltageTankDrive,
+            (left, right) -> {drivetrain.voltageTankDrive(left, right); System.out.println("left: " + left + " right: " + right);},
             drivetrain);
         this.isTuning = isTuning;
         SmartDashboard.putBoolean("Falcon/IsFollowingPath", false);

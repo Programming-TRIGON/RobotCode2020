@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.EncoderType;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -40,8 +41,9 @@ public class Climb extends SubsystemBase implements Loggable {
         climbSparkMax.setSmartCurrentLimit(robotConstants.climbConstants.kClimbCurrentLimit);
         climbSparkMax.getEncoder(EncoderType.kHallSensor, 42);
         climbSparkMax.setInverted(robotConstants.climbConstants.kIsClimbInverted);
-        climbSparkMax.setIdleMode(IdleMode.kCoast);
+        climbSparkMax.setIdleMode(IdleMode.kBrake);
         climbSparkMax.setOpenLoopRampRate(robotConstants.climbConstants.kClimbRampTime);
+        climbSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 65534);
         climbSparkMax.burnFlash();
     }
 
@@ -67,6 +69,10 @@ public class Climb extends SubsystemBase implements Loggable {
      */
     public void setClimbPower(double power) {
         climbSparkMax.set(power >= 0 ? power : 0);
+    }
+
+    public void setOppositeClimbPower(double power) {
+        climbSparkMax.set(power <= 0 ? power : 0);
     }
 
     /** Used for right drivetrain encoder */

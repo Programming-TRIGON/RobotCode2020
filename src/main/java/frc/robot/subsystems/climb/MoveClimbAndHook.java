@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.DriverStationLogger;
-
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.*;
@@ -12,13 +11,13 @@ import static frc.robot.Robot.*;
 public class MoveClimbAndHook extends CommandBase {
     private static final int kBlinkingAmount = 15;
     private static final double kThreshold = 0.12;
-    private static final double kHookTimeToMove = 0.5;
+    private static final double kHookTimeToMove = 2;
     private static final double kDrivetrainClimbSensitivity = 0.5;
     private DoubleSupplier hookPower;
     private DoubleSupplier climbPower;
     private double startPotentiometerValue;
-    private double lastTimeHookNotMooved;
-    private double sensetivity;
+    private double lastTimeHookNotMoved;
+    private double sensitivity;
     private boolean potentiometerDisconnected;
 
     /**
@@ -41,30 +40,30 @@ public class MoveClimbAndHook extends CommandBase {
         drivetrain.setTrigonDriveSensitivity(kDrivetrainClimbSensitivity);
         potentiometerDisconnected = false;
         startPotentiometerValue = climb.getHookRotations();
-        lastTimeHookNotMooved = Timer.getFPGATimestamp();
-        sensetivity = 0.7;
+        lastTimeHookNotMoved = Timer.getFPGATimestamp();
+        sensitivity = 0.7;
     }
 
     @Override
     public void execute() {
         if(!potentiometerDisconnected && 
-            (Math.abs(climb.getHookRotations() - startPotentiometerValue) < robotConstants.climbConstants.kPotentiometerChangeError &&
-            Timer.getFPGATimestamp() - lastTimeHookNotMooved >= kHookTimeToMove)) {
+            Math.abs(climb.getHookRotations() - startPotentiometerValue) < robotConstants.climbConstants.kPotentiometerChangeError &&
+            Timer.getFPGATimestamp() - lastTimeHookNotMoved >= kHookTimeToMove) {
             DriverStationLogger.logErrorToDS("Hook potentiometer disconnected, limit forward input");
-            sensetivity = 0.3;
+            sensitivity = 0.3;
             potentiometerDisconnected = true;
         }
         
         if(hookPower.getAsDouble() < kThreshold) {
-            lastTimeHookNotMooved = Timer.getFPGATimestamp();
+            lastTimeHookNotMoved = Timer.getFPGATimestamp();
         }
         
         climb.setClimbPower(climbPower.getAsDouble());
         
         if(!potentiometerDisconnected)
-            climb.setHookPower(hookPower.getAsDouble() * sensetivity);
+            climb.setHookPower(hookPower.getAsDouble() * sensitivity);
         else
-            climb.setHookPowerOvveride(hookPower.getAsDouble() * sensetivity);
+            climb.setHookPowerOvveride(hookPower.getAsDouble() * sensitivity);
     }
 
     @Override

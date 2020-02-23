@@ -55,7 +55,6 @@ public abstract class RobotMap {
     }
 
     public static class AnalogInput {
-        public int kIntakeOpenerPotentiometer;
         public int kHookPotentiometer;
     }
 }

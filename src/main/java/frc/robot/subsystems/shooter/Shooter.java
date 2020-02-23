@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.subsystems.OverridableSubsystem;
@@ -20,11 +19,9 @@ import static frc.robot.Robot.robotConstants;
 public class Shooter extends OverridableSubsystem implements Loggable {
     private WPI_TalonFX leftTalonFX;
     private WPI_TalonFX rightTalonFX;
-    private DigitalInput microSwitch;
     private boolean isTuning;
 
     public Shooter() {
-        //setting up the talon fx
         leftTalonFX = new WPI_TalonFX(robotConstants.can.kLeftShooterTalonFX);
         leftTalonFX.setNeutralMode(NeutralMode.Coast);
         leftTalonFX.configClosedloopRamp(robotConstants.shooterConstants.kRampTime);
@@ -45,8 +42,8 @@ public class Shooter extends OverridableSubsystem implements Loggable {
         DriverStationLogger.logErrorToDS(rightTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0),
         "Could not set right shooter encoder");
 
-        configPIDGains();
-        microSwitch = new DigitalInput(robotConstants.dio.kSwitchShooter);
+        configCloseLoopPIDFGains(); // for slot 0, full pidf control 
+        configCheesyPIDFGains(); // for slot 1, open loop control (feedforward gains only) 
         resetEncoders();
     }
 
@@ -61,10 +58,6 @@ public class Shooter extends OverridableSubsystem implements Loggable {
             leftTalonFX.set(leftPower);
             rightTalonFX.set(rightPower);
         }
-    }
-
-    public void setDefaultVelocity() {
-        setVelocity(ShooterVelocity.kDefault.getVelocity());
     }
 
     /**
@@ -92,38 +85,33 @@ public class Shooter extends OverridableSubsystem implements Loggable {
         rightTalonFX.set(TalonFXControlMode.Velocity, rightVelocityInTalonUnits);
     }
 
-    public double getLeftVoltage() {
-        return leftTalonFX.getMotorOutputVoltage();
-    }
-
-    public double getRightVoltage() {
-        return rightTalonFX.getMotorOutputVoltage();
-    }
-
-    @Log(name = "Shooter/Is Switch Pressed")
-    public boolean isSwitchPressed() {
-        return microSwitch.get();
-    }
-
     public void enableTuning() {
         DriverStationLogger.logToDS("Shooter tuning enabled");
         isTuning = true;
-        // left shooter gains
         SmartDashboard.putData("PID/Left Shooter Settings", robotConstants.controlConstants.leftShooterSettings);
-        // right shooter gains
         SmartDashboard.putData("PID/Right Shooter Settings", robotConstants.controlConstants.rightShooterSettings);
+        SmartDashboard.putData("PID/Left Shooter Cheesy Settings", robotConstants.controlConstants.leftShooterCheesySettings);
+        SmartDashboard.putData("PID/Right Shooter Cheesy Settings", robotConstants.controlConstants.rightShooterCheesySettings);
     }
 
     public void disableTuning() {
         isTuning = false;
     }
 
-    @Log(name = "Shooter/Left Ticks")
+    // @Log(name = "Shooter/Left Power")
+    public double getLeftPower() {
+        return leftTalonFX.getMotorOutputPercent();
+    }
+
+    // @Log(name = "Shooter/Right Power")
+    public double getRightPower() {
+        return rightTalonFX.getMotorOutputPercent();
+    }
+
     public int getLeftTicks() {
         return leftTalonFX.getSelectedSensorPosition();
     }
 
-    @Log(name = "Shooter/Right Ticks")
     public int getRightTicks() {
         return rightTalonFX.getSelectedSensorPosition();
     }
@@ -131,40 +119,70 @@ public class Shooter extends OverridableSubsystem implements Loggable {
     /**
      * @return the speed of the left shooter in RPM.
      */
-    @Log(name = "Shooter/Left Speed")
-    public double getLeftSpeed() {
+    @Log(name = "Shooter/Left Velocity")
+    public double getLeftVelocity() {
         return leftTalonFX.getSelectedSensorVelocity() * 600.0
             / robotConstants.shooterConstants.kLeftUnitsPerRotation;
     }
 
     /**
-     * @return the speed of the right shooter in RPM.
+     * @return the velocity of the right shooter in RPM.
      */
-    @Log(name = "Shooter/Right Speed")
-    public double getRightSpeed() {
+    @Log(name = "Shooter/Right Velocity")
+    public double getRightVelocity() {
         return rightTalonFX.getSelectedSensorVelocity() * 600.0
             / robotConstants.shooterConstants.kRightUnitsPerRotation;
     }
 
     /**
-     * @return the speed of the shooter in RPM.
+     * @return the velocity of the shooter in RPM.
      */
-    @Log(name = "Shooter/Average Speed")
-    public double getAverageSpeed() {
-        return (getLeftSpeed() + getRightSpeed()) / 2;
+    @Log(name = "Shooter/Average Velocity")
+    public double getAverageVelocity() {
+        return (getLeftVelocity() + getRightVelocity()) / 2;
     }
 
-    public void resetEncoders() {
-        leftTalonFX.setSelectedSensorPosition(0);
-        rightTalonFX.setSelectedSensorPosition(0);
+    /**
+     * This calculation was taken from team 254 2017 robot code.
+     * 
+     * @return kf of the left talonFX shooter estimated by it's current rpm and voltage 
+     */
+    public double estimateLeftKf() {
+        final double output = 1023.0 * leftTalonFX.getMotorOutputPercent();
+        return output / leftTalonFX.getSelectedSensorVelocity();
     }
 
-    @Override
-    public void periodic() {
-        if (isTuning) configPIDGains();
+    /**
+     * This calculation was taken from team 254 2017 robot code.
+     * 
+     * @return kf of the right talonFX shooter estimated by it's current rpm and voltage
+     */
+    public double estimateRightKf() {
+        final double output = 1023.0 * rightTalonFX.getMotorOutputPercent();
+        return output / rightTalonFX.getSelectedSensorVelocity();
     }
 
-    private void configPIDGains() {
+    /**
+     * set the feedforward gains of the shooter in slot 1 (cheesy control).
+     * @param leftKf left feedforward gain
+     * @param rightKf right feedforward gain
+     */
+    public void configFeedforwardGains(double leftKf, double rightKf) {
+        leftTalonFX.config_kF(1, leftKf);
+        rightTalonFX.config_kF(1, rightKf);
+    }
+
+    /**
+     * set the feedforward gains of the shooter in slot 0 (PIDF control).
+     * @param leftKf left feedforward gain
+     * @param rightKf right feedforward gain
+     */
+    public void configFeedforwardGainsSlot0(double leftKf, double rightKf) {
+        leftTalonFX.config_kF(0, leftKf);
+        rightTalonFX.config_kF(0, rightKf);
+    }
+
+    public void configCloseLoopPIDFGains() {
         leftTalonFX.config_kP(0, robotConstants.controlConstants.leftShooterSettings.getKP());
         leftTalonFX.config_kI(0, robotConstants.controlConstants.leftShooterSettings.getKI());
         leftTalonFX.config_kD(0, robotConstants.controlConstants.leftShooterSettings.getKD());
@@ -175,16 +193,37 @@ public class Shooter extends OverridableSubsystem implements Loggable {
         rightTalonFX.config_kF(0, robotConstants.controlConstants.rightShooterSettings.getKF());
     }
 
+    /** set PID gains of the two sides of the shooter for cheesy shooting.
+     * This method is used for with kF calculated during shooting. */
+    public void configCheesyPIDFGains() {
+        leftTalonFX.config_kP(1, robotConstants.controlConstants.leftShooterCheesySettings.getKP());
+        leftTalonFX.config_kI(1, robotConstants.controlConstants.leftShooterCheesySettings.getKI());
+        leftTalonFX.config_kD(1, robotConstants.controlConstants.leftShooterCheesySettings.getKD());
+        rightTalonFX.config_kP(1, robotConstants.controlConstants.rightShooterCheesySettings.getKP());
+        rightTalonFX.config_kI(1, robotConstants.controlConstants.rightShooterCheesySettings.getKI());
+        rightTalonFX.config_kD(1, robotConstants.controlConstants.rightShooterCheesySettings.getKD());
+    }
+
     /**
-     * This calculation was taken from team 254 2017 robot code.
-     *
-     * @param rpm     current velocity in rotations per minute
-     * @param voltage the current voltage
-     * @return kf estimated by to be used with talonFX
+     * @param openLoop profile slot is selected by the control method.
+     * Slot 0 for PIDF control and slot 1 for cheesy control.
      */
-    public static double estimateKf(double rpm, double voltage) {
-        final double output = voltage / 12.0;
-        return output / rpm;
+    public void setProfileSlot(boolean openLoop) {
+        rightTalonFX.selectProfileSlot(openLoop ? 1 : 0, 0);
+        leftTalonFX.selectProfileSlot(openLoop ? 1 : 0, 0);
+    }
+
+    public void resetEncoders() {
+        leftTalonFX.setSelectedSensorPosition(0);
+        rightTalonFX.setSelectedSensorPosition(0);
+    }
+
+    @Override
+    public void periodic() {
+        if (isTuning) {
+            configCloseLoopPIDFGains();
+            configCheesyPIDFGains();
+        }
     }
 
     /**

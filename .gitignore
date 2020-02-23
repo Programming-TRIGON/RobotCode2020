@@ -78,3 +78,4 @@ gradle-app.setting
 !jars/*
 jars/settings.json
 imgui.ini
+settings.json

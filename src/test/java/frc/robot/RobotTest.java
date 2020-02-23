@@ -1,10 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.autonomus.MiddleFieldAuto;
-import frc.robot.autonomus.SimpleAuto;
-import frc.robot.autonomus.StartingPose;
-import frc.robot.autonomus.TrenchAuto;
+import frc.robot.autonomus.*;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.SensorCheck;
@@ -16,8 +13,8 @@ import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
 import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
-import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
+import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 import frc.robot.subsystems.intakeopener.SetIntakeState;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.SpinMixer;
@@ -61,6 +58,7 @@ public class RobotTest {
             new SetLoaderSpeed(),
             new SpinMixer(),
             new SetIntakeSpeed(Robot.robotConstants.intakeConstants.kDefaultIntakePower),
+            new FindOpenerOffset(),
             new CheesySetShooterVelocity(),
             new SetIntakeState(true),
             new SetIntakeState(false),
@@ -68,20 +66,20 @@ public class RobotTest {
             new SetIntakeState(true),
             new CalibrateVisionDistance(() -> false, Target.Feeder, 0),
             new FollowTarget(Target.Feeder),
-            new TurnToTarget(Target.Feeder, Robot.drivetrain),
+            new TurnToTarget(Target.PowerPort),
             new CalibrateFeedforward(),
             new FollowPath(AutoPath.FacingPowerPortToMiddleField),
-            new RotateDrivetrain(),
             new DriveWithXbox(() -> 0, () -> 0),
             new SensorCheck(),
             new MoveMovableSubsystem(Robot.loader, () -> 0),
             new OverrideCommand(Robot.shooter, () -> 0),
             new CollectCell(),
-            new CollectFromFeeder(),
+            new CollectFromFeeder(Robot.oi),
             new AutoShoot(),
             new SimpleAuto(),
             new TrenchAuto(StartingPose.kFacingPowerPort),
             new MiddleFieldAuto(StartingPose.kFacingPowerPort),
+            new StealAuto(),
         };
 
         for (Command command : commands) {

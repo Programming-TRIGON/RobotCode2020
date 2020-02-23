@@ -1,52 +1,51 @@
 package frc.robot.subsystems.intakeopener;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.utils.TrigonPIDController;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.intakeOpener;
 import static frc.robot.Robot.robotConstants;
 
 public class OpenIntake extends CommandBase {
+    private boolean open;
     private DoubleSupplier angleSupplier;
-    private TrigonPIDController pidController;
 
     /**
      * Either opens the Intake subsystem or closes it with PID.
      */
-    public OpenIntake(DoubleSupplier angleSupplier) {
+    public OpenIntake(DoubleSupplier angleSupplier, boolean open) {
         addRequirements(intakeOpener);
-        pidController = new TrigonPIDController(robotConstants.controlConstants.openIntakeSettings);
+        this.open = open;
         this.angleSupplier = angleSupplier;
     }
 
-    /**
-     * Constructs Open Intake with PID tuning
-     */
-    public OpenIntake() {
-        addRequirements(intakeOpener);
-        pidController = new TrigonPIDController("Open Intake");
+    public OpenIntake(double setpoint, boolean open){
+        this(() -> setpoint, open);
+    }
+
+    public OpenIntake(boolean open) {
+        this(open ? robotConstants.intakeOpenerConstants.kOpenAngle :
+            robotConstants.intakeOpenerConstants.kClosedAngle, open);
     }
 
     @Override
     public void initialize() {
-        pidController.reset();
+        intakeOpener.changeSlot(open ? 0 : 1);
     }
 
     @Override
     public void execute() {
-        if (!pidController.isTuning())
-            pidController.setSetpoint(angleSupplier.getAsDouble());
-        intakeOpener.move(pidController.calculate(intakeOpener.getAngle(), -1, 1));
+        intakeOpener.setIntakeAngle(angleSupplier.getAsDouble());
     }
 
     @Override
     public boolean isFinished() {
-        return pidController.atSetpoint();
+        return Math.abs(intakeOpener.getAngle() - angleSupplier.getAsDouble()) <
+            robotConstants.controlConstants.openIntakeSettings.getTolerance();
     }
 
     @Override
     public void end(boolean interrupted) {
-        intakeOpener.stopMove();
+
     }
 }
