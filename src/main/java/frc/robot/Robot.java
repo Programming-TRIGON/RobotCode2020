@@ -142,7 +142,7 @@ public class Robot extends TimedRobot {
         }
         drivetrain.setRampRate(robotConstants.drivetrainConstants.kRampRate);
         if (!intakeOpener.hasFoundOffset())
-            findOffsetCommand.schedule();
+            findOffsetCommand.schedule(false);
     }
 
     @Override
