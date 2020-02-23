@@ -58,9 +58,8 @@ public class JoystickFollowTarget extends CommandBase {
             foundTargetAlready = true;
         } else
             // The target wasn't found
-            if (foundTargetAlready) {
+            if (foundTargetAlready)
                 drivetrain.trigonCurvatureDrive(0, oi.getDriverXboxController().getDeltaTriggers());
-            }
             else
                 drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft),
                     oi.getDriverXboxController().getDeltaTriggers());
