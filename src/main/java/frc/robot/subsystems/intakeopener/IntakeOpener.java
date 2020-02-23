@@ -22,6 +22,18 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     private boolean foundOffset;
     private double offset;
 
+    @Override
+    public void startOverride() {
+        super.startOverride();
+        disableSoftLimits();
+    }
+
+    @Override
+    public void stopOverride() {
+        super.stopOverride();
+        enableSoftLimits();
+    }
+
     public IntakeOpener() {
         talonSRX = new WPI_TalonSRX(robotConstants.can.kIntakeOpenerTalonSRX);
         talonSRX.setInverted(robotConstants.intakeOpenerConstants.kIsInverted);
@@ -31,22 +43,14 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
                 robotConstants.intakeOpenerConstants.kThresholdLimit,
                 robotConstants.intakeOpenerConstants.kTriggerThresholdTime));
         talonSRX.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+        // We disable soft limits as the offset hasn't been found
+        disableSoftLimits();
         foundOffset = false;
     }
 
     @Override
     public void overriddenMove(double power) {
         talonSRX.set(power);
-    }
-
-    @Override
-    public void move(double power) {
-        if (!overridden)
-            if (foundOffset && (getAngle() >= robotConstants.intakeOpenerConstants.kOpenAngle && power > 0)
-                || (getAngle() <= robotConstants.intakeOpenerConstants.kClosedAngle && power < 0))
-                super.move(0);
-            else
-                super.move(power);
     }
 
     /** @return The angle measured by the encoder */
@@ -102,6 +106,7 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
         if (!foundOffset) {
             offset = -getAngle();
             foundOffset = true;
+            enableSoftLimits();
         }
     }
 
@@ -111,5 +116,17 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
 
     private void setFoundOffset(boolean foundOffset) {
         this.foundOffset = foundOffset;
+    }
+
+    private void enableSoftLimits() {
+        talonSRX.configReverseSoftLimitThreshold((int) (robotConstants.intakeOpenerConstants.kClosedAngle / 360 * robotConstants.intakeOpenerConstants.kTicksPerRotation - offset));
+        talonSRX.configReverseSoftLimitEnable(true);
+        talonSRX.configForwardSoftLimitThreshold((int) (robotConstants.intakeOpenerConstants.kOpenAngle / 360 * robotConstants.intakeOpenerConstants.kTicksPerRotation - offset));
+        talonSRX.configForwardSoftLimitEnable(true);
+    }
+
+    private void disableSoftLimits() {
+        talonSRX.configForwardSoftLimitEnable(false);
+        talonSRX.configReverseSoftLimitEnable(false);
     }
 }
