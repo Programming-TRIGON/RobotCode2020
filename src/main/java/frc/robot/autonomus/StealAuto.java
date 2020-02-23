@@ -26,7 +26,7 @@ public class StealAuto extends SequentialCommandGroup {
                 )
             ),
             new FollowPath(AutoPath.EnemyTrenchToPort),
-            new AutoShoot()
+            new AutoShoot(5)
         );
     }
 }

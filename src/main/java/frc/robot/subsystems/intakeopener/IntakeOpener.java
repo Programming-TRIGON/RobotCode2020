@@ -108,8 +108,4 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     public boolean hasFoundOffset() {
         return foundOffset;
     }
-
-    private void setFoundOffset(boolean foundOffset) {
-        this.foundOffset = foundOffset;
-    }
 }

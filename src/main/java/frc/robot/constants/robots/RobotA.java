@@ -47,7 +47,7 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.kCurrentLimit = 0;
         intakeOpenerConstants.kThresholdLimit = 0;
         intakeOpenerConstants.kTriggerThresholdTime = 0;
-        intakeOpenerConstants.kOpenAngle = 118.652344;
+        intakeOpenerConstants.kOpenAngle = 100.652344;
         intakeOpenerConstants.kClosedAngle = 0;
         intakeOpenerConstants.kFeederClosedAngle = 20;
         intakeOpenerConstants.kTicksPerRotation = 4096;
@@ -56,8 +56,8 @@ public class RobotA extends RobotConstants {
         intakeOpenerConstants.kFindOffsetWaitTime = 0.3;
         intakeOpenerConstants.kEncoderOffset = -8.7;
         intakeOpenerConstants.kStallLimit = 10;
-        controlConstants.openIntakeSettings = new PIDSettings(0.0015000, 0.000150000, 0,10, 10);
-        controlConstants.closeIntakeSettings = new PIDSettings(0.25, 0.0003000, 0,1, 10);
+        controlConstants.openIntakeSettings = new PIDSettings(0.0015000, 0.000150000, 0, 10, 10);
+        controlConstants.closeIntakeSettings = new PIDSettings(0.25, 0.0003000, 0, 1, 10);
 
         // Mixer Constants
         mixerConstants.kMixerMaxStall = 20;
@@ -135,7 +135,7 @@ public class RobotA extends RobotConstants {
         visionConstants.kLimelightOffsetY = 0;
         visionConstants.kLimelightAngleOffset = 0;
         visionConstants.kTargetNotFoundWaitTime = 0.5;
-        controlConstants.visionDistanceSettings = new PIDSettings(0, 0, 0, 5, 5);
+        controlConstants.visionDistanceSettings = new PIDSettings(0.0035, 0, 0.003, 5, 5);
         controlConstants.visionRotationSettings = new PIDSettings(0.04, 0.00055, 0.0005, 1, 0.5);
         controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
 
