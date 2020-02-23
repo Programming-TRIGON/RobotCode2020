@@ -38,8 +38,8 @@ public class FollowTarget extends CommandBase {
     public FollowTarget(Target target, String dashboardKey) {
         addRequirements(drivetrain, led);
         this.target = target;
-         distancePIDController = new TrigonPIDController(dashboardKey + " - distance", target.getDistance());
-         distancePIDController.setTolerance(robotConstants.controlConstants.visionDistanceSettings.getTolerance(), robotConstants.controlConstants.visionDistanceSettings.getDeltaTolerance());
+        distancePIDController = new TrigonPIDController(dashboardKey + " - distance", target.getDistance());
+        distancePIDController.setTolerance(robotConstants.controlConstants.visionDistanceSettings.getTolerance(), robotConstants.controlConstants.visionDistanceSettings.getDeltaTolerance());
         rotationPIDController = new TrigonPIDController(dashboardKey + " - rotation", 0);
     }
 
@@ -58,11 +58,10 @@ public class FollowTarget extends CommandBase {
         if (limelight.getTv()) {
             double distance = limelight.getDistance();
             double rotationOutput = rotationPIDController.calculate(limelight.getAngle());
-            drivetrain.arcadeDrive(rotationOutput, MathUtil.clamp(distance * distancePIDController.getP(), 0, 0.4));
+            drivetrain.arcadeDrive(rotationOutput, MathUtil.clamp(distancePIDController.calculate(distance), 0, 0.4));
             lastTimeSeenTarget = Timer.getFPGATimestamp();
-        } else
+        } else {
             // The target wasn't found, driver's control
-        {
             drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft), oi.getDriverXboxController().getDeltaTriggers());
         }
     }
@@ -75,7 +74,6 @@ public class FollowTarget extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         drivetrain.stopMove();
-         limelight.stopVision();
         led.turnOffLED();
     }
 }
