@@ -15,7 +15,6 @@ public abstract class RobotMap {
     public I2C i2c = new I2C();
     public AnalogInput analogInput = new AnalogInput(); 
 
-    // TODO: Set variables for hardware components
     public static class CAN {
         // Drivetrain ports
         public int kDrivetrainLeftRearTalonFX;
