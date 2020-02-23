@@ -24,8 +24,9 @@ public class FindOpenerOffset extends CommandBase {
     public void end(boolean interrupted) {
         intakeOpener.stopMove();
         if (!interrupted && !intakeOpener.hasFoundOffset()) {
-            System.out.println("reset do!!!!!!!!!!!!!!!");
+            System.out.println("reset do!!!!!!!!!!!!!!! " + intakeOpener.getAngle());
             intakeOpener.resetEncoder();
+            System.out.println("After reset: " + intakeOpener.getAngle());
             intakeOpener.setFoundOffset(true);
         }
     }
