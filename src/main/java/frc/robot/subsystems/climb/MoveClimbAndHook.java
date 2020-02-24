@@ -12,7 +12,7 @@ public class MoveClimbAndHook extends CommandBase {
     private static final int kBlinkingAmount = 15;
     private static final double kThreshold = 0.12;
     private static final double kHookTimeToMove = 2;
-    private static final double kDrivetrainClimbSensitivity = 0.5;
+    private static final double kDrivetrainClimbSensitivity = 0.25;
     private DoubleSupplier hookPower;
     private DoubleSupplier climbPower;
     private double startPotentiometerValue;
