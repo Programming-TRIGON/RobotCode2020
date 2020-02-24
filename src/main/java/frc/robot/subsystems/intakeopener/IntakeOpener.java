@@ -31,6 +31,9 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
                 robotConstants.intakeOpenerConstants.kThresholdLimit,
                 robotConstants.intakeOpenerConstants.kTriggerThresholdTime));
         talonSRX.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+        talonSRX.setSensorPhase(false);
+        talonSRX.setSelectedSensorPosition(0, 0, 0);
+        talonSRX.setSelectedSensorPosition(0, 1, 0);
         foundOffset = false;
     }
 
@@ -63,7 +66,7 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     }
 
     public void setIntakeAngle(double angle) {
-        if (foundOffset)
+        // if (foundOffset)
             talonSRX.set(ControlMode.Position, angle / 360 * robotConstants.intakeOpenerConstants.kTicksPerRotation - offset);
     }
 
@@ -100,7 +103,8 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
 
     public void resetEncoder() {
         if (!foundOffset) {
-            offset = -getAngle();
+            // offset = -getAngle();
+            
             foundOffset = true;
         }
     }

@@ -13,6 +13,8 @@ public class FindOpenerOffset extends SequentialCommandGroup {
         addCommands(
             new CloseForOffset(),
             new WaitCommand(robotConstants.intakeOpenerConstants.kFindOffsetWaitTime),
-            new InstantCommand(() -> intakeOpener.resetEncoder(), intakeOpener));
+            new InstantCommand(() -> intakeOpener.resetEncoder(), intakeOpener),
+            new OpenIntake(false)
+        );
     }
 }
