@@ -14,6 +14,7 @@ import frc.robot.motion_profiling.FollowPath;
 import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
+import frc.robot.subsystems.intakeopener.CloseForOffset;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 import frc.robot.subsystems.intakeopener.SetIntakeState;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
@@ -58,6 +59,7 @@ public class RobotTest {
             new SetLoaderSpeed(),
             new SpinMixer(),
             new SetIntakeSpeed(Robot.robotConstants.intakeConstants.kDefaultIntakePower),
+            new CloseForOffset(),
             new FindOpenerOffset(),
             new CheesySetShooterVelocity(),
             new SetIntakeState(true),
@@ -74,7 +76,7 @@ public class RobotTest {
             new MoveMovableSubsystem(Robot.loader, () -> 0),
             new OverrideCommand(Robot.shooter, () -> 0),
             new CollectCell(),
-            new CollectFromFeeder(Robot.oi),
+            new CollectFromFeeder(),
             new AutoShoot(),
             new SimpleAuto(),
             new TrenchAuto(StartingPose.kFacingPowerPort),

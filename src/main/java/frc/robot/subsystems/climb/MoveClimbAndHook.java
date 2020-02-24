@@ -12,7 +12,7 @@ public class MoveClimbAndHook extends CommandBase {
     private static final int kBlinkingAmount = 15;
     private static final double kThreshold = 0.12;
     private static final double kHookTimeToMove = 2;
-    private static final double kDrivetrainClimbSensitivity = 0.5;
+    private static final double kDrivetrainClimbSensitivity = 0.25;
     private DoubleSupplier hookPower;
     private DoubleSupplier climbPower;
     private double startPotentiometerValue;
@@ -48,13 +48,14 @@ public class MoveClimbAndHook extends CommandBase {
     public void execute() {
         if(!potentiometerDisconnected && 
             Math.abs(climb.getHookRotations() - startPotentiometerValue) < robotConstants.climbConstants.kPotentiometerChangeError &&
-            Timer.getFPGATimestamp() - lastTimeHookNotMoved >= kHookTimeToMove) {
+            Timer.getFPGATimestamp() - lastTimeHookNotMoved >= kHookTimeToMove && 
+            climb.getHookRotations() < 2.5) {
             DriverStationLogger.logErrorToDS("Hook potentiometer disconnected, limit forward input");
             sensitivity = 0.3;
             potentiometerDisconnected = true;
         }
         
-        if(hookPower.getAsDouble() < kThreshold) {
+        if(Math.abs(hookPower.getAsDouble()) < kThreshold) {
             lastTimeHookNotMoved = Timer.getFPGATimestamp();
         }
         
@@ -63,7 +64,7 @@ public class MoveClimbAndHook extends CommandBase {
         if(!potentiometerDisconnected)
             climb.setHookPower(hookPower.getAsDouble() * sensitivity);
         else
-            climb.setHookPowerOvveride(hookPower.getAsDouble() * sensitivity);
+            climb.setHookPowerOveride(hookPower.getAsDouble() * sensitivity);
     }
 
     @Override

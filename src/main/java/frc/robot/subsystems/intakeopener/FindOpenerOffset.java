@@ -1,32 +1,20 @@
 package frc.robot.subsystems.intakeopener;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
+
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import static frc.robot.Robot.intakeOpener;
 import static frc.robot.Robot.robotConstants;
 
-public class FindOpenerOffset extends CommandBase {
+public class FindOpenerOffset extends SequentialCommandGroup {
     public FindOpenerOffset() {
-        addRequirements(intakeOpener);
-    }
-
-    @Override
-    public void execute() {
-        intakeOpener.overriddenMove(robotConstants.intakeOpenerConstants.kFindOffsetPower);
-    }
-
-    @Override
-    public boolean isFinished() {
-        return intakeOpener.hasFoundOffset() || intakeOpener.getCurrent() > robotConstants.intakeOpenerConstants.kStallLimit;
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        intakeOpener.stopMove();
-        if (!interrupted && !intakeOpener.hasFoundOffset()) {
-            System.out.println("reset do!!!!!!!!!!!!!!!");
-            intakeOpener.resetEncoder();
-            intakeOpener.setFoundOffset(true);
-        }
+        addCommands(
+            new CloseForOffset(),
+            new WaitCommand(robotConstants.intakeOpenerConstants.kFindOffsetWaitTime),
+            new InstantCommand(() -> intakeOpener.resetEncoder(), intakeOpener),
+            new OpenIntake(false)
+        );
     }
 }

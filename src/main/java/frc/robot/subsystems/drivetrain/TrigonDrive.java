@@ -11,8 +11,8 @@ import static frc.robot.Robot.robotConstants;
  * own based on our drivers request
  */
 public class TrigonDrive extends DifferentialDrive {
-    private static final double kYLinearThreshold = 0.063;
-    private static final double kYLinearCoefficient = 4;
+    private static final double kYLinearThreshold = 0.25; // was 0.063;
+    private static final double kYLinearCoefficient = 2; // was 4;
     private static final double kXLinearThreshold = 0.5;
     private static final double kXLinearCoefficient = 0.5;
     private static final double kYLinearOffset = 0.06;
@@ -52,7 +52,7 @@ public class TrigonDrive extends DifferentialDrive {
      */
     public double yInputCalculation(double value) {
         boolean isLinear = Math.abs(value) <= kYLinearThreshold;
-        return isLinear ? kYLinearCoefficient * value  + Math.signum(value) * kYLinearOffset : Math.signum(value) * Math.sqrt(Math.abs(value));
+        return isLinear ? kYLinearCoefficient * value + Math.signum(value) * kYLinearOffset : Math.signum(value) * Math.sqrt(Math.abs(value));
     }
 
     /**

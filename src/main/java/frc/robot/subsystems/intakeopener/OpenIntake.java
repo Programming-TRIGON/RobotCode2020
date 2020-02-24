@@ -46,6 +46,6 @@ public class OpenIntake extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-
+        // intakeOpener.stopMove();
     }
 }

@@ -4,7 +4,9 @@ public enum MixerPower {
     MixForShoot(0.7),
     MixForFarShoot(0.3),
     MixForSort(0.3),
-    MixForAuto(0.3);
+    MixForHardSort(0.55),
+    MixForAuto(0.3),
+    MixReverse(-0.3);
 
     private final double power;
 

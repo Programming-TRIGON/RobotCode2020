@@ -3,16 +3,17 @@ package frc.robot.utils;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.OverrideCommand;
 import frc.robot.commands.RunWhenDisabledCommand;
+import frc.robot.commands.SensorCheck;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
+import frc.robot.subsystems.drivetrain.Song;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 import frc.robot.subsystems.intakeopener.OpenIntake;
 import frc.robot.subsystems.intakeopener.SetIntakeState;
@@ -25,6 +26,7 @@ import frc.robot.subsystems.mixer.SpinMixerByTime;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
 import frc.robot.vision.CalibrateVisionDistance;
+import frc.robot.vision.FollowTarget;
 import frc.robot.vision.Target;
 import frc.robot.vision.TurnToTarget;
 import io.github.oblarg.oblog.Logger;
@@ -57,7 +59,7 @@ public class DashboardDataContainer {
         putData("Shooter/Set shooting velocity", new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
         putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
         putDefaultNumber("Shooter/Override Power", 0);
-        putData("Shooter/Override", new OverrideCommand(shooter));
+        putData("Shooter/Override", new OverrideCommand(shooter, () -> getNumber("Shooter/Override Power", 0)));
         putData("Shooter/Turn to port", new TurnToTarget(Target.PowerPort, "Turn PID"));
 
         // Drivetrain
@@ -90,23 +92,31 @@ public class DashboardDataContainer {
         putData("Intake Opener/Open Intake", new SetIntakeState(true));
         putData("Intake Opener/Close Intake", new SetIntakeState(false));
         putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
-        putData("Intake Opener/Find Offset", new SequentialCommandGroup(new FindOpenerOffset(), new InstantCommand(() -> intakeOpener.resetEncoder(), intakeOpener)));
+        putData("Intake Opener/Find Offset", new FindOpenerOffset());
 
         // Climb 
-        putData("Climb/Reverse Climb", new InstantCommand(() -> climb.setOppositeClimbPower(-0.4)));
+        putData("Climb/Reverse Climb", new StartEndCommand(() -> climb.setOppositeClimbPower(-0.4), () -> climb.setOppositeClimbPower(0)).withTimeout(5));
 
+        putData("Drivetrain/Load Star_Wars_Main_Theme", new InstantCommand(() -> drivetrain.loadSong(Song.Star_Wars_Main_Theme),  drivetrain));
+        putData("Drivetrain/Load Animal_Crossing_Nook_Scranny", new InstantCommand(() -> drivetrain.loadSong(Song.Animal_Crossing_Nook_Scranny),  drivetrain));
+        putData("Drivetrain/Load Rasputin", new InstantCommand(() -> drivetrain.loadSong(Song.Rasputin),  drivetrain));
+        putData("Drivetrain/Play song", new StartEndCommand(drivetrain::playSong, drivetrain::stopSong, drivetrain));        
 
         // Command groups data
         putData("CommandGroup/Collect Cell", new CollectCell());
         putData("CommandGroup/Mix and Load", new ParallelCommandGroup(
-            new SetLoaderSpeedPID(LoaderPower.LoadToShoot),
-            new SpinMixer(MixerPower.MixForShoot)));
+            new SetLoaderSpeedPID(LoaderPower.FarShoot),
+            new SpinMixer(MixerPower.MixReverse)));
         putData("CommandGroup/Sort Balls", new ParallelCommandGroup(
             new SetLoaderSpeed(LoaderPower.UnloadForSort),
             new SpinMixerByTime(MixerPower.MixForSort)));
         putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
         putBoolean("log", false);
-        putData("Calibrate Vision Distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 120, 35, 10));
+        putData("Vision/Calibrate Vision Distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 120, 35, 10));
+        putData("Vision/FollowTarget", new FollowTarget(Target.Feeder));
+        putData("Sensor Check", new SensorCheck());
+
+        SmartDashboard.putString("Shooter/Current Cheesy shooter state", "No state");
     }
 
     /**

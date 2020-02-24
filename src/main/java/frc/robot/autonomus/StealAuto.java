@@ -25,8 +25,8 @@ public class StealAuto extends SequentialCommandGroup {
                     new CollectCell()
                 )
             ),
-            new FollowPath(AutoPath.EnemyTrenchToPort),
-            new AutoShoot()
+            new FollowPath(AutoPath.EnemyTrenchToPort)
+            // new AutoShoot(5)
         );
     }
 }

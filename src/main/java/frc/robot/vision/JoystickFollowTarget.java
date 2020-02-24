@@ -1,5 +1,6 @@
 package frc.robot.vision;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
@@ -15,8 +16,8 @@ import static frc.robot.Robot.*;
 public class JoystickFollowTarget extends CommandBase {
     private Target target;
     private TrigonPIDController rotationPIDController;
-    //private TrigonPIDController distancePIDController;
     private double lastTimeSeenTarget;
+    private boolean foundTargetAlready;
 
     /**
      * @param target The target the robot will follow
@@ -24,8 +25,6 @@ public class JoystickFollowTarget extends CommandBase {
     public JoystickFollowTarget(Target target) {
         addRequirements(Robot.drivetrain);
         this.target = target;
-        // distancePIDController = new TrigonPIDController(robotConstants.controlConstants.visionDistanceSettings,
-        //         target.getDistance());
         rotationPIDController = new TrigonPIDController(robotConstants.controlConstants.visionRotationSettings, 0);
     }
 
@@ -37,15 +36,14 @@ public class JoystickFollowTarget extends CommandBase {
     public JoystickFollowTarget(Target target, String dashboardKey) {
         addRequirements(Robot.drivetrain, led);
         this.target = target;
-        // distancePIDController = new TrigonPIDController(dashboardKey + " - distance", target.getDistance());
         rotationPIDController = new TrigonPIDController(dashboardKey + " - rotation", 0);
     }
 
     @Override
     public void initialize() {
-        // distancePIDController.reset();
         rotationPIDController.reset();
         lastTimeSeenTarget = Timer.getFPGATimestamp();
+        foundTargetAlready = false;
         // Configure the limelight to start computing vision.
         limelight.startVision(target);
         led.setColor(LEDColor.Green);
@@ -54,20 +52,23 @@ public class JoystickFollowTarget extends CommandBase {
     @Override
     public void execute() {
         if (limelight.getTv()) {
-            // double distanceOutput = distancePIDController.calculate(limelight.getDistance());
             double rotationOutput = rotationPIDController.calculate(limelight.getAngle());
-            Robot.drivetrain.arcadeDrive(rotationOutput, Robot.oi.getDriverXboxController().getDeltaTriggers());
+            drivetrain.arcadeDrive(rotationOutput, oi.getDriverXboxController().getDeltaTriggers());
             lastTimeSeenTarget = Timer.getFPGATimestamp();
+            foundTargetAlready = true;
         } else
             // The target wasn't found
-            Robot.drivetrain.stopMove();
+            if (foundTargetAlready)
+                drivetrain.trigonCurvatureDrive(0, oi.getDriverXboxController().getDeltaTriggers());
+            else
+                drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft),
+                    oi.getDriverXboxController().getDeltaTriggers());
     }
 
     @Override
     public boolean isFinished() {
         return ((Timer.getFPGATimestamp()
-            - lastTimeSeenTarget) > robotConstants.visionConstants.kTargetNotFoundWaitTime);
-        // || (rotationPIDController.atSetpoint() && distancePIDController.atSetpoint());*/
+            - lastTimeSeenTarget) > robotConstants.visionConstants.kTargetNotFoundWaitTime) && foundTargetAlready;
     }
 
     @Override

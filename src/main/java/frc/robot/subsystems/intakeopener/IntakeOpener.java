@@ -30,6 +30,8 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
                 robotConstants.intakeOpenerConstants.kThresholdLimit,
                 robotConstants.intakeOpenerConstants.kTriggerThresholdTime));
         talonSRX.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+        talonSRX.setSensorPhase(false);
+        talonSRX.setSelectedSensorPosition(0, 0, 10);
         foundOffset = false;
     }
 
@@ -51,8 +53,7 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     /** @return The angle measured by the encoder */
     @Log(name = "IntakeOpener/Angle")
     public double getAngle() {
-        return talonSRX.getSelectedSensorPosition() / robotConstants.intakeOpenerConstants.kTicksPerRotation * 360 +
-            robotConstants.intakeOpenerConstants.kFindOffsetPower;
+        return talonSRX.getSelectedSensorPosition() / robotConstants.intakeOpenerConstants.kTicksPerRotation * 360;
     }
 
     /**
@@ -63,8 +64,8 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     }
 
     public void setIntakeAngle(double angle) {
-        if (foundOffset)
-            talonSRX.set(ControlMode.Position, angle / 360 * robotConstants.intakeOpenerConstants.kTicksPerRotation);
+        // if (foundOffset)
+        talonSRX.set(ControlMode.Position, angle / 360 * robotConstants.intakeOpenerConstants.kTicksPerRotation);
     }
 
     public void enableTuning() {
@@ -99,14 +100,13 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     }
 
     public void resetEncoder() {
-        talonSRX.setSelectedSensorPosition(0, 0, 0);
+        if (!hasFoundOffset()) {
+            System.out.println("reset error code 1: " + talonSRX.setSelectedSensorPosition(0, 0, 10));
+            foundOffset = true;
+        }
     }
 
     public boolean hasFoundOffset() {
         return foundOffset;
-    }
-
-    public void setFoundOffset(boolean foundOffset) {
-        this.foundOffset = foundOffset;
     }
 }

@@ -10,9 +10,8 @@ import static frc.robot.Robot.robotConstants;
 
 public class SetIntakeSpeed extends CommandBase {
     private DoubleSupplier speedSupplier;
-    private double firstStallTimestamp;
-    private boolean inStall;
-    private double initializeTimestamp;
+    private double backwardsSpinStartTime;
+    private double lastTimeNotOnStall;
 
     public SetIntakeSpeed(DoubleSupplier speedSupplier) {
         addRequirements(intake);
@@ -29,25 +28,25 @@ public class SetIntakeSpeed extends CommandBase {
 
     @Override
     public void initialize() {
-        initializeTimestamp = Timer.getFPGATimestamp();
+        lastTimeNotOnStall = Timer.getFPGATimestamp();
+        backwardsSpinStartTime = 0;
     }
 
     @Override
     public void execute() {
-        if (Timer.getFPGATimestamp() - firstStallTimestamp < robotConstants.intakeConstants.kSpinBackwardsTime) {
+        if (Timer.getFPGATimestamp() - backwardsSpinStartTime < robotConstants.intakeConstants.kSpinBackwardsTime)
             intake.move(-speedSupplier.getAsDouble());
-            inStall = false;
-            initializeTimestamp = Timer.getFPGATimestamp();
-            return;
+        else {
+            if (!intake.getIsInStall()) {
+                lastTimeNotOnStall = Timer.getFPGATimestamp();
+            }
+            if (Timer.getFPGATimestamp() - lastTimeNotOnStall > robotConstants.intakeConstants.kStallWaitTime) {
+                backwardsSpinStartTime = Timer.getFPGATimestamp();
+                DriverStationLogger.logToDS("A Cell got stuck in the intake, trying to release it.");
+                intake.move(-speedSupplier.getAsDouble());
+            } else
+                intake.move(speedSupplier.getAsDouble());
         }
-        if (!inStall && intake.getIsInStall()
-            && Timer.getFPGATimestamp() - initializeTimestamp > robotConstants.intakeConstants.kStallTimeout) {
-            DriverStationLogger.logToDS("A cell got stuck in the intake. Trying to release it");
-            inStall = true;
-            firstStallTimestamp = Timer.getFPGATimestamp();
-            intake.move(-speedSupplier.getAsDouble());
-        } else
-            intake.move(speedSupplier.getAsDouble());
     }
 
     @Override

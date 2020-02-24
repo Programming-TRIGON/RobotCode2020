@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -98,6 +99,8 @@ public class Robot extends TimedRobot {
         LiveWindow.disableAllTelemetry();
         LiveWindow.setEnabled(false);
 
+        CameraServer.getInstance().startAutomaticCapture(0);
+
         DriverStationLogger.logToDS("Robot initialization complete");
     }
 
@@ -138,8 +141,8 @@ public class Robot extends TimedRobot {
             autoCommand.cancel();
         }
         drivetrain.setRampRate(robotConstants.drivetrainConstants.kRampRate);
-        // if (!intakeOpener.hasFoundOffset())
-        //     findOffsetCommand.schedule();
+        if (!intakeOpener.hasFoundOffset())
+            findOffsetCommand.schedule(true);
     }
 
     @Override

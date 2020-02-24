@@ -47,7 +47,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kDefaultIntakePower;
 		public double kFeederIntakePower;
         public double kSpinBackwardsTime;
-        public double kStallTimeout;
+        public double kStallWaitTime;
         public int kCurrentLimit;
         public double kOnStallLimit;
     }
@@ -63,6 +63,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kTicksPerRotation;
         public double kTimeout;
         public double kFindOffsetPower;
+        public double kFindOffsetWaitTime;
         public double kEncoderOffset;
         public double kStallLimit;
         public double kFeederClosedAngle;
@@ -158,9 +159,11 @@ public abstract class RobotConstants extends RobotMap {
         // Offsets are measured from the robot's center of rotation to the limelight
         // position.
         public double kLimelightOffsetX;
+        public double kMaximumDistancePower;
         public double kLimelightOffsetY;
         public double kLimelightAngleOffset;
         public double kTargetNotFoundWaitTime;
+        public double kDistanceFromFeederC;
     }
 
     public static class AutoConstants {

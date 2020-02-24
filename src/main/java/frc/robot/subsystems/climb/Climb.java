@@ -19,6 +19,7 @@ public class Climb extends SubsystemBase implements Loggable {
     private WPI_TalonSRX hookTalonSRX;
     private CANSparkMax climbSparkMax;
     private AnalogPotentiometer hookPotentiometer;
+    private double offset;
 
     /**
      * The climb holds all the methods used for the robots climb in the endgame.
@@ -45,22 +46,23 @@ public class Climb extends SubsystemBase implements Loggable {
         climbSparkMax.setOpenLoopRampRate(robotConstants.climbConstants.kClimbRampTime);
         climbSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 65534);
         climbSparkMax.burnFlash();
+        offset = -getHookRotations();
     }
 
     @Log(name = "Climb/Hook Rotations")
     public double getHookRotations() {
-        return hookPotentiometer.get(); 
+        return hookPotentiometer.get() + offset; 
     }
 
     public void setHookPower(double power) {
         if((power > 0 && getHookRotations() >= robotConstants.climbConstants.kMaxHookRotations)
-            || (power < 0 && hookPotentiometer.get() <= 0))
+            || (power < 0 && getHookRotations() <= 0))
             hookTalonSRX.set(0);
         else
             hookTalonSRX.set(power);
     }
 
-    public void setHookPowerOvveride(double power) {
+    public void setHookPowerOveride(double power) {
         hookTalonSRX.set(power);
     }
 

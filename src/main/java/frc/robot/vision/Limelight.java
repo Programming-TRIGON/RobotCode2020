@@ -75,8 +75,6 @@ public class Limelight implements Loggable {
      */
     @Log(name = "Limelight/Vision Distance")
     public double getDistance() {
-         if (getTarget() == Target.PowerPort)
-             return getDistanceFromPowerPort();
         return getDistanceFromFeeder();
     }
 
@@ -85,7 +83,8 @@ public class Limelight implements Loggable {
      */
     private double getDistanceFromFeeder() {
         double x = getTy();
-        return 1.5482 * Math.pow(x, 3) - 14.323 * Math.pow(x, 2) + 56.164 * x;
+        return 16.637 * Math.pow(x, 2) +
+            3.0859 * x + 20;
     }
 
     /**
@@ -112,8 +111,7 @@ public class Limelight implements Loggable {
     @Log(name = "Limelight/Rotation Degree")
     public double getRotationDegree(){
         double ts = Math.abs(getTs());
-        double rotation = ts > 50 ? 90 - ts : ts;
-        return rotation;
+        return ts > 50 ? 90 - ts : ts;
     }
 
     /**
@@ -135,7 +133,6 @@ public class Limelight implements Loggable {
      */
     public void setCamMode(int camMode) {
         this.camMode.setNumber(camMode);
-        NetworkTableInstance.getDefault().flush();
     }
 
     /**
@@ -172,7 +169,6 @@ public class Limelight implements Loggable {
      */
     public void setLedMode(int ledMode) {
         this.ledMode.setNumber(ledMode);
-        NetworkTableInstance.getDefault().flush();
     }
 
     /**
@@ -204,7 +200,6 @@ public class Limelight implements Loggable {
      */
     public void setPipeline(int pipeline) {
         this.pipeline.setNumber(pipeline);
-        NetworkTableInstance.getDefault().flush();
     }
 
     /**
@@ -228,6 +223,7 @@ public class Limelight implements Loggable {
         setPipeline(target);
         setCamMode(CamMode.Vision);
         setLedMode(LedMode.On);
+        NetworkTableInstance.getDefault().flush();
     }
 
     /**
@@ -236,5 +232,6 @@ public class Limelight implements Loggable {
     public void stopVision() {
         setCamMode(CamMode.Driver);
         setLedMode(LedMode.Off);
+        NetworkTableInstance.getDefault().flush();
     }
 }

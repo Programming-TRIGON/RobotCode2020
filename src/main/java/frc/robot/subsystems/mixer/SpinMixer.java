@@ -51,8 +51,6 @@ public class SpinMixer extends CommandBase {
         lastTimeNotOnStall = Timer.getFPGATimestamp();
         backwardsSpinStartTime = 0;
         stalled = false;
-        // TODO: For Test!! remove later...
-        mixer.stopOverride();
     }
 
     @Override
