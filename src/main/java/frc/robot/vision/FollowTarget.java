@@ -58,7 +58,7 @@ public class FollowTarget extends CommandBase {
         if (limelight.getTv()) {
             double distance = limelight.getDistance();
             double rotationOutput = rotationPIDController.calculate(limelight.getAngle());
-            drivetrain.arcadeDrive(rotationOutput, MathUtil.clamp(distancePIDController.calculate(distance), 0, 0.4));
+            drivetrain.arcadeDrive(rotationOutput, MathUtil.clamp(distancePIDController.getP() * distance, 0, 0.4));
             lastTimeSeenTarget = Timer.getFPGATimestamp();
         } else {
             // The target wasn't found, driver's control
@@ -68,7 +68,7 @@ public class FollowTarget extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return distancePIDController.atSetpoint();
+        return limelight.getDistance() < robotConstants.controlConstants.visionDistanceSettings.getTolerance();
     }
 
     @Override

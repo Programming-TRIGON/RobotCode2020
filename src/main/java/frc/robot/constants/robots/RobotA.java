@@ -77,7 +77,7 @@ public class RobotA extends RobotConstants {
         climbConstants.kHookCurrentTimeout = 0;
         climbConstants.kHookPotentiometerAngleMultiplier = 10;
         climbConstants.kHookPotentiometerOffset = -3.54;
-        climbConstants.kPotentiometerChangeError = 0.2;
+        climbConstants.kPotentiometerChangeError = 0.3;
         climbConstants.kMaxHookRotations = 5.4;
         climbConstants.kIsClimbInverted = true;
         climbConstants.kClimbCurrentLimit = 80;
@@ -130,12 +130,11 @@ public class RobotA extends RobotConstants {
         visionConstants.kDistanceFromFeederBCoefficient = 3.0859;
         visionConstants.kDistanceFromFeederC = 20;
         visionConstants.kMaximumDistancePower = 0.4;
-
         visionConstants.kLimelightOffsetX = 0;
         visionConstants.kLimelightOffsetY = 0;
         visionConstants.kLimelightAngleOffset = 0;
         visionConstants.kTargetNotFoundWaitTime = 0.5;
-        controlConstants.visionDistanceSettings = new PIDSettings(0.0035, 0, 0.003, 5, 5);
+        controlConstants.visionDistanceSettings = new PIDSettings(0.04, 0, 0.04, 25, 25);
         controlConstants.visionRotationSettings = new PIDSettings(0.04, 0.00055, 0.0005, 1, 0.5);
         controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
 
@@ -174,7 +173,7 @@ public class RobotA extends RobotConstants {
         dio.kSwitchShooter = 0;
         // Climb Map
         can.kHookTalonSRX = 14;
-        analogInput.kHookPotentiometer = 3;
+        analogInput.kHookPotentiometer = 2;
         can.kClimbSparkMax = 8;
         // PWM Map
         pwm.kLedController = 0;

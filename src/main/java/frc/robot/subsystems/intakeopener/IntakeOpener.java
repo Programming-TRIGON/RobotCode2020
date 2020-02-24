@@ -31,7 +31,6 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
                 robotConstants.intakeOpenerConstants.kTriggerThresholdTime));
         talonSRX.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
         talonSRX.setSensorPhase(false);
-        talonSRX.setSelectedSensorPosition(0, 1, 10);
         talonSRX.setSelectedSensorPosition(0, 0, 10);
         foundOffset = false;
     }
@@ -103,12 +102,11 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     public void resetEncoder() {
         if (!hasFoundOffset()) {
             System.out.println("reset error code 1: " + talonSRX.setSelectedSensorPosition(0, 0, 10));
-            System.out.println("reset error code 2: " + talonSRX.setSelectedSensorPosition(0, 1, 10));
             foundOffset = true;
         }
     }
 
     public boolean hasFoundOffset() {
-        return true;
+        return foundOffset;
     }
 }

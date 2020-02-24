@@ -1,6 +1,7 @@
 package frc.robot.commands.command_groups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
 import frc.robot.subsystems.intakeopener.OpenIntake;
@@ -18,20 +19,22 @@ import static frc.robot.Robot.robotConstants;
 public class CollectFromFeeder extends SequentialCommandGroup {
     public CollectFromFeeder() {
         addCommands(
-            new SetIntakeState(true),
-            new FollowTarget(Target.Feeder),
-            parallel(
-                new DriveWithXbox(() -> 0, () -> oi.getDriverXboxController().getDeltaTriggers()),
-                new SpinMixerByTime(MixerPower.MixForSort),
-                new SetLoaderSpeed(LoaderPower.UnloadForSort),
+            sequence(
+            // new SetIntakeState(true),
+            // new FollowTarget(Target.Feeder),
                 parallel(
+                // new DriveWithXbox(() -> , () -> oi.getDriverXboxController().getDeltaTriggers()),
+                    new SpinMixerByTime(MixerPower.MixForSort),
+                    new SetLoaderSpeed(LoaderPower.UnloadForSort),
                     new OpenIntake(robotConstants.intakeOpenerConstants.kFeederClosedAngle, false),
                     new SetIntakeSpeed(robotConstants.intakeConstants.kFeederIntakePower)
                 )
-            ).
-                withInterrupt(() -> oi.getDriverXboxController().getDeltaTriggers()
-                    < -robotConstants.oiConstants.kDeltaTriggersInterruptDifference),
-            new OpenIntake(false)
+            ).withInterrupt(() -> oi.getDriverXboxController().getDeltaTriggers() < -0.08),
+                new OpenIntake(false),
+                deadline(
+                    new WaitCommand(robotConstants.oiConstants.kSortAfterCollectCellTimeout),
+                    new SpinMixerByTime(MixerPower.MixForSort),
+                    new SetLoaderSpeed(LoaderPower.UnloadForSort))
         );
     }
 }

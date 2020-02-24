@@ -141,8 +141,8 @@ public class Robot extends TimedRobot {
             autoCommand.cancel();
         }
         drivetrain.setRampRate(robotConstants.drivetrainConstants.kRampRate);
-        // if (!intakeOpener.hasFoundOffset())
-        //     findOffsetCommand.schedule(true);
+        if (!intakeOpener.hasFoundOffset())
+            findOffsetCommand.schedule(true);
     }
 
     @Override
