@@ -20,7 +20,6 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     private WPI_TalonSRX talonSRX;
     private boolean isTuning;
     private boolean foundOffset;
-    private double offset;
 
     public IntakeOpener() {
         talonSRX = new WPI_TalonSRX(robotConstants.can.kIntakeOpenerTalonSRX);
@@ -32,8 +31,8 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
                 robotConstants.intakeOpenerConstants.kTriggerThresholdTime));
         talonSRX.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
         talonSRX.setSensorPhase(false);
-        talonSRX.setSelectedSensorPosition(0, 0, 0);
-        talonSRX.setSelectedSensorPosition(0, 1, 0);
+        talonSRX.setSelectedSensorPosition(0, 1, 10);
+        talonSRX.setSelectedSensorPosition(0, 0, 10);
         foundOffset = false;
     }
 
@@ -55,7 +54,7 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     /** @return The angle measured by the encoder */
     @Log(name = "IntakeOpener/Angle")
     public double getAngle() {
-        return talonSRX.getSelectedSensorPosition() / robotConstants.intakeOpenerConstants.kTicksPerRotation * 360 + offset;
+        return talonSRX.getSelectedSensorPosition() / robotConstants.intakeOpenerConstants.kTicksPerRotation * 360;
     }
 
     /**
@@ -67,7 +66,7 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
 
     public void setIntakeAngle(double angle) {
         // if (foundOffset)
-            talonSRX.set(ControlMode.Position, angle / 360 * robotConstants.intakeOpenerConstants.kTicksPerRotation - offset);
+        talonSRX.set(ControlMode.Position, angle / 360 * robotConstants.intakeOpenerConstants.kTicksPerRotation);
     }
 
     public void enableTuning() {
@@ -102,14 +101,14 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     }
 
     public void resetEncoder() {
-        if (!foundOffset) {
-            // offset = -getAngle();
-            
+        if (!hasFoundOffset()) {
+            System.out.println("reset error code 1: " + talonSRX.setSelectedSensorPosition(0, 0, 10));
+            System.out.println("reset error code 2: " + talonSRX.setSelectedSensorPosition(0, 1, 10));
             foundOffset = true;
         }
     }
 
     public boolean hasFoundOffset() {
-        return foundOffset;
+        return true;
     }
 }
