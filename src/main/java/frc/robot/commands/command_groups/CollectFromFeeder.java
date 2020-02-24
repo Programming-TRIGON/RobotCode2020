@@ -24,7 +24,7 @@ public class CollectFromFeeder extends SequentialCommandGroup {
                 new DriveWithXbox(() -> 0, () -> oi.getDriverXboxController().getDeltaTriggers()),
                 new SpinMixerByTime(MixerPower.MixForSort),
                 new SetLoaderSpeed(LoaderPower.UnloadForSort),
-                sequence(
+                parallel(
                     new OpenIntake(robotConstants.intakeOpenerConstants.kFeederClosedAngle, false),
                     new SetIntakeSpeed(robotConstants.intakeConstants.kFeederIntakePower)
                 )
