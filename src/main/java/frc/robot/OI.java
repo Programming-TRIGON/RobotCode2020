@@ -14,6 +14,10 @@ import frc.robot.commands.command_groups.CollectFromFeeder;
 import frc.robot.commands.command_groups.SortAfterCollectCell;
 import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
+import frc.robot.subsystems.loader.LoaderPower;
+import frc.robot.subsystems.loader.SetLoaderSpeed;
+import frc.robot.subsystems.mixer.MixerPower;
+import frc.robot.subsystems.mixer.SpinMixerByTime;
 import frc.robot.utils.TrigonXboxController;
 
 import static frc.robot.Robot.*;
@@ -36,6 +40,7 @@ public class OI {
     private Command driverSortAfterCollectCell;
     // operator commands
     private Command returnMixerControl;
+    private Command spinMixerControl;
 
     public OI() {
         driverXbox = new TrigonXboxController(kDriverPort);
@@ -84,6 +89,8 @@ public class OI {
 
     private void createOperatorCommands() {
         returnMixerControl = new InstantCommand(mixer::stopOverride);
+        spinMixerControl = new SpinMixerByTime(MixerPower.MixForHardSort);
+        // .alongWith(new SetLoaderSpeed(LoaderPower.UnloadForHardSort));
     }
 
     /**
@@ -92,6 +99,7 @@ public class OI {
     private void setHillelSettings() {
         mixer.setOverrideSupplier(() -> operatorXbox.getY(Hand.kRight));
         operatorXbox.getRightStickButton().whenPressed(returnMixerControl);
+        operatorXbox.getButtonA().whenHeld(spinMixerControl);
     }
 
     /**

@@ -1,5 +1,6 @@
 package frc.robot.commands.command_groups;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
@@ -23,18 +24,27 @@ public class CollectFromFeeder extends SequentialCommandGroup {
             // new SetIntakeState(true),
             // new FollowTarget(Target.Feeder),
                 parallel(
-                // new DriveWithXbox(() -> , () -> oi.getDriverXboxController().getDeltaTriggers()),
+                    new DriveWithXbox(() -> oi.getDriverXboxController().getX(Hand.kLeft),
+                     () -> {
+                        double power = oi.getDriverXboxController().getDeltaTriggers();
+                        return (power > 0.02 ? power : 0.1);
+                }),
                     new SpinMixerByTime(MixerPower.MixForSort),
                     new SetLoaderSpeed(LoaderPower.UnloadForSort),
                     new OpenIntake(robotConstants.intakeOpenerConstants.kFeederClosedAngle, false),
                     new SetIntakeSpeed(robotConstants.intakeConstants.kFeederIntakePower)
                 )
             ).withInterrupt(() -> oi.getDriverXboxController().getDeltaTriggers() < -0.08),
+            parallel(
+                sequence(
                 new OpenIntake(false),
-                deadline(
-                    new WaitCommand(robotConstants.oiConstants.kSortAfterCollectCellTimeout),
-                    new SpinMixerByTime(MixerPower.MixForSort),
-                    new SetLoaderSpeed(LoaderPower.UnloadForSort))
+                    deadline(
+                        new WaitCommand(robotConstants.oiConstants.kSortAfterCollectCellTimeout),
+                        new SpinMixerByTime(MixerPower.MixForSort),
+                        new SetLoaderSpeed(LoaderPower.UnloadForSort)),
+                        new DriveWithXbox(() -> oi.getDriverXboxController().getX(Hand.kLeft), () -> oi.getDriverXboxController().getDeltaTriggers())
+                    )
+            )
         );
     }
 }

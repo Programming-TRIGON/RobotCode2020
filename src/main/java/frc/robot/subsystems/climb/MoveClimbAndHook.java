@@ -12,7 +12,7 @@ public class MoveClimbAndHook extends CommandBase {
     private static final int kBlinkingAmount = 15;
     private static final double kThreshold = 0.12;
     private static final double kHookTimeToMove = 2;
-    private static final double kDrivetrainClimbSensitivity = 0.1;
+    private static final double kDrivetrainClimbSensitivity = 0.25;
     private DoubleSupplier hookPower;
     private DoubleSupplier climbPower;
     private double startPotentiometerValue;
@@ -55,7 +55,7 @@ public class MoveClimbAndHook extends CommandBase {
             potentiometerDisconnected = true;
         }
         
-        if(hookPower.getAsDouble() < kThreshold) {
+        if(Math.abs(hookPower.getAsDouble()) < kThreshold) {
             lastTimeHookNotMoved = Timer.getFPGATimestamp();
         }
         
@@ -64,7 +64,7 @@ public class MoveClimbAndHook extends CommandBase {
         if(!potentiometerDisconnected)
             climb.setHookPower(hookPower.getAsDouble() * sensitivity);
         else
-            climb.setHookPowerOvveride(hookPower.getAsDouble() * sensitivity);
+            climb.setHookPowerOveride(hookPower.getAsDouble() * sensitivity);
     }
 
     @Override
