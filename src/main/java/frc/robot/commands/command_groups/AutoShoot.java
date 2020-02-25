@@ -81,7 +81,7 @@ public class AutoShoot extends SequentialCommandGroup {
             deadline(
                 setShooterVelocity,
                 sequence(
-                    // turnToTarget,
+                    turnToTarget,
                     new WaitUntilCommand(() ->
                         setShooterVelocity.readyToShoot()),
                     parallel(
