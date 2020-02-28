@@ -1,13 +1,12 @@
 package frc.robot.vision;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.led.LEDColor;
-import frc.robot.utils.TrigonPIDController;
+import frc.robot.utils.TrigonProfiledPIDController;
 
 import static frc.robot.Robot.*;
-
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 /**
  * this is just template for a drivetrain turn to target command. It will be
@@ -15,7 +14,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
  */
 public class TurnToTarget extends CommandBase {
     private Target target;
-    private TrigonPIDController rotationPIDController;
+    private TrigonProfiledPIDController rotationPIDController;
     private boolean hasFoundTarget;
 
     /**
@@ -24,7 +23,8 @@ public class TurnToTarget extends CommandBase {
     public TurnToTarget(Target target) {
         addRequirements(drivetrain);
         this.target = target;
-        rotationPIDController = new TrigonPIDController(robotConstants.controlConstants.visionRotationSettings, 0);
+        rotationPIDController = new TrigonProfiledPIDController(robotConstants.controlConstants.visionRotationSettings, 0,
+            robotConstants.controlConstants.visionRotationConstraints);
     }
 
     /**
@@ -37,15 +37,16 @@ public class TurnToTarget extends CommandBase {
     public TurnToTarget(Target target, String dashboardKey) {
         addRequirements(drivetrain);
         this.target = target;
-        rotationPIDController = new TrigonPIDController(dashboardKey);
+        rotationPIDController = new TrigonProfiledPIDController(dashboardKey);
     }
 
     @Override
     public void initialize() {
-        rotationPIDController.reset();
         // Configure the limelight to start computing vision.
         limelight.startVision(target);
         led.setColor(LEDColor.Green);
+
+        rotationPIDController.reset(limelight.getAngle());
     }
 
     @Override

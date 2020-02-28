@@ -1,6 +1,7 @@
 package frc.robot.constants;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.utils.PIDSettings;
 
 /**
@@ -140,6 +141,7 @@ public abstract class RobotConstants extends RobotMap {
         public SimpleMotorFeedforward loaderFeedforward;
         public PIDSettings openIntakeSettings;
         public PIDSettings closeIntakeSettings;
+        public Constraints visionRotationConstraints;
     }
 
     public static class MotionProfilingConstants {

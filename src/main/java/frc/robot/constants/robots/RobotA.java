@@ -2,6 +2,7 @@ package frc.robot.constants.robots;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.constants.RobotConstants;
 import frc.robot.utils.PIDSettings;
 
@@ -136,6 +137,7 @@ public class RobotA extends RobotConstants {
         visionConstants.kTargetNotFoundWaitTime = 0.5;
         controlConstants.visionDistanceSettings = new PIDSettings(0.04, 0, 0.04, 25, 25);
         controlConstants.visionRotationSettings = new PIDSettings(0.04, 0.00055, 0.0005, 1, 0.5);
+        controlConstants.visionRotationConstraints = new Constraints(2, 3);
         controlConstants.drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
 
         // Auto Constants

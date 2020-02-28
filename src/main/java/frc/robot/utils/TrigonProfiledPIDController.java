@@ -39,7 +39,7 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
      *                     in the smart dashboard
      */
     public TrigonProfiledPIDController(String dashboardKey) {
-        this(dashboardKey, 0);
+        this(dashboardKey, SmartDashboard.getNumber("PID/" + dashboardKey + "/goal", 0));
     }
 
     /**
@@ -58,7 +58,10 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
     }
 
     public TrigonProfiledPIDController(String dashboardKey, double defaultGoal, Constraints constraints) {
-        super(0, 0, 0, constraints);
+        super(SmartDashboard.getNumber("PID/" + dashboardKey + "/p", 0),
+            SmartDashboard.getNumber("PID/" + dashboardKey + "/i", 0),
+            SmartDashboard.getNumber("PID/" + dashboardKey + "/d", 0),
+            constraints);
         setGoal(defaultGoal);
         this.constraints = constraints;
         SmartDashboard.putData("PID/" + dashboardKey, this);
@@ -91,8 +94,8 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
         builder.addDoubleProperty("max velocity", () -> constraints.maxVelocity,
-            value -> constraints.maxVelocity = value);
+            value -> setConstraints(new Constraints(value, constraints.maxAcceleration)));
         builder.addDoubleProperty("max acceleration", () -> constraints.maxAcceleration,
-            value -> constraints.maxAcceleration = value);
+            value -> setConstraints(new Constraints(value, constraints.maxAcceleration)));
     }
 }
