@@ -29,6 +29,8 @@ public class Shooter extends OverridableSubsystem implements Loggable {
         leftTalonFX.selectProfileSlot(0, 0);
         leftTalonFX.setInverted(robotConstants.shooterConstants.kIsLeftMotorInverted);
         leftTalonFX.setSensorPhase(robotConstants.shooterConstants.kIsLeftEncoderInverted);
+        leftTalonFX.configVoltageCompSaturation(12);
+        leftTalonFX.enableVoltageCompensation(true);
         DriverStationLogger.logErrorToDS(leftTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0),
         "Could not set left shooter encoder");
 
@@ -39,6 +41,8 @@ public class Shooter extends OverridableSubsystem implements Loggable {
         rightTalonFX.selectProfileSlot(0, 0);
         rightTalonFX.setInverted(robotConstants.shooterConstants.kIsRightMotorInverted);
         rightTalonFX.setSensorPhase(robotConstants.shooterConstants.kIsRightEncoderInverted);
+        leftTalonFX.configVoltageCompSaturation(12);
+        leftTalonFX.enableVoltageCompensation(true);
         DriverStationLogger.logErrorToDS(rightTalonFX.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 0),
         "Could not set right shooter encoder");
 
@@ -170,16 +174,6 @@ public class Shooter extends OverridableSubsystem implements Loggable {
     public void configFeedforwardGains(double leftKf, double rightKf) {
         leftTalonFX.config_kF(1, leftKf);
         rightTalonFX.config_kF(1, rightKf);
-    }
-
-    /**
-     * set the feedforward gains of the shooter in slot 0 (PIDF control).
-     * @param leftKf left feedforward gain
-     * @param rightKf right feedforward gain
-     */
-    public void configFeedforwardGainsSlot0(double leftKf, double rightKf) {
-        leftTalonFX.config_kF(0, leftKf);
-        rightTalonFX.config_kF(0, rightKf);
     }
 
     public void configCloseLoopPIDFGains() {
