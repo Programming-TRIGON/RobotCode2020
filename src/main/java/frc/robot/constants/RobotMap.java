@@ -9,51 +9,33 @@ import edu.wpi.first.wpilibj.I2C.Port;
  * floating around.
  */
 public abstract class RobotMap {
-    public CAN can = new CAN();
-    public DIO dio = new DIO();
-    public PWM pwm = new PWM();
-    public I2C i2c = new I2C();
-    public AnalogInput analogInput = new AnalogInput(); 
 
-    public static class CAN {
-        // Drivetrain ports
-        public int kDrivetrainLeftRearTalonFX;
-        public int kDrivetrainLeftMiddleTalonFX;
-        public int kDrivetrainLeftFrontTalonFX;
-        public int kDrivetrainRightRearTalonFX;
-        public int kDrivetrainRightMiddleTalonFX;
-        public int kDrivetrainRightFrontTalonFX;
-        public int kDrivetrainLeftEncoder;
-        public int kPigeonTalonSRX;
-        // Intake ports
-        public int kCellIntakeSparkMax;
-        // Intake opener ports
-        public int kIntakeOpenerTalonSRX;
-        // Mixer ports
-        public int kMixerTalonSRX;
-        // Loader ports
-        public int kLoaderTalonSRX;
-        // Shooter ports
-        public int kLeftShooterTalonFX;
-        public int kRightShooterTalonFX;
-        // Climb ports
-        public int kClimbSparkMax;
-        public int kHookTalonSRX;
-    }
-
-    public static class DIO {
-        public int kSwitchShooter;
-    }
-
-    public static class PWM {
-        public int kLedController;
-    }
-
-    public static class I2C {
-        public Port kI2cPort;
-    }
-
-    public static class AnalogInput {
-        public int kHookPotentiometer;
-    }
+    public static final int kHookPotentiometer = 2;
+    // Drivetrain Map
+    public static final int kDrivetrainLeftRearTalonFX = 1;
+    public static final int kDrivetrainLeftMiddleTalonFX = 2;
+    public static final int kDrivetrainLeftFrontTalonFX = 3;
+    public static final int kDrivetrainRightFrontTalonFX = 4;
+    public static final int kDrivetrainRightMiddleTalonFX = 5;
+    public static final int kDrivetrainRightRearTalonFX = 6;
+    public static final int kDrivetrainLeftEncoder = 13;
+    public static final int kPigeonTalonSRX = 9;
+    // Intake Map
+    public static final int kCellIntakeSparkMax = 7;
+    public static final int kIntakeOpenerTalonSRX = 10;
+    // Mixer Map
+    public static final int kMixerTalonSRX = 12;
+    // Loader Map
+    public static final int kLoaderTalonSRX = 11;
+    // Shooter Map
+    public static final int kLeftShooterTalonFX = 16;
+    public static final int kRightShooterTalonFX = 15;
+    public static final int kSwitchShooter = 0;
+    // Climb Map
+    public static final int kHookTalonSRX = 14;
+    public static final int kClimbSparkMax = 8;
+    // PWM Map
+    public static final int kLedController = 0;
+    // I2C Port
+    public static final Port kI2cPort = Port.kOnboard;
 }

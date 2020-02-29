@@ -12,15 +12,16 @@ import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
 import frc.robot.commands.command_groups.SortAfterCollectCell;
+import frc.robot.constants.robots.RobotConstants.ClimbConstants;
+import frc.robot.constants.robots.RobotConstants.OIConstants;
 import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
-import frc.robot.subsystems.loader.LoaderPower;
-import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
 import frc.robot.utils.TrigonXboxController;
 
-import static frc.robot.Robot.*;
+import static frc.robot.Robot.drivetrain;
+import static frc.robot.Robot.mixer;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -71,12 +72,12 @@ public class OI {
     private void createDriverCommands() {
         driverDriveWithXbox = new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), driverXbox::getDeltaTriggers);
         driverAutoShoot = new AutoShoot().withInterrupt(() -> 
-            Math.abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
+            Math.abs(driverXbox.getDeltaTriggers()) >= OIConstants.kDeltaTriggersInterruptDifference);
         driverCollectCell = new CollectCell();
-        driverSortAfterCollectCell = new SortAfterCollectCell().withTimeout(robotConstants.oiConstants.kSortAfterCollectCellTimeout);
+        driverSortAfterCollectCell = new SortAfterCollectCell().withTimeout(OIConstants.kSortAfterCollectCellTimeout);
         driverCollectFromFeeder = new CollectFromFeeder();
         driverClimb = new MoveClimbAndHook(() -> driverXbox.getY(Hand.kRight),
-            () -> driverXbox.getAButton() ? robotConstants.climbConstants.kDefaultClimbPower : 0);
+            () -> driverXbox.getAButton() ? ClimbConstants.kDefaultClimbPower : 0);
     }
 
     private void bindDriverCommands() {

@@ -5,15 +5,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.command_groups.AutoShoot;
-import frc.robot.commands.command_groups.CollectCell;
+import frc.robot.constants.robots.RobotConstants.AutoConstants;
 import frc.robot.motion_profiling.AutoPath;
-import frc.robot.motion_profiling.FollowPath;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
-
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.drivetrain;
-import static frc.robot.Robot.robotConstants;
 
 /**
  * This auto command moves away from the initiation line (by a timeout) and shoots 3 cells.
@@ -27,7 +24,7 @@ public class SimpleAuto extends SequentialCommandGroup {
             parallel(
                 sequence(
                     new InstantCommand(() -> drivetrain.resetOdometry(AutoPath.FacingPowerPortToTrenchStart.getPath().getTrajectory().getInitialPose())),
-                    new RunCommand(() -> drivetrain.arcadeDrive(0, robotConstants.autoConstants.kSimpleAutoPower),
+                    new RunCommand(() -> drivetrain.arcadeDrive(0, AutoConstants.kSimpleAutoPower),
                         drivetrain).withInterrupt(() -> timer.hasPeriodPassed(timeout.getAsDouble())),
                     new InstantCommand(drivetrain::stopMove),
                     new AutoShoot(3)
@@ -50,7 +47,7 @@ public class SimpleAuto extends SequentialCommandGroup {
     }
 
     public SimpleAuto() {
-        this(robotConstants.autoConstants.kSimpleAutoTimeout);
+        this(AutoConstants.kSimpleAutoTimeout);
     }
 
     @Override

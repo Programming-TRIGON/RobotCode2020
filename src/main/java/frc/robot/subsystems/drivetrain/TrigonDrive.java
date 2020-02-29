@@ -3,8 +3,7 @@ package frc.robot.subsystems.drivetrain;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-
-import static frc.robot.Robot.robotConstants;
+import frc.robot.constants.robots.RobotConstants.TrigonDriveConstants;
 
 /**
  * This class includes all the methods from differential drive plus a few of our
@@ -21,8 +20,8 @@ public class TrigonDrive extends DifferentialDrive {
 
     public TrigonDrive(SpeedController leftMotor, SpeedController rightMotor) {
         super(leftMotor, rightMotor);
-        this.sensitivity = robotConstants.trigonDriveConstants.kSensitivity;
-        this.threshold = robotConstants.trigonDriveConstants.kThreshold;
+        this.sensitivity = TrigonDriveConstants.kSensitivity;
+        this.threshold = TrigonDriveConstants.kThreshold;
     }
 
     /**

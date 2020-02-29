@@ -3,9 +3,10 @@ package frc.robot.subsystems.shooter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.robots.RobotConstants.ControlConstants;
+import frc.robot.constants.robots.RobotConstants.ShooterConstants;
 import java.util.function.DoubleSupplier;
 
-import static frc.robot.Robot.robotConstants;
 import static frc.robot.Robot.shooter;
 
 
@@ -96,19 +97,19 @@ public class SetShooterVelocity extends CommandBase {
         // If in auto, check how many cells were shot.
         if (isAuto) {
             SmartDashboard.putNumber("Shooter/Cells Shot", cellsShot);
-            boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageVelocity()) < robotConstants.shooterConstants.kShootingBallZone;
+            boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageVelocity()) < ShooterConstants.kShootingBallZone;
             countShotCells(isCellBeingShot);
         }
     }
 
     private void countShotCells(boolean isCellBeingShot) {
         if (!isInZone && isCellBeingShot &&
-            Timer.getFPGATimestamp() - firstTimeOutsideZone > robotConstants.shooterConstants.kWaitTimeZone) {
+            Timer.getFPGATimestamp() - firstTimeOutsideZone > ShooterConstants.kWaitTimeZone) {
             isInZone = true;
             firstTimeInZone = Timer.getFPGATimestamp();
             cellsShot++;
         } else if (isInZone && !isCellBeingShot &&
-            Timer.getFPGATimestamp() - firstTimeInZone > robotConstants.shooterConstants.kWaitTimeZone) {
+            Timer.getFPGATimestamp() - firstTimeInZone > ShooterConstants.kWaitTimeZone) {
             isInZone = false;
             firstTimeOutsideZone = Timer.getFPGATimestamp();
         }
@@ -131,7 +132,7 @@ public class SetShooterVelocity extends CommandBase {
      */
     public boolean isOnTarget() {
         return Math.abs(getError()) <
-            robotConstants.controlConstants.leftShooterSettings.getTolerance();
+            ControlConstants.leftShooterSettings.getTolerance();
     }
 
     public double getError() {

@@ -2,12 +2,11 @@ package frc.robot.subsystems.mixer;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.robots.RobotConstants.MixerConstants;
 import frc.robot.utils.DriverStationLogger;
-
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.mixer;
-import static frc.robot.Robot.robotConstants;
 
 /**
  * Spins the mixer during the game for putting balls in the loader, if the
@@ -55,15 +54,15 @@ public class SpinMixer extends CommandBase {
 
     @Override
     public void execute() {
-        if (Timer.getFPGATimestamp() - backwardsSpinStartTime < (power.getAsDouble() > 0.5 ? robotConstants.mixerConstants.kBackwardsSpinTimeHighSpeed : robotConstants.mixerConstants.kBackwardsSpinTimeLowSpeed))
+        if (Timer.getFPGATimestamp() - backwardsSpinStartTime < (power.getAsDouble() > 0.5 ? MixerConstants.kBackwardsSpinTimeHighSpeed : MixerConstants.kBackwardsSpinTimeLowSpeed))
             mixer.move(-power.getAsDouble());
-        else if (Timer.getFPGATimestamp() - lastTimeNotOnStall > robotConstants.mixerConstants.kTotalStallWaitTime)
+        else if (Timer.getFPGATimestamp() - lastTimeNotOnStall > MixerConstants.kTotalStallWaitTime)
             stalled = true;
         else {
             if (!mixer.isInStall()) {
                 lastTimeNotOnStall = Timer.getFPGATimestamp();
             }
-            if (Timer.getFPGATimestamp() - lastTimeNotOnStall > robotConstants.mixerConstants.kStallWaitTime) {
+            if (Timer.getFPGATimestamp() - lastTimeNotOnStall > MixerConstants.kStallWaitTime) {
                 backwardsSpinStartTime = Timer.getFPGATimestamp();
                 mixer.move(-power.getAsDouble());
             } else

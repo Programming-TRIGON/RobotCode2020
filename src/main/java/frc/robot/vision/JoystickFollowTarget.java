@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.constants.robots.RobotConstants.ControlConstants;
+import frc.robot.constants.robots.RobotConstants.VisionConstants;
 import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.TrigonPIDController;
 
@@ -25,7 +27,7 @@ public class JoystickFollowTarget extends CommandBase {
     public JoystickFollowTarget(Target target) {
         addRequirements(Robot.drivetrain);
         this.target = target;
-        rotationPIDController = new TrigonPIDController(robotConstants.controlConstants.visionRotationSettings, 0);
+        rotationPIDController = new TrigonPIDController(ControlConstants.visionRotationSettings, 0);
     }
 
     /**
@@ -68,7 +70,7 @@ public class JoystickFollowTarget extends CommandBase {
     @Override
     public boolean isFinished() {
         return ((Timer.getFPGATimestamp()
-            - lastTimeSeenTarget) > robotConstants.visionConstants.kTargetNotFoundWaitTime) && foundTargetAlready;
+            - lastTimeSeenTarget) > VisionConstants.kTargetNotFoundWaitTime) && foundTargetAlready;
     }
 
     @Override
