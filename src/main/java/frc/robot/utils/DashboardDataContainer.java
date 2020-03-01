@@ -10,13 +10,14 @@ import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.SensorCheck;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
+import frc.robot.commands.command_groups.ShortCollectCell;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
 import frc.robot.subsystems.drivetrain.Song;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
-import frc.robot.subsystems.intakeopener.OpenIntake;
-import frc.robot.subsystems.intakeopener.SetIntakeState;
+import frc.robot.subsystems.intakeopener.IntakeAngle;
+import frc.robot.subsystems.intakeopener.SetIntakeAngle;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.loader.SetLoaderSpeedPID;
@@ -83,14 +84,14 @@ public class DashboardDataContainer {
             () -> getNumber("Intake Opener/Intake Opener power", 0)));
         putDefaultNumber("Intake Opener/Open Setpoint", 0);
         putDefaultNumber("Intake Opener/Close Setpoint", 0);
-        putData("Intake Opener/Tune Open PID", new OpenIntake(
-            () -> getNumber("Intake Opener/Open Setpoint", 0), true));
-        putData("Intake Opener/Tune Close PID", new OpenIntake(
-            () -> getNumber("Intake Opener/Close Setpoint", 0), false));
+        putData("Intake Opener/Tune Open PID", new SetIntakeAngle(
+            () -> getNumber("Intake Opener/Open Setpoint", 0)));
+        putData("Intake Opener/Tune Close PID", new SetIntakeAngle(
+            () -> getNumber("Intake Opener/Close Setpoint", 0)));
         putData("Intake Opener/Reset Encoder", new RunWhenDisabledCommand(intakeOpener::resetEncoder));
         putData("Intake Opener/Enable Tuning", new RunWhenDisabledCommand(intakeOpener::enableTuning));
-        putData("Intake Opener/Open Intake", new SetIntakeState(true));
-        putData("Intake Opener/Close Intake", new SetIntakeState(false));
+        putData("Intake Opener/Open Intake", new SetIntakeAngle(IntakeAngle.Open));
+        putData("Intake Opener/Close Intake", new SetIntakeAngle(IntakeAngle.Close));
         putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
         putData("Intake Opener/Find Offset", new FindOpenerOffset());
 
@@ -98,10 +99,10 @@ public class DashboardDataContainer {
         putData("Climb/Reverse Climb", new StartEndCommand(() -> climb.setOppositeClimbPower(-0.4), () -> climb.setOppositeClimbPower(0)).withTimeout(5));
         putData("Climb/Reset Hook Rotations", new RunWhenDisabledCommand(climb::resetHookRotations));
 
-        putData("Drivetrain/Load Star_Wars_Main_Theme", new InstantCommand(() -> drivetrain.loadSong(Song.Star_Wars_Main_Theme),  drivetrain));
-        putData("Drivetrain/Load Animal_Crossing_Nook_Scranny", new InstantCommand(() -> drivetrain.loadSong(Song.Animal_Crossing_Nook_Scranny),  drivetrain));
-        putData("Drivetrain/Load Rasputin", new InstantCommand(() -> drivetrain.loadSong(Song.Rasputin),  drivetrain));
-        putData("Drivetrain/Play song", new StartEndCommand(drivetrain::playSong, drivetrain::stopSong, drivetrain));        
+        putData("Drivetrain/Load Star_Wars_Main_Theme", new InstantCommand(() -> drivetrain.loadSong(Song.Star_Wars_Main_Theme), drivetrain));
+        putData("Drivetrain/Load Animal_Crossing_Nook_Scranny", new InstantCommand(() -> drivetrain.loadSong(Song.Animal_Crossing_Nook_Scranny), drivetrain));
+        putData("Drivetrain/Load Rasputin", new InstantCommand(() -> drivetrain.loadSong(Song.Rasputin), drivetrain));
+        putData("Drivetrain/Play song", new StartEndCommand(drivetrain::playSong, drivetrain::stopSong, drivetrain));
 
         // Command groups data
         putData("CommandGroup/Collect Cell", new CollectCell());
@@ -112,6 +113,7 @@ public class DashboardDataContainer {
             new SetLoaderSpeed(LoaderPower.UnloadForSort),
             new SpinMixerByTime(MixerPower.MixForSort)));
         putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
+        putData("CommandGroup/ShortCollectCell", new ShortCollectCell());
         putBoolean("log", false);
         putData("Vision/Calibrate Vision Distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 120, 35, 10));
         putData("Vision/FollowTarget", new FollowTarget(Target.Feeder));
