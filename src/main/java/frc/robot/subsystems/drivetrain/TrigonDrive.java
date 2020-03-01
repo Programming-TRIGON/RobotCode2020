@@ -3,7 +3,7 @@ package frc.robot.subsystems.drivetrain;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
-import frc.robot.constants.robots.RobotConstants.TrigonDriveConstants;
+import frc.robot.constants.RobotConstants.TrigonDriveConstants;
 
 /**
  * This class includes all the methods from differential drive plus a few of our
