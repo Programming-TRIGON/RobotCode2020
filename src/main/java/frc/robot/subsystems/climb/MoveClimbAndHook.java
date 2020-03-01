@@ -65,7 +65,7 @@ public class MoveClimbAndHook extends CommandBase {
         if(!potentiometerDisconnected)
             climb.setHookPower(hookPower.getAsDouble() * sensitivity);
         else
-            climb.setHookPowerOveride(hookPower.getAsDouble() * sensitivity);
+            climb.setHookPowerOverride(hookPower.getAsDouble() * sensitivity);
     }
 
     @Override
