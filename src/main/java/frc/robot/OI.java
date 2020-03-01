@@ -13,7 +13,7 @@ import frc.robot.constants.RobotConstants.ClimbConstants;
 import frc.robot.constants.RobotConstants.OIConstants;
 import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
-import frc.robot.subsystems.intakeopener.IntakeState;
+import frc.robot.subsystems.intakeopener.IntakeAngle;
 import frc.robot.subsystems.intakeopener.OpenIntake;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
@@ -93,7 +93,7 @@ public class OI {
         returnMixerControl = new InstantCommand(mixer::stopOverride);
         spinMixerControl = new SpinMixerByTime(MixerPower.MixForHardSort);
         shortCollectCell = new ShortCollectCell();
-        closeIntake = new OpenIntake(IntakeState.closed);
+        closeIntake = new OpenIntake(IntakeAngle.closed);
         // .alongWith(new SetLoaderSpeed(LoaderPower.UnloadForHardSort));
     }
 

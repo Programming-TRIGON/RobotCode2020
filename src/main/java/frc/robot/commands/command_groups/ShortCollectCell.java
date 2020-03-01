@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
-import frc.robot.subsystems.intakeopener.IntakeState;
+import frc.robot.subsystems.intakeopener.IntakeAngle;
 import frc.robot.subsystems.intakeopener.OpenIntake;
 import frc.robot.subsystems.led.LEDColor;
 
@@ -19,11 +19,11 @@ public class ShortCollectCell extends SequentialCommandGroup {
         addCommands(
             new StartEndCommand(() -> led.setColor(LEDColor.Orange), () -> led.turnOffLED(), led),
             parallel(
-                new OpenIntake(IntakeState.opened),
+                new OpenIntake(IntakeAngle.opened),
                 new SetIntakeSpeed()
             ),
             new WaitCommand(kCollectTime),
-            new OpenIntake(IntakeState.closed)
+            new OpenIntake(IntakeAngle.closed)
         );
     }
 }

@@ -14,7 +14,7 @@ public class FindOpenerOffset extends SequentialCommandGroup {
             new CloseForOffset(),
             new WaitCommand(IntakeOpenerConstants.kFindOffsetWaitTime),
             new InstantCommand(() -> intakeOpener.resetEncoder(), intakeOpener),
-            new OpenIntake(IntakeState.closed)
+            new OpenIntake(IntakeAngle.closed)
         );
     }
 }
