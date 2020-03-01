@@ -10,6 +10,7 @@ import frc.robot.commands.RunWhenDisabledCommand;
 import frc.robot.commands.SensorCheck;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
+import frc.robot.commands.command_groups.ShortCollectCell;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
@@ -111,6 +112,7 @@ public class DashboardDataContainer {
             new SetLoaderSpeed(LoaderPower.UnloadForSort),
             new SpinMixerByTime(MixerPower.MixForSort)));
         putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
+        putData("CommandGroup/ShortCollectCell", new ShortCollectCell());
         putBoolean("log", false);
         putData("Vision/Calibrate Vision Distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 120, 35, 10));
         putData("Vision/FollowTarget", new FollowTarget(Target.Feeder));

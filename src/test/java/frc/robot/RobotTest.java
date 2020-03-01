@@ -8,6 +8,7 @@ import frc.robot.commands.SensorCheck;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
+import frc.robot.commands.command_groups.ShortCollectCell;
 import frc.robot.constants.RobotConstants.IntakeConstants;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
@@ -78,6 +79,7 @@ public class RobotTest {
             new OverrideCommand(Robot.shooter, () -> 0),
             new CollectCell(),
             new CollectFromFeeder(),
+            new ShortCollectCell(),
             new AutoShoot(),
             new SimpleAuto(),
             new TrenchAuto(StartingPose.kFacingPowerPort),
