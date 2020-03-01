@@ -41,9 +41,12 @@ public class KeepDrivetrainPosition extends CommandBase {
 
   @Override
   public void execute() {
+    double leftPower = leftPidController.calculate(drivetrain.getLeftDistance()); 
+    double rightPower = rightPidController.calculate(drivetrain.getRightDistance());
+    System.out.println("rightPower: " + rightPower + " | leftPower: " + leftPower);
     drivetrain.tankDrive(
-      leftPidController.calculate(drivetrain.getLeftDistance()),
-      rightPidController.calculate(drivetrain.getRightDistance()));
+      leftPower,
+      rightPower);
   }
 
   @Override

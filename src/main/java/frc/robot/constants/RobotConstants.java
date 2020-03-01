@@ -156,7 +156,7 @@ public class RobotConstants {
         public static final PIDSettings visionRotationSettings = new PIDSettings(0.035, 0.00055, 0.0005, 1, 0.5);
         public static final Constraints visionRotationConstraints = new Constraints(10, 7.5);
         public static final PIDSettings drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
-        public static final PIDSettings drivetrainEncoderPositionLeftSettings = new PIDSettings(0, 0, 0, 0, 0);
-        public static final PIDSettings drivetrainEncoderPositionRightSettings = new PIDSettings(0, 0, 0, 0, 0);
+        public static final PIDSettings drivetrainEncoderPositionLeftSettings = new PIDSettings(5, 0, 0.5, 0, 0);
+        public static final PIDSettings drivetrainEncoderPositionRightSettings = new PIDSettings(-5, 0, -0.5, 0, 0);
     }
 }

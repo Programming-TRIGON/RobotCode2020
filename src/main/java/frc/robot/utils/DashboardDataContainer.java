@@ -14,6 +14,7 @@ import frc.robot.commands.command_groups.ShortCollectCell;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
+import frc.robot.subsystems.drivetrain.KeepDrivetrainPosition;
 import frc.robot.subsystems.drivetrain.Song;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 import frc.robot.subsystems.intakeopener.IntakeAngle;
@@ -103,6 +104,7 @@ public class DashboardDataContainer {
         putData("Drivetrain/Load Animal_Crossing_Nook_Scranny", new InstantCommand(() -> drivetrain.loadSong(Song.Animal_Crossing_Nook_Scranny), drivetrain));
         putData("Drivetrain/Load Rasputin", new InstantCommand(() -> drivetrain.loadSong(Song.Rasputin), drivetrain));
         putData("Drivetrain/Play song", new StartEndCommand(drivetrain::playSong, drivetrain::stopSong, drivetrain));
+        putData("Drivetrain/Keep drivetrain position", new KeepDrivetrainPosition("position keep"));
 
         // Command groups data
         putData("CommandGroup/Collect Cell", new CollectCell());
@@ -118,8 +120,6 @@ public class DashboardDataContainer {
         putData("Vision/Calibrate Vision Distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 120, 35, 10));
         putData("Vision/FollowTarget", new FollowTarget(Target.Feeder));
         putData("Sensor Check", new SensorCheck());
-
-        putData("Short Collect", new SpinMixerByTime(MixerPower.MixForHardSort));
 
         SmartDashboard.putString("Shooter/Current Cheesy shooter state", "No state");
     }
