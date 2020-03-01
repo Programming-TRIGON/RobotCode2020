@@ -1,16 +1,17 @@
 package frc.robot.commands.command_groups;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.constants.RobotConstants.LoaderConstants;
 import frc.robot.constants.RobotConstants.MixerConstants;
+import frc.robot.subsystems.drivetrain.KeepDrivetrainPosition;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeedPID;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
+import frc.robot.subsystems.shooter.SetShooterVelocity;
 import frc.robot.subsystems.shooter.ShooterVelocity;
 import frc.robot.vision.Limelight;
 import frc.robot.vision.Target;
@@ -26,7 +27,7 @@ import static frc.robot.Robot.*;
  */
 public class AutoShoot extends SequentialCommandGroup {
     private static final double kAutoWaitTimeAfterShot = 0.1;
-    private CheesySetShooterVelocity setShooterVelocity;
+    private CheesySetShooterVelocity cheesySetShooterVelocity;
 
     /**
      * Constructs automatic shooting sequence with shooter velocities based on vision.
@@ -64,7 +65,7 @@ public class AutoShoot extends SequentialCommandGroup {
      * @param speedSupplier supplier of the desired speed in RPM
      */
     public AutoShoot(DoubleSupplier speedSupplier) {
-        setShooterVelocity = new CheesySetShooterVelocity(speedSupplier);
+        cheesySetShooterVelocity = new CheesySetShooterVelocity(speedSupplier);
         addCommandsToGroup(false);
     }
 
@@ -73,29 +74,27 @@ public class AutoShoot extends SequentialCommandGroup {
      * @param amountOfCells how many cells to shoot before the command ends
      */
     public AutoShoot(DoubleSupplier speedSupplier, int amountOfCells) {
-        setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, amountOfCells);
+        cheesySetShooterVelocity = new CheesySetShooterVelocity(speedSupplier, amountOfCells);
         addCommandsToGroup(true);
     }
 
     private void addCommandsToGroup(boolean isAuto) {
-        TurnToTarget turnToTarget = new TurnToTarget(Target.PowerPort);
         addCommands(
             deadline(
-                setShooterVelocity,
+                new TurnToTarget(Target.PowerPort),
+                new SetShooterVelocity(ShooterVelocity.HeatUp)
+            ),
+            deadline(
+                cheesySetShooterVelocity,
+                new KeepDrivetrainPosition(),
                 sequence(
-                    turnToTarget,
-                    new WaitUntilCommand(() ->
-                        setShooterVelocity.readyToShoot()),
-                    parallel(
-                        sequence(
-                            new WaitCommand(MixerConstants.kWaitForSpinMixerTime),
-                            new SpinMixer(getDesiredMixerVelocity(isAuto)
-                            )
-                        ),
-                        new SetLoaderSpeedPID(LoaderPower.LoadToShoot))
-                ),
-                new WaitCommand(kAutoWaitTimeAfterShot)
-            )
+                    new WaitUntilCommand(() -> cheesySetShooterVelocity.readyToShoot()),
+                    new SetLoaderSpeedPID(LoaderPower.LoadToShoot),
+                    new WaitCommand(MixerConstants.kWaitForSpinMixerTime),
+                    new SpinMixer(getDesiredMixerVelocity(isAuto))
+                )
+            ),
+            new WaitCommand(kAutoWaitTimeAfterShot)
         );
     }
 
@@ -106,7 +105,7 @@ public class AutoShoot extends SequentialCommandGroup {
     private MixerPower getDesiredMixerVelocity(boolean isAuto) {
         if (isAuto)
             return MixerPower.MixForAuto;
-        else if (Math.abs(limelight.getTy()) > LoaderConstants.kFarawayTyMeasurement)
+        else if (Math.abs(limelight.getTy()) < LoaderConstants.kFarawayTyMeasurement)
             return MixerPower.MixForShoot;
         return MixerPower.MixForFarShoot;
     }
@@ -114,8 +113,7 @@ public class AutoShoot extends SequentialCommandGroup {
     @Override
     public void end(boolean interrupted) {
         super.end(interrupted);
-        // We stop the shooter since the SetShooterCommand does not stop the motors.
+        // We stop the shooter since the CheesySetShooterVelocity does not stop the motors.
         shooter.stopMove();
-        drivetrain.setDrivetrainNeutralMode(NeutralMode.Coast);
     }
 }

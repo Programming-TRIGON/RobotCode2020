@@ -7,8 +7,7 @@ import frc.robot.constants.RobotConstants.ShooterConstants;
 import frc.robot.subsystems.led.LEDColor;
 import java.util.function.DoubleSupplier;
 
-import static frc.robot.Robot.led;
-import static frc.robot.Robot.shooter;
+import static frc.robot.Robot.*;
 
 /**
  * This command spins the wheel in the desired velocity in order to shoot the power cells.
@@ -16,7 +15,6 @@ import static frc.robot.Robot.shooter;
 public class CheesySetShooterVelocity extends CommandBase {
 
     private static final int kMinimumKfSamples = 20;
-    private static final int kMaxCellCapacity = 5;
     private static final int kBlinkAmount = 15;
     private DoubleSupplier velocitySetpoint;
     private CheesyShooterState currentShooterState;
@@ -128,7 +126,7 @@ public class CheesySetShooterVelocity extends CommandBase {
         if (Math.abs(getError()) < ShooterConstants.kVelocityTolerance)
             updateKf();
         else {
-            // reset kF since we are to far
+            // reset kF since we are too far
             kfSamplesAmount = 0;
             leftKfSamplesSum = 0;
             rightKfSamplesSum = 0;
@@ -200,9 +198,8 @@ public class CheesySetShooterVelocity extends CommandBase {
      * The velocity tolerance is taken from {@link frc.robot.constants.RobotConstants.ShooterConstants#kVelocityTolerance}
      */
     public boolean readyToShoot() {
-        return Math.abs(getError()) <
-            ShooterConstants.kVelocityTolerance
-            && currentShooterState == CheesyShooterState.Hold;
+        return Math.abs(getError()) < ShooterConstants.kVelocityTolerance && 
+            currentShooterState == CheesyShooterState.Hold;
     }
 
     public double getError() {
