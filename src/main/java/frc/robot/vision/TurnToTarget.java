@@ -3,7 +3,7 @@ package frc.robot.vision;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.robots.RobotConstants.ControlConstants;
+import frc.robot.constants.RobotConstants.ControlConstants;
 import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.TrigonPIDController;
 

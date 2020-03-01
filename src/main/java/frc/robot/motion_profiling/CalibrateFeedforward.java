@@ -5,7 +5,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.robots.RobotConstants.DrivetrainConstants;
+import frc.robot.constants.RobotConstants.DrivetrainConstants;
 
 import static frc.robot.Robot.drivetrain;
 

@@ -4,8 +4,8 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
+import frc.robot.constants.RobotConstants.IntakeConstants;
 import frc.robot.constants.RobotMap;
-import frc.robot.constants.robots.RobotConstants.IntakeConstants;
 import frc.robot.subsystems.OverridableSubsystem;
 
 /**

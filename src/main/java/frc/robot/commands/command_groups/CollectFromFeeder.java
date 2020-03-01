@@ -7,7 +7,6 @@ import frc.robot.constants.robots.RobotConstants.IntakeConstants;
 import frc.robot.constants.robots.RobotConstants.OIConstants;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
-import frc.robot.subsystems.intakeopener.IntakeState;
 import frc.robot.subsystems.intakeopener.OpenIntake;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
