@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.command_groups.*;
 import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
+import frc.robot.subsystems.intakeopener.IntakeState;
 import frc.robot.subsystems.intakeopener.OpenIntake;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
@@ -89,7 +90,7 @@ public class OI {
         returnMixerControl = new InstantCommand(mixer::stopOverride);
         spinMixerControl = new SpinMixerByTime(MixerPower.MixForHardSort);
         shortCollectCell = new ShortCollectCell();
-        closeIntake = new OpenIntake(false);
+        closeIntake = new OpenIntake(IntakeState.closed);
         // .alongWith(new SetLoaderSpeed(LoaderPower.UnloadForHardSort));
     }
 

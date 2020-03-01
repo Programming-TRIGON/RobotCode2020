@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
+import frc.robot.subsystems.intakeopener.IntakeState;
 import frc.robot.subsystems.intakeopener.OpenIntake;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
@@ -32,13 +33,13 @@ public class CollectFromFeeder extends SequentialCommandGroup {
                     ),
                     new SpinMixerByTime(MixerPower.MixForSort),
                     new SetLoaderSpeed(LoaderPower.UnloadForSort),
-                    new OpenIntake(robotConstants.intakeOpenerConstants.kFeederClosedAngle, false),
+                    new OpenIntake(IntakeState.collectFromFeeder),
                     new SetIntakeSpeed(robotConstants.intakeConstants.kFeederIntakePower)
                 )
             ).withInterrupt(() -> oi.getDriverXboxController().getDeltaTriggers() < kBackwardsDeadband),
             deadline(
                 parallel(
-                    new OpenIntake(false),
+                    new OpenIntake(IntakeState.closed),
                     deadline(
                         new WaitCommand(robotConstants.oiConstants.kSortAfterCollectCellTimeout),
                         new SpinMixerByTime(MixerPower.MixForSort),

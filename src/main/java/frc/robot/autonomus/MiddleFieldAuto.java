@@ -7,6 +7,7 @@ import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
+import frc.robot.subsystems.intakeopener.IntakeState;
 import frc.robot.subsystems.intakeopener.OpenIntake;
 
 import static frc.robot.Robot.drivetrain;
@@ -40,7 +41,7 @@ public class MiddleFieldAuto extends SequentialCommandGroup {
             ),
             new RotateDrivetrain(robotConstants.autoConstants.kMiddleFieldAutoRotateToPortAngle),
             new AutoShoot(3),
-            new OpenIntake(false)
+            new OpenIntake(IntakeState.closed)
         );
     }
 }
