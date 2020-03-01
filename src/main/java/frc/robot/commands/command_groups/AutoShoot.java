@@ -89,9 +89,13 @@ public class AutoShoot extends SequentialCommandGroup {
                 new KeepDrivetrainPosition(),
                 sequence(
                     new WaitUntilCommand(() -> cheesySetShooterVelocity.readyToShoot()),
-                    new SetLoaderSpeedPID(LoaderPower.LoadToShoot),
-                    new WaitCommand(MixerConstants.kWaitForSpinMixerTime),
-                    new SpinMixer(getDesiredMixerVelocity(isAuto))
+                    parallel(
+                        new SetLoaderSpeedPID(LoaderPower.LoadToShoot),
+                        sequence(
+                            new WaitCommand(MixerConstants.kWaitForSpinMixerTime),
+                            new SpinMixer(getDesiredMixerVelocity(isAuto))
+                        )
+                    )
                 )
             ),
             new WaitCommand(kAutoWaitTimeAfterShot)
