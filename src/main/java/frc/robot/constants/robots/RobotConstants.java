@@ -47,7 +47,6 @@ public class RobotConstants {
         public static final double kTriggerThresholdTime = 0;
         public static final double kOpenAngle = 100.652344;
         public static final double kClosedAngle = 0;
-        public static final double kFeederClosedAngle = 20;
         public static final double kTicksPerRotation = 4096;
         public static final double kTimeout = 0.5;
         public static final double kFindOffsetPower = -0.3;
