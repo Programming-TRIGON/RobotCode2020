@@ -41,7 +41,7 @@ public class MiddleFieldAuto extends SequentialCommandGroup {
             ),
             new RotateDrivetrain(AutoConstants.kMiddleFieldAutoRotateToPortAngle),
             new AutoShoot(3),
-            new OpenIntake(IntakeAngle.closed)
+            new OpenIntake(IntakeAngle.Closed)
         );
     }
 }

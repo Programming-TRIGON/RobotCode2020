@@ -34,13 +34,13 @@ public class CollectFromFeeder extends SequentialCommandGroup {
                     ),
                     new SpinMixerByTime(MixerPower.MixForSort),
                     new SetLoaderSpeed(LoaderPower.UnloadForSort),
-                    new OpenIntake(IntakeAngle.collectFromFeeder),
+                    new OpenIntake(IntakeAngle.CollectFromFeeder),
                     new SetIntakeSpeed(IntakeConstants.kFeederIntakePower)
                 )
             ).withInterrupt(() -> oi.getDriverXboxController().getDeltaTriggers() < kBackwardsDeadband),
             deadline(
                 parallel(
-                    new OpenIntake(IntakeAngle.closed),
+                    new OpenIntake(IntakeAngle.Closed),
                     deadline(
                         new WaitCommand(OIConstants.kSortAfterCollectCellTimeout),
                         new SpinMixerByTime(MixerPower.MixForSort),

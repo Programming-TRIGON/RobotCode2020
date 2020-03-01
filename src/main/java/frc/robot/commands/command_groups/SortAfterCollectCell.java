@@ -14,7 +14,7 @@ public class SortAfterCollectCell extends ParallelCommandGroup {
    */
   public SortAfterCollectCell() {
     addCommands(
-      new OpenIntake(IntakeAngle.closed),
+      new OpenIntake(IntakeAngle.Closed),
       new SpinMixerByTime(MixerPower.MixForSort),
       new SetLoaderSpeed(LoaderPower.UnloadForSort)
     );

@@ -93,7 +93,7 @@ public class OI {
         returnMixerControl = new InstantCommand(mixer::stopOverride);
         spinMixerControl = new SpinMixerByTime(MixerPower.MixForHardSort);
         shortCollectCell = new ShortCollectCell();
-        closeIntake = new OpenIntake(IntakeAngle.closed);
+        closeIntake = new OpenIntake(IntakeAngle.Closed);
         // .alongWith(new SetLoaderSpeed(LoaderPower.UnloadForHardSort));
     }
 

@@ -19,11 +19,11 @@ public class ShortCollectCell extends SequentialCommandGroup {
         addCommands(
             new StartEndCommand(() -> led.setColor(LEDColor.Orange), () -> led.turnOffLED(), led),
             parallel(
-                new OpenIntake(IntakeAngle.opened),
+                new OpenIntake(IntakeAngle.Opened),
                 new SetIntakeSpeed()
             ),
             new WaitCommand(kCollectTime),
-            new OpenIntake(IntakeAngle.closed)
+            new OpenIntake(IntakeAngle.Closed)
         );
     }
 }
