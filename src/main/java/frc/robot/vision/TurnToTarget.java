@@ -3,6 +3,7 @@ package frc.robot.vision;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.robots.RobotConstants.ControlConstants;
 import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.TrigonProfiledPIDController;
 
@@ -23,8 +24,7 @@ public class TurnToTarget extends CommandBase {
     public TurnToTarget(Target target) {
         addRequirements(drivetrain);
         this.target = target;
-        rotationPIDController = new TrigonProfiledPIDController(robotConstants.controlConstants.visionRotationSettings, 0,
-            robotConstants.controlConstants.visionRotationConstraints);
+        rotationPIDController = new TrigonProfiledPIDController(ControlConstants.visionRotationSettings, ControlConstants.visionRotationConstraints);
     }
 
     /**

@@ -9,9 +9,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.autonomus.*;
 import frc.robot.constants.FieldConstants;
-import frc.robot.constants.RobotConstants;
 import frc.robot.constants.fields.HomeField;
-import frc.robot.constants.robots.RobotA;
+import frc.robot.constants.robots.RobotConstants.DrivetrainConstants;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.subsystems.climb.Climb;
 import frc.robot.subsystems.drivetrain.Drivetrain;
@@ -44,14 +43,12 @@ public class Robot extends TimedRobot {
     public static LED led;
     public static Limelight limelight;
     public static OI oi;
-    public static RobotConstants robotConstants;
     public static FieldConstants fieldConstants;
 
     @Override
     public void robotInit() {
 
         // Constants:
-        robotConstants = new RobotA();
         fieldConstants = new HomeField();
 
         // Subsystems:
@@ -140,7 +137,7 @@ public class Robot extends TimedRobot {
         if (autoCommand != null) {
             autoCommand.cancel();
         }
-        drivetrain.setRampRate(robotConstants.drivetrainConstants.kRampRate);
+        drivetrain.setRampRate(DrivetrainConstants.kRampRate);
         if (!intakeOpener.hasFoundOffset())
             findOffsetCommand.schedule(true);
     }

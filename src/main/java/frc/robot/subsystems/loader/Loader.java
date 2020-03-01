@@ -5,10 +5,11 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.constants.RobotMap;
+import frc.robot.constants.robots.RobotConstants.ControlConstants;
+import frc.robot.constants.robots.RobotConstants.LoaderConstants;
 import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.utils.DriverStationLogger;
-
-import static frc.robot.Robot.robotConstants;
 
 public class Loader extends OverridableSubsystem { // implements Loggable {
     private WPI_TalonSRX talonSRX;
@@ -19,15 +20,15 @@ public class Loader extends OverridableSubsystem { // implements Loggable {
      * from the Mixer and loads it into the Shooter
      */
     public Loader() {
-        talonSRX = new WPI_TalonSRX(robotConstants.can.kLoaderTalonSRX);
-        talonSRX.configOpenloopRamp(robotConstants.loaderConstants.kRampRate);
-        talonSRX.configClosedloopRamp(robotConstants.loaderConstants.kRampRate);
+        talonSRX = new WPI_TalonSRX(RobotMap.kLoaderTalonSRX);
+        talonSRX.configOpenloopRamp(LoaderConstants.kRampRate);
+        talonSRX.configClosedloopRamp(LoaderConstants.kRampRate);
         talonSRX.setNeutralMode(NeutralMode.Coast);
-        talonSRX.setInverted(robotConstants.loaderConstants.kIsInverted);
+        talonSRX.setInverted(LoaderConstants.kIsInverted);
 
         DriverStationLogger.logErrorToDS(talonSRX.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.RemoteSensor1, 0, 0),
             "Could not set loader encoder");
-        talonSRX.setSensorPhase(robotConstants.loaderConstants.kIsEncoderInverted);
+        talonSRX.setSensorPhase(LoaderConstants.kIsEncoderInverted);
         
         configPIDFGains();
     }
@@ -38,7 +39,7 @@ public class Loader extends OverridableSubsystem { // implements Loggable {
 
     // @Log(name = "Loader/Velocity")
     public double getVelocity() {
-        return talonSRX.getSelectedSensorVelocity() * 600 / robotConstants.loaderConstants.kTicksPerRotation;
+        return talonSRX.getSelectedSensorVelocity() * 600 / LoaderConstants.kTicksPerRotation;
     }
 
     public void setVoltage(double voltage) {
@@ -53,7 +54,7 @@ public class Loader extends OverridableSubsystem { // implements Loggable {
     
     public void enableTuning() {
         DriverStationLogger.logToDS("Loader tuning enabled");
-        SmartDashboard.putData("PID/Loader Settings", robotConstants.controlConstants.loaderSettings);
+        SmartDashboard.putData("PID/Loader Settings", ControlConstants.loaderSettings);
         isTuning = true;
     }
 
@@ -67,16 +68,16 @@ public class Loader extends OverridableSubsystem { // implements Loggable {
     public void setVelocity(double velocitySetpoint) {
         if (overridden)
             return;
-        double velocityInTalonUnits = velocitySetpoint * robotConstants.loaderConstants.kTicksPerRotation
+        double velocityInTalonUnits = velocitySetpoint * LoaderConstants.kTicksPerRotation
             / 600;
         talonSRX.set(ControlMode.Velocity, velocityInTalonUnits);
     }
 
     private void configPIDFGains() {
-        talonSRX.config_kP(0, robotConstants.controlConstants.loaderSettings.getKP());
-        talonSRX.config_kI(0, robotConstants.controlConstants.loaderSettings.getKI());
-        talonSRX.config_kD(0, robotConstants.controlConstants.loaderSettings.getKD());
-        talonSRX.config_kF(0, robotConstants.controlConstants.loaderSettings.getKF());
+        talonSRX.config_kP(0, ControlConstants.loaderSettings.getKP());
+        talonSRX.config_kI(0, ControlConstants.loaderSettings.getKI());
+        talonSRX.config_kD(0, ControlConstants.loaderSettings.getKD());
+        talonSRX.config_kF(0, ControlConstants.loaderSettings.getKF());
     }
 
     @Override

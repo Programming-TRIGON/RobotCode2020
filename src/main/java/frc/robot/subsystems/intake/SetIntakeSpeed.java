@@ -2,11 +2,11 @@ package frc.robot.subsystems.intake;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.robots.RobotConstants.IntakeConstants;
 import frc.robot.utils.DriverStationLogger;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.intake;
-import static frc.robot.Robot.robotConstants;
 
 public class SetIntakeSpeed extends CommandBase {
     private DoubleSupplier speedSupplier;
@@ -23,7 +23,7 @@ public class SetIntakeSpeed extends CommandBase {
     }
 
     public SetIntakeSpeed() {
-        this(robotConstants.intakeConstants.kDefaultIntakePower);
+        this(IntakeConstants.kDefaultIntakePower);
     }
 
     @Override
@@ -34,13 +34,13 @@ public class SetIntakeSpeed extends CommandBase {
 
     @Override
     public void execute() {
-        if (Timer.getFPGATimestamp() - backwardsSpinStartTime < robotConstants.intakeConstants.kSpinBackwardsTime)
+        if (Timer.getFPGATimestamp() - backwardsSpinStartTime < IntakeConstants.kSpinBackwardsTime)
             intake.move(-speedSupplier.getAsDouble());
         else {
             if (!intake.getIsInStall()) {
                 lastTimeNotOnStall = Timer.getFPGATimestamp();
             }
-            if (Timer.getFPGATimestamp() - lastTimeNotOnStall > robotConstants.intakeConstants.kStallWaitTime) {
+            if (Timer.getFPGATimestamp() - lastTimeNotOnStall > IntakeConstants.kStallWaitTime) {
                 backwardsSpinStartTime = Timer.getFPGATimestamp();
                 DriverStationLogger.logToDS("A Cell got stuck in the intake, trying to release it.");
                 intake.move(-speedSupplier.getAsDouble());

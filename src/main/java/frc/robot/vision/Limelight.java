@@ -3,11 +3,11 @@ package frc.robot.vision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.constants.robots.RobotConstants.LoaderConstants;
+import frc.robot.constants.robots.RobotConstants.VisionConstants;
 import frc.robot.subsystems.shooter.ShooterVelocity;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
-
-import static frc.robot.Robot.robotConstants;
 
 public class Limelight implements Loggable {
 
@@ -93,17 +93,17 @@ public class Limelight implements Loggable {
     //TODO: set real function
     private double getDistanceFromPowerPort() {
         double x = getTy();
-        return robotConstants.visionConstants.kDistanceFromPortACoefficient * Math.pow(x, 2) +
-            robotConstants.visionConstants.kDistanceFromPortBCoefficient * x;
+        return VisionConstants.kDistanceFromPortACoefficient * Math.pow(x, 2) +
+            VisionConstants.kDistanceFromPortBCoefficient * x;
     }
 
     @Log(name = "Limelight/Desired Shooter Velocity")
     public double getDesiredShooterVelocity() {
         double x = getTy();
-        if(x >= robotConstants.loaderConstants.kFarawayTyMeasurement)
-            return robotConstants.visionConstants.kDistanceFromPortACoefficient * Math.pow(x, 2) +
-                robotConstants.visionConstants.kDistanceFromPortBCoefficient * x
-                + robotConstants.visionConstants.kDistanceFromPortCCoefficient
+        if(x >= LoaderConstants.kFarawayTyMeasurement)
+            return VisionConstants.kDistanceFromPortACoefficient * Math.pow(x, 2) +
+                VisionConstants.kDistanceFromPortBCoefficient * x
+                + VisionConstants.kDistanceFromPortCCoefficient
                 + getRotationDegree() * 8;
         return ShooterVelocity.FarAway.getVelocity();
     }

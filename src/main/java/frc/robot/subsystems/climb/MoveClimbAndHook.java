@@ -2,6 +2,7 @@ package frc.robot.subsystems.climb;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.robots.RobotConstants.ClimbConstants;
 import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.DriverStationLogger;
 import java.util.function.DoubleSupplier;
@@ -47,7 +48,7 @@ public class MoveClimbAndHook extends CommandBase {
     @Override
     public void execute() {
         if(!potentiometerDisconnected && 
-            Math.abs(climb.getHookRotations() - startPotentiometerValue) < robotConstants.climbConstants.kPotentiometerChangeError &&
+            Math.abs(climb.getHookRotations() - startPotentiometerValue) < ClimbConstants.kPotentiometerChangeError &&
             Timer.getFPGATimestamp() - lastTimeHookNotMoved >= kHookTimeToMove && 
             climb.getHookRotations() < 2.5) {
             DriverStationLogger.logErrorToDS("Hook potentiometer disconnected, limit forward input");

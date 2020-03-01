@@ -3,9 +3,9 @@ package frc.robot.subsystems.drivetrain;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.music.Orchestra;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
+import frc.robot.constants.RobotMap;
+import frc.robot.constants.robots.RobotConstants.DrivetrainConstants;
 import frc.robot.subsystems.MovableSubsystem;
 import frc.robot.utils.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
@@ -22,7 +24,6 @@ import io.github.oblarg.oblog.annotations.Log;
 import java.util.List;
 
 import static frc.robot.Robot.climb;
-import static frc.robot.Robot.robotConstants;
 
 public class Drivetrain extends SubsystemBase implements MovableSubsystem, Loggable {
     private WPI_TalonFX leftRear;
@@ -41,18 +42,18 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     private DifferentialDriveKinematics kinematics;
     private DifferentialDriveOdometry odometry;
 
-    private Orchestra orchestra; 
+    private Orchestra orchestra;
 
     /**
      * This is the subsystem of the drivetrain
      */
     public Drivetrain() {
-        leftRear = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftRearTalonFX);
-        leftMiddle = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftMiddleTalonFX);
-        leftFront = new WPI_TalonFX(robotConstants.can.kDrivetrainLeftFrontTalonFX);
-        rightRear = new WPI_TalonFX(robotConstants.can.kDrivetrainRightRearTalonFX);
-        rightMiddle = new WPI_TalonFX(robotConstants.can.kDrivetrainRightMiddleTalonFX);
-        rightFront = new WPI_TalonFX(robotConstants.can.kDrivetrainRightFrontTalonFX);
+        leftRear = new WPI_TalonFX(RobotMap.kDrivetrainLeftRearTalonFX);
+        leftMiddle = new WPI_TalonFX(RobotMap.kDrivetrainLeftMiddleTalonFX);
+        leftFront = new WPI_TalonFX(RobotMap.kDrivetrainLeftFrontTalonFX);
+        rightRear = new WPI_TalonFX(RobotMap.kDrivetrainRightRearTalonFX);
+        rightMiddle = new WPI_TalonFX(RobotMap.kDrivetrainRightMiddleTalonFX);
+        rightFront = new WPI_TalonFX(RobotMap.kDrivetrainRightFrontTalonFX);
 
         configTalonFX(leftRear, leftFront);
         configTalonFX(leftMiddle, leftFront);
@@ -66,21 +67,21 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         drivetrain.setSafetyEnabled(false);
         //tuneTrigonDrive();
 
-        leftEncoder = new TalonSRX(robotConstants.can.kDrivetrainLeftEncoder);
+        leftEncoder = new TalonSRX(RobotMap.kDrivetrainLeftEncoder);
         DriverStationLogger.logErrorToDS(leftEncoder.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative),
             "Could not set left drivetrain encoder");
-        leftEncoder.setSensorPhase(robotConstants.drivetrainConstants.kLeftEncoderInverted);
+        leftEncoder.setSensorPhase(DrivetrainConstants.kLeftEncoderInverted);
 
         rightEncoder = climb.getHookTalonSRXInstance();
         DriverStationLogger.logErrorToDS(rightEncoder.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative),
             "Could not set right drivetrain encoder");
-        rightEncoder.setSensorPhase(robotConstants.drivetrainConstants.kRightEncoderInverted);
+        rightEncoder.setSensorPhase(DrivetrainConstants.kRightEncoderInverted);
 
-        gyro = new Pigeon(new TalonSRX(robotConstants.can.kPigeonTalonSRX));
+        gyro = new Pigeon(new TalonSRX(RobotMap.kPigeonTalonSRX));
         DriverStationLogger.logErrorToDS(gyro.resetGyroWithErrorCode(),
             "Could not reset pigeon gyro");
 
-        kinematics = new DifferentialDriveKinematics(robotConstants.drivetrainConstants.kWheelBaseWidth);
+        kinematics = new DifferentialDriveKinematics(DrivetrainConstants.kWheelBaseWidth);
         odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getAngle()));
 
         orchestra = new Orchestra(List.of(leftRear, leftMiddle, leftFront, rightRear, rightMiddle, rightFront));
@@ -177,7 +178,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
      */
     // @Log(name = "Drivetrain/Left Distance")
     public double getLeftDistance() {
-        return getLeftTicks() / robotConstants.drivetrainConstants.kLeftEncoderTicksPerMeter;
+        return getLeftTicks() / DrivetrainConstants.kLeftEncoderTicksPerMeter;
     }
 
     /**
@@ -185,7 +186,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
      */
     // @Log(name = "Drivetrain/Right Distance")
     public double getRightDistance() {
-        return getRightTicks() / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
+        return getRightTicks() / DrivetrainConstants.kRightEncoderTicksPerMeter;
     }
 
     // @Log(name = "Drivetrain/Average Distance")
@@ -199,7 +200,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     // @Log(name = "Drivetrain/Right Velocity")
     public double getRightVelocity() {
         return rightEncoder.getSelectedSensorVelocity() * 10
-            / robotConstants.drivetrainConstants.kRightEncoderTicksPerMeter;
+            / DrivetrainConstants.kRightEncoderTicksPerMeter;
     }
 
     /**
@@ -208,7 +209,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     // @Log(name = "Drivetrain/Left Velocity")
     public double getLeftVelocity() {
         return leftEncoder.getSelectedSensorVelocity() * 10
-            / robotConstants.drivetrainConstants.kLeftEncoderTicksPerMeter;
+            / DrivetrainConstants.kLeftEncoderTicksPerMeter;
     }
 
     // @Log(name = "Drivetrain/Average Velocity")
@@ -314,13 +315,13 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     }
 
     private void configTalonFX(WPI_TalonFX motor, WPI_TalonFX master) {
-        if(motor != master)
+        if (motor != master)
             motor.follow(master);
         motor.setNeutralMode(NeutralMode.Coast);
-        motor.configOpenloopRamp(robotConstants.drivetrainConstants.kRampRate);
+        motor.configOpenloopRamp(DrivetrainConstants.kRampRate);
         motor.configStatorCurrentLimit(
-            new StatorCurrentLimitConfiguration(true, robotConstants.drivetrainConstants.kCurrentLimit,
-                robotConstants.drivetrainConstants.kTriggerThresholdCurrent,
-                robotConstants.drivetrainConstants.kTriggerThresholdTime));
+            new StatorCurrentLimitConfiguration(true, DrivetrainConstants.kCurrentLimit,
+                DrivetrainConstants.kTriggerThresholdCurrent,
+                DrivetrainConstants.kTriggerThresholdTime));
     }
 }

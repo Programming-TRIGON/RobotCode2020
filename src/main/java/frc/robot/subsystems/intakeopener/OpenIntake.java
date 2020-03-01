@@ -1,10 +1,11 @@
 package frc.robot.subsystems.intakeopener;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.robots.RobotConstants.ControlConstants;
+import frc.robot.constants.robots.RobotConstants.IntakeOpenerConstants;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.intakeOpener;
-import static frc.robot.Robot.robotConstants;
 
 public class OpenIntake extends CommandBase {
     private boolean open;
@@ -24,8 +25,8 @@ public class OpenIntake extends CommandBase {
     }
 
     public OpenIntake(boolean open) {
-        this(open ? robotConstants.intakeOpenerConstants.kOpenAngle :
-            robotConstants.intakeOpenerConstants.kClosedAngle, open);
+        this(open ? IntakeOpenerConstants.kOpenAngle :
+            IntakeOpenerConstants.kClosedAngle, open);
     }
 
     @Override
@@ -41,7 +42,7 @@ public class OpenIntake extends CommandBase {
     @Override
     public boolean isFinished() {
         return Math.abs(intakeOpener.getAngle() - angleSupplier.getAsDouble()) <
-            robotConstants.controlConstants.openIntakeSettings.getTolerance();
+            ControlConstants.openIntakeSettings.getTolerance();
     }
 
     @Override
