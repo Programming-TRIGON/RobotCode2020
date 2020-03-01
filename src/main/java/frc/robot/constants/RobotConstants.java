@@ -76,7 +76,7 @@ public class RobotConstants {
         public static final double kHookThresholdLimit = 0;
         public static final double kHookCurrentTimeout = 0;
         public static final double kHookPotentiometerAngleMultiplier = -10;
-        public static final double kHookPotentiometerOffset = -3.54 + 0.31;
+        public static final double kHookPotentiometerOffset = -3.23;
         public static final double kPotentiometerChangeError = 0.3;
         public static final double kMaxHookRotations = 4.6;
         public static final boolean kIsClimbInverted = true;
