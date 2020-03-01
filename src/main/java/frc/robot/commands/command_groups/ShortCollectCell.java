@@ -12,6 +12,9 @@ import static frc.robot.Robot.led;
 import static frc.robot.Robot.robotConstants;
 
 public class ShortCollectCell extends SequentialCommandGroup {
+
+    private static final int kCollectTime = 2;
+
     public ShortCollectCell() {
         addCommands(
             new StartEndCommand(() -> led.setColor(LEDColor.Orange), () -> led.turnOffLED(), led),
@@ -19,7 +22,7 @@ public class ShortCollectCell extends SequentialCommandGroup {
                 new SetIntakeState(true),
                 new SetIntakeSpeed(robotConstants.intakeConstants.kDefaultIntakePower)
             ),
-            new WaitCommand(2),
+            new WaitCommand(kCollectTime),
             new SetIntakeState(false)
         );
     }
