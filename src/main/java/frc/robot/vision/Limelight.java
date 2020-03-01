@@ -104,7 +104,7 @@ public class Limelight implements Loggable {
             return VisionConstants.kDistanceFromPortACoefficient * Math.pow(x, 2) +
                 VisionConstants.kDistanceFromPortBCoefficient * x
                 + VisionConstants.kDistanceFromPortCCoefficient
-                + getRotationDegree() * 8;
+                + getRotationDegree() * VisionConstants.kSideVelocityMultiplierCoefficient;
         return ShooterVelocity.FarAway.getVelocity();
     }
 

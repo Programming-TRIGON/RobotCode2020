@@ -2,6 +2,7 @@ package frc.robot.subsystems.shooter;
 
 public enum ShooterVelocity {
     HeatUp(2000),
+    FarAway(3350),
     Default(3100);
 
     private final double velocity;

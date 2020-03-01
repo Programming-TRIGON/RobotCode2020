@@ -120,6 +120,7 @@ public class RobotConstants {
         public static final double kDistanceFromPortACoefficient = 3.7168;
         public static final double kDistanceFromPortBCoefficient = 122.23;
         public static final double kDistanceFromPortCCoefficient = 3960.4;
+        public static final double kSideVelocityMultiplierCoefficient = 8;
         public static final double kDistanceFromFeederACoefficient = 16.637;
         public static final double kDistanceFromFeederBCoefficient = 3.0859;
         public static final double kDistanceFromFeederC = 20;
@@ -159,5 +160,7 @@ public class RobotConstants {
         public static final PIDSettings visionRotationSettings = new PIDSettings(0.035, 0.00055, 0.0005, 1, 0.5);
         public static final Constraints visionRotationConstraints = new Constraints(2.5, 3);
         public static final PIDSettings drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
+        public static final PIDSettings drivetrainEncoderPositionLeftSettings = new PIDSettings(0, 0, 0, 0, 0);
+        public static final PIDSettings drivetrainEncoderPositionRightSettings = new PIDSettings(0, 0, 0, 0, 0);
     }
 }
