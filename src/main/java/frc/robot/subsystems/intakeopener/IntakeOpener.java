@@ -22,18 +22,6 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     private boolean isTuning;
     private boolean foundOffset;
 
-    @Override
-    public void startOverride() {
-        super.startOverride();
-        disableSoftLimits();
-    }
-
-    @Override
-    public void stopOverride() {
-        super.stopOverride();
-        enableSoftLimits();
-    }
-
     public IntakeOpener() {
         talonSRX = new WPI_TalonSRX(RobotMap.kIntakeOpenerTalonSRX);
         talonSRX.setInverted(IntakeOpenerConstants.kIsInverted);
@@ -63,6 +51,18 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
                 super.move(0);
             else
                 super.move(power);
+    }
+
+    @Override
+    public void startOverride() {
+        disableSoftLimits();
+        super.startOverride();
+    }
+
+    @Override
+    public void stopOverride() {
+        super.stopOverride();
+        enableSoftLimits();
     }
 
     /** @return The angle measured by the encoder */
