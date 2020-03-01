@@ -8,7 +8,7 @@ import frc.robot.commands.SensorCheck;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
-import frc.robot.constants.robots.RobotConstants.IntakeConstants;
+import frc.robot.constants.RobotConstants.IntakeConstants;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;

@@ -3,8 +3,8 @@ package frc.robot.subsystems.mixer;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import frc.robot.constants.RobotConstants.MixerConstants;
 import frc.robot.constants.RobotMap;
-import frc.robot.constants.robots.RobotConstants.MixerConstants;
 import frc.robot.subsystems.OverridableSubsystem;
 
 /**

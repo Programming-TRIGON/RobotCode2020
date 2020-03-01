@@ -3,8 +3,8 @@ package frc.robot.subsystems.shooter;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.robots.RobotConstants.ControlConstants;
-import frc.robot.constants.robots.RobotConstants.ShooterConstants;
+import frc.robot.constants.RobotConstants.ControlConstants;
+import frc.robot.constants.RobotConstants.ShooterConstants;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.shooter;

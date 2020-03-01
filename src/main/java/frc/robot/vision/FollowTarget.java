@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
-import frc.robot.constants.robots.RobotConstants.ControlConstants;
+import frc.robot.constants.RobotConstants.ControlConstants;
 import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.TrigonPIDController;
 
