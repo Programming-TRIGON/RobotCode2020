@@ -97,9 +97,6 @@ public class RobotConstants {
         public static final boolean kIsRightEncoderInverted = false;
         public static final double kStopLoadingTolerance = 10;
         public static final double kVelocityTolerance = 35;
-        public static final double kLowBatteryVoltageForKfChanging = 11.65;
-        public static final double kLowBatteryLeftKf = 0.0532;
-        public static final double kLowBatteryRightKf = 0.0508;
     }
 
     public static class LoaderConstants {
