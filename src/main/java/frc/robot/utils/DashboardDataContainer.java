@@ -90,7 +90,7 @@ public class DashboardDataContainer {
             () -> getNumber("Intake Opener/Close Setpoint", 0)));
         putData("Intake Opener/Reset Encoder", new RunWhenDisabledCommand(intakeOpener::resetEncoder));
         putData("Intake Opener/Enable Tuning", new RunWhenDisabledCommand(intakeOpener::enableTuning));
-        putData("Intake Opener/Open Intake", new SetIntakeAngle(IntakeAngle.Open));
+        putData("Intake Opener/Open Intake", new SetIntakeAngle(IntakeAngle.OpenForIntake));
         putData("Intake Opener/Close Intake", new SetIntakeAngle(IntakeAngle.Close));
         putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
         putData("Intake Opener/Find Offset", new FindOpenerOffset());

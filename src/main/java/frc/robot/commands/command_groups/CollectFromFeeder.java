@@ -27,7 +27,7 @@ public class CollectFromFeeder extends SequentialCommandGroup {
     public CollectFromFeeder() {
         addCommands(
             sequence(
-                new SetIntakeAngle(IntakeAngle.Open),
+                new SetIntakeAngle(IntakeAngle.FullyOpen),
                 new FollowTarget(Target.Feeder),
                 parallel(
                     new DriveWithXbox(() -> 0,
@@ -38,7 +38,7 @@ public class CollectFromFeeder extends SequentialCommandGroup {
                     ),
                     new SpinMixerByTime(MixerPower.MixForSort),
                     new SetLoaderSpeed(LoaderPower.UnloadForSort),
-                    new SetIntakeAngle(IntakeAngle.CollectFromFeeder),
+                    new SetIntakeAngle(IntakeAngle.CloseForFeeder),
                     new SetIntakeSpeed(IntakeConstants.kFeederIntakePower)
                 )
             ).withInterrupt(() -> oi.getDriverXboxController().getDeltaTriggers() < kBackwardsDeadband),
