@@ -70,6 +70,7 @@ public class RobotA extends RobotConstants {
         mixerConstants.kBackwardsSpinTimeHighSpeed = 0.35;
         mixerConstants.kBackwardsSpinTimeLowSpeed = 1;
         mixerConstants.kSpinMixerByTime = 2;
+        mixerConstants.kWaitForSpinMixerTime = 0.5;
 
         // Climb Constants
         climbConstants.kIsHookInverted = true;
@@ -82,8 +83,8 @@ public class RobotA extends RobotConstants {
         climbConstants.kMaxHookRotations = 4.6;
         climbConstants.kIsClimbInverted = true;
         climbConstants.kClimbCurrentLimit = 80;
-        climbConstants.kDefaultClimbPower = 0.7;
-        climbConstants.kClimbRampTime = 0.5;
+        climbConstants.kDefaultClimbPower = 1;
+        climbConstants.kClimbRampTime = 0.7;
 
         // Shooter Constants
         shooterConstants.kRampTime = 0.5;
@@ -101,8 +102,8 @@ public class RobotA extends RobotConstants {
         shooterConstants.kLowBatteryVoltageForKfChanging = 11.65;
         shooterConstants.kLowBatteryLeftKf = 0.0532;
         shooterConstants.kLowBatteryRightKf = 0.0508;        
-        controlConstants.leftShooterSettings = PIDSettings.fromTalonSettings(0.095, 0.00000975, 1, 0.0482, 2); // was 0.0502
-        controlConstants.rightShooterSettings = PIDSettings.fromTalonSettings(0.125, 0.0000093, 1, 0.0458, 2); // was 0.0478
+        controlConstants.leftShooterSettings = PIDSettings.fromTalonSettings(0.095, 0.00000975, 1, 0.0502, 2);
+        controlConstants.rightShooterSettings = PIDSettings.fromTalonSettings(0.125, 0.0000093, 1, 0.0478, 2);
         controlConstants.leftShooterCheesySettings = PIDSettings.fromTalonSettings(0.085, 0, 2.5, 0.05165, 0);
         controlConstants.rightShooterCheesySettings = PIDSettings.fromTalonSettings(0.075, 0, 2.5, 0.0492, 0);
 
@@ -150,7 +151,7 @@ public class RobotA extends RobotConstants {
 
         //OI Constants
         oiConstants.kDeltaTriggersInterruptDifference = 0.25;
-        oiConstants.kSortAfterCollectCellTimeout = 3.5;
+        oiConstants.kSortAfterCollectCellTimeout = 2;
 
         /* Robot Map */
         // Drivetrain Map

@@ -80,6 +80,7 @@ public abstract class RobotConstants extends RobotMap {
         public double kBackwardsSpinTimeHighSpeed;
         public double kRampTime;
         public double kSpinByTimeRampTime;
+        public double kWaitForSpinMixerTime;
     }
 
     public static class LoaderConstants {

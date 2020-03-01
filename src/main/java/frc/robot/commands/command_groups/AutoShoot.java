@@ -85,7 +85,11 @@ public class AutoShoot extends SequentialCommandGroup {
                     new WaitUntilCommand(() ->
                         setShooterVelocity.readyToShoot()),
                     parallel(
-                        new SpinMixer(getDesiredMixerVelocity(isAuto)),
+                        sequence(
+                            new WaitCommand(robotConstants.mixerConstants.kWaitForSpinMixerTime),
+                            new SpinMixer(getDesiredMixerVelocity(isAuto)
+                            )
+                        ),
                         new SetLoaderSpeedPID(LoaderPower.LoadToShoot))
                 ),
                 new WaitCommand(kAutoWaitTimeAfterShot)
