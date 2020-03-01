@@ -9,7 +9,6 @@ import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
 import frc.robot.subsystems.intakeopener.IntakeAngle;
 import frc.robot.subsystems.intakeopener.SetIntakeAngle;
-import frc.robot.subsystems.intakeopener.SetIntakeState;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.MixerPower;
@@ -28,7 +27,7 @@ public class CollectFromFeeder extends SequentialCommandGroup {
     public CollectFromFeeder() {
         addCommands(
             sequence(
-                new SetIntakeState(true),
+                new SetIntakeAngle(IntakeAngle.Open),
                 new FollowTarget(Target.Feeder),
                 parallel(
                     new DriveWithXbox(() -> 0,
