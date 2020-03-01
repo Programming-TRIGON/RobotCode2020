@@ -33,6 +33,8 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
         talonSRX.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
         talonSRX.setSensorPhase(false);
         talonSRX.setSelectedSensorPosition(0, 0, 10);
+        // We disable soft limits as the offset hasn't been found
+        disableSoftLimits();
         foundOffset = false;
     }
 
@@ -51,6 +53,18 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
                 super.move(power);
     }
 
+    @Override
+    public void startOverride() {
+        disableSoftLimits();
+        super.startOverride();
+    }
+
+    @Override
+    public void stopOverride() {
+        super.stopOverride();
+        enableSoftLimits();
+    }
+
     /** @return The angle measured by the encoder */
     @Log(name = "IntakeOpener/Angle")
     public double getAngle() {
@@ -65,8 +79,8 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     }
 
     public void setIntakeAngle(double angle) {
-        // if (foundOffset)
-        talonSRX.set(ControlMode.Position, angle / 360 * IntakeOpenerConstants.kTicksPerRotation);
+        if (foundOffset)
+            talonSRX.set(ControlMode.Position, angle / 360 * IntakeOpenerConstants.kTicksPerRotation);
     }
 
     public void enableTuning() {
@@ -102,12 +116,24 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
 
     public void resetEncoder() {
         if (!hasFoundOffset()) {
-            System.out.println("reset error code 1: " + talonSRX.setSelectedSensorPosition(0, 0, 10));
             foundOffset = true;
+            enableSoftLimits();
         }
     }
 
     public boolean hasFoundOffset() {
         return foundOffset;
+    }
+
+    private void enableSoftLimits() {
+        talonSRX.configReverseSoftLimitThreshold((int) (IntakeOpenerConstants.kClosedAngle / 360 * IntakeOpenerConstants.kTicksPerRotation));
+        talonSRX.configReverseSoftLimitEnable(true);
+        talonSRX.configForwardSoftLimitThreshold((int) (IntakeOpenerConstants.kOpenAngle / 360 * IntakeOpenerConstants.kTicksPerRotation));
+        talonSRX.configForwardSoftLimitEnable(true);
+    }
+
+    private void disableSoftLimits() {
+        talonSRX.configForwardSoftLimitEnable(false);
+        talonSRX.configReverseSoftLimitEnable(false);
     }
 }
