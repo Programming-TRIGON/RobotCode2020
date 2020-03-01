@@ -113,6 +113,8 @@ public class OI {
     private void setGrossmanSetting() {
         mixer.setOverrideSupplier(() -> operatorXbox.getY(Hand.kRight));
         operatorXbox.getRightStickButton().whenPressed(returnMixerControl);
+        operatorXbox.getButtonA().whenHeld(spinMixerControl);
+        operatorXbox.getButtonB().whenHeld(shortCollectCell).whenReleased(closeIntake);
     }
 
     public TrigonXboxController getDriverXboxController() {
