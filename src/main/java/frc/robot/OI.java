@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.command_groups.*;
 import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
-import frc.robot.subsystems.intakeopener.SetIntakeState;
+import frc.robot.subsystems.intakeopener.OpenIntake;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
 import frc.robot.utils.TrigonXboxController;
@@ -68,7 +68,7 @@ public class OI {
 
     private void createDriverCommands() {
         driverDriveWithXbox = new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), driverXbox::getDeltaTriggers);
-        driverAutoShoot = new AutoShoot().withInterrupt(() -> 
+        driverAutoShoot = new AutoShoot().withInterrupt(() ->
             Math.abs(driverXbox.getDeltaTriggers()) >= robotConstants.oiConstants.kDeltaTriggersInterruptDifference);
         driverCollectCell = new CollectCell();
         driverSortAfterCollectCell = new SortAfterCollectCell().withTimeout(robotConstants.oiConstants.kSortAfterCollectCellTimeout);
@@ -89,7 +89,7 @@ public class OI {
         returnMixerControl = new InstantCommand(mixer::stopOverride);
         spinMixerControl = new SpinMixerByTime(MixerPower.MixForHardSort);
         shortCollectCell = new ShortCollectCell();
-        closeIntake = new SetIntakeState(false);
+        closeIntake = new OpenIntake(false);
         // .alongWith(new SetLoaderSpeed(LoaderPower.UnloadForHardSort));
     }
 
