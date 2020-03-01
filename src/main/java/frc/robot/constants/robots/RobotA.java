@@ -98,7 +98,6 @@ public class RobotA extends RobotConstants {
         shooterConstants.kIsRightEncoderInverted = false;
         shooterConstants.kStopLoadingTolerance = 10;
         shooterConstants.kVelocityTolerance = 35;
-        shooterConstants.kLowBatteryVoltageForKfChanging = 11.65;
         shooterConstants.kLowBatteryLeftKf = 0.0532;
         shooterConstants.kLowBatteryRightKf = 0.0508;        
         controlConstants.leftShooterSettings = PIDSettings.fromTalonSettings(0.095, 0.00000975, 1, 0.0502, 2);

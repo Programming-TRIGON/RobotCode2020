@@ -1,13 +1,9 @@
 package frc.robot.subsystems.shooter;
 
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.RobotConstants;
 import frc.robot.subsystems.led.LEDColor;
-import frc.robot.utils.DriverStationLogger;
-
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.*;
@@ -106,11 +102,6 @@ public class CheesySetShooterVelocity extends CommandBase {
         isInZone = true;
         shooter.setVelocity(setpoint);
         led.blinkColor(LEDColor.Gold, kBlinkAmount);
-
-        if (RobotController.getBatteryVoltage() <= robotConstants.shooterConstants.kLowBatteryVoltageForKfChanging) {
-            shooter.configFeedforwardGainsSlot0(robotConstants.shooterConstants.kLowBatteryLeftKf , robotConstants.shooterConstants.kLowBatteryRightKf);
-            DriverStationLogger.logToDS("Battery voltage is low!!! Changing kF values for shooting");
-        }
     }
 
     @Override
