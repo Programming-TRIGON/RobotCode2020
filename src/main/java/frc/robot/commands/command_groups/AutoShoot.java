@@ -64,7 +64,7 @@ public class AutoShoot extends SequentialCommandGroup {
      * @param speedSupplier supplier of the desired speed in RPM
      */
     public AutoShoot(DoubleSupplier speedSupplier) {
-        this.setShooterVelocity = new CheesySetShooterVelocity(speedSupplier);
+        setShooterVelocity = new CheesySetShooterVelocity(speedSupplier);
         addCommandsToGroup(false);
     }
 
@@ -73,7 +73,7 @@ public class AutoShoot extends SequentialCommandGroup {
      * @param amountOfCells how many cells to shoot before the command ends
      */
     public AutoShoot(DoubleSupplier speedSupplier, int amountOfCells) {
-        this.setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, amountOfCells);
+        setShooterVelocity = new CheesySetShooterVelocity(speedSupplier, amountOfCells);
         addCommandsToGroup(true);
     }
 
