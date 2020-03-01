@@ -99,7 +99,6 @@ public abstract class RobotConstants extends RobotMap {
         public double kWaitTimeZone;
         public double kStopLoadingTolerance;
         public double kVelocityTolerance;
-        public double kLowBatteryVoltageForKfChanging;
         public double kLowBatteryLeftKf;
         public double kLowBatteryRightKf;
         public boolean kIsLeftMotorInverted;
