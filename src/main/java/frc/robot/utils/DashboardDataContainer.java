@@ -17,7 +17,7 @@ import frc.robot.motion_profiling.FollowPath;
 import frc.robot.subsystems.drivetrain.Song;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 import frc.robot.subsystems.intakeopener.IntakeAngle;
-import frc.robot.subsystems.intakeopener.OpenIntake;
+import frc.robot.subsystems.intakeopener.SetIntakeAngle;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.loader.SetLoaderSpeedPID;
@@ -84,14 +84,14 @@ public class DashboardDataContainer {
             () -> getNumber("Intake Opener/Intake Opener power", 0)));
         putDefaultNumber("Intake Opener/Open Setpoint", 0);
         putDefaultNumber("Intake Opener/Close Setpoint", 0);
-        putData("Intake Opener/Tune Open PID", new OpenIntake(
+        putData("Intake Opener/Tune Open PID", new SetIntakeAngle(
             () -> getNumber("Intake Opener/Open Setpoint", 0)));
-        putData("Intake Opener/Tune Close PID", new OpenIntake(
+        putData("Intake Opener/Tune Close PID", new SetIntakeAngle(
             () -> getNumber("Intake Opener/Close Setpoint", 0)));
         putData("Intake Opener/Reset Encoder", new RunWhenDisabledCommand(intakeOpener::resetEncoder));
         putData("Intake Opener/Enable Tuning", new RunWhenDisabledCommand(intakeOpener::enableTuning));
-        putData("Intake Opener/Open Intake", new OpenIntake(IntakeAngle.Opened));
-        putData("Intake Opener/Close Intake", new OpenIntake(IntakeAngle.Closed));
+        putData("Intake Opener/Open Intake", new SetIntakeAngle(IntakeAngle.Open));
+        putData("Intake Opener/Close Intake", new SetIntakeAngle(IntakeAngle.Close));
         putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
         putData("Intake Opener/Find Offset", new FindOpenerOffset());
 

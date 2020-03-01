@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.FollowPath;
 import frc.robot.subsystems.intakeopener.IntakeAngle;
-import frc.robot.subsystems.intakeopener.OpenIntake;
+import frc.robot.subsystems.intakeopener.SetIntakeAngle;
 
 public class OpenIntakeAndFollowPath extends ParallelCommandGroup {
     /**
@@ -12,7 +12,7 @@ public class OpenIntakeAndFollowPath extends ParallelCommandGroup {
      */
     public OpenIntakeAndFollowPath(AutoPath autoPath) {
         addCommands(
-            new OpenIntake(IntakeAngle.Opened),
+            new SetIntakeAngle(IntakeAngle.Open),
             new FollowPath(autoPath)
         );
     }

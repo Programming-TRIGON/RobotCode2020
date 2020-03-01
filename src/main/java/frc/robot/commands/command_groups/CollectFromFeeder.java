@@ -8,7 +8,7 @@ import frc.robot.constants.RobotConstants.OIConstants;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
 import frc.robot.subsystems.intakeopener.IntakeAngle;
-import frc.robot.subsystems.intakeopener.OpenIntake;
+import frc.robot.subsystems.intakeopener.SetIntakeAngle;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.MixerPower;
@@ -34,13 +34,13 @@ public class CollectFromFeeder extends SequentialCommandGroup {
                     ),
                     new SpinMixerByTime(MixerPower.MixForSort),
                     new SetLoaderSpeed(LoaderPower.UnloadForSort),
-                    new OpenIntake(IntakeAngle.CollectFromFeeder),
+                    new SetIntakeAngle(IntakeAngle.CollectFromFeeder),
                     new SetIntakeSpeed(IntakeConstants.kFeederIntakePower)
                 )
             ).withInterrupt(() -> oi.getDriverXboxController().getDeltaTriggers() < kBackwardsDeadband),
             deadline(
                 parallel(
-                    new OpenIntake(IntakeAngle.Closed),
+                    new SetIntakeAngle(IntakeAngle.Close),
                     deadline(
                         new WaitCommand(OIConstants.kSortAfterCollectCellTimeout),
                         new SpinMixerByTime(MixerPower.MixForSort),

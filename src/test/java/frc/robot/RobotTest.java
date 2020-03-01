@@ -19,7 +19,7 @@ import frc.robot.subsystems.intake.SetIntakeSpeed;
 import frc.robot.subsystems.intakeopener.CloseForOffset;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 import frc.robot.subsystems.intakeopener.IntakeAngle;
-import frc.robot.subsystems.intakeopener.OpenIntake;
+import frc.robot.subsystems.intakeopener.SetIntakeAngle;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
@@ -65,8 +65,8 @@ public class RobotTest {
             new CloseForOffset(),
             new FindOpenerOffset(),
             new CheesySetShooterVelocity(),
-            new OpenIntake(IntakeAngle.Closed),
-            new OpenIntake(IntakeAngle.Opened),
+            new SetIntakeAngle(IntakeAngle.Close),
+            new SetIntakeAngle(IntakeAngle.Open),
             new MoveClimbAndHook(() -> 0, () -> 0),
             new CalibrateVisionDistance(() -> false, Target.Feeder, 0),
             new FollowTarget(Target.Feeder),

@@ -6,22 +6,22 @@ import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.intakeOpener;
 
-public class OpenIntake extends CommandBase {
+public class SetIntakeAngle extends CommandBase {
     private DoubleSupplier angleSupplier;
 
     /**
      * Either opens the Intake subsystem or closes it with PID.
      */
-    public OpenIntake(DoubleSupplier angleSupplier) {
+    public SetIntakeAngle(DoubleSupplier angleSupplier) {
         addRequirements(intakeOpener);
         this.angleSupplier = angleSupplier;
     }
 
-    public OpenIntake(double setpoint){
+    public SetIntakeAngle(double setpoint){
         this(() -> setpoint);
     }
 
-    public OpenIntake(IntakeAngle state) {
+    public SetIntakeAngle(IntakeAngle state) {
         this(state::getAngle);
     }
 

@@ -2,7 +2,7 @@ package frc.robot.commands.command_groups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.intakeopener.IntakeAngle;
-import frc.robot.subsystems.intakeopener.OpenIntake;
+import frc.robot.subsystems.intakeopener.SetIntakeAngle;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.MixerPower;
@@ -14,7 +14,7 @@ public class SortAfterCollectCell extends ParallelCommandGroup {
    */
   public SortAfterCollectCell() {
     addCommands(
-      new OpenIntake(IntakeAngle.Closed),
+      new SetIntakeAngle(IntakeAngle.Close),
       new SpinMixerByTime(MixerPower.MixForSort),
       new SetLoaderSpeed(LoaderPower.UnloadForSort)
     );
