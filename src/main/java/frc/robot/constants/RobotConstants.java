@@ -147,7 +147,7 @@ public class RobotConstants {
         public static final PIDSettings loaderSettings = PIDSettings.fromTalonSettings(0.02, 0.000001, 1.5, 0.141, 2);
         public static final SimpleMotorFeedforward motionProfilingSettings = new SimpleMotorFeedforward(0.135, 2.47, 0.347);
         public static final SimpleMotorFeedforward motionProfilingReverseSettings = new SimpleMotorFeedforward(0.129, 2.47, 0.334);
-        public static final PIDSettings visionDistanceSettings = new PIDSettings(0.04, 0, 0.04, 25, 25);
+        public static final PIDSettings visionDistanceSettings = new PIDSettings(0.04, 0, 0.04, 10, 25);
         public static final PIDSettings visionRotationSettings = new PIDSettings(0.035, 0.00055, 0.0005, 1, 0.5);
         public static final PIDSettings drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
     }

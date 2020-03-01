@@ -28,12 +28,15 @@ public class CollectFromFeeder extends SequentialCommandGroup {
         addCommands(
             sequence(
                 new SetIntakeAngle(IntakeAngle.FullyOpen),
-                new FollowTarget(Target.Feeder),
+                deadline(
+                    new FollowTarget(Target.Feeder),
+                    new SetIntakeSpeed()
+                ),
                 parallel(
                     new DriveWithXbox(() -> 0,
                         () -> {
                             double power = oi.getDriverXboxController().getDeltaTriggers();
-                            return (power > kForwardDeadband ? power : kDefaultMoveForwardPower);
+                            return power;//(power > kForwardDeadband ? power : kDefaultMoveForwardPower);
                         }
                     ),
                     new SpinMixerByTime(MixerPower.MixForSort),
