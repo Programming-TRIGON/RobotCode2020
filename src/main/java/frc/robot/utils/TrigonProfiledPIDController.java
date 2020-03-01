@@ -94,7 +94,7 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
         builder.addDoubleProperty("max velocity", () -> constraints.maxVelocity,
-            value -> setConstraints(new Constraints(value, constraints.maxAcceleration)));
+            value -> setConstraints(new Constraints(value, constraints.maxVelocity)));
         builder.addDoubleProperty("max acceleration", () -> constraints.maxAcceleration,
             value -> setConstraints(new Constraints(value, constraints.maxAcceleration)));
     }

@@ -51,17 +51,11 @@ public class TurnToTarget extends CommandBase {
 
     @Override
     public void execute() {
-        if (!hasFoundTarget)
-            hasFoundTarget = isOnTarget();
         if (limelight.getTv()) {
             double pidOutput = rotationPIDController.calculate(limelight.getAngle());
-            drivetrain.move(pidOutput + (Math.signum(pidOutput) * 0.005));
-            // drivetrain.move(pidOutput);
+            drivetrain.move(pidOutput);
         } else
-            // The target wasn't found
-        if (hasFoundTarget)
-            drivetrain.stopMove();
-        else
+            // If the target wasn't found, driver can drive
             drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft), oi.getDriverXboxController().getDeltaTriggers());
     }
 
@@ -75,7 +69,6 @@ public class TurnToTarget extends CommandBase {
         drivetrain.stopMove();
         drivetrain.setDrivetrainNeutralMode(NeutralMode.Brake);
         led.turnOffLED();
-        //limelight.stopVision();
     }
 
     public boolean isOnTarget() {
