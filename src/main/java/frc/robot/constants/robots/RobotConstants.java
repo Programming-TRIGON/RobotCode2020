@@ -4,11 +4,10 @@ import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import frc.robot.utils.PIDSettings;
 
 /**
- * Constants and robot map for robot A.
+ * Constants for the robot.
  */
 public class RobotConstants {
 
-    // Drivetrain Constants
     public static class DrivetrainConstants {
         public static final double kWheelDiameter = 15.748;
         public static final double kWheelBaseWidth = 0.615;
@@ -25,13 +24,11 @@ public class RobotConstants {
         public static final double kClimbDriveDistance = 0.1;
     }
 
-    // Trigon Drive Constants
     public static class TrigonDriveConstants {
         public static final double kSensitivity = 1;
         public static final double kThreshold = 0.5;
     }
 
-    // Intake Constants
     public static class IntakeConstants {
         public static final boolean kIsInverted = true;
         public static final double kDefaultIntakePower = 0.5;
@@ -42,7 +39,6 @@ public class RobotConstants {
         public static final double kStallWaitTime = 0.2;
     }
 
-    //Intake opener
     public static class IntakeOpenerConstants {
         public static final boolean kIsInverted = false;
         public static final boolean kIsSensorInverted = false;
@@ -60,7 +56,6 @@ public class RobotConstants {
         public static final double kStallLimit = 10;
     }
 
-    // Mixer Constants
     public static class MixerConstants {
         public static final double kMixerMaxStall = 20;
         public static final boolean kIsInverted = false;
@@ -74,7 +69,6 @@ public class RobotConstants {
         public static final double kWaitForSpinMixerTime = 0.5;
     }
 
-    // Climb Constants
     public static class ClimbConstants {
         public static final boolean kIsHookInverted = true;
         public static final double kHookCurrentLimit = 0;
@@ -108,7 +102,6 @@ public class RobotConstants {
         public static final double kLowBatteryRightKf = 0.0508;
     }
 
-    // Loader Constants
     public static class LoaderConstants {
         public static final boolean kIsInverted = true;
         public static final boolean kIsEncoderInverted = false;
@@ -117,7 +110,6 @@ public class RobotConstants {
         public static final double kFarawayTyMeasurement = 13;
     }
 
-    // Motion Profiling Constants
     public static class MotionProfilingConstants {
         public static final double kMaxVelocity = 0;
         public static final double kMaxAcceleration = 0;
@@ -140,7 +132,6 @@ public class RobotConstants {
         public static final double kTargetNotFoundWaitTime = 0.5;
     }
 
-    // Auto Constants
     public static class AutoConstants {
         public static final double kSimpleAutoPower = -0.2;
         public static final double kSimpleAutoTimeout = 0.6;
