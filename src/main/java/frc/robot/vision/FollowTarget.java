@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.robot.constants.RobotConstants.ControlConstants;
 import frc.robot.subsystems.led.LEDColor;
+import frc.robot.utils.DriverStationLogger;
 import frc.robot.utils.TrigonPIDController;
 
 import static frc.robot.Robot.*;
@@ -17,6 +18,7 @@ public class FollowTarget extends CommandBase {
     private Target target;
     private TrigonPIDController rotationPIDController;
     private TrigonPIDController distancePIDController;
+    private boolean isClose;
 
     /**
      * @param target The target the robot will follow
@@ -49,6 +51,7 @@ public class FollowTarget extends CommandBase {
         // Configure the limelight to start computing vision.
         limelight.startVision(target);
         led.setColor(LEDColor.Green);
+        isClose = false;
     }
 
     @Override
@@ -56,7 +59,9 @@ public class FollowTarget extends CommandBase {
         if (limelight.getTv()) {
             double distance = limelight.getDistance();
             double rotationOutput = rotationPIDController.calculate(limelight.getAngle());
-            drivetrain.arcadeDrive(rotationOutput, MathUtil.clamp(distancePIDController.getP() * distance, 0, 0.4));
+            double output = MathUtil.clamp(distancePIDController.getP() * distance, 0, 0.4);
+            DriverStationLogger.logToDS("output: " + output + " distance: " + limelight.getDistance());
+            drivetrain.arcadeDrive(rotationOutput, output);
         } else {
             // The target wasn't found, driver's control
             drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft), oi.getDriverXboxController().getDeltaTriggers());

@@ -117,9 +117,9 @@ public class RobotConstants {
         public static final double kDistanceFromPortBCoefficient = 122.23;
         public static final double kDistanceFromPortCCoefficient = 3960.4;
         public static final double kTargetNotFoundWaitTime = 0.5;
-        public static final double kDistanceACoefficient = 16.637;
-        public static final double kDistanceBCoefficient = 3.0859;
-        public static final double kDistanceInterval = 20;
+        public static final double kDistanceACoefficient = 19.003;
+        public static final double kDistanceBCoefficient = -12.691;
+        public static final double kDistanceInterval = 3.6616;
     }
 
     public static class AutoConstants {

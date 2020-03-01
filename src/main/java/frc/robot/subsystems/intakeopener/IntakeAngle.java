@@ -4,7 +4,7 @@ public enum IntakeAngle {
     OpenForIntake(100.652344),
     Close(0),
     CloseForFeeder(20),
-    FullyOpen(105.652344);
+    FullyOpen(135.878906);
 
     private final double angle;
 
