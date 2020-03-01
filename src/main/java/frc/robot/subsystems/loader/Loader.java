@@ -5,9 +5,9 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.constants.RobotConstants.ControlConstants;
+import frc.robot.constants.RobotConstants.LoaderConstants;
 import frc.robot.constants.RobotMap;
-import frc.robot.constants.robots.RobotConstants.ControlConstants;
-import frc.robot.constants.robots.RobotConstants.LoaderConstants;
 import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.utils.DriverStationLogger;
 

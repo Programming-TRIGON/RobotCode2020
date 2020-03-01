@@ -2,7 +2,7 @@ package frc.robot.subsystems.climb;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.robots.RobotConstants.ClimbConstants;
+import frc.robot.constants.RobotConstants.ClimbConstants;
 import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.DriverStationLogger;
 import java.util.function.DoubleSupplier;

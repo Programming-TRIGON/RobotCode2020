@@ -1,7 +1,7 @@
 package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.robots.RobotConstants.ControlConstants;
+import frc.robot.constants.RobotConstants.ControlConstants;
 import frc.robot.utils.TrigonPIDController;
 import java.util.function.DoubleSupplier;
 

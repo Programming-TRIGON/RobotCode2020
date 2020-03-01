@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryConfig;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj.trajectory.constraint.CentripetalAccelerationConstraint;
-import frc.robot.constants.robots.RobotConstants.MotionProfilingConstants;
+import frc.robot.constants.RobotConstants.MotionProfilingConstants;
 import frc.robot.utils.DriverStationLogger;
 import java.io.IOException;
 import java.nio.file.Paths;

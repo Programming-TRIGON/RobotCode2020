@@ -2,7 +2,7 @@ package frc.robot.subsystems.mixer;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.robots.RobotConstants.MixerConstants;
+import frc.robot.constants.RobotConstants.MixerConstants;
 import frc.robot.utils.DriverStationLogger;
 import java.util.function.DoubleSupplier;
 
