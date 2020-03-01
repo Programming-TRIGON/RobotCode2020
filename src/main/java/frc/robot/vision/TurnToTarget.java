@@ -12,6 +12,7 @@ import static frc.robot.Robot.*;
  * Turns the robot (drivetrain) to a given vision target. 
  */
 public class TurnToTarget extends CommandBase {
+    private static final int kBlinkingAmount = 30;
     private Target target;
     private TrigonProfiledPIDController rotationPIDController;
     private Boolean foundTarget;
@@ -42,7 +43,7 @@ public class TurnToTarget extends CommandBase {
     public void initialize() {
         foundTarget = false;
         limelight.startVision(target);
-        led.setColor(LEDColor.Green);
+        led.blinkColor(LEDColor.Green, kBlinkingAmount);
     }
 
     @Override
@@ -50,6 +51,7 @@ public class TurnToTarget extends CommandBase {
         if (limelight.getTv()) {
             if (!foundTarget) {
                 rotationPIDController.reset(limelight.getAngle());
+                led.setColor(LEDColor.Green);
                 foundTarget = true;
             }
             drivetrain.move(rotationPIDController.calculate(limelight.getAngle()));
