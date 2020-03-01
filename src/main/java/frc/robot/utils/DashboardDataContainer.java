@@ -107,8 +107,8 @@ public class DashboardDataContainer {
         // Command groups data
         putData("CommandGroup/Collect Cell", new CollectCell());
         putData("CommandGroup/Mix and Load", new ParallelCommandGroup(
-            new SetLoaderSpeedPID(LoaderPower.FarShoot),
-            new SpinMixer(MixerPower.MixReverse)));
+            new SetLoaderSpeedPID(LoaderPower.LoadToShoot),
+            new SpinMixer(MixerPower.MixForShoot)));
         putData("CommandGroup/Sort Balls", new ParallelCommandGroup(
             new SetLoaderSpeed(LoaderPower.UnloadForSort),
             new SpinMixerByTime(MixerPower.MixForSort)));
@@ -118,6 +118,8 @@ public class DashboardDataContainer {
         putData("Vision/Calibrate Vision Distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 120, 35, 10));
         putData("Vision/FollowTarget", new FollowTarget(Target.Feeder));
         putData("Sensor Check", new SensorCheck());
+
+        putData("Short Collect", new SpinMixerByTime(MixerPower.MixForHardSort));
 
         SmartDashboard.putString("Shooter/Current Cheesy shooter state", "No state");
     }
