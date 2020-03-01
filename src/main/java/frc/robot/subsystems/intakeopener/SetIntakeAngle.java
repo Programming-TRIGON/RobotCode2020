@@ -2,35 +2,32 @@ package frc.robot.subsystems.intakeopener;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants.ControlConstants;
-import frc.robot.constants.RobotConstants.IntakeOpenerConstants;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.intakeOpener;
 
-public class OpenIntake extends CommandBase {
-    private boolean open;
+public class SetIntakeAngle extends CommandBase {
     private DoubleSupplier angleSupplier;
 
     /**
      * Either opens the Intake subsystem or closes it with PID.
      */
-    public OpenIntake(DoubleSupplier angleSupplier, boolean open) {
+    public SetIntakeAngle(DoubleSupplier angleSupplier) {
         addRequirements(intakeOpener);
-        this.open = open;
         this.angleSupplier = angleSupplier;
     }
 
-    public OpenIntake(double setpoint, boolean open){
-        this(() -> setpoint, open);
+    public SetIntakeAngle(double setpoint){
+        this(() -> setpoint);
     }
 
-    public OpenIntake(boolean open) {
-        this(open ? IntakeOpenerConstants.kOpenAngle :
-            IntakeOpenerConstants.kClosedAngle, open);
+    public SetIntakeAngle(IntakeAngle state) {
+        this(state::getAngle);
     }
 
     @Override
     public void initialize() {
+        boolean open = angleSupplier.getAsDouble() > intakeOpener.getAngle();
         intakeOpener.changeSlot(open ? 0 : 1);
     }
 

@@ -46,7 +46,7 @@ public class Climb extends SubsystemBase implements Loggable {
         climbSparkMax.setOpenLoopRampRate(ClimbConstants.kClimbRampTime);
         climbSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 65534);
         climbSparkMax.burnFlash();
-        offset = -getHookRotations();
+        offset = 0;
     }
 
     @Log(name = "Climb/Hook Rotations")
@@ -62,7 +62,7 @@ public class Climb extends SubsystemBase implements Loggable {
             hookTalonSRX.set(power);
     }
 
-    public void setHookPowerOveride(double power) {
+    public void setHookPowerOverride(double power) {
         hookTalonSRX.set(power);
     }
 
@@ -80,5 +80,9 @@ public class Climb extends SubsystemBase implements Loggable {
     /** Used for right drivetrain encoder */
     public WPI_TalonSRX getHookTalonSRXInstance() {
         return hookTalonSRX;
+    }
+
+    public void resetHookRotations() {
+        offset = -hookPotentiometer.get();
     }
 }

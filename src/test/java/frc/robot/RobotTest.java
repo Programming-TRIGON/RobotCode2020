@@ -8,6 +8,7 @@ import frc.robot.commands.SensorCheck;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
+import frc.robot.commands.command_groups.ShortCollectCell;
 import frc.robot.constants.RobotConstants.IntakeConstants;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
@@ -17,7 +18,8 @@ import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
 import frc.robot.subsystems.intakeopener.CloseForOffset;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
-import frc.robot.subsystems.intakeopener.SetIntakeState;
+import frc.robot.subsystems.intakeopener.IntakeAngle;
+import frc.robot.subsystems.intakeopener.SetIntakeAngle;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
@@ -56,17 +58,16 @@ public class RobotTest {
 
     @Test
     public void commandsTest() {
-        Command[] commands = new Command[] {
+        Command[] commands = new Command[]{
             new SetLoaderSpeed(),
             new SpinMixer(),
             new SetIntakeSpeed(IntakeConstants.kDefaultIntakePower),
             new CloseForOffset(),
             new FindOpenerOffset(),
             new CheesySetShooterVelocity(),
-            new SetIntakeState(true),
-            new SetIntakeState(false),
+            new SetIntakeAngle(IntakeAngle.Close),
+            new SetIntakeAngle(IntakeAngle.Open),
             new MoveClimbAndHook(() -> 0, () -> 0),
-            new SetIntakeState(true),
             new CalibrateVisionDistance(() -> false, Target.Feeder, 0),
             new FollowTarget(Target.Feeder),
             new TurnToTarget(Target.PowerPort),
@@ -78,6 +79,7 @@ public class RobotTest {
             new OverrideCommand(Robot.shooter, () -> 0),
             new CollectCell(),
             new CollectFromFeeder(),
+            new ShortCollectCell(),
             new AutoShoot(),
             new SimpleAuto(),
             new TrenchAuto(StartingPose.kFacingPowerPort),

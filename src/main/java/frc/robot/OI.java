@@ -8,14 +8,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.commands.command_groups.AutoShoot;
-import frc.robot.commands.command_groups.CollectCell;
-import frc.robot.commands.command_groups.CollectFromFeeder;
-import frc.robot.commands.command_groups.SortAfterCollectCell;
+import frc.robot.commands.command_groups.*;
 import frc.robot.constants.RobotConstants.ClimbConstants;
 import frc.robot.constants.RobotConstants.OIConstants;
 import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
+import frc.robot.subsystems.intakeopener.IntakeAngle;
+import frc.robot.subsystems.intakeopener.SetIntakeAngle;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
 import frc.robot.utils.TrigonXboxController;
@@ -42,6 +41,8 @@ public class OI {
     // operator commands
     private Command returnMixerControl;
     private Command spinMixerControl;
+    private Command shortCollectCell;
+    private Command closeIntake;
 
     public OI() {
         driverXbox = new TrigonXboxController(kDriverPort);
@@ -71,7 +72,7 @@ public class OI {
 
     private void createDriverCommands() {
         driverDriveWithXbox = new DriveWithXbox(() -> driverXbox.getX(Hand.kLeft), driverXbox::getDeltaTriggers);
-        driverAutoShoot = new AutoShoot().withInterrupt(() -> 
+        driverAutoShoot = new AutoShoot().withInterrupt(() ->
             Math.abs(driverXbox.getDeltaTriggers()) >= OIConstants.kDeltaTriggersInterruptDifference);
         driverCollectCell = new CollectCell();
         driverSortAfterCollectCell = new SortAfterCollectCell().withTimeout(OIConstants.kSortAfterCollectCellTimeout);
@@ -91,6 +92,8 @@ public class OI {
     private void createOperatorCommands() {
         returnMixerControl = new InstantCommand(mixer::stopOverride);
         spinMixerControl = new SpinMixerByTime(MixerPower.MixForHardSort);
+        shortCollectCell = new ShortCollectCell();
+        closeIntake = new SetIntakeAngle(IntakeAngle.Close);
         // .alongWith(new SetLoaderSpeed(LoaderPower.UnloadForHardSort));
     }
 
@@ -101,6 +104,7 @@ public class OI {
         mixer.setOverrideSupplier(() -> operatorXbox.getY(Hand.kRight));
         operatorXbox.getRightStickButton().whenPressed(returnMixerControl);
         operatorXbox.getButtonA().whenHeld(spinMixerControl);
+        operatorXbox.getButtonB().whenHeld(shortCollectCell).whenReleased(closeIntake);
     }
 
     /**
@@ -109,6 +113,8 @@ public class OI {
     private void setGrossmanSetting() {
         mixer.setOverrideSupplier(() -> operatorXbox.getY(Hand.kRight));
         operatorXbox.getRightStickButton().whenPressed(returnMixerControl);
+        operatorXbox.getButtonA().whenHeld(spinMixerControl);
+        operatorXbox.getButtonB().whenHeld(shortCollectCell).whenReleased(closeIntake);
     }
 
     public TrigonXboxController getDriverXboxController() {

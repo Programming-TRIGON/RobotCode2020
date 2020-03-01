@@ -75,7 +75,7 @@ public class RobotConstants {
         public static final double kHookThresholdLimit = 0;
         public static final double kHookCurrentTimeout = 0;
         public static final double kHookPotentiometerAngleMultiplier = -10;
-        public static final double kHookPotentiometerOffset = -3.54 + 0.31;
+        public static final double kHookPotentiometerOffset = -3.23;
         public static final double kPotentiometerChangeError = 0.3;
         public static final double kMaxHookRotations = 4.6;
         public static final boolean kIsClimbInverted = true;
@@ -119,14 +119,10 @@ public class RobotConstants {
         public static final double kDistanceFromPortACoefficient = 3.7168;
         public static final double kDistanceFromPortBCoefficient = 122.23;
         public static final double kDistanceFromPortCCoefficient = 3960.4;
-        public static final double kDistanceFromFeederACoefficient = 16.637;
-        public static final double kDistanceFromFeederBCoefficient = 3.0859;
-        public static final double kDistanceFromFeederC = 20;
-        public static final double kMaximumDistancePower = 0.4;
-        public static final double kLimelightOffsetX = 0;
-        public static final double kLimelightOffsetY = 0;
-        public static final double kLimelightAngleOffset = 0;
         public static final double kTargetNotFoundWaitTime = 0.5;
+        public static final double kDistanceACoefficient = 16.637;
+        public static final double kDistanceBCoefficient = 3.0859;
+        public static final double kDistanceInterval = 20;
     }
 
     public static class AutoConstants {
