@@ -13,6 +13,7 @@ import static frc.robot.Robot.*;
  * changed according the game and the robot.
  */
 public class FollowTarget extends CommandBase {
+    private static final int kBlinkAmount = 30;
     private static final double kSwitchSpeedDistance = 45;
     private static final double kFastForwardSpeed = 0.5;
     private static final double kSlowForwardSpeed = 0.2;
@@ -46,7 +47,7 @@ public class FollowTarget extends CommandBase {
         rotationPIDController.reset();
         // Configure the limelight to start computing vision.
         limelight.startVision(target);
-        led.setColor(LEDColor.Green);
+        led.blinkColor(LEDColor.Aqua, kBlinkAmount);
         switchedSpeed = false;
         distanceOutput = kFastForwardSpeed;
     }
@@ -54,12 +55,13 @@ public class FollowTarget extends CommandBase {
     @Override
     public void execute() {
         if (limelight.getTv()) {
+            led.setColor(LEDColor.Aqua);
             double rotationOutput = rotationPIDController.calculate(limelight.getAngle());
             if (!switchedSpeed && limelight.getDistance() < kSwitchSpeedDistance) {
                 distanceOutput = kSlowForwardSpeed;
                 switchedSpeed = true;
             }
-            drivetrain.arcadeDrive(rotationOutput, distanceOutput);
+            drivetrain.curvatureDrive(rotationOutput, distanceOutput, false);
         } else {
             // The target wasn't found, driver's control
             drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft), oi.getDriverXboxController().getDeltaTriggers());
