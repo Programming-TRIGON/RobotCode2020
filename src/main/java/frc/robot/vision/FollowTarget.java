@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
+import frc.robot.constants.robots.RobotConstants.ControlConstants;
 import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.TrigonPIDController;
 
@@ -25,9 +26,9 @@ public class FollowTarget extends CommandBase {
     public FollowTarget(Target target) {
         addRequirements(drivetrain);
         this.target = target;
-        distancePIDController = new TrigonPIDController(robotConstants.controlConstants.visionDistanceSettings,
+        distancePIDController = new TrigonPIDController(ControlConstants.visionDistanceSettings,
             target.getDistance());
-        rotationPIDController = new TrigonPIDController(robotConstants.controlConstants.visionRotationSettings, 0);
+        rotationPIDController = new TrigonPIDController(ControlConstants.visionRotationSettings, 0);
     }
 
     /**
@@ -39,7 +40,7 @@ public class FollowTarget extends CommandBase {
         addRequirements(drivetrain, led);
         this.target = target;
         distancePIDController = new TrigonPIDController(dashboardKey + " - distance", target.getDistance());
-        distancePIDController.setTolerance(robotConstants.controlConstants.visionDistanceSettings.getTolerance(), robotConstants.controlConstants.visionDistanceSettings.getDeltaTolerance());
+        distancePIDController.setTolerance(ControlConstants.visionDistanceSettings.getTolerance(), ControlConstants.visionDistanceSettings.getDeltaTolerance());
         rotationPIDController = new TrigonPIDController(dashboardKey + " - rotation", 0);
     }
 
@@ -68,7 +69,7 @@ public class FollowTarget extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return limelight.getDistance() < robotConstants.controlConstants.visionDistanceSettings.getTolerance();
+        return limelight.getDistance() < ControlConstants.visionDistanceSettings.getTolerance();
     }
 
     @Override

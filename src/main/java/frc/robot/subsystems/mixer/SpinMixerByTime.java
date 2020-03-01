@@ -2,10 +2,10 @@ package frc.robot.subsystems.mixer;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.robots.RobotConstants.MixerConstants;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.mixer;
-import static frc.robot.Robot.robotConstants;
 
 /**
  * Spins the mixer during the game for putting balls in the loader, if the
@@ -47,12 +47,12 @@ public class SpinMixerByTime extends CommandBase {
     public void initialize() {
       backwardsSpinStartTime = Timer.getFPGATimestamp();
       spinBack = false;
-      mixer.setOpenloopRamp(robotConstants.mixerConstants.kSpinByTimeRampTime);
+      mixer.setOpenloopRamp(MixerConstants.kSpinByTimeRampTime);
     }
 
     @Override
     public void execute() {
-      if (Timer.getFPGATimestamp() - backwardsSpinStartTime < robotConstants.mixerConstants.kSpinMixerByTime)
+      if (Timer.getFPGATimestamp() - backwardsSpinStartTime < MixerConstants.kSpinMixerByTime)
         mixer.move((spinBack ? -1 : 1) * power.getAsDouble());
       else {
         backwardsSpinStartTime = Timer.getFPGATimestamp();
@@ -63,6 +63,6 @@ public class SpinMixerByTime extends CommandBase {
     @Override
     public void end(boolean interrupted) {
       mixer.stopMove();
-      mixer.setOpenloopRamp(robotConstants.mixerConstants.kRampTime);
+      mixer.setOpenloopRamp(MixerConstants.kRampTime);
     }
 }

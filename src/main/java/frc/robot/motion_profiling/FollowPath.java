@@ -14,13 +14,14 @@ import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.constants.robots.RobotConstants.ControlConstants;
+import frc.robot.constants.robots.RobotConstants.MotionProfilingConstants;
 import frc.robot.utils.DriverStationLogger;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 import static edu.wpi.first.wpilibj.util.ErrorMessages.requireNonNullParam;
 import static frc.robot.Robot.drivetrain;
-import static frc.robot.Robot.robotConstants;
 
 
 /**
@@ -66,18 +67,18 @@ public class FollowPath extends CommandBase {
             drivetrain::getPose,
             new RamseteController(),
             path.isReversed() ?
-                new SimpleMotorFeedforward(robotConstants.controlConstants.motionProfilingReverseSettings.ks,
-                    robotConstants.controlConstants.motionProfilingReverseSettings.kv,
-                    robotConstants.controlConstants.motionProfilingReverseSettings.ka) :
-                new SimpleMotorFeedforward(robotConstants.controlConstants.motionProfilingSettings.ks,
-                    robotConstants.controlConstants.motionProfilingSettings.kv,
-                    robotConstants.controlConstants.motionProfilingSettings.ka),
+                new SimpleMotorFeedforward(ControlConstants.motionProfilingReverseSettings.ks,
+                    ControlConstants.motionProfilingReverseSettings.kv,
+                    ControlConstants.motionProfilingReverseSettings.ka) :
+                new SimpleMotorFeedforward(ControlConstants.motionProfilingSettings.ks,
+                    ControlConstants.motionProfilingSettings.kv,
+                    ControlConstants.motionProfilingSettings.ka),
             drivetrain.getKinematics(),
             drivetrain::getWheelSpeeds,
-            new PIDController(path.isReversed() ? robotConstants.motionProfilingConstants.kReverseKp :
-                robotConstants.motionProfilingConstants.kP, 0, 0),
-            new PIDController(path.isReversed() ? robotConstants.motionProfilingConstants.kReverseKp :
-                robotConstants.motionProfilingConstants.kP, 0, 0),
+            new PIDController(path.isReversed() ? MotionProfilingConstants.kReverseKp :
+                MotionProfilingConstants.kP, 0, 0),
+            new PIDController(path.isReversed() ? MotionProfilingConstants.kReverseKp :
+                MotionProfilingConstants.kP, 0, 0),
             (left, right) -> {drivetrain.voltageTankDrive(left, right); System.out.println("left: " + left + " right: " + right);},
             drivetrain);
         this.isTuning = isTuning;

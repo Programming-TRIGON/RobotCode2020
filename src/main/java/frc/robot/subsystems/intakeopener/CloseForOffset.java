@@ -1,9 +1,9 @@
 package frc.robot.subsystems.intakeopener;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.robots.RobotConstants.IntakeOpenerConstants;
 
 import static frc.robot.Robot.intakeOpener;
-import static frc.robot.Robot.robotConstants;
 
 public class CloseForOffset extends CommandBase {
     public CloseForOffset() {
@@ -12,12 +12,12 @@ public class CloseForOffset extends CommandBase {
 
     @Override
     public void execute() {
-        intakeOpener.overriddenMove(robotConstants.intakeOpenerConstants.kFindOffsetPower);
+        intakeOpener.overriddenMove(IntakeOpenerConstants.kFindOffsetPower);
     }
 
     @Override
     public boolean isFinished() {
-        return intakeOpener.hasFoundOffset() || intakeOpener.getCurrent() > robotConstants.intakeOpenerConstants.kStallLimit;
+        return intakeOpener.hasFoundOffset() || intakeOpener.getCurrent() > IntakeOpenerConstants.kStallLimit;
     }
 
     @Override

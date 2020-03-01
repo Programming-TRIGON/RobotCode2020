@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
+import frc.robot.constants.RobotMap;
 import frc.robot.utils.DriverStationLogger;
 import java.util.Random;
 
@@ -25,7 +25,7 @@ public class LED extends SubsystemBase {
      * changing.
      */
     public LED() {
-        ledController = new Spark(Robot.robotConstants.pwm.kLedController);
+        ledController = new Spark(RobotMap.kLedController);
         blinkingAmount = -1;
         notifier = new Notifier(this::notifierPeriodic);
         rand = new Random();

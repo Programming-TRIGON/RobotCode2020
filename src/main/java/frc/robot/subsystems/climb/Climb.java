@@ -10,10 +10,10 @@ import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.EncoderType;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.constants.RobotMap;
+import frc.robot.constants.robots.RobotConstants.ClimbConstants;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
-
-import static frc.robot.Robot.robotConstants;
 
 public class Climb extends SubsystemBase implements Loggable {
     private WPI_TalonSRX hookTalonSRX;
@@ -27,23 +27,23 @@ public class Climb extends SubsystemBase implements Loggable {
      * the system that extends to hang on the climb.
      */
     public Climb() {
-        hookTalonSRX = new WPI_TalonSRX(robotConstants.can.kHookTalonSRX);
+        hookTalonSRX = new WPI_TalonSRX(RobotMap.kHookTalonSRX);
         hookTalonSRX.configSupplyCurrentLimit(
-            new SupplyCurrentLimitConfiguration(false, robotConstants.climbConstants.kHookCurrentLimit,
-                robotConstants.climbConstants.kHookThresholdLimit, robotConstants.climbConstants.kHookCurrentTimeout));
-        hookTalonSRX.setInverted(robotConstants.climbConstants.kIsHookInverted);
+            new SupplyCurrentLimitConfiguration(false, ClimbConstants.kHookCurrentLimit,
+                ClimbConstants.kHookThresholdLimit, ClimbConstants.kHookCurrentTimeout));
+        hookTalonSRX.setInverted(ClimbConstants.kIsHookInverted);
         hookTalonSRX.setNeutralMode(NeutralMode.Brake);
 
-        hookPotentiometer = new AnalogPotentiometer(robotConstants.analogInput.kHookPotentiometer, 
-            robotConstants.climbConstants.kHookPotentiometerAngleMultiplier,
-            robotConstants.climbConstants.kHookPotentiometerOffset);
-        
-        climbSparkMax = new CANSparkMax(robotConstants.can.kClimbSparkMax, MotorType.kBrushless);
-        climbSparkMax.setSmartCurrentLimit(robotConstants.climbConstants.kClimbCurrentLimit);
+        hookPotentiometer = new AnalogPotentiometer(RobotMap.kHookPotentiometer,
+            ClimbConstants.kHookPotentiometerAngleMultiplier,
+            ClimbConstants.kHookPotentiometerOffset);
+
+        climbSparkMax = new CANSparkMax(RobotMap.kClimbSparkMax, MotorType.kBrushless);
+        climbSparkMax.setSmartCurrentLimit(ClimbConstants.kClimbCurrentLimit);
         climbSparkMax.getEncoder(EncoderType.kHallSensor, 42);
-        climbSparkMax.setInverted(robotConstants.climbConstants.kIsClimbInverted);
+        climbSparkMax.setInverted(ClimbConstants.kIsClimbInverted);
         climbSparkMax.setIdleMode(IdleMode.kBrake);
-        climbSparkMax.setOpenLoopRampRate(robotConstants.climbConstants.kClimbRampTime);
+        climbSparkMax.setOpenLoopRampRate(ClimbConstants.kClimbRampTime);
         climbSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 65534);
         climbSparkMax.burnFlash();
         offset = -getHookRotations();
@@ -51,11 +51,11 @@ public class Climb extends SubsystemBase implements Loggable {
 
     @Log(name = "Climb/Hook Rotations")
     public double getHookRotations() {
-        return hookPotentiometer.get() + offset; 
+        return hookPotentiometer.get() + offset;
     }
 
     public void setHookPower(double power) {
-        if((power > 0 && getHookRotations() >= robotConstants.climbConstants.kMaxHookRotations)
+        if ((power > 0 && getHookRotations() >= ClimbConstants.kMaxHookRotations)
             || (power < 0 && getHookRotations() <= 0))
             hookTalonSRX.set(0);
         else
