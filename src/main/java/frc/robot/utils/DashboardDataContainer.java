@@ -96,6 +96,7 @@ public class DashboardDataContainer {
 
         // Climb 
         putData("Climb/Reverse Climb", new StartEndCommand(() -> climb.setOppositeClimbPower(-0.4), () -> climb.setOppositeClimbPower(0)).withTimeout(5));
+        putData("Climb/Reset Hook Rotations", new RunWhenDisabledCommand(climb::resetHookRotations));
 
         putData("Drivetrain/Load Star_Wars_Main_Theme", new InstantCommand(() -> drivetrain.loadSong(Song.Star_Wars_Main_Theme),  drivetrain));
         putData("Drivetrain/Load Animal_Crossing_Nook_Scranny", new InstantCommand(() -> drivetrain.loadSong(Song.Animal_Crossing_Nook_Scranny),  drivetrain));
