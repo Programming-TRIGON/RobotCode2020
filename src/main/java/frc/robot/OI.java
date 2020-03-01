@@ -94,7 +94,6 @@ public class OI {
         spinMixerControl = new SpinMixerByTime(MixerPower.MixForHardSort);
         shortCollectCell = new ShortCollectCell();
         closeIntake = new SetIntakeAngle(IntakeAngle.Close);
-        // .alongWith(new SetLoaderSpeed(LoaderPower.UnloadForHardSort));
     }
 
     /**
