@@ -75,26 +75,9 @@ public class Limelight implements Loggable {
      */
     @Log(name = "Limelight/Vision Distance")
     public double getDistance() {
-        return getDistanceFromFeeder();
-    }
-
-    /**
-     * @return distance of the limelight from the feeder
-     */
-    private double getDistanceFromFeeder() {
         double x = getTy();
-        return 16.637 * Math.pow(x, 2) +
-            3.0859 * x + 20;
-    }
-
-    /**
-     * @return distance of limelight from the power port
-     */
-    //TODO: set real function
-    private double getDistanceFromPowerPort() {
-        double x = getTy();
-        return VisionConstants.kDistanceFromPortACoefficient * Math.pow(x, 2) +
-            VisionConstants.kDistanceFromPortBCoefficient * x;
+        return VisionConstants.kDistanceACoefficient * Math.pow(x, 2) +
+            VisionConstants.kDistanceBCoefficient * x + VisionConstants.kDistanceInterval;
     }
 
     @Log(name = "Limelight/Desired Shooter Velocity")
