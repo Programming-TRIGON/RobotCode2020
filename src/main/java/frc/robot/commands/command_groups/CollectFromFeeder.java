@@ -9,10 +9,13 @@ import frc.robot.constants.RobotConstants.OIConstants;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
 import frc.robot.subsystems.intakeopener.OpenIntake;
+import frc.robot.subsystems.intakeopener.SetIntakeState;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
+import frc.robot.vision.FollowTarget;
+import frc.robot.vision.Target;
 
 import static frc.robot.Robot.oi;
 
@@ -25,8 +28,10 @@ public class CollectFromFeeder extends SequentialCommandGroup {
     public CollectFromFeeder() {
         addCommands(
             sequence(
+                new SetIntakeState(true),
+                new FollowTarget(Target.Feeder),
                 parallel(
-                    new DriveWithXbox(() -> oi.getDriverXboxController().getX(Hand.kLeft),
+                    new DriveWithXbox(() -> 0,
                         () -> {
                             double power = oi.getDriverXboxController().getDeltaTriggers();
                             return (power > kForwardDeadband ? power : kDefaultMoveForwardPower);

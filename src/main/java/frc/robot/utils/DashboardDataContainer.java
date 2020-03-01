@@ -97,10 +97,10 @@ public class DashboardDataContainer {
         // Climb 
         putData("Climb/Reverse Climb", new StartEndCommand(() -> climb.setOppositeClimbPower(-0.4), () -> climb.setOppositeClimbPower(0)).withTimeout(5));
 
-        putData("Drivetrain/Load Star_Wars_Main_Theme", new InstantCommand(() -> drivetrain.loadSong(Song.Star_Wars_Main_Theme),  drivetrain));
-        putData("Drivetrain/Load Animal_Crossing_Nook_Scranny", new InstantCommand(() -> drivetrain.loadSong(Song.Animal_Crossing_Nook_Scranny),  drivetrain));
-        putData("Drivetrain/Load Rasputin", new InstantCommand(() -> drivetrain.loadSong(Song.Rasputin),  drivetrain));
-        putData("Drivetrain/Play song", new StartEndCommand(drivetrain::playSong, drivetrain::stopSong, drivetrain));        
+        putData("Drivetrain/Load Star_Wars_Main_Theme", new InstantCommand(() -> drivetrain.loadSong(Song.Star_Wars_Main_Theme), drivetrain));
+        putData("Drivetrain/Load Animal_Crossing_Nook_Scranny", new InstantCommand(() -> drivetrain.loadSong(Song.Animal_Crossing_Nook_Scranny), drivetrain));
+        putData("Drivetrain/Load Rasputin", new InstantCommand(() -> drivetrain.loadSong(Song.Rasputin), drivetrain));
+        putData("Drivetrain/Play song", new StartEndCommand(drivetrain::playSong, drivetrain::stopSong, drivetrain));
 
         // Command groups data
         putData("CommandGroup/Collect Cell", new CollectCell());
@@ -113,7 +113,7 @@ public class DashboardDataContainer {
         putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
         putBoolean("log", false);
         putData("Vision/Calibrate Vision Distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 120, 35, 10));
-        putData("Vision/FollowTarget", new FollowTarget(Target.Feeder));
+        putData("Vision/FollowTarget", new FollowTarget(Target.Feeder, "Follow Feeder"));
         putData("Sensor Check", new SensorCheck());
 
         SmartDashboard.putString("Shooter/Current Cheesy shooter state", "No state");
