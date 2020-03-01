@@ -1,13 +1,13 @@
 package frc.robot.vision;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.robots.RobotConstants.ControlConstants;
 import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.TrigonPIDController;
 
 import static frc.robot.Robot.*;
-
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 /**
  * this is just template for a drivetrain turn to target command. It will be
@@ -24,7 +24,7 @@ public class TurnToTarget extends CommandBase {
     public TurnToTarget(Target target) {
         addRequirements(drivetrain);
         this.target = target;
-        rotationPIDController = new TrigonPIDController(robotConstants.controlConstants.visionRotationSettings, 0);
+        rotationPIDController = new TrigonPIDController(ControlConstants.visionRotationSettings, 0);
     }
 
     /**

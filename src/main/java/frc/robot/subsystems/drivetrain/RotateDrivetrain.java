@@ -1,11 +1,11 @@
 package frc.robot.subsystems.drivetrain;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.constants.robots.RobotConstants.ControlConstants;
 import frc.robot.utils.TrigonPIDController;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.drivetrain;
-import static frc.robot.Robot.robotConstants;
 
 public class RotateDrivetrain extends CommandBase {
     private TrigonPIDController pidController;
@@ -26,7 +26,7 @@ public class RotateDrivetrain extends CommandBase {
     public RotateDrivetrain(DoubleSupplier desiredAngle) {
         addRequirements(drivetrain);
         this.desiredAngle = desiredAngle;
-        pidController = new TrigonPIDController(robotConstants.controlConstants.drivetrainRotateSettings);
+        pidController = new TrigonPIDController(ControlConstants.drivetrainRotateSettings);
         pidController.enableContinuousInput(-180, 180);
     }
 

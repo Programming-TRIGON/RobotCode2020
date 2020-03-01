@@ -4,13 +4,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.commands.command_groups.CollectCell;
+import frc.robot.constants.robots.RobotConstants.AutoConstants;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.subsystems.drivetrain.RotateDrivetrain;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 import frc.robot.subsystems.intakeopener.SetIntakeState;
 
 import static frc.robot.Robot.drivetrain;
-import static frc.robot.Robot.robotConstants;
 import static frc.robot.motion_profiling.AutoPath.FacingPowerPortToMiddleField;
 import static frc.robot.motion_profiling.AutoPath.RightOfPortToMiddleField;
 
@@ -33,12 +33,12 @@ public class MiddleFieldAuto extends SequentialCommandGroup {
             new OpenIntakeAndFollowPath(autoPath),
             deadline(
                 sequence(
-                    new RotateDrivetrain(robotConstants.autoConstants.kMiddleFieldAutoRotateLeftAngle),
-                    new RotateDrivetrain(robotConstants.autoConstants.kMiddleFieldAutoRotateRightAngle)
+                    new RotateDrivetrain(AutoConstants.kMiddleFieldAutoRotateLeftAngle),
+                    new RotateDrivetrain(AutoConstants.kMiddleFieldAutoRotateRightAngle)
                 ),
                 new CollectCell()
             ),
-            new RotateDrivetrain(robotConstants.autoConstants.kMiddleFieldAutoRotateToPortAngle),
+            new RotateDrivetrain(AutoConstants.kMiddleFieldAutoRotateToPortAngle),
             new AutoShoot(3),
             new SetIntakeState(false)
         );

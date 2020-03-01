@@ -1,8 +1,11 @@
 package frc.robot.commands.command_groups;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
+import frc.robot.constants.robots.RobotConstants.LoaderConstants;
+import frc.robot.constants.robots.RobotConstants.MixerConstants;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeedPID;
 import frc.robot.subsystems.mixer.MixerPower;
@@ -14,7 +17,6 @@ import frc.robot.vision.Target;
 import frc.robot.vision.TurnToTarget;
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import static frc.robot.Robot.*;
 
@@ -86,7 +88,7 @@ public class AutoShoot extends SequentialCommandGroup {
                         setShooterVelocity.readyToShoot()),
                     parallel(
                         sequence(
-                            new WaitCommand(robotConstants.mixerConstants.kWaitForSpinMixerTime),
+                            new WaitCommand(MixerConstants.kWaitForSpinMixerTime),
                             new SpinMixer(getDesiredMixerVelocity(isAuto)
                             )
                         ),
@@ -104,7 +106,7 @@ public class AutoShoot extends SequentialCommandGroup {
     private MixerPower getDesiredMixerVelocity(boolean isAuto) {
         if (isAuto)
             return MixerPower.MixForAuto;
-        else if (Math.abs(limelight.getTy()) > robotConstants.loaderConstants.kFarawayTyMeasurement)
+        else if (Math.abs(limelight.getTy()) > LoaderConstants.kFarawayTyMeasurement)
             return MixerPower.MixForShoot;
         return MixerPower.MixForFarShoot;
     }
