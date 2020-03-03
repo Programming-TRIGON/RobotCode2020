@@ -10,7 +10,7 @@ import static frc.robot.Robot.*;
 public class SensorCheck extends CommandBase {
     private static final double kCheckTime = 1;
     private static final double kStartCheckTime = 0.7; // 0 to 1 (Percent)
-    private static final int kSensorsAmount = 6;
+    private static final int kSensorsAmount = 7;
     private static final double kPowerToMove = 0.1;
     private static final int kBlinkAmount = 15;
     private double initialTime;
@@ -37,6 +37,7 @@ public class SensorCheck extends CommandBase {
         initialSensorPosition[3] = shooter.getRightTicks();
         initialSensorPosition[4] = loader.getTicks();
         initialSensorPosition[5] = intakeOpener.getAngle();
+        initialSensorPosition[6] = intake.getRotations();
         //initialSensorPosition[6] = climb.getHookRotations();
     }
 
@@ -46,6 +47,7 @@ public class SensorCheck extends CommandBase {
         shooter.move(kPowerToMove);
         loader.move(kPowerToMove);
         intakeOpener.move(kPowerToMove);
+        intake.move(kPowerToMove);
         // climb.setHookPower(kPowerToMove);
         // After kStartCheckTime of the kCheckTime passed we start check for sensors error
         if (Timer.getFPGATimestamp() - initialTime >= kCheckTime * kStartCheckTime) {
@@ -55,6 +57,7 @@ public class SensorCheck extends CommandBase {
             checkError(3, shooter.getRightTicks(), "Right shooter encoder disconnect");
             checkError(4, loader.getTicks(), "Loader encoder disconnect");
             checkError(5, intakeOpener.getAngle(), "IntakeOpener encoder disconnect");
+            checkError(6, intake.getRotations(), "Intake motor disconnect");
             //checkError(6, climb.getHookRotations(), "Hook potentiometer disconnect");
         }
     }
@@ -70,6 +73,7 @@ public class SensorCheck extends CommandBase {
         shooter.stopMove();
         loader.stopMove();
         intakeOpener.stopMove();
+        intake.stopMove();
         // climb.setHookPower(0);
         // Check if none error detected, reports that all encoders are fine
         for (boolean error : hasFoundError) {
