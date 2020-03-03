@@ -65,6 +65,11 @@ public class SetShooterVelocity extends CommandBase {
             rightController.calculate(shooter.getRightVelocity()));
     }
 
+    @Override
+    public void end(boolean interrupted) {
+        shooter.stopMove();
+    }
+
     public void enableTuning() {
         SmartDashboard.putData("TBH/Left Controller", leftController);
         SmartDashboard.putData("TBH/Right Controller", rightController);

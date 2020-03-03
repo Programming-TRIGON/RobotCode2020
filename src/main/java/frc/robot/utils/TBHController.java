@@ -12,6 +12,7 @@ public class TBHController implements Sendable {
     private double lastError;
     private double tbh;
     private double positionTolerance;
+    private double lastOutput;
 
     public TBHController(double gain) {
         this.gain = gain;
@@ -32,9 +33,11 @@ public class TBHController implements Sendable {
         output += gain * error;
         output = MathUtil.clamp(output, -1, 1);
         if (isPositive(error) != isPositive(lastError)) {
-            output = tbh = 0.5 * (output + tbh);
-            lastError = error;
+            tbh = lastOutput;
+            output = 0.5 * (output + tbh);
         }
+        lastError = error;
+        lastOutput = output;
         return output;
     }
 
