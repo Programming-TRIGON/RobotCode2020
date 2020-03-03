@@ -67,7 +67,7 @@ public class SetShooterVelocity extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        shooter.stopMove();
+        //shooter.stopMove();
     }
 
     public void enableTuning() {
