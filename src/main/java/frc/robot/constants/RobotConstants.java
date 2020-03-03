@@ -98,6 +98,8 @@ public class RobotConstants {
         public static final boolean kIsRightEncoderInverted = false;
         public static final double kStopLoadingTolerance = 10;
         public static final double kVelocityTolerance = 35;
+        public static final double kLeftTBHGain = 0;
+        public static final double kRightTBHGain = 0;
     }
 
     public static class LoaderConstants {

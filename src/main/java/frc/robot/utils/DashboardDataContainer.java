@@ -58,7 +58,9 @@ public class DashboardDataContainer {
         // Shooter dashboard data
         putDefaultNumber("Shooter/Shooting velocity setpoint", 3050);
         putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
-        putData("Shooter/Set shooting velocity", new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
+        SetShooterVelocity setShooterVelocity = new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0));
+        setShooterVelocity.enableTuning();
+        putData("Shooter/Set shooting velocity", setShooterVelocity);
         putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
         putDefaultNumber("Shooter/Override Power", 0);
         putData("Shooter/Override", new OverrideCommand(shooter, () -> getNumber("Shooter/Override Power", 0)));

@@ -1,10 +1,9 @@
 package frc.robot.subsystems.shooter;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.constants.RobotConstants.ControlConstants;
 import frc.robot.constants.RobotConstants.ShooterConstants;
+import frc.robot.utils.TBHController;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.shooter;
@@ -15,129 +14,59 @@ import static frc.robot.Robot.shooter;
  */
 public class SetShooterVelocity extends CommandBase {
 
-    private static final int kLoadedCellsInAuto = 3;
     private DoubleSupplier velocitySetpoint;
-    private boolean isAuto;
     private double setpoint;
-    private double firstTimeOutsideZone;
-    private double firstTimeInZone;
-    private boolean isInZone;
-    private int cellsShot;
-
-    /**
-     * Constructs a shoot command with default RPM setpoint.
-     *
-     * @see frc.robot.subsystems.shooter.ShooterVelocity#kDefault
-     */
-    public SetShooterVelocity() {
-        this(false);
-    }
+    private TBHController leftController;
+    private TBHController rightController;
 
     /**
      * Constructs a shoot command with default RPM setpoint.
      *
      * @param isAuto whether the command should stop after shooting 3 cells
-     * @see frc.robot.subsystems.shooter.ShooterVelocity#kDefault
+     * @see frc.robot.subsystems.shooter.ShooterVelocity#Default
      */
     public SetShooterVelocity(boolean isAuto) {
-        this(ShooterVelocity.Default, isAuto);
+        this(ShooterVelocity.Default);
     }
 
     /**
      * @param velocity the velocity setpoint the talon fx will try to achieve.
      */
     public SetShooterVelocity(ShooterVelocity velocity) {
-        this(velocity, false);
-    }
-
-    /**
-     * @param velocity the velocity setpoint the talon fx will try to achieve.
-     * @param isAuto   whether the command should stop after shooting 3 cells
-     */
-    public SetShooterVelocity(ShooterVelocity velocity, boolean isAuto) {
-        this(velocity.getVelocity(), isAuto);
+        this(velocity.getVelocity());
     }
 
     /**
      * @param velocitySetpoint The setpoint used for calculation the PID velocity error in RPM.
      */
     public SetShooterVelocity(double velocitySetpoint) {
-        this(velocitySetpoint, false);
-    }
-
-    /**
-     * @param velocitySetpoint The setpoint used for calculation the PID velocity error in RPM.
-     * @param isAuto           Whether the command is run in autonomous.
-     */
-    public SetShooterVelocity(double velocitySetpoint, boolean isAuto) {
-        this(() -> velocitySetpoint, isAuto);
+        this(() -> velocitySetpoint);
     }
 
     public SetShooterVelocity(DoubleSupplier velocitySetpointSupplier) {
-        this(velocitySetpointSupplier, false);
-    }
-
-    public SetShooterVelocity(DoubleSupplier velocitySetpointSupplier, boolean isAuto) {
         addRequirements(shooter);
         velocitySetpoint = velocitySetpointSupplier;
-        this.isAuto = isAuto;
+        leftController = new TBHController(ShooterConstants.kLeftTBHGain);
+        rightController = new TBHController(ShooterConstants.kRightTBHGain);
     }
 
     @Override
     public void initialize() {
         setpoint = velocitySetpoint.getAsDouble();
-        cellsShot = 0;
-        firstTimeOutsideZone = 0;
-        isInZone = true;
+        leftController.reset();
+        leftController.setSetpoint(setpoint);
+        rightController.reset();
+        rightController.setSetpoint(setpoint);
     }
 
     @Override
     public void execute() {
-        shooter.setVelocity(velocitySetpoint.getAsDouble());
-        // If in auto, check how many cells were shot.
-        if (isAuto) {
-            SmartDashboard.putNumber("Shooter/Cells Shot", cellsShot);
-            boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageVelocity()) < ShooterConstants.kShootingBallZone;
-            countShotCells(isCellBeingShot);
-        }
+        shooter.setPower(leftController.calculate(shooter.getLeftVelocity()),
+            rightController.calculate(shooter.getRightVelocity()));
     }
 
-    private void countShotCells(boolean isCellBeingShot) {
-        if (!isInZone && isCellBeingShot &&
-            Timer.getFPGATimestamp() - firstTimeOutsideZone > ShooterConstants.kWaitTimeZone) {
-            isInZone = true;
-            firstTimeInZone = Timer.getFPGATimestamp();
-            cellsShot++;
-        } else if (isInZone && !isCellBeingShot &&
-            Timer.getFPGATimestamp() - firstTimeInZone > ShooterConstants.kWaitTimeZone) {
-            isInZone = false;
-            firstTimeOutsideZone = Timer.getFPGATimestamp();
-        }
-    }
-
-    @Override
-    public boolean isFinished() {
-        return isAuto && cellsShot >= kLoadedCellsInAuto;
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        if (!interrupted)
-            shooter.stopMove();
-    }
-
-    /**
-     * @return whether the shooter is on target velocity.
-     * Tolerance is taken from {@link frc.robot.constants.RobotConstants.ControlConstants#leftShooterSettings}
-     */
-    public boolean isOnTarget() {
-        return Math.abs(getError()) <
-            ControlConstants.leftShooterSettings.getTolerance();
-    }
-
-    public double getError() {
-        if(shooter.isOverridden())
-            return 0;
-        return shooter.getAverageVelocity() - setpoint;
+    public void enableTuning() {
+        SmartDashboard.putData("TBH/Left Controller", leftController);
+        SmartDashboard.putData("TBH/Right Controller", rightController);
     }
 }
