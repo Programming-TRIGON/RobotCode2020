@@ -1,5 +1,6 @@
 package frc.robot.subsystems.intake;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -13,6 +14,7 @@ import frc.robot.subsystems.OverridableSubsystem;
  */
 public class Intake extends OverridableSubsystem { // implements Loggable {
     private CANSparkMax sparkMax;
+    private CANEncoder encoder;
 
     public Intake() {
         sparkMax = new CANSparkMax(RobotMap.kCellIntakeSparkMax, MotorType.kBrushless);
@@ -22,6 +24,8 @@ public class Intake extends OverridableSubsystem { // implements Loggable {
         sparkMax.getEncoder();
         sparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 65534);
         sparkMax.burnFlash();
+        
+        encoder = sparkMax.getEncoder();
     }
 
     /**
@@ -39,5 +43,9 @@ public class Intake extends OverridableSubsystem { // implements Loggable {
 
     public boolean getIsInStall() {
         return getOutputCurrent() > IntakeConstants.kOnStallLimit;
+    }
+
+    public double getPosition() {
+        return encoder.getPosition();
     }
 }
