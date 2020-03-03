@@ -73,6 +73,7 @@ public class DashboardDataContainer {
         putData("Drivetrain/Calibrate Drive", new RunWhenDisabledCommand(drivetrain::tuneTrigonDrive));
 
         putData("Motion Profiling/Path Test", new FollowPath(AutoPath.InitLineToEnemyTrench.getPath(), true));
+        putData("Motion Profiling/Auto Path Test", new FollowPath(AutoPath.));
 
         // Intake dashboard data
         putDefaultNumber("Intake/Intake power", 0);
