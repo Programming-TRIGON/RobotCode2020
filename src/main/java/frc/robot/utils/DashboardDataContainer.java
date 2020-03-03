@@ -117,7 +117,7 @@ public class DashboardDataContainer {
         putBoolean("log", false);
         putData("Vision/Calibrate Vision Distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 120, 35, 10));
         putData("Vision/FollowTarget", new FollowTarget(Target.Feeder, "Follow Feeder"));
-        putData("Sensor Check", new SensorCheck());
+        putData("Sensor Check", new SensorCheck().andThen(new SetIntakeAngle(IntakeAngle.Close)));
         putData("Open Intake For Feeder", new SetIntakeAngle(IntakeAngle.FullyOpen));
         SmartDashboard.putString("Shooter/Current Cheesy shooter state", "No state");
     }
