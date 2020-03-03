@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import frc.robot.constants.RobotConstants.ControlConstants;
@@ -153,7 +154,7 @@ public class Shooter extends OverridableSubsystem implements Loggable {
      * @return kf of the left talonFX shooter estimated by it's current rpm and voltage 
      */
     public double estimateLeftKf() {
-        final double output = 1023.0 * leftTalonFX.getMotorOutputPercent();
+        final double output = 1023.0 * leftTalonFX.getMotorOutputPercent() * RobotController.getBatteryVoltage() / 12;
         return output / leftTalonFX.getSelectedSensorVelocity();
     }
 
@@ -163,7 +164,7 @@ public class Shooter extends OverridableSubsystem implements Loggable {
      * @return kf of the right talonFX shooter estimated by it's current rpm and voltage
      */
     public double estimateRightKf() {
-        final double output = 1023.0 * rightTalonFX.getMotorOutputPercent();
+        final double output = 1023.0 * rightTalonFX.getMotorOutputPercent() * RobotController.getBatteryVoltage() / 12;
         return output / rightTalonFX.getSelectedSensorVelocity();
     }
 

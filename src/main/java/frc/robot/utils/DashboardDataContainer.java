@@ -58,7 +58,7 @@ public class DashboardDataContainer {
         // Shooter dashboard data
         putDefaultNumber("Shooter/Shooting velocity setpoint", 3050);
         putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
-        putData("Shooter/Set shooting velocity", new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
+        putData("Shooter/Set shooting velocity",  new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0), "TBH Controller"));
         putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
         putDefaultNumber("Shooter/Override Power", 0);
         putData("Shooter/Override", new OverrideCommand(shooter, () -> getNumber("Shooter/Override Power", 0)));
@@ -119,7 +119,7 @@ public class DashboardDataContainer {
         putBoolean("log", false);
         putData("Vision/Calibrate Vision Distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 120, 35, 10));
         putData("Vision/FollowTarget", new FollowTarget(Target.Feeder, "Follow Feeder"));
-        putData("Sensor Check", new SensorCheck());
+        putData("Sensor Check", new SensorCheck().andThen(new SetIntakeAngle(IntakeAngle.Close)));
         putData("Open Intake For Feeder", new SetIntakeAngle(IntakeAngle.FullyOpen));
         SmartDashboard.putString("Shooter/Current Cheesy shooter state", "No state");
     }
