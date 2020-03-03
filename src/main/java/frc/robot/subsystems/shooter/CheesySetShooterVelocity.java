@@ -221,7 +221,6 @@ public class CheesySetShooterVelocity extends CommandBase {
         return shooter.getAverageVelocity() - setpoint;
     }
 
-
     private enum CheesyShooterState {
         SpinUp, // PIDF to desired RPM
         HoldWhenReady, // calculate average kF
