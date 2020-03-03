@@ -45,9 +45,6 @@ public class RobotConstants {
         public static final double kCurrentLimit = 0;
         public static final double kThresholdLimit = 0;
         public static final double kTriggerThresholdTime = 0;
-        public static final double kOpenAngle = 100.652344;
-        public static final double kClosedAngle = 0;
-        public static final double kFeederClosedAngle = 20;
         public static final double kTicksPerRotation = 4096;
         public static final double kTimeout = 0.5;
         public static final double kFindOffsetPower = -0.3;
@@ -120,9 +117,9 @@ public class RobotConstants {
         public static final double kDistanceFromPortBCoefficient = 122.23;
         public static final double kDistanceFromPortCCoefficient = 3960.4;
         public static final double kTargetNotFoundWaitTime = 0.5;
-        public static final double kDistanceACoefficient = 16.637;
-        public static final double kDistanceBCoefficient = 3.0859;
-        public static final double kDistanceInterval = 20;
+        public static final double kDistanceACoefficient = 19.003;
+        public static final double kDistanceBCoefficient = -12.691;
+        public static final double kDistanceInterval = 3.6616;
     }
 
     public static class AutoConstants {
@@ -150,7 +147,7 @@ public class RobotConstants {
         public static final PIDSettings loaderSettings = PIDSettings.fromTalonSettings(0.02, 0.000001, 1.5, 0.141, 2);
         public static final SimpleMotorFeedforward motionProfilingSettings = new SimpleMotorFeedforward(0.135, 2.47, 0.347);
         public static final SimpleMotorFeedforward motionProfilingReverseSettings = new SimpleMotorFeedforward(0.129, 2.47, 0.334);
-        public static final PIDSettings visionDistanceSettings = new PIDSettings(0.04, 0, 0.04, 25, 25);
+        public static final PIDSettings visionDistanceSettings = new PIDSettings(0.04, 0, 0.04, 10, 25);
         public static final PIDSettings visionRotationSettings = new PIDSettings(0.035, 0.00055, 0.0005, 1, 0.5);
         public static final PIDSettings drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
     }

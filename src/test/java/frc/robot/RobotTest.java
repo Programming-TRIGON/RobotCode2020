@@ -66,7 +66,7 @@ public class RobotTest {
             new FindOpenerOffset(),
             new CheesySetShooterVelocity(),
             new SetIntakeAngle(IntakeAngle.Close),
-            new SetIntakeAngle(IntakeAngle.Open),
+            new SetIntakeAngle(IntakeAngle.OpenForIntake),
             new MoveClimbAndHook(() -> 0, () -> 0),
             new CalibrateVisionDistance(() -> false, Target.Feeder, 0),
             new FollowTarget(Target.Feeder),

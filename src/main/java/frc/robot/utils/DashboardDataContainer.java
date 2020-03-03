@@ -90,7 +90,7 @@ public class DashboardDataContainer {
             () -> getNumber("Intake Opener/Close Setpoint", 0)));
         putData("Intake Opener/Reset Encoder", new RunWhenDisabledCommand(intakeOpener::resetEncoder));
         putData("Intake Opener/Enable Tuning", new RunWhenDisabledCommand(intakeOpener::enableTuning));
-        putData("Intake Opener/Open Intake", new SetIntakeAngle(IntakeAngle.Open));
+        putData("Intake Opener/Open Intake", new SetIntakeAngle(IntakeAngle.OpenForIntake));
         putData("Intake Opener/Close Intake", new SetIntakeAngle(IntakeAngle.Close));
         putData("Intake Opener/Move", new MoveMovableSubsystem(intakeOpener, () -> getNumber("Intake Opener/Intake Opener power", 0)));
         putData("Intake Opener/Find Offset", new FindOpenerOffset());
@@ -116,9 +116,9 @@ public class DashboardDataContainer {
         putData("CommandGroup/ShortCollectCell", new ShortCollectCell());
         putBoolean("log", false);
         putData("Vision/Calibrate Vision Distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 120, 35, 10));
-        putData("Vision/FollowTarget", new FollowTarget(Target.Feeder));
+        putData("Vision/FollowTarget", new FollowTarget(Target.Feeder, "Follow Feeder"));
         putData("Sensor Check", new SensorCheck());
-
+        putData("Open Intake For Feeder", new SetIntakeAngle(IntakeAngle.FullyOpen));
         SmartDashboard.putString("Shooter/Current Cheesy shooter state", "No state");
     }
 
