@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.DriverStationLogger;
 
 import static frc.robot.Robot.*;
@@ -9,8 +10,9 @@ import static frc.robot.Robot.*;
 public class SensorCheck extends CommandBase {
     private static final double kCheckTime = 1;
     private static final double kStartCheckTime = 0.7; // 0 to 1 (Percent)
-    private static final int kSensorsAmount = 7;
+    private static final int kSensorsAmount = 6;
     private static final double kPowerToMove = 0.1;
+    private static final int kBlinkAmount = 15;
     private double initialTime;
     private double[] initialSensorPosition; // Ticks units
     private boolean[] hasFoundError;
@@ -35,7 +37,7 @@ public class SensorCheck extends CommandBase {
         initialSensorPosition[3] = shooter.getRightTicks();
         initialSensorPosition[4] = loader.getTicks();
         initialSensorPosition[5] = intakeOpener.getAngle();
-        initialSensorPosition[6] = climb.getHookRotations();
+        //initialSensorPosition[6] = climb.getHookRotations();
     }
 
     @Override
@@ -44,7 +46,7 @@ public class SensorCheck extends CommandBase {
         shooter.move(kPowerToMove);
         loader.move(kPowerToMove);
         intakeOpener.move(kPowerToMove);
-        climb.setHookPower(kPowerToMove);
+        // climb.setHookPower(kPowerToMove);
         // After kStartCheckTime of the kCheckTime passed we start check for sensors error
         if (Timer.getFPGATimestamp() - initialTime >= kCheckTime * kStartCheckTime) {
             checkError(0, drivetrain.getLeftTicks(), "Left drivetrain encoder disconnect");
@@ -53,7 +55,7 @@ public class SensorCheck extends CommandBase {
             checkError(3, shooter.getRightTicks(), "Right shooter encoder disconnect");
             checkError(4, loader.getTicks(), "Loader encoder disconnect");
             checkError(5, intakeOpener.getAngle(), "IntakeOpener encoder disconnect");
-            checkError(6, climb.getHookRotations(), "Hook potentiometer disconnect");
+            //checkError(6, climb.getHookRotations(), "Hook potentiometer disconnect");
         }
     }
 
@@ -68,13 +70,14 @@ public class SensorCheck extends CommandBase {
         shooter.stopMove();
         loader.stopMove();
         intakeOpener.stopMove();
-        climb.setHookPower(0);
+        // climb.setHookPower(0);
         // Check if none error detected, reports that all encoders are fine
         for (boolean error : hasFoundError) {
             if (error)
                 return;
         }
         DriverStationLogger.logToDS("All encoders are good to go");
+        led.blinkColor(LEDColor.Green, kBlinkAmount);
     }
 
     /**
