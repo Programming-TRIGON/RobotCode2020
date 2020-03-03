@@ -10,7 +10,7 @@ public enum AutoPath {
     SimpleAutoToTrench, TurnFromTrenchToPort,
     // MiddleFieldAndTrenchAuto Paths
     FacingPowerPortToMiddleField, InLineWithTrenchToMiddleField, 
-    MiddleFieldToShootingPosition, ShootingPosition;
+    MiddleFieldToShootingPosition, ShootingPositionToTrench;
 
     private final Path path;
 

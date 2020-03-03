@@ -15,21 +15,15 @@ public class MiddleFieldAndTrenchAuto extends SequentialCommandGroup {
    * Creates a new MiddleFieldAndTrenchAuto.
    */
   public MiddleFieldAndTrenchAuto(StartingPose startingPose) {
-    AutoPath autoPath = startingPose == StartingPose.kFacingPowerPort ?
+    AutoPath firstAutoPath = startingPose == StartingPose.kFacingPowerPort ?
         AutoPath.FacingPowerPortToMiddleField : AutoPath.InLineWithTrenchToMiddleField;
     addCommands(
         parallel(
-            sequence(
-                new InstantCommand(() -> drivetrain.resetOdometry(autoPath)),
-                new AutoShoot(3)
-            ),
+            new InstantCommand(() -> drivetrain.resetOdometry(firstAutoPath)),
             new FindOpenerOffset()
         ),
-        new OpenIntakeAndFollowPath(autoPath),
-        deadline(
-            new FollowPath(AutoPath.InTrench),
-            new CollectCell()
-        ),
+        new CollectCellAndFollowPath(firstAutoPath),
+        new FollowPath(AutoPath.InTrench),
         new AutoShoot(5)
     );
   }

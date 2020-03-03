@@ -20,7 +20,7 @@ public class RobotConstants {
         public static final double kCurrentLimit = 40;
         public static final double kTriggerThresholdCurrent = 40;
         public static final double kTriggerThresholdTime = 1;
-        public static final boolean kRightEncoderInverted = true;
+        public static final boolean kRightEncoderInverted = false;
         public static final boolean kLeftEncoderInverted = false;
         public static final double kClimbDriveDistance = 0.1;
     }
@@ -154,6 +154,6 @@ public class RobotConstants {
         public static final Constraints visionRotationConstraints = new Constraints(10, 7.5);
         public static final PIDSettings drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
         public static final PIDSettings drivetrainEncoderPositionLeftSettings = new PIDSettings(5, 0, 0.5, 0, 0);
-        public static final PIDSettings drivetrainEncoderPositionRightSettings = new PIDSettings(-5, 0, -0.5, 0, 0);
+        public static final PIDSettings drivetrainEncoderPositionRightSettings = new PIDSettings(5, 0, 0.5, 0, 0);
     }
 }

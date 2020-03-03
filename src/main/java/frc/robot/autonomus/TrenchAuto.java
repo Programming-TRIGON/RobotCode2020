@@ -25,7 +25,7 @@ public class TrenchAuto extends SequentialCommandGroup {
                 ),
                 new FindOpenerOffset()
             ),
-            new OpenIntakeAndFollowPath(autoPath),
+            new CollectCellAndFollowPath(autoPath),
             deadline(
                 new FollowPath(AutoPath.InTrench),
                 new CollectCell()

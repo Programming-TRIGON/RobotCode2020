@@ -31,7 +31,7 @@ public class MiddleFieldAuto extends SequentialCommandGroup {
                 ),
                 new FindOpenerOffset()
             ),
-            new OpenIntakeAndFollowPath(autoPath),
+            new CollectCellAndFollowPath(autoPath),
             deadline(
                 sequence(
                     new RotateDrivetrain(AutoConstants.kMiddleFieldAutoRotateLeftAngle),
