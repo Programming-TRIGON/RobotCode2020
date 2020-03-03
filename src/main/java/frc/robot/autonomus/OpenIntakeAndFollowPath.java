@@ -12,7 +12,7 @@ public class OpenIntakeAndFollowPath extends ParallelCommandGroup {
      */
     public OpenIntakeAndFollowPath(AutoPath autoPath) {
         addCommands(
-            new SetIntakeAngle(IntakeAngle.Open),
+            new SetIntakeAngle(IntakeAngle.OpenForIntake),
             new FollowPath(autoPath)
         );
     }

@@ -14,7 +14,7 @@ public class ShortCollectCell extends SequentialCommandGroup {
         addCommands(
             deadline(
                 new WaitCommand(kCollectTime),
-                new SetIntakeAngle(IntakeAngle.Open),
+                new SetIntakeAngle(IntakeAngle.OpenForIntake),
                 new SetIntakeSpeed()
             ),
             new SetIntakeAngle(IntakeAngle.Close)

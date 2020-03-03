@@ -1,9 +1,10 @@
 package frc.robot.subsystems.intakeopener;
 
 public enum IntakeAngle {
-    Open(100.652344),
+    OpenForIntake(100.652344),
     Close(0),
-    CollectFromFeeder(20);
+    CloseForFeeder(20),
+    FullyOpen(135.878906);
 
     private final double angle;
 
