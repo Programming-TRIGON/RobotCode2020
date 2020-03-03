@@ -46,8 +46,8 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     @Override
     public void move(double power) {
         if (!overridden)
-            if (foundOffset && (getAngle() >= IntakeOpenerConstants.kOpenAngle && power > 0)
-                || (getAngle() <= IntakeOpenerConstants.kClosedAngle && power < 0))
+            if (foundOffset && (getAngle() >= IntakeAngle.FullyOpen.getAngle() && power > 0)
+                || (getAngle() <= IntakeAngle.Close.getAngle() && power < 0))
                 super.move(0);
             else
                 super.move(power);
@@ -118,6 +118,7 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
         if (!hasFoundOffset()) {
             talonSRX.setSelectedSensorPosition(0, 0, 10);
             foundOffset = true;
+            talonSRX.setSelectedSensorPosition(0, 0, 10);
             enableSoftLimits();
         }
     }
@@ -127,9 +128,9 @@ public class IntakeOpener extends OverridableSubsystem implements Loggable {
     }
 
     private void enableSoftLimits() {
-        talonSRX.configReverseSoftLimitThreshold((int) (IntakeOpenerConstants.kClosedAngle / 360 * IntakeOpenerConstants.kTicksPerRotation));
+        talonSRX.configReverseSoftLimitThreshold((int) (IntakeAngle.Close.getAngle() / 360 * IntakeOpenerConstants.kTicksPerRotation));
         talonSRX.configReverseSoftLimitEnable(true);
-        talonSRX.configForwardSoftLimitThreshold((int) (IntakeOpenerConstants.kOpenAngle / 360 * IntakeOpenerConstants.kTicksPerRotation));
+        talonSRX.configForwardSoftLimitThreshold((int) (IntakeAngle.FullyOpen.getAngle() / 360 * IntakeOpenerConstants.kTicksPerRotation));
         talonSRX.configForwardSoftLimitEnable(true);
     }
 

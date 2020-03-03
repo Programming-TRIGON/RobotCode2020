@@ -16,7 +16,7 @@ import static frc.robot.Robot.led;
 public class CollectCell extends SequentialCommandGroup {
     public CollectCell() {
         addCommands(
-            new SetIntakeAngle(IntakeAngle.Open),
+            new SetIntakeAngle(IntakeAngle.OpenForIntake),
             parallel(
                 new StartEndCommand(() -> led.setColor(LEDColor.Orange), () -> led.turnOffLED(), led),
                 new SetIntakeSpeed(),
