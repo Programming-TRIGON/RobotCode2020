@@ -8,9 +8,8 @@ import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.shooter;
 
-
 /**
- * This command spins the wheel in the desired velocity in order to shoot the power cells.
+ * This command spins the shooter's wheels in the desired velocity with take back half loop control.
  */
 public class SetShooterVelocity extends CommandBase {
 
@@ -20,27 +19,10 @@ public class SetShooterVelocity extends CommandBase {
     private TBHController rightController;
 
     /**
-     * Constructs a shoot command with default RPM setpoint.
-     *
-     * @param isAuto whether the command should stop after shooting 3 cells
-     * @see frc.robot.subsystems.shooter.ShooterVelocity#Default
-     */
-    public SetShooterVelocity(boolean isAuto) {
-        this(ShooterVelocity.Default);
-    }
-
-    /**
-     * @param velocity the velocity setpoint the talon fx will try to achieve.
+     * @param velocity the velocity setpoint the shooter's wheels will try to achieve.
      */
     public SetShooterVelocity(ShooterVelocity velocity) {
-        this(velocity.getVelocity());
-    }
-
-    /**
-     * @param velocitySetpoint The setpoint used for calculation the PID velocity error in RPM.
-     */
-    public SetShooterVelocity(double velocitySetpoint) {
-        this(() -> velocitySetpoint);
+        this(velocity::getVelocity);
     }
 
     public SetShooterVelocity(DoubleSupplier velocitySetpointSupplier) {
@@ -50,12 +32,21 @@ public class SetShooterVelocity extends CommandBase {
         rightController = new TBHController(ShooterConstants.kRightTBHGain);
     }
 
+    public SetShooterVelocity(DoubleSupplier velocitySetpointSupplier, String key) {
+        addRequirements(shooter);
+        velocitySetpoint = velocitySetpointSupplier;
+        leftController = new TBHController(ShooterConstants.kLeftTBHGain);
+        rightController = new TBHController(ShooterConstants.kRightTBHGain);
+        SmartDashboard.putData("Shooter/" + key + " - Left", leftController);
+        SmartDashboard.putData("Shooter/" + key + " - Right", rightController);
+    }
+
     @Override
     public void initialize() {
         setpoint = velocitySetpoint.getAsDouble();
         leftController.reset();
-        leftController.setSetpoint(setpoint);
         rightController.reset();
+        leftController.setSetpoint(setpoint);
         rightController.setSetpoint(setpoint);
     }
 
@@ -63,15 +54,5 @@ public class SetShooterVelocity extends CommandBase {
     public void execute() {
         shooter.setPower(leftController.calculate(shooter.getLeftVelocity()),
             rightController.calculate(shooter.getRightVelocity()));
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        //shooter.stopMove();
-    }
-
-    public void enableTuning() {
-        SmartDashboard.putData("TBH/Left Controller", leftController);
-        SmartDashboard.putData("TBH/Right Controller", rightController);
     }
 }
