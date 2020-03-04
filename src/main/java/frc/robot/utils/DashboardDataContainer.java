@@ -1,8 +1,10 @@
 package frc.robot.utils;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import frc.robot.commands.MoveMovableSubsystem;
 import frc.robot.commands.OverrideCommand;
@@ -14,6 +16,7 @@ import frc.robot.commands.command_groups.ShortCollectCell;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
+import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.climb.SetHookHeight;
 import frc.robot.subsystems.drivetrain.Song;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
@@ -99,8 +102,11 @@ public class DashboardDataContainer {
         // Climb 
         putData("Climb/Reverse Climb", new StartEndCommand(() -> climb.setOppositeClimbPower(-0.4), () -> climb.setOppositeClimbPower(0)).withTimeout(5));
         putData("Climb/Reset Hook Rotations", new RunWhenDisabledCommand(climb::resetHookRotations));
-        putData("Climb/Disable Climb Soft Limits", new StartEndCommand(() -> climb.setSoftLimits(false), () -> climb.setSoftLimits(true)));
         putData("Climb/Move Down Hook", new SetHookHeight(0));
+        putData("Climb/Go down with joystick", new RunCommand(() ->
+            climb.setHookPowerOverride(oi.getOperatorXboxController().getY(Hand.kLeft))));
+        putData("Climb/Move Up Hook", new SetHookHeight());
+        putData("Climb/Climb With Xbox", new MoveClimbAndHook(() -> oi.getOperatorXboxController().getY(Hand.kLeft), ()->0.0));
 
         putData("Drivetrain/Load Star_Wars_Main_Theme", new InstantCommand(() -> drivetrain.loadSong(Song.Star_Wars_Main_Theme), drivetrain));
         putData("Drivetrain/Load Animal_Crossing_Nook_Scranny", new InstantCommand(() -> drivetrain.loadSong(Song.Animal_Crossing_Nook_Scranny), drivetrain));

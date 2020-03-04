@@ -8,7 +8,7 @@ import frc.robot.utils.DriverStationLogger;
 import static frc.robot.Robot.*;
 
 public class SensorCheck extends CommandBase {
-    private static final double kCheckTime = 1;
+    private static final double kCheckTime = 0.5;
     private static final double kStartCheckTime = 0.7; // 0 to 1 (Percent)
     private static final int kSensorsAmount = 9;
     private static final double kPowerToMove = 0.1;
