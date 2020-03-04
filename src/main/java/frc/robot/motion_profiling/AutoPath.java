@@ -4,13 +4,14 @@ package frc.robot.motion_profiling;
  * This enum represent and hold the instances of auto paths
  */
 public enum AutoPath {
+    // TrenchAuto Paths
     FacingPowerPortToTrenchStart, InLineWithTrenchToTrenchStart, InTrench,
-    ReverseInTrench, RightOfPortToMiddleField,
-    InitLineToEnemyTrench, EnemyTrenchToPort,
-    SimpleAutoToTrench, TurnFromTrenchToPort,
+    // Steal Auto Paths
+    InitLineToEnemyTrench, EnemyTrenchToPort(true),
     // MiddleFieldAndTrenchAuto Paths
-    FacingPowerPortToMiddleField, InLineWithTrenchToMiddleField, 
-    MiddleFieldToShootingPosition, ShootingPositionToTrench;
+    TrenchStartToMiddleField,
+    // HitAuto Paths
+    InLineWithTrenchToEndOfTrench, EndOfTrenchToStartOfTrench(true);
 
     private final Path path;
 
@@ -20,6 +21,11 @@ public enum AutoPath {
 
     AutoPath() {
         path = new Path(name() + ".wpilib.json");
+    }
+
+    AutoPath(boolean isReversed) {
+        this();
+        path.setReversed(isReversed);
     }
 
     AutoPath(String name) {

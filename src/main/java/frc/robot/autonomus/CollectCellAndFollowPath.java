@@ -1,12 +1,13 @@
 package frc.robot.autonomus;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.FollowPath;
 
-public class CollectCellAndFollowPath extends ParallelCommandGroup {
+public class CollectCellAndFollowPath extends SequentialCommandGroup {
+    public static final double kCollectAfterPathEndsTimeout = 0.3;
     private static final double kWaitToCollectCellTime = 1;
 
     /**
@@ -14,11 +15,14 @@ public class CollectCellAndFollowPath extends ParallelCommandGroup {
      */
     public CollectCellAndFollowPath(AutoPath autoPath) {
         addCommands(
-            sequence(
-                new WaitCommand(kWaitToCollectCellTime),
-                new CollectCell()
+            deadline(
+                new FollowPath(autoPath),
+                sequence(
+                    new WaitCommand(kWaitToCollectCellTime),
+                    new CollectCell()
+                )
             ),
-            new FollowPath(autoPath)
+            new CollectCell().withTimeout(kCollectAfterPathEndsTimeout)
         );
     }
 }

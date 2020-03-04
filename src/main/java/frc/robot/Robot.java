@@ -66,8 +66,11 @@ public class Robot extends TimedRobot {
         autoChooser.addOption("StealAuto", new StealAuto());
         autoChooser.addOption("TrenchAuto: In line with Trench", new TrenchAuto(StartingPose.kLineUpWithTrenchRun));
         autoChooser.addOption("TrenchAuto: Facing Power Port", new TrenchAuto(StartingPose.kFacingPowerPort));
-        autoChooser.addOption("MiddleFieldAuto: Facing Power Port", new MiddleFieldAuto(StartingPose.kFacingPowerPort));
-        autoChooser.addOption("MiddleFieldAuto: Facing right of Power Port", new MiddleFieldAuto(StartingPose.kFacingRightOfPowerPort));
+        autoChooser.addOption("HitAuto", new HitAuto());
+        autoChooser.addOption("MiddleFieldAndTrenchAuto: Facing Power Port",
+            new MiddleFieldAndTrenchAuto(StartingPose.kFacingPowerPort));
+        autoChooser.addOption("MiddleFieldAndTrenchAuto: In line with Trench",
+            new MiddleFieldAndTrenchAuto(StartingPose.kLineUpWithTrenchRun));
 
         SmartDashboard.putData("Auto/autoChooser", autoChooser);
         SmartDashboard.putData("Command Scheduler", CommandScheduler.getInstance());
