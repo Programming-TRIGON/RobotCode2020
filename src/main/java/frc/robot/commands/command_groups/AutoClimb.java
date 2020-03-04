@@ -2,15 +2,12 @@ package frc.robot.commands.command_groups;
 
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.constants.RobotConstants.ClimbConstants;
 import frc.robot.constants.RobotConstants.DrivetrainConstants;
 import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.climb.SetHookHeight;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
-import java.util.function.BooleanSupplier;
 
 import static frc.robot.Robot.*;
 
