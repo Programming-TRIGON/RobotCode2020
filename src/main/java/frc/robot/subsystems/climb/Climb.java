@@ -21,10 +21,11 @@ public class Climb extends SubsystemBase implements Loggable {
     private WPI_TalonSRX hookTalonSRX;
     private CANSparkMax climbSparkMax;
     private CANEncoder climbEncoder;
+    
     /**
      * The climb holds all the methods used for the robots climb in the endgame.
-     * Climb is the system that pulls the rope to make the robot levitate. Hook is
-     * the system that extends to hang on the climb.
+     * Climb is the system that pulls the rope to make the robot levitate. 
+     * Hook is the system that extends to hang on the climb.
      */
     public Climb() {
         hookTalonSRX = new WPI_TalonSRX(RobotMap.kHookTalonSRX);
@@ -33,10 +34,16 @@ public class Climb extends SubsystemBase implements Loggable {
                 ClimbConstants.kHookThresholdLimit, ClimbConstants.kHookCurrentTimeout));
         hookTalonSRX.setInverted(ClimbConstants.kIsHookInverted);
         hookTalonSRX.setNeutralMode(NeutralMode.Brake);
+        hookTalonSRX.configForwardSoftLimitThreshold(
+            (int)(ClimbConstants.kMaxHookRotations * ClimbConstants.kHookTicksPerRotation));
+        hookTalonSRX.configReverseSoftLimitThreshold(0);
+        
         DriverStationLogger.logErrorToDS(
             hookTalonSRX.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.CTRE_MagEncoder_Relative, 0, 10),
             "Hook Encoder Disconnected");
+
         resetHookRotations();
+
         climbSparkMax = new CANSparkMax(RobotMap.kClimbSparkMax, MotorType.kBrushless);
         climbSparkMax.setSmartCurrentLimit(ClimbConstants.kClimbCurrentLimit);
         climbSparkMax.getEncoder(EncoderType.kHallSensor, 42);
@@ -51,7 +58,7 @@ public class Climb extends SubsystemBase implements Loggable {
 
     @Log(name = "Climb/Hook Rotations")
     public double getHookRotations() {
-        return hookTalonSRX.getSelectedSensorPosition() * ClimbConstants.kHookTicksPerRotation;
+        return hookTalonSRX.getSelectedSensorPosition() / ClimbConstants.kHookTicksPerRotation;
     }
 
     public void setHookPower(double power) {
@@ -84,21 +91,12 @@ public class Climb extends SubsystemBase implements Loggable {
 
     public void resetHookRotations() {
         hookTalonSRX.setSelectedSensorPosition(0);
-        enableSoftLimits();
+        setSoftLimits(true);
     }
 
-    public void enableSoftLimits() {
-        hookTalonSRX.configForwardSoftLimitThreshold(
-            (int)(ClimbConstants.kMaxHookRotations * ClimbConstants.kHookTicksPerRotation));
-        hookTalonSRX.configReverseSoftLimitThreshold(
-            (int)(ClimbConstants.kMaxHookRotations * ClimbConstants.kHookTicksPerRotation));
-        hookTalonSRX.configForwardSoftLimitEnable(true);
-        hookTalonSRX.configReverseSoftLimitEnable(true);
-    }
-
-    public void disableSoftLimits() {
-        hookTalonSRX.configForwardSoftLimitEnable(false);
-        hookTalonSRX.configReverseSoftLimitEnable(false);
+    public void setSoftLimits(boolean enable) {
+        hookTalonSRX.configForwardSoftLimitEnable(enable);
+        hookTalonSRX.configReverseSoftLimitEnable(enable);
     }
 
 	public double getClimbPosition() {

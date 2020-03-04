@@ -49,13 +49,13 @@ public class DashboardDataContainer {
         putData("Loader/Spin Loader with PID", new SetLoaderSpeedPID(() -> getNumber("Loader/Loader power", 0)));
         putData("Loader/Spin Loader by value", new SetLoaderSpeed(() -> getNumber("Loader/Loader power", 0)));
 
-        // Mixer dashboard data:
+        // Mixer  
         putDefaultNumber("Mixer/Mixer power", 0);
         putData("Mixer/Override", new OverrideCommand(mixer));
         putData("Mixer/Spin Mixer", new SpinMixer(() -> getNumber("Mixer/Mixer power", 0)));
         putData("Mixer/Spin Mixer By Time", new SpinMixerByTime(() -> getNumber("Mixer/Mixer power", 0)));
 
-        // Shooter dashboard data
+        // Shooter  
         putDefaultNumber("Shooter/Shooting velocity setpoint", 3050);
         putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
         putData("Shooter/Set shooting velocity", new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
@@ -74,12 +74,12 @@ public class DashboardDataContainer {
 
         putData("Motion Profiling/Path Test", new FollowPath(AutoPath.InitLineToEnemyTrench.getPath(), true));
 
-        // Intake dashboard data
+        // Intake  
         putDefaultNumber("Intake/Intake power", 0);
         putData("Intake/Override intake", new OverrideCommand(intake,
             () -> getNumber("Intake/Intake power", 0)));
 
-        // IntakeOpener dashboard data
+        // IntakeOpener  
         putDefaultNumber("Intake Opener/Intake Opener power", 0);
         putData("Intake Opener/Override intake opener", new OverrideCommand(intakeOpener,
             () -> getNumber("Intake Opener/Intake Opener power", 0)));
@@ -99,7 +99,7 @@ public class DashboardDataContainer {
         // Climb 
         putData("Climb/Reverse Climb", new StartEndCommand(() -> climb.setOppositeClimbPower(-0.4), () -> climb.setOppositeClimbPower(0)).withTimeout(5));
         putData("Climb/Reset Hook Rotations", new RunWhenDisabledCommand(climb::resetHookRotations));
-        putData("Climb/Disable Climb Soft Limits", new StartEndCommand(climb::disableSoftLimits, climb::enableSoftLimits));
+        putData("Climb/Disable Climb Soft Limits", new StartEndCommand(() -> climb.setSoftLimits(false), () -> climb.setSoftLimits(true)));
         putData("Climb/Move Down Hook", new SetHookHeight(0));
 
         putData("Drivetrain/Load Star_Wars_Main_Theme", new InstantCommand(() -> drivetrain.loadSong(Song.Star_Wars_Main_Theme), drivetrain));
@@ -107,7 +107,7 @@ public class DashboardDataContainer {
         putData("Drivetrain/Load Rasputin", new InstantCommand(() -> drivetrain.loadSong(Song.Rasputin), drivetrain));
         putData("Drivetrain/Play song", new StartEndCommand(drivetrain::playSong, drivetrain::stopSong, drivetrain));
 
-        // Command groups data
+        // Command groups 
         putData("CommandGroup/Collect Cell", new CollectCell());
         putData("CommandGroup/Mix and Load", new ParallelCommandGroup(
             new SetLoaderSpeedPID(LoaderPower.FarShoot),
