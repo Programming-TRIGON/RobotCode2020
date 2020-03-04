@@ -3,6 +3,7 @@ package frc.robot.subsystems.climb;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
@@ -18,6 +19,7 @@ import io.github.oblarg.oblog.annotations.Log;
 public class Climb extends SubsystemBase implements Loggable {
     private WPI_TalonSRX hookTalonSRX;
     private CANSparkMax climbSparkMax;
+    private CANEncoder climbEncoder;
     private AnalogPotentiometer hookPotentiometer;
     private double offset;
 
@@ -38,6 +40,8 @@ public class Climb extends SubsystemBase implements Loggable {
             ClimbConstants.kHookPotentiometerAngleMultiplier,
             ClimbConstants.kHookPotentiometerOffset);
 
+        offset = 0;
+
         climbSparkMax = new CANSparkMax(RobotMap.kClimbSparkMax, MotorType.kBrushless);
         climbSparkMax.setSmartCurrentLimit(ClimbConstants.kClimbCurrentLimit);
         climbSparkMax.getEncoder(EncoderType.kHallSensor, 42);
@@ -46,7 +50,8 @@ public class Climb extends SubsystemBase implements Loggable {
         climbSparkMax.setOpenLoopRampRate(ClimbConstants.kClimbRampTime);
         climbSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 65534);
         climbSparkMax.burnFlash();
-        offset = 0;
+        
+        climbEncoder = climbSparkMax.getEncoder();
     }
 
     @Log(name = "Climb/Hook Rotations")
@@ -85,4 +90,8 @@ public class Climb extends SubsystemBase implements Loggable {
     public void resetHookRotations() {
         offset = -hookPotentiometer.get();
     }
+
+	public double getClimbPosition() {
+		return climbEncoder.getPosition();
+	}
 }

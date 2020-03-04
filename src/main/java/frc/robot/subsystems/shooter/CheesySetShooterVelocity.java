@@ -5,9 +5,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants.ShooterConstants;
 import frc.robot.subsystems.led.LEDColor;
+import frc.robot.utils.TBHController;
 import java.util.function.DoubleSupplier;
 
-import static frc.robot.Robot.*;
+import static frc.robot.Robot.led;
+import static frc.robot.Robot.shooter;
 
 /**
  * This command spins the wheel in the desired velocity in order to shoot the power cells.
@@ -16,6 +18,8 @@ public class CheesySetShooterVelocity extends CommandBase {
 
     private static final int kMinimumKfSamples = 20;
     private static final int kBlinkAmount = 15;
+    private TBHController rightTBHController;
+    private TBHController leftTBHController;
     private DoubleSupplier velocitySetpoint;
     private CheesyShooterState currentShooterState;
     private int amountOfCells;
@@ -79,12 +83,16 @@ public class CheesySetShooterVelocity extends CommandBase {
 
     public CheesySetShooterVelocity(DoubleSupplier velocitySetpointSupplier) {
         addRequirements(shooter, led);
+        leftTBHController = new TBHController(ShooterConstants.kLeftTBHGain);
+        rightTBHController = new TBHController(ShooterConstants.kRightTBHGain);
         velocitySetpoint = velocitySetpointSupplier;
         isAuto = false;
     }
 
     public CheesySetShooterVelocity(DoubleSupplier velocitySetpointSupplier, int amountOfCells) {
         addRequirements(shooter, led);
+        leftTBHController = new TBHController(ShooterConstants.kLeftTBHGain);
+        rightTBHController = new TBHController(ShooterConstants.kRightTBHGain);
         velocitySetpoint = velocitySetpointSupplier;
         this.amountOfCells = amountOfCells;
         isAuto = true;
@@ -100,7 +108,10 @@ public class CheesySetShooterVelocity extends CommandBase {
         cellsShot = 0;
         firstTimeOutsideZone = 0;
         isInZone = true;
-        shooter.setVelocity(setpoint);
+        leftTBHController.reset();
+        rightTBHController.reset();
+        leftTBHController.setSetpoint(setpoint);
+        rightTBHController.setSetpoint(setpoint);
         led.blinkColor(LEDColor.Gold, kBlinkAmount);
     }
 
@@ -109,7 +120,7 @@ public class CheesySetShooterVelocity extends CommandBase {
         SmartDashboard.putString("Shooter/Current Cheesy shooter state", currentShooterState.toString());
         switch (currentShooterState) {
             case SpinUp:
-                // reach target velocity in close loop control and calculate kF
+                // reach target velocity with take back half loop control and calculate kF
                 spinUpExecute();
                 break;
             case HoldWhenReady:
@@ -123,6 +134,8 @@ public class CheesySetShooterVelocity extends CommandBase {
     }
 
     private void spinUpExecute() {
+        shooter.setPower(leftTBHController.calculate(shooter.getLeftVelocity()),
+            rightTBHController.calculate(shooter.getRightVelocity()));
         if (Math.abs(getError()) < ShooterConstants.kVelocityTolerance)
             updateKf();
         else {
@@ -144,13 +157,13 @@ public class CheesySetShooterVelocity extends CommandBase {
     }
 
     private void holdExecute() {
-        // The shooter might heat up after extended use so we need to make sure to update kF if the shooter too much fast.
+        // the shooter might heat up after extended use so we need to make sure to update kF if the shooter too much fast.
         if (shooter.getAverageVelocity() > setpoint) {
             updateKf();
             shooter.configFeedforwardGains(leftKfSamplesSum / kfSamplesAmount, rightKfSamplesSum / kfSamplesAmount);
         }
         if (isAuto) {
-            // Check how many cells were shot.
+            // check how many cells were shot.
             SmartDashboard.putNumber("Shooter/Cells Shot", cellsShot);
             boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageVelocity()) >= ShooterConstants.kShootingBallZone;
             countShotCells(isCellBeingShot);
@@ -198,7 +211,7 @@ public class CheesySetShooterVelocity extends CommandBase {
      * The velocity tolerance is taken from {@link frc.robot.constants.RobotConstants.ShooterConstants#kVelocityTolerance}
      */
     public boolean readyToShoot() {
-        return Math.abs(getError()) < ShooterConstants.kVelocityTolerance && 
+        return Math.abs(getError()) < ShooterConstants.kVelocityTolerance &&
             currentShooterState == CheesyShooterState.Hold;
     }
 
@@ -209,7 +222,7 @@ public class CheesySetShooterVelocity extends CommandBase {
     }
 
     private enum CheesyShooterState {
-        SpinUp, // PIDF to desired RPM
+        SpinUp, // take back half loop control to desired RPM
         HoldWhenReady, // calculate average kF
         Hold, // switch to pure kF control
     }
