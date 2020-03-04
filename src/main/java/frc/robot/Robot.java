@@ -131,7 +131,7 @@ public class Robot extends TimedRobot {
             autoCommand.cancel();
         }
         drivetrain.setRampRate(DrivetrainConstants.kRampRate);
-        climb.enableSoftLimits();
+        climb.setSoftLimits(true);
         if (!intakeOpener.hasFoundOffset())
             findOffsetCommand.schedule(true);
     }
