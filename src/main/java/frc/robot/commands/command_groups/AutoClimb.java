@@ -16,32 +16,20 @@ import static frc.robot.Robot.*;
 
 public class AutoClimb extends SequentialCommandGroup {
 
-    public static final double kJoystickDeadband = 0.08;
-    public static final double kDrivetrainMovementTime = 0.1;
+    private static final double kXboxDeadband = 0.08;
 
-    /**
-     * Start a the climb sequence during the end game
-     * @param goDownButton whether should th hook should start go down
-     */
-    public AutoClimb(BooleanSupplier goDownButton) {
+    /** Start a the climb sequence during the end game */
+    public AutoClimb() {
         addCommands(
-            deadline(
+            parallel(
+                new DriveWithXbox(() -> oi.getDriverXboxController().getX(Hand.kLeft),
+                    () -> climb.isHookInStall() && oi.getDriverXboxController().getY(Hand.kRight) < -kXboxDeadband
+                    ? DrivetrainConstants.kMoveWhenClimbingPower : oi.getDriverXboxController().getDeltaTriggers()),
                 sequence(
                     new SetHookHeight().withInterrupt(() ->
-                        Math.abs(oi.getDriverXboxController().getY(Hand.kRight)) > kJoystickDeadband),
+                    Math.abs(oi.getDriverXboxController().getY(Hand.kRight)) > kXboxDeadband),
                     new MoveClimbAndHook(() -> oi.getDriverXboxController().getY(Hand.kRight),
-                        () -> oi.getDriverXboxController().getAButton() ? ClimbConstants.kDefaultClimbPower : 0)
-                ),
-                new DriveWithXbox(() -> oi.getDriverXboxController().getX(Hand.kLeft),
-                    () -> oi.getDriverXboxController().getDeltaTriggers())
-            ).withInterrupt(goDownButton),
-            deadline(
-                new SetHookHeight(0),
-                sequence(
-                    new WaitUntilCommand(climb::isHookInStall),
-                    new RunCommand(() -> drivetrain.tankDrive(DrivetrainConstants.kMoveWhenClimbingPower,
-                        DrivetrainConstants.kMoveWhenClimbingPower)).
-                        withTimeout(kDrivetrainMovementTime).andThen(drivetrain::stopMove)
+                    () -> oi.getDriverXboxController().getAButton() ? ClimbConstants.kDefaultClimbPower : 0)
                 )
             )
         );

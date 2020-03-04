@@ -75,7 +75,7 @@ public class OI {
         driverCollectCell = new CollectCell();
         driverSortAfterCollectCell = new SortAfterCollectCell().withTimeout(OIConstants.kSortAfterCollectCellTimeout);
         driverCollectFromFeeder = new CollectFromFeeder();
-        driverClimb = new AutoClimb(() -> driverXbox.getPOV() == 180);
+        driverClimb = new AutoClimb();
     }
 
     private void bindDriverCommands() {
