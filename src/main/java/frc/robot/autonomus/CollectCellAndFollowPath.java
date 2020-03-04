@@ -21,8 +21,7 @@ public class CollectCellAndFollowPath extends SequentialCommandGroup {
                     new WaitCommand(kWaitToCollectCellTime),
                     new CollectCell()
                 )
-            ),
-            new CollectCell().withTimeout(kCollectAfterPathEndsTimeout)
+            )
         );
     }
 }

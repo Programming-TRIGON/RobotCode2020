@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.constants.RobotConstants.AutoConstants;
+import frc.robot.motion_profiling.AutoPath;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 import java.util.function.DoubleSupplier;
 
@@ -27,7 +28,8 @@ public class SimpleAuto extends SequentialCommandGroup {
                     new InstantCommand(drivetrain::stopMove),
                     new AutoShoot(3)
                 ),
-                new FindOpenerOffset()
+                new FindOpenerOffset(),
+                new InstantCommand(() -> drivetrain.resetOdometry(AutoPath.FacingPowerPortToTrenchStart))
             )
         );
     }
