@@ -104,4 +104,8 @@ public class Climb extends SubsystemBase implements Loggable {
 	public double getClimbPosition() {
 		return climbEncoder.getPosition();
 	}
+
+    public boolean isHookInStall() {
+        return Math.abs(hookTalonSRX.getStatorCurrent()) > ClimbConstants.kHookStallLimit;
+    }
 }

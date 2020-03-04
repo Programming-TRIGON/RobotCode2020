@@ -22,6 +22,7 @@ public class RobotConstants {
         public static final boolean kRightEncoderInverted = true;
         public static final boolean kLeftEncoderInverted = false;
         public static final double kClimbDriveDistance = 0.1;
+        public static final double kMoveWhenClimbingPower = -0.1;
     }
 
     public static class TrigonDriveConstants {
@@ -74,10 +75,16 @@ public class RobotConstants {
         public static final double kHookTicksPerRotation = 4096;
         public static final double kPotentiometerChangeError = 0.3;
         public static final double kMaxHookRotations = 4.6;
+        public static final double kHookPower = 0.8;
         public static final boolean kIsClimbInverted = true;
         public static final int kClimbCurrentLimit = 80;
         public static final double kDefaultClimbPower = 1;
         public static final double kClimbRampTime = 0.7;
+        public static final double kCloseToHeightError = 1;
+        public static final double kCloseToHeightHookPower = 0.2;
+        public static final double kHookRotationTolerance = 0.5;
+        public static final double kDesiredHookRotations = 6.5;
+        public static final double kHookStallLimit = 40;
     }
 
     public static class ShooterConstants {

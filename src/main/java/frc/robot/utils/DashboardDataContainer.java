@@ -14,6 +14,7 @@ import frc.robot.commands.command_groups.ShortCollectCell;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
+import frc.robot.subsystems.climb.SetHookHeight;
 import frc.robot.subsystems.drivetrain.Song;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 import frc.robot.subsystems.intakeopener.IntakeAngle;
@@ -99,6 +100,7 @@ public class DashboardDataContainer {
         putData("Climb/Reverse Climb", new StartEndCommand(() -> climb.setOppositeClimbPower(-0.4), () -> climb.setOppositeClimbPower(0)).withTimeout(5));
         putData("Climb/Reset Hook Rotations", new RunWhenDisabledCommand(climb::resetHookRotations));
         putData("Climb/Disable Climb Soft Limits", new StartEndCommand(climb::disableSoftLimits, climb::enableSoftLimits));
+        putData("Climb/Move Down Hook", new SetHookHeight(0));
 
         putData("Drivetrain/Load Star_Wars_Main_Theme", new InstantCommand(() -> drivetrain.loadSong(Song.Star_Wars_Main_Theme), drivetrain));
         putData("Drivetrain/Load Animal_Crossing_Nook_Scranny", new InstantCommand(() -> drivetrain.loadSong(Song.Animal_Crossing_Nook_Scranny), drivetrain));
