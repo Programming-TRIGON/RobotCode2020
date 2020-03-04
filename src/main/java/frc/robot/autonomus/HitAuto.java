@@ -6,6 +6,9 @@ import frc.robot.commands.command_groups.AutoShoot;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.FollowPath;
 
+/**
+ * This auto makes Legendog hit Chester with all it's power, and then shoots 5 cells.
+ */
 public class HitAuto extends SequentialCommandGroup {
     public HitAuto() {
         addCommands(
