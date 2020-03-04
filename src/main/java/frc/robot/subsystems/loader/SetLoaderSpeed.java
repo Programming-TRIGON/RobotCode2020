@@ -39,6 +39,6 @@ public class SetLoaderSpeed extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        loader.stopMove();
+        loader.stopMoving();
     }
 }

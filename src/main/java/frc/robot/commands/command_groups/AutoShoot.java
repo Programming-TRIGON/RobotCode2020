@@ -115,7 +115,7 @@ public class AutoShoot extends SequentialCommandGroup {
     public void end(boolean interrupted) {
         super.end(interrupted);
         // We stop the shooter since the SetShooterCommand does not stop the motors.
-        shooter.stopMove();
+        shooter.stopMoving();
         drivetrain.setDrivetrainNeutralMode(NeutralMode.Coast);
     }
 }

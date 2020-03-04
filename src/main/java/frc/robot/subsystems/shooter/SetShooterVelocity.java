@@ -123,7 +123,7 @@ public class SetShooterVelocity extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         if (!interrupted)
-            shooter.stopMove();
+            shooter.stopMoving();
     }
 
     /**

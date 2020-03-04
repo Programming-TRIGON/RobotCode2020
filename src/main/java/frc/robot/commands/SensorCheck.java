@@ -73,11 +73,11 @@ public class SensorCheck extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        drivetrain.stopMove();
-        shooter.stopMove();
-        loader.stopMove();
-        intakeOpener.stopMove();
-        intake.stopMove();
+        drivetrain.stopMoving();
+        shooter.stopMoving();
+        loader.stopMoving();
+        intakeOpener.stopMoving();
+        intake.stopMoving();
         climb.setClimbPower(0);
         // climb.setHookPower(0);
         // Check if none error detected, reports that all encoders are fine

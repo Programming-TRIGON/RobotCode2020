@@ -75,7 +75,7 @@ public class JoystickFollowTarget extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        Robot.drivetrain.stopMove();
+        Robot.drivetrain.stopMoving();
         limelight.stopVision();
         led.turnOffLED();
     }
