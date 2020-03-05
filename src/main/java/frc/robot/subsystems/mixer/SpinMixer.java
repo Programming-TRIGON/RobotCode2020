@@ -77,7 +77,7 @@ public class SpinMixer extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        mixer.stopMove();
+        mixer.stopMoving();
         if(stalled) {
             mixer.startOverride();
             DriverStationLogger.logErrorToDS("A ball got stuck in the mixer");
