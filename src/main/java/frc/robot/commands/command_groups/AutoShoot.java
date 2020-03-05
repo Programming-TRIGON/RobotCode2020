@@ -93,7 +93,7 @@ public class AutoShoot extends SequentialCommandGroup {
                         new SetLoaderSpeedPID(LoaderPower.LoadToShoot),
                         sequence(
                             new WaitCommand(MixerConstants.kWaitForSpinMixerTime),
-                            new SpinMixer(getDesiredMixerVelocity(isAuto))
+                            new SpinMixer(() -> getDesiredMixerVelocity(isAuto).getPower())
                         )
                     )
                 )
@@ -109,8 +109,9 @@ public class AutoShoot extends SequentialCommandGroup {
     private MixerPower getDesiredMixerVelocity(boolean isAuto) {
         if (isAuto)
             return MixerPower.MixForAuto;
-        else if (Math.abs(limelight.getTy()) < LoaderConstants.kFarawayTyMeasurement)
+        else if (Math.abs(limelight.getTy()) < LoaderConstants.kFarawayTyMeasurement) {
             return MixerPower.MixForShoot;
+        }
         return MixerPower.MixForFarShoot;
     }
 

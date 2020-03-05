@@ -318,6 +318,8 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         if (motor != master)
             motor.follow(master);
         motor.setNeutralMode(NeutralMode.Coast);
+        motor.configVoltageCompSaturation(12);
+        motor.enableVoltageCompensation(true);
         motor.configOpenloopRamp(DrivetrainConstants.kRampRate);
         motor.configStatorCurrentLimit(
             new StatorCurrentLimitConfiguration(true, DrivetrainConstants.kCurrentLimit,

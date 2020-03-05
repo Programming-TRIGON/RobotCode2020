@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants.ControlConstants;
 import frc.robot.subsystems.led.LEDColor;
+import frc.robot.utils.DriverStationLogger;
+import frc.robot.utils.TrigonPIDController;
 import frc.robot.utils.TrigonProfiledPIDController;
 
 import static frc.robot.Robot.*;
@@ -14,7 +16,7 @@ import static frc.robot.Robot.*;
 public class TurnToTarget extends CommandBase {
     private static final int kBlinkingAmount = 30;
     private Target target;
-    private TrigonProfiledPIDController rotationPIDController;
+    private TrigonPIDController rotationPIDController;
     private Boolean foundTarget;
 
     /**
@@ -23,7 +25,7 @@ public class TurnToTarget extends CommandBase {
     public TurnToTarget(Target target) {
         addRequirements(drivetrain);
         this.target = target;
-        rotationPIDController = new TrigonProfiledPIDController(ControlConstants.visionRotationSettings, ControlConstants.visionRotationConstraints);
+        rotationPIDController = new TrigonPIDController(ControlConstants.visionShootTurnSettings);
     }
 
     /**
@@ -36,12 +38,13 @@ public class TurnToTarget extends CommandBase {
     public TurnToTarget(Target target, String dashboardKey) {
         addRequirements(drivetrain);
         this.target = target;
-        rotationPIDController = new TrigonProfiledPIDController(dashboardKey);
+        rotationPIDController = new TrigonPIDController(dashboardKey);
     }
 
     @Override
     public void initialize() {
         foundTarget = false;
+        rotationPIDController.reset();
         limelight.startVision(target);
         led.blinkColor(LEDColor.Green, kBlinkingAmount);
     }
@@ -50,7 +53,6 @@ public class TurnToTarget extends CommandBase {
     public void execute() {
         if (limelight.getTv()) {
             if (!foundTarget) {
-                rotationPIDController.reset(limelight.getAngle());
                 led.setColor(LEDColor.Green);
                 foundTarget = true;
             }

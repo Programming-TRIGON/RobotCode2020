@@ -115,6 +115,7 @@ public class DashboardDataContainer {
             new SetLoaderSpeed(LoaderPower.UnloadForSort),
             new SpinMixerByTime(MixerPower.MixForSort)));
         putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
+        putData("CommandGroup/Auto Shoot By Vision", new AutoShoot());
         putData("CommandGroup/ShortCollectCell", new ShortCollectCell());
         putBoolean("log", false);
         putData("Vision/Calibrate Vision Distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 120, 35, 10));

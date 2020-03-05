@@ -10,8 +10,10 @@ import frc.robot.constants.RobotConstants.LoaderConstants;
 import frc.robot.constants.RobotMap;
 import frc.robot.subsystems.OverridableSubsystem;
 import frc.robot.utils.DriverStationLogger;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
-public class Loader extends OverridableSubsystem { // implements Loggable {
+public class Loader extends OverridableSubsystem implements Loggable {
     private WPI_TalonSRX talonSRX;
     private boolean isTuning;
 
@@ -25,6 +27,8 @@ public class Loader extends OverridableSubsystem { // implements Loggable {
         talonSRX.configClosedloopRamp(LoaderConstants.kRampRate);
         talonSRX.setNeutralMode(NeutralMode.Coast);
         talonSRX.setInverted(LoaderConstants.kIsInverted);
+        talonSRX.configVoltageCompSaturation(12);
+        talonSRX.enableVoltageCompensation(true);
 
         DriverStationLogger.logErrorToDS(talonSRX.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.RemoteSensor1, 0, 0),
             "Could not set loader encoder");
@@ -37,7 +41,7 @@ public class Loader extends OverridableSubsystem { // implements Loggable {
 		return talonSRX.getSelectedSensorPosition();
 	}
 
-    // @Log(name = "Loader/Velocity")
+     @Log(name = "Loader/Velocity")
     public double getVelocity() {
         return talonSRX.getSelectedSensorVelocity() * 600 / LoaderConstants.kTicksPerRotation;
     }
