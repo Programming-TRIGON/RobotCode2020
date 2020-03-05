@@ -64,7 +64,7 @@ public class RobotConstants {
         public static final double kBackwardsSpinTimeHighSpeed = 0.35;
         public static final double kBackwardsSpinTimeLowSpeed = 1;
         public static final double kSpinMixerByTime = 2;
-        public static final double kWaitForSpinMixerTime = 0.3;
+        public static final double kWaitForSpinMixerTime = 0.5;
     }
 
     public static class ClimbConstants {
@@ -83,7 +83,7 @@ public class RobotConstants {
     }
 
     public static class ShooterConstants {
-        public static final double kRampTime = 0.5;
+        public static final double kRampTime = 1;
         public static final double kWheelRadius = 1;
         public static final double kLeftUnitsPerRotation = 2048;
         public static final double kRightUnitsPerRotation = 2048;
@@ -102,7 +102,7 @@ public class RobotConstants {
     public static class LoaderConstants {
         public static final boolean kIsInverted = true;
         public static final boolean kIsEncoderInverted = false;
-        public static final double kRampRate = 0.25;
+        public static final double kRampRate = 1;
         public static final double kTicksPerRotation = 4096;
         public static final double kFarawayTyMeasurement = 13;
     }
@@ -146,8 +146,8 @@ public class RobotConstants {
         public static final PIDSettings closeIntakeSettings = new PIDSettings(0.25, 0.0003000, 0, 1, 10);
         public static final PIDSettings leftShooterSettings = PIDSettings.fromTalonSettings(0.095, 0.00000975, 1, 0.0502, 2);
         public static final PIDSettings rightShooterSettings = PIDSettings.fromTalonSettings(0.125, 0.0000093, 1, 0.0478, 2);
-        public static final PIDSettings leftShooterCheesySettings = PIDSettings.fromTalonSettings(0.085, 0, 2.5, 0.05165, 0);
-        public static final PIDSettings rightShooterCheesySettings = PIDSettings.fromTalonSettings(0.075, 0, 2.5, 0.0492, 0);
+        public static final PIDSettings leftShooterCheesySettings = PIDSettings.fromTalonSettings(0.13, 0, 0.1, 0.05165, 0);
+        public static final PIDSettings rightShooterCheesySettings = PIDSettings.fromTalonSettings(0.15, 0, 0.1, 0.0492, 0);
         public static final PIDSettings loaderSettings = PIDSettings.fromTalonSettings(0.02, 0.000001, 1.5, 0.141, 2);
         public static final SimpleMotorFeedforward motionProfilingSettings = new SimpleMotorFeedforward(0.135, 2.47, 0.347);
         public static final SimpleMotorFeedforward motionProfilingReverseSettings = new SimpleMotorFeedforward(0.129, 2.47, 0.334);
