@@ -200,7 +200,7 @@ public class CheesySetShooterVelocity extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         if (!interrupted)
-            shooter.stopMove();
+            shooter.stopMoving();
         shooter.setProfileSlot(false);
         SmartDashboard.putString("Shooter/Current Cheesy shooter state", "No state");
     }
