@@ -62,7 +62,7 @@ public class SpinMixerByTime extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-      mixer.stopMove();
+      mixer.stopMoving();
       mixer.setOpenloopRamp(MixerConstants.kRampTime);
     }
 }

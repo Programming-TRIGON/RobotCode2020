@@ -9,7 +9,7 @@ import frc.robot.utils.TrigonProfiledPIDController;
 import static frc.robot.Robot.*;
 
 /**
- * Turns the robot (drivetrain) to a given vision target. 
+ * Turns the robot (drivetrain) to a given vision target.
  */
 public class TurnToTarget extends CommandBase {
     private static final int kBlinkingAmount = 30;
@@ -67,7 +67,7 @@ public class TurnToTarget extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        drivetrain.stopMove();
+        drivetrain.stopMoving();
         led.turnOffLED();
     }
 }

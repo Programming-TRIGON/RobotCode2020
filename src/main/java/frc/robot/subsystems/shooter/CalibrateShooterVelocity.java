@@ -80,7 +80,7 @@ public class CalibrateShooterVelocity extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    shooter.stopMove();
+    shooter.stopMoving();
     logger.close();
   }
 

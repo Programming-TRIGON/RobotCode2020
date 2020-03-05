@@ -37,7 +37,7 @@ public class MoveMovableSubsystem extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        subsystem.stopMove();
+        subsystem.stopMoving();
     }
 
     @Override

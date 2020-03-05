@@ -36,7 +36,7 @@ public abstract class OverridableSubsystem extends SubsystemBase implements Mova
             DriverStationLogger.logToDS("Stopping to override " + getName());
             overridden = false;
             overrideNotifier.stop();
-            stopMove();
+            stopMoving();
             overrideNotifier.close();
         }
     }
