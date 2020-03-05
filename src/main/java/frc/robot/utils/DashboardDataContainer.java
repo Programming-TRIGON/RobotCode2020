@@ -104,7 +104,7 @@ public class DashboardDataContainer {
         putData("Climb/Reset Hook Rotations", new RunWhenDisabledCommand(climb::resetHookRotations));
         putData("Climb/Move Down Hook", new SetHookHeight(0));
         putData("Climb/Go down with joystick", new RunCommand(() ->
-            climb.setHookPowerOverride(oi.getOperatorXboxController().getY(Hand.kLeft))));
+            climb.setHookPowerOverride(oi.getOperatorXboxController().getY(Hand.kLeft)), climb));
         putData("Climb/Move Up Hook", new SetHookHeight());
         putData("Climb/Climb With Xbox", new MoveClimbAndHook(() -> oi.getOperatorXboxController().getY(Hand.kLeft), ()->0.0));
 
