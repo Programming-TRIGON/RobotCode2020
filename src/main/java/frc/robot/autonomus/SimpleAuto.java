@@ -26,7 +26,7 @@ public class SimpleAuto extends SequentialCommandGroup {
                     new InstantCommand(() -> drivetrain.resetOdometry(AutoPath.FacingPowerPortToTrenchStart.getPath().getTrajectory().getInitialPose())),
                     new RunCommand(() -> drivetrain.arcadeDrive(0, AutoConstants.kSimpleAutoPower),
                         drivetrain).withInterrupt(() -> timer.hasPeriodPassed(timeout.getAsDouble())),
-                    new InstantCommand(drivetrain::stopMove),
+                    new InstantCommand(drivetrain::stopMoving),
                     new AutoShoot(3)
                 ),
                 new FindOpenerOffset()

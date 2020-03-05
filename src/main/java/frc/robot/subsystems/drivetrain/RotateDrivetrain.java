@@ -59,6 +59,6 @@ public class RotateDrivetrain extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        drivetrain.stopMove();
+        drivetrain.stopMoving();
     }
 }

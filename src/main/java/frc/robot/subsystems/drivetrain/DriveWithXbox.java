@@ -32,6 +32,6 @@ public class DriveWithXbox extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        drivetrain.stopMove();
+        drivetrain.stopMoving();
     }
 }

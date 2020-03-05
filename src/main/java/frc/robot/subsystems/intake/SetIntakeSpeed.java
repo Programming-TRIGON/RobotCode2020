@@ -51,6 +51,6 @@ public class SetIntakeSpeed extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        intake.stopMove();
+        intake.stopMoving();
     }
 }

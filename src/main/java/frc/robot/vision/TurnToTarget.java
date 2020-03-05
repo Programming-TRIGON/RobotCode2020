@@ -59,7 +59,7 @@ public class TurnToTarget extends CommandBase {
         } else
             // The target wasn't found
         if (hasFoundTarget)
-            drivetrain.stopMove();
+            drivetrain.stopMoving();
         else
             drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft), oi.getDriverXboxController().getDeltaTriggers());
     }
@@ -71,7 +71,7 @@ public class TurnToTarget extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        drivetrain.stopMove();
+        drivetrain.stopMoving();
         drivetrain.setDrivetrainNeutralMode(NeutralMode.Brake);
         led.turnOffLED();
         //limelight.stopVision();

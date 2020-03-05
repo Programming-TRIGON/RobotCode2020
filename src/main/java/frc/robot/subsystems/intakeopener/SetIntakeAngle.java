@@ -44,6 +44,6 @@ public class SetIntakeAngle extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        // intakeOpener.stopMove();
+        // intakeOpener.stopMoving();
     }
 }

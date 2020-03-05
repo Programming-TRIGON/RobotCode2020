@@ -75,7 +75,7 @@ public class FollowTarget extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        drivetrain.stopMove();
+        drivetrain.stopMoving();
         led.turnOffLED();
     }
 }

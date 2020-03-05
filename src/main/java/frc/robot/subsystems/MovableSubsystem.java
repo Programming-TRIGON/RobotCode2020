@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 public interface MovableSubsystem extends Subsystem {
     void move(double power);
 
-    default void stopMove() {
+    default void stopMoving() {
         move(0);
     }
 }
