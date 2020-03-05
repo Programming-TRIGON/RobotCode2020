@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.constants.RobotConstants.DrivetrainConstants;
-import frc.robot.motion_profiling.AutoPath;
 import frc.robot.constants.RobotMap;
+import frc.robot.motion_profiling.AutoPath;
 import frc.robot.subsystems.MovableSubsystem;
 import frc.robot.utils.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
@@ -328,7 +328,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         motor.setNeutralMode(NeutralMode.Coast);
         motor.configOpenloopRamp(DrivetrainConstants.kRampRate);
         motor.configStatorCurrentLimit(
-            new StatorCurrentLimitConfiguration(true, DrivetrainConstants.kCurrentLimit,
+            new StatorCurrentLimitConfiguration(false, DrivetrainConstants.kCurrentLimit,
                 DrivetrainConstants.kTriggerThresholdCurrent,
                 DrivetrainConstants.kTriggerThresholdTime));
     }
