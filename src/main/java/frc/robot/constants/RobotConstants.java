@@ -64,7 +64,7 @@ public class RobotConstants {
         public static final double kBackwardsSpinTimeHighSpeed = 0.35;
         public static final double kBackwardsSpinTimeLowSpeed = 1;
         public static final double kSpinMixerByTime = 2;
-        public static final double kWaitForSpinMixerTime = 0.5;
+        public static final double kWaitForSpinMixerTime = 0.3;
     }
 
     public static class ClimbConstants {
@@ -83,7 +83,7 @@ public class RobotConstants {
     }
 
     public static class ShooterConstants {
-        public static final double kRampTime = 1;
+        public static final double kRampTime = 0.5;
         public static final double kWheelRadius = 1;
         public static final double kLeftUnitsPerRotation = 2048;
         public static final double kRightUnitsPerRotation = 2048;
@@ -102,7 +102,7 @@ public class RobotConstants {
     public static class LoaderConstants {
         public static final boolean kIsInverted = true;
         public static final boolean kIsEncoderInverted = false;
-        public static final double kRampRate = 1;
+        public static final double kRampRate = 0.25;
         public static final double kTicksPerRotation = 4096;
         public static final double kFarawayTyMeasurement = 13;
     }
