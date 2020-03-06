@@ -83,12 +83,11 @@ public class Limelight implements Loggable {
     @Log(name = "Limelight/Desired Shooter Velocity")
     public double getDesiredShooterVelocity() {
         double x = getTy();
-//        if(Math.abs(x) >= LoaderConstants.kFarawayTyMeasurement)
-            return VisionConstants.kDistanceFromPortACoefficient * Math.pow(x, 2) +
-                VisionConstants.kDistanceFromPortBCoefficient * x
-                + VisionConstants.kDistanceFromPortCCoefficient
-                + getRotationDegree() * VisionConstants.kSideVelocityMultiplierCoefficient;
-//        return ShooterVelocity.FarAway.getVelocity();
+        return VisionConstants.kDistanceFromPortACoefficient * Math.pow(x, 3) +
+            VisionConstants.kDistanceFromPortBCoefficient * Math.pow(x, 2) +
+            VisionConstants.kDistanceFromPortCCoefficient * x +
+            VisionConstants.kDistanceFromPortDCoefficient + 
+            getRotationDegree() * VisionConstants.kSideVelocityMultiplierCoefficient;
     }
 
     @Log(name = "Limelight/Rotation Degree")

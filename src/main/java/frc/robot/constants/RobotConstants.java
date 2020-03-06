@@ -94,7 +94,7 @@ public class RobotConstants {
         public static final boolean kIsLeftEncoderInverted = false;
         public static final boolean kIsRightEncoderInverted = false;
         public static final double kStopLoadingTolerance = 10;
-        public static final double kVelocityTolerance = 35;
+        public static final double kVelocityTolerance = 15;
         public static final double kLeftTBHGain = 0.000006;
         public static final double kRightTBHGain = 0.000006;
     }
@@ -116,9 +116,10 @@ public class RobotConstants {
     }
 
     public static class VisionConstants {
-        public static final double kDistanceFromPortACoefficient = 3.7168;
-        public static final double kDistanceFromPortBCoefficient = 122.23;
-        public static final double kDistanceFromPortCCoefficient = 3960.4;
+        public static final double kDistanceFromPortACoefficient = -1.682;
+        public static final double kDistanceFromPortBCoefficient = -24.845;
+        public static final double kDistanceFromPortCCoefficient = 3.7541;
+        public static final double kDistanceFromPortDCoefficient = 3904.5;
         public static final double kSideVelocityMultiplierCoefficient = 8;
         public static final double kTargetNotFoundWaitTime = 0.5;
         public static final double kDistanceACoefficient = 19.003;
@@ -154,7 +155,7 @@ public class RobotConstants {
         public static final PIDSettings visionDistanceSettings = new PIDSettings(0.04, 0, 0.04, 10, 25);
         public static final PIDSettings visionRotationSettings = new PIDSettings(0.035, 0.00055, 0.0005, 1, 0.5);
         public static final Constraints visionRotationConstraints = new Constraints(10, 7.5);
-        public static final PIDSettings visionShootTurnSettings = new PIDSettings(0.035, 0.00055, 0.0005, 1, 0.5);
+        public static final PIDSettings visionShootTurnSettings = new PIDSettings(0.025, 0.00055, 0.0005, 1, 0.5);
         public static final PIDSettings drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
         public static final PIDSettings drivetrainEncoderPositionLeftSettings = new PIDSettings(5, 0, 0.5, 0, 0);
         public static final PIDSettings drivetrainEncoderPositionRightSettings = new PIDSettings(-5, 0, -0.5, 0, 0);
