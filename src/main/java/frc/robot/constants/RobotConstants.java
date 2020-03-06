@@ -74,7 +74,7 @@ public class RobotConstants {
         public static final double kHookCurrentTimeout = 0;
         public static final double kHookTicksPerRotation = 4096;
         public static final double kPotentiometerChangeError = 0.3;
-        public static final double kMaxHookRotations = 5.234375;
+        public static final double kMaxHookRotations = 4.82959;
         public static final double kHookPower = 0.8;
         public static final boolean kIsClimbInverted = true;
         public static final boolean kIsEncoderInverted = true;
