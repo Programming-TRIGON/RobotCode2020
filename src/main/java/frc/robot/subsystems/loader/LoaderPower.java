@@ -4,7 +4,7 @@ public enum LoaderPower {
     LoadToShoot(0.85, 960),
     FarShoot(0.4, 405),
     UnloadForSort(-0.05, -16.845),
-    UnloadForHardSort(-0.15, -16.845);
+    UnloadForHardSort(-0.4, -16.845);
     
     private final double power;
     private final double rpm;

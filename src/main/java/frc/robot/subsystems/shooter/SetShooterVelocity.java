@@ -21,7 +21,8 @@ public class SetShooterVelocity extends CommandBase {
     /**
      * @param velocity the velocity setpoint the shooter's wheels will try to achieve.
      */
-    public SetShooterVelocity(ShooterVelocity velocity) {
+    public 
+    SetShooterVelocity(ShooterVelocity velocity) {
         this(velocity::getVelocity);
     }
 

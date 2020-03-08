@@ -64,7 +64,7 @@ public class RobotConstants {
         public static final double kBackwardsSpinTimeHighSpeed = 0.35;
         public static final double kBackwardsSpinTimeLowSpeed = 1;
         public static final double kSpinMixerByTime = 2;
-        public static final double kWaitForSpinMixerTime = 0.3;
+        public static final double kWaitForSpinMixerTime = 0.5;
     }
 
     public static class ClimbConstants {
@@ -138,7 +138,7 @@ public class RobotConstants {
 
     public static class OIConstants {
         public static final double kDeltaTriggersInterruptDifference = 0.25;
-        public static final double kSortAfterCollectCellTimeout = 2;
+        public static final double kSortAfterCollectCellTimeout = 10; // was 2
     }
 
     public static class ControlConstants {

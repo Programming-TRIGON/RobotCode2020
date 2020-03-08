@@ -42,7 +42,7 @@ public class MoveClimbAndHook extends CommandBase {
         potentiometerDisconnected = false;
         startPotentiometerValue = climb.getHookRotations();
         lastTimeHookNotMoved = Timer.getFPGATimestamp();
-        sensitivity = 0.7;
+        sensitivity = 0.45;
     }
 
     @Override
