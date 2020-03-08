@@ -3,13 +3,13 @@ package frc.robot.subsystems.climb;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants.ClimbConstants;
 import frc.robot.subsystems.led.LEDColor;
-
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.*;
 
 public class SetHookHeight extends CommandBase {
 
+    private static final double kDrivetrainClimbSensitivity = 0.25;
     private static final int kBlinkingAmount = 15;
     private final DoubleSupplier heightSupplier;
 
@@ -32,6 +32,7 @@ public class SetHookHeight extends CommandBase {
     @Override
     public void initialize() {
         led.blinkColor(LEDColor.White, kBlinkingAmount);
+        drivetrain.setTrigonDriveSensitivity(kDrivetrainClimbSensitivity);
     }
 
     @Override

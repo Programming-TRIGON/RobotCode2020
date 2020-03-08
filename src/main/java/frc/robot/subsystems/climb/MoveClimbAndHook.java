@@ -11,7 +11,6 @@ import static frc.robot.Robot.*;
 public class MoveClimbAndHook extends CommandBase {
     private static final double kThreshold = 0.12;
     private static final double kHookTimeToMove = 2;
-    private static final double kDrivetrainClimbSensitivity = 0.25;
     private DoubleSupplier hookPower;
     private DoubleSupplier climbPower;
     private double startPotentiometerValue;
@@ -35,7 +34,6 @@ public class MoveClimbAndHook extends CommandBase {
 
     @Override
     public void initialize() {
-        drivetrain.setTrigonDriveSensitivity(kDrivetrainClimbSensitivity);
         potentiometerDisconnected = false;
         startPotentiometerValue = climb.getHookRotations();
         lastTimeHookNotMoved = Timer.getFPGATimestamp();

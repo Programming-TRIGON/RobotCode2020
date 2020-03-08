@@ -22,7 +22,7 @@ public class RobotConstants {
         public static final boolean kRightEncoderInverted = true;
         public static final boolean kLeftEncoderInverted = false;
         public static final double kClimbDriveDistance = 0.1;
-        public static final double kMoveWhenClimbingPower = -0.1;
+        public static final double kMoveWhenClimbingPower = -0.01;
     }
 
     public static class TrigonDriveConstants {
