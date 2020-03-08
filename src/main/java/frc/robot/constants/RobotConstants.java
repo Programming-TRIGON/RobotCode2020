@@ -1,6 +1,7 @@
 package frc.robot.constants;
 
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.util.Color;
 import frc.robot.utils.PIDSettings;
 
 /**
@@ -104,6 +105,19 @@ public class RobotConstants {
         public static final double kFarawayTyMeasurement = 13;
     }
 
+    // TODO: set real values.
+    public static class SpinnerConstants {
+        public static final boolean kIsInverted = false;
+        public static final double kRampRate = 0.25;
+        public static final double kDefaultSpeed = 0.6;
+        public static final double kCloseToTargetSpeed = 0.25;
+        public static final Color kRed = new Color(0.530, 0.340, 0.128);
+        public static final Color kGreen = new Color(0.162, 0.587, 0.249);
+        public static final Color kBlue = new Color(0.122, 0.428, 0.448);
+        public static final Color kYellow = new Color(0.317, 0.564, 0.116);
+        public static final double minimumProximity = 1000;
+    }
+
     public static class MotionProfilingConstants {
         public static final double kMaxVelocity = 0;
         public static final double kMaxAcceleration = 0;
@@ -140,11 +154,16 @@ public class RobotConstants {
         public static final PIDSettings driveForClimbSettings = new PIDSettings(0, 0, 0, 0, 0);
         public static final PIDSettings openIntakeSettings = new PIDSettings(0.0015000, 0.000150000, 0, 10, 10);
         public static final PIDSettings closeIntakeSettings = new PIDSettings(0.25, 0.0003000, 0, 1, 10);
-        public static final PIDSettings leftShooterSettings = PIDSettings.fromTalonSettings(0.095, 0.00000975, 1, 0.0502, 2);
-        public static final PIDSettings rightShooterSettings = PIDSettings.fromTalonSettings(0.125, 0.0000093, 1, 0.0478, 2);
-        public static final PIDSettings leftShooterCheesySettings = PIDSettings.fromTalonSettings(0.085, 0, 2.5, 0.05165, 0);
-        public static final PIDSettings rightShooterCheesySettings = PIDSettings.fromTalonSettings(0.075, 0, 2.5, 0.0492, 0);
+        public static final PIDSettings leftShooterSettings = PIDSettings.fromTalonSettings(0.095, 0.00000975, 1,
+                0.0502, 2);
+        public static final PIDSettings rightShooterSettings = PIDSettings.fromTalonSettings(0.125, 0.0000093, 1,
+                0.0478, 2);
+        public static final PIDSettings leftShooterCheesySettings = PIDSettings.fromTalonSettings(0.085, 0, 2.5,
+                0.05165, 0);
+        public static final PIDSettings rightShooterCheesySettings = PIDSettings.fromTalonSettings(0.075, 0, 2.5,
+                0.0492, 0);
         public static final PIDSettings loaderSettings = PIDSettings.fromTalonSettings(0.02, 0.000001, 1.5, 0.141, 2);
+
         public static final SimpleMotorFeedforward motionProfilingSettings = new SimpleMotorFeedforward(0.135, 2.47, 0.347);
         public static final SimpleMotorFeedforward motionProfilingReverseSettings = new SimpleMotorFeedforward(0.129, 2.47, 0.334);
         public static final PIDSettings visionDistanceSettings = new PIDSettings(0.04, 0, 0.04, 10, 25);

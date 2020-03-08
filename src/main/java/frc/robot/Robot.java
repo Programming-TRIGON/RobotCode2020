@@ -18,6 +18,7 @@ import frc.robot.subsystems.intakeopener.IntakeOpener;
 import frc.robot.subsystems.led.LED;
 import frc.robot.subsystems.loader.Loader;
 import frc.robot.subsystems.mixer.Mixer;
+import frc.robot.subsystems.spinner.Spinner;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.utils.DashboardDataContainer;
 import frc.robot.utils.DriverStationLogger;
@@ -38,6 +39,7 @@ public class Robot extends TimedRobot {
     public static Loader loader;
     public static Shooter shooter;
     public static Climb climb;
+    public static Spinner spinner;
     public static LED led;
     public static Limelight limelight;
     public static OI oi;
@@ -51,6 +53,7 @@ public class Robot extends TimedRobot {
         loader = new Loader();
         shooter = new Shooter();
         climb = new Climb();
+        spinner = new Spinner();
         led = new LED();
         drivetrain = new Drivetrain();
 

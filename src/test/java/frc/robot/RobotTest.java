@@ -10,6 +10,7 @@ import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.commands.command_groups.CollectFromFeeder;
 import frc.robot.commands.command_groups.ShortCollectCell;
 import frc.robot.constants.RobotConstants.IntakeConstants;
+import frc.robot.constants.RobotConstants.SpinnerConstants;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
@@ -23,6 +24,9 @@ import frc.robot.subsystems.intakeopener.SetIntakeAngle;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
+import frc.robot.subsystems.spinner.SpinPanelByColor;
+import frc.robot.subsystems.spinner.SpinPanelByColorWithoutCondition;
+import frc.robot.subsystems.spinner.SpinPanelByRotation;
 import frc.robot.vision.CalibrateVisionDistance;
 import frc.robot.vision.FollowTarget;
 import frc.robot.vision.Target;
@@ -59,6 +63,9 @@ public class RobotTest {
     @Test
     public void commandsTest() {
         Command[] commands = new Command[]{
+            //new SpinPanelByColorWithoutCondition(() -> SpinnerConstants.kBlue),
+            //new SpinPanelByColor(),
+            //new SpinPanelByRotation(),
             new SetLoaderSpeed(),
             new SpinMixer(),
             new SetIntakeSpeed(IntakeConstants.kDefaultIntakePower),
