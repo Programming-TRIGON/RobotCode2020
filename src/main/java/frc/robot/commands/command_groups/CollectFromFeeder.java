@@ -2,7 +2,6 @@ package frc.robot.commands.command_groups;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.constants.RobotConstants.IntakeConstants;
 import frc.robot.constants.RobotConstants.OIConstants;
@@ -50,7 +49,6 @@ public class CollectFromFeeder extends SequentialCommandGroup {
                 parallel(
                     new SetIntakeAngle(IntakeAngle.Close),
                     deadline(
-                        // new WaitCommand(OIConstants.kSortAfterCollectCellTimeout),
                         new WaitUntilCommand(() -> oi.getDriverXboxController().getYButton()).withTimeout(OIConstants.kSortAfterCollectCellTimeout),
                         new SpinMixerByTime(MixerPower.MixForSort),
                         new SetIntakeSpeed(0),
