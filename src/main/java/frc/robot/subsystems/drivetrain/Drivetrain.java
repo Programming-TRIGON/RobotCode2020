@@ -320,7 +320,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         motor.setNeutralMode(NeutralMode.Coast);
         motor.configOpenloopRamp(DrivetrainConstants.kRampRate);
         motor.configStatorCurrentLimit(
-            new StatorCurrentLimitConfiguration(true, DrivetrainConstants.kCurrentLimit,
+            new StatorCurrentLimitConfiguration(false, DrivetrainConstants.kCurrentLimit,
                 DrivetrainConstants.kTriggerThresholdCurrent,
                 DrivetrainConstants.kTriggerThresholdTime));
     }

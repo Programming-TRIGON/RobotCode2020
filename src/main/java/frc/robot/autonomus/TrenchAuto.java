@@ -1,7 +1,5 @@
 package frc.robot.autonomus;
 
-
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.command_groups.AutoShoot;
@@ -11,7 +9,6 @@ import frc.robot.motion_profiling.FollowPath;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 
 import static frc.robot.Robot.drivetrain;
-import static frc.robot.Robot.intakeOpener;
 
 /**
  * This auto command shoots 3 balls and then goes to collect more cells from the trench run

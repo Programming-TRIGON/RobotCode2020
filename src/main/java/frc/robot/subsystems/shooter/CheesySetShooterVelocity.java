@@ -16,7 +16,6 @@ import static frc.robot.Robot.shooter;
 public class CheesySetShooterVelocity extends CommandBase {
 
     private static final int kMinimumKfSamples = 20;
-    private static final int kMaxCellCapacity = 5;
     private static final int kBlinkAmount = 15;
     private DoubleSupplier velocitySetpoint;
     private CheesyShooterState currentShooterState;

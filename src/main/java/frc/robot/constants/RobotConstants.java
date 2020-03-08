@@ -16,12 +16,13 @@ public class RobotConstants {
         public static final double kLeftEncoderTicksPerMeter = 8216;
         public static final double kRightEncoderTicksPerMeter = 8237;
         public static final double kRampRate = 0.1;
-        public static final double kCurrentLimit = 40;
-        public static final double kTriggerThresholdCurrent = 40;
+        public static final double kCurrentLimit = 50;
+        public static final double kTriggerThresholdCurrent = 50;
         public static final double kTriggerThresholdTime = 1;
         public static final boolean kRightEncoderInverted = true;
         public static final boolean kLeftEncoderInverted = false;
         public static final double kClimbDriveDistance = 0.1;
+        public static final double kMoveWhenClimbingPower = -0.01;
     }
 
     public static class TrigonDriveConstants {
@@ -67,18 +68,24 @@ public class RobotConstants {
     }
 
     public static class ClimbConstants {
-        public static final boolean kIsHookInverted = true;
+        public static final boolean kIsHookInverted = false;
         public static final double kHookCurrentLimit = 0;
         public static final double kHookThresholdLimit = 0;
         public static final double kHookCurrentTimeout = 0;
-        public static final double kHookPotentiometerAngleMultiplier = -10;
-        public static final double kHookPotentiometerOffset = -3.23;
+        public static final double kHookTicksPerRotation = 4096;
         public static final double kPotentiometerChangeError = 0.3;
-        public static final double kMaxHookRotations = 4.6;
+        public static final double kMaxHookRotations = 4.82959;
+        public static final double kHookPower = 0.8;
         public static final boolean kIsClimbInverted = true;
+        public static final boolean kIsEncoderInverted = true;
         public static final int kClimbCurrentLimit = 80;
         public static final double kDefaultClimbPower = 1;
         public static final double kClimbRampTime = 0.7;
+        public static final double kCloseToHeightError = 1;
+        public static final double kCloseToHeightHookPower = 0.4;
+        public static final double kHookRotationTolerance = 0.1;
+        public static final double kDesiredHookRotations = 3.808838;
+        public static final double kHookStallLimit = 40;
     }
 
     public static class ShooterConstants {
