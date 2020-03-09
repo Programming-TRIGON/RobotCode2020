@@ -2,9 +2,9 @@ package frc.robot.subsystems.loader;
 
 public enum LoaderPower {
     LoadToShoot(0.85, 960),
-    FarShoot(0.4, 405),
-    UnloadForSort(-0.05, -16.845),
-    UnloadForHardSort(-0.15, -16.845);
+    LoadSlowToShoot(0.4, 405),
+    UnloadForSort(-0.05, -17),
+    UnloadForHardSort(-0.4, -405);
     
     private final double power;
     private final double rpm;

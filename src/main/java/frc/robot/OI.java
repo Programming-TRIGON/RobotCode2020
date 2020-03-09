@@ -15,6 +15,8 @@ import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.intakeopener.IntakeAngle;
 import frc.robot.subsystems.intakeopener.SetIntakeAngle;
+import frc.robot.subsystems.loader.LoaderPower;
+import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.MixerPower;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
 import frc.robot.utils.TrigonXboxController;
@@ -42,7 +44,6 @@ public class OI {
     private Command returnMixerControl;
     private Command spinMixerControl;
     private Command shortCollectCell;
-    private Command closeIntake;
 
     public OI() {
         driverXbox = new TrigonXboxController(kDriverPort);
@@ -91,9 +92,8 @@ public class OI {
 
     private void createOperatorCommands() {
         returnMixerControl = new InstantCommand(mixer::stopOverride);
-        spinMixerControl = new SpinMixerByTime(MixerPower.MixForHardSort);
+        spinMixerControl = new SpinMixerByTime(MixerPower.MixForHardSort).alongWith(new SetLoaderSpeed(LoaderPower.UnloadForHardSort));
         shortCollectCell = new ShortCollectCell();
-        closeIntake = new SetIntakeAngle(IntakeAngle.Close);
     }
 
     /**
@@ -103,7 +103,7 @@ public class OI {
         mixer.setOverrideSupplier(() -> operatorXbox.getY(Hand.kRight));
         operatorXbox.getRightStickButton().whenPressed(returnMixerControl);
         operatorXbox.getButtonA().whenHeld(spinMixerControl);
-        operatorXbox.getButtonB().whenHeld(shortCollectCell).whenReleased(closeIntake);
+        operatorXbox.getButtonB().whenPressed(shortCollectCell);
     }
 
     /**
@@ -113,7 +113,7 @@ public class OI {
         mixer.setOverrideSupplier(() -> operatorXbox.getY(Hand.kRight));
         operatorXbox.getRightStickButton().whenPressed(returnMixerControl);
         operatorXbox.getButtonA().whenHeld(spinMixerControl);
-        operatorXbox.getButtonB().whenHeld(shortCollectCell).whenReleased(closeIntake);
+        operatorXbox.getButtonB().whenPressed(shortCollectCell);
     }
 
     public TrigonXboxController getDriverXboxController() {

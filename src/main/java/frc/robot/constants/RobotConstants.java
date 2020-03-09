@@ -32,7 +32,7 @@ public class RobotConstants {
 
     public static class IntakeConstants {
         public static final boolean kIsInverted = true;
-        public static final double kDefaultIntakePower = 0.5;
+        public static final double kDefaultIntakePower = 0.45;
         public static final double kFeederIntakePower = -0.25;
         public static final int kCurrentLimit = 40;
         public static final double kOnStallLimit = 35;
@@ -58,7 +58,7 @@ public class RobotConstants {
         public static final double kMixerMaxStall = 20;
         public static final boolean kIsInverted = false;
         public static final double kRampTime = 0.25;
-        public static final double kSpinByTimeRampTime = 3;
+        public static final double kSpinByTimeRampTime = 2;
         public static final double kStallWaitTime = 0.3;
         public static final double kTotalStallWaitTime = 1.5;
         public static final double kBackwardsSpinTimeHighSpeed = 0.35;
@@ -138,7 +138,7 @@ public class RobotConstants {
 
     public static class OIConstants {
         public static final double kDeltaTriggersInterruptDifference = 0.25;
-        public static final double kSortAfterCollectCellTimeout = 2;
+        public static final double kSortAfterCollectCellTimeout = 3;
     }
 
     public static class ControlConstants {
