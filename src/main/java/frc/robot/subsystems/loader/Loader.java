@@ -3,6 +3,7 @@ package frc.robot.subsystems.loader;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.constants.RobotConstants.ControlConstants;
@@ -88,5 +89,9 @@ public class Loader extends OverridableSubsystem implements Loggable {
     public void periodic() {
         if (isTuning) 
             configPIDFGains();
+    }
+
+    public TalonSRX getTalon() {
+        return talonSRX;
     }
 }

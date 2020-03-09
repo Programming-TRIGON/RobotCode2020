@@ -322,7 +322,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         motor.enableVoltageCompensation(true);
         motor.configOpenloopRamp(DrivetrainConstants.kRampRate);
         motor.configStatorCurrentLimit(
-            new StatorCurrentLimitConfiguration(true, DrivetrainConstants.kCurrentLimit,
+            new StatorCurrentLimitConfiguration(false, DrivetrainConstants.kCurrentLimit,
                 DrivetrainConstants.kTriggerThresholdCurrent,
                 DrivetrainConstants.kTriggerThresholdTime));
     }

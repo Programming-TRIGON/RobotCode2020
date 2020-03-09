@@ -3,17 +3,14 @@ package frc.robot.subsystems.climb;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants.ClimbConstants;
-import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.DriverStationLogger;
 import java.util.function.DoubleSupplier;
 
 import static frc.robot.Robot.*;
 
 public class MoveClimbAndHook extends CommandBase {
-    private static final int kBlinkingAmount = 15;
     private static final double kThreshold = 0.12;
     private static final double kHookTimeToMove = 2;
-    private static final double kDrivetrainClimbSensitivity = 0.25;
     private DoubleSupplier hookPower;
     private DoubleSupplier climbPower;
     private double startPotentiometerValue;
@@ -37,8 +34,6 @@ public class MoveClimbAndHook extends CommandBase {
 
     @Override
     public void initialize() {
-        led.blinkColor(LEDColor.White, kBlinkingAmount);
-        drivetrain.setTrigonDriveSensitivity(kDrivetrainClimbSensitivity);
         potentiometerDisconnected = false;
         startPotentiometerValue = climb.getHookRotations();
         lastTimeHookNotMoved = Timer.getFPGATimestamp();

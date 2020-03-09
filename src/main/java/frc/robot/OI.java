@@ -9,9 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.command_groups.*;
-import frc.robot.constants.RobotConstants.ClimbConstants;
 import frc.robot.constants.RobotConstants.OIConstants;
-import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
 import frc.robot.subsystems.intakeopener.IntakeAngle;
 import frc.robot.subsystems.intakeopener.SetIntakeAngle;
@@ -78,8 +76,7 @@ public class OI {
         driverCollectCell = new CollectCell();
         driverSortAfterCollectCell = new SortAfterCollectCell().withTimeout(OIConstants.kSortAfterCollectCellTimeout);
         driverCollectFromFeeder = new CollectFromFeeder();
-        driverClimb = new MoveClimbAndHook(() -> driverXbox.getY(Hand.kRight),
-            () -> driverXbox.getAButton() ? ClimbConstants.kDefaultClimbPower : 0);
+        driverClimb = new AutoClimb();
     }
 
     private void bindDriverCommands() {
