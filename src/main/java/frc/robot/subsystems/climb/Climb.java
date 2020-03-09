@@ -2,6 +2,8 @@ package frc.robot.subsystems.climb;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonSRXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
@@ -9,24 +11,26 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import com.revrobotics.EncoderType;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.RobotConstants.ClimbConstants;
 import frc.robot.constants.RobotMap;
+import frc.robot.utils.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
+import static frc.robot.Robot.loader;
+
 public class Climb extends SubsystemBase implements Loggable {
     private WPI_TalonSRX hookTalonSRX;
+    private TalonSRX hookEncoder;
     private CANSparkMax climbSparkMax;
     private CANEncoder climbEncoder;
-    private AnalogPotentiometer hookPotentiometer;
     private double offset;
 
     /**
      * The climb holds all the methods used for the robots climb in the endgame.
-     * Climb is the system that pulls the rope to make the robot levitate. Hook is
-     * the system that extends to hang on the climb.
+     * Climb is the system that pulls the rope to make the robot levitate. 
+     * Hook is the system that extends to hang on the climb.
      */
     public Climb() {
         hookTalonSRX = new WPI_TalonSRX(RobotMap.kHookTalonSRX);
@@ -35,12 +39,11 @@ public class Climb extends SubsystemBase implements Loggable {
                 ClimbConstants.kHookThresholdLimit, ClimbConstants.kHookCurrentTimeout));
         hookTalonSRX.setInverted(ClimbConstants.kIsHookInverted);
         hookTalonSRX.setNeutralMode(NeutralMode.Brake);
-
-        hookPotentiometer = new AnalogPotentiometer(RobotMap.kHookPotentiometer,
-            ClimbConstants.kHookPotentiometerAngleMultiplier,
-            ClimbConstants.kHookPotentiometerOffset);
-
-        offset = 0;
+        hookEncoder = loader.getTalon();
+        DriverStationLogger.logErrorToDS(
+            hookTalonSRX.configSelectedFeedbackSensor(TalonSRXFeedbackDevice.RemoteSensor0, 0, 10),
+            "Hook Encoder Disconnected");
+//        resetHookRotations();
 
         climbSparkMax = new CANSparkMax(RobotMap.kClimbSparkMax, MotorType.kBrushless);
         climbSparkMax.setSmartCurrentLimit(ClimbConstants.kClimbCurrentLimit);
@@ -50,17 +53,17 @@ public class Climb extends SubsystemBase implements Loggable {
         climbSparkMax.setOpenLoopRampRate(ClimbConstants.kClimbRampTime);
         climbSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 65534);
         climbSparkMax.burnFlash();
-        
+
         climbEncoder = climbSparkMax.getEncoder();
     }
 
     @Log(name = "Climb/Hook Rotations")
     public double getHookRotations() {
-        return hookPotentiometer.get() + offset;
+        return hookEncoder.getSelectedSensorPosition(1) / ClimbConstants.kHookTicksPerRotation + offset;
     }
 
     public void setHookPower(double power) {
-        if ((power > 0 && getHookRotations() >= ClimbConstants.kMaxHookRotations)
+        if ((offset != 0 && power > 0 && getHookRotations() >= ClimbConstants.kMaxHookRotations)
             || (power < 0 && getHookRotations() <= 0))
             hookTalonSRX.set(0);
         else
@@ -88,10 +91,15 @@ public class Climb extends SubsystemBase implements Loggable {
     }
 
     public void resetHookRotations() {
-        offset = -hookPotentiometer.get();
+        offset = -hookEncoder.getSelectedSensorPosition(1) / ClimbConstants.kHookTicksPerRotation;
     }
 
 	public double getClimbPosition() {
 		return climbEncoder.getPosition();
 	}
+
+    public boolean isHookInStall() {
+        return Math.abs(hookTalonSRX.getStatorCurrent()) > ClimbConstants.kHookStallLimit;
+    }
+
 }

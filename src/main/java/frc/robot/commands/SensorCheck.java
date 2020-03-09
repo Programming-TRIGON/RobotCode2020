@@ -8,9 +8,9 @@ import frc.robot.utils.DriverStationLogger;
 import static frc.robot.Robot.*;
 
 public class SensorCheck extends CommandBase {
-    private static final double kCheckTime = 1;
+    private static final double kCheckTime = 0.5;
     private static final double kStartCheckTime = 0.7; // 0 to 1 (Percent)
-    private static final int kSensorsAmount = 8;
+    private static final int kSensorsAmount = 9;
     private static final double kPowerToMove = 0.1;
     private static final double kClimbPowerToMove = 0.05;
     private static final int kBlinkAmount = 10;
@@ -40,7 +40,7 @@ public class SensorCheck extends CommandBase {
         initialSensorPosition[5] = intakeOpener.getAngle();
         initialSensorPosition[6] = intake.getPosition();
         initialSensorPosition[7] = climb.getClimbPosition();
-        // initialSensorPosition[8] = climb.getHookRotations();
+        initialSensorPosition[8] = climb.getHookRotations();
     }
 
     @Override
@@ -51,7 +51,7 @@ public class SensorCheck extends CommandBase {
         intakeOpener.move(kPowerToMove);
         intake.move(kPowerToMove);
         climb.setClimbPower(kClimbPowerToMove);
-        // climb.setHookPower(kPowerToMove);
+        climb.setHookPower(kPowerToMove);
         // After kStartCheckTime of the kCheckTime passed we start check for sensors error
         if (Timer.getFPGATimestamp() - initialTime >= kCheckTime * kStartCheckTime) {
             checkError(0, drivetrain.getLeftTicks(), "Left drivetrain encoder disconnect");
@@ -62,7 +62,7 @@ public class SensorCheck extends CommandBase {
             checkError(5, intakeOpener.getAngle(), "IntakeOpener encoder disconnect");
             checkError(6, intake.getPosition(), "Intake motor disconnect");
             checkError(7, climb.getClimbPosition(), "Climb motor disconnect");
-            //checkError(8, climb.getHookRotations(), "Hook potentiometer disconnect");
+            checkError(8, climb.getHookRotations(), "Hook encoder disconnect");
         }
     }
 
@@ -79,7 +79,7 @@ public class SensorCheck extends CommandBase {
         intakeOpener.stopMoving();
         intake.stopMoving();
         climb.setClimbPower(0);
-        // climb.setHookPower(0);
+        climb.setHookPower(0);
         // Check if none error detected, reports that all encoders are fine
         for (boolean error : hasFoundError) {
             if (error)

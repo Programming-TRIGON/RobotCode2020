@@ -45,13 +45,13 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         // Subsystems:
+        led = new LED();
         intake = new Intake();
         intakeOpener = new IntakeOpener();
         mixer = new Mixer();
         loader = new Loader();
         shooter = new Shooter();
         climb = new Climb();
-        led = new LED();
         drivetrain = new Drivetrain();
 
         // Utils:
