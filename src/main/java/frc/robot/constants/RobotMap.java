@@ -34,8 +34,14 @@ public abstract class RobotMap {
     // Climb Map
     public static final int kHookTalonSRX = 14;
     public static final int kClimbSparkMax = 8;
+    // Spinner Opener Map
+    // TODO: find real port
+    public static final int kSpinnerOpenerTalonSRX = 0;
+    public static final int kSpinnerOpenerTopSwitch = 0;
+    public static final int kSpinnerOpenerBottomSwitch = 1;
     // PWM Map
     public static final int kLedController = 0;
+
     // I2C Port
     public static final Port kI2cPort = Port.kOnboard;
 }
