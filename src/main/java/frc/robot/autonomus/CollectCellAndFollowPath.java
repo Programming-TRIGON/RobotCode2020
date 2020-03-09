@@ -7,7 +7,6 @@ import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.FollowPath;
 
 public class CollectCellAndFollowPath extends SequentialCommandGroup {
-    public static final double kCollectAfterPathEndsTimeout = 0.3;
     private static final double kWaitToCollectCellTime = 1;
 
     /**
