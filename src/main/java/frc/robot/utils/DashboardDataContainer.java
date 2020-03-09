@@ -35,6 +35,7 @@ import frc.robot.vision.CalibrateVisionDistance;
 import frc.robot.vision.FollowTarget;
 import frc.robot.vision.Target;
 import frc.robot.vision.TurnToTarget;
+import frc.robot.vision.TurnToTargetProfiled;
 import io.github.oblarg.oblog.Logger;
 
 import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.*;
@@ -68,6 +69,7 @@ public class DashboardDataContainer {
         putDefaultNumber("Shooter/Override Power", 0);
         putData("Shooter/Override", new OverrideCommand(shooter, () -> getNumber("Shooter/Override Power", 0)));
         putData("Shooter/Turn to port", new TurnToTarget(Target.PowerPort, "Turn PID"));
+        putData("Shooter/Turn profiled to port", new TurnToTargetProfiled(Target.PowerPort, "Turn Profiled PID"));
 
         // Drivetrain
         putData("Drivetrain/Calibrate Feedforward", new CalibrateFeedforward());
