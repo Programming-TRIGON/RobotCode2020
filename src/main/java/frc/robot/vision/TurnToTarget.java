@@ -23,7 +23,7 @@ public class TurnToTarget extends CommandBase {
     public TurnToTarget(Target target) {
         addRequirements(drivetrain);
         this.target = target;
-        rotationPIDController = new TrigonPIDController(ControlConstants.visionShootTurnSettings);
+        rotationPIDController = new TrigonPIDController(ControlConstants.visionShootFarTurnSettings);
     }
 
     /**
@@ -41,6 +41,16 @@ public class TurnToTarget extends CommandBase {
 
     @Override
     public void initialize() {
+        if (limelight.getTx() < 10)
+                rotationPIDController.setPID(ControlConstants.visionShootCloseTurnSettings.getKP(),
+                ControlConstants.visionShootCloseTurnSettings.getKI(),
+                ControlConstants.visionShootCloseTurnSettings.getKD());
+        
+        if (limelight.getTx() < 2)
+            rotationPIDController.setPID(ControlConstants.visionShootVeryCloseTurnSettings.getKP(),
+            ControlConstants.visionShootVeryCloseTurnSettings.getKI(),
+            ControlConstants.visionShootVeryCloseTurnSettings.getKD());
+
         foundTarget = false;
         rotationPIDController.reset();
         limelight.startVision(target);

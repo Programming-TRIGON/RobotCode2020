@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpiutil.math.MathUtil;
+import frc.robot.constants.RobotConstants;
 
 /**
  * Implements a PID control loop whose setpoint is constrained by a trapezoid
@@ -54,8 +55,7 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
      *                        been changed from the dashboard
      */
     public TrigonProfiledPIDController(String dashboardKey, double defaultGoal) {
-        this(dashboardKey, defaultGoal, new Constraints());
-        SmartDashboard.putData("PID/" + dashboardKey, this);
+        this(dashboardKey, defaultGoal, RobotConstants.ControlConstants.visionProfiledRotationConstraints);
     }
 
     public TrigonProfiledPIDController(String dashboardKey, double defaultGoal, Constraints constraints) {
@@ -94,9 +94,9 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
-        builder.addDoubleProperty("max velocity", () -> constraints.maxVelocity,
-            value -> setConstraints(new Constraints(value, constraints.maxAcceleration)));
-        builder.addDoubleProperty("max acceleration", () -> constraints.maxAcceleration,
-            value -> setConstraints(new Constraints(constraints.maxVelocity, value)));
+        // builder.addDoubleProperty("max velocity", () -> constraints.maxVelocity,
+        //     value -> setConstraints(new Constraints(value, constraints.maxAcceleration)));
+        // builder.addDoubleProperty("max acceleration", () -> constraints.maxAcceleration,
+        //     value -> setConstraints(new Constraints(constraints.maxVelocity, value)));
     }
 }

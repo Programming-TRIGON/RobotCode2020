@@ -160,10 +160,12 @@ public class RobotConstants {
         public static final SimpleMotorFeedforward motionProfilingSettings = new SimpleMotorFeedforward(0.135, 2.47, 0.347);
         public static final SimpleMotorFeedforward motionProfilingReverseSettings = new SimpleMotorFeedforward(0.129, 2.47, 0.334);
         public static final PIDSettings visionDistanceSettings = new PIDSettings(0.04, 0, 0.04, 10, 25);
-        public static final PIDSettings visionRotationSettings = new PIDSettings(0.035, 0.00055, 0.0005, 1, 0.5);
-        public static final PIDSettings visionProfiledRotationSettings = new PIDSettings(0.035, 0.00055, 0.0005, 0.8, 0.8);
-        public static final Constraints visionProfiledRotationConstraints = new Constraints(7.5, 5);
-        public static final PIDSettings visionShootTurnSettings = new PIDSettings(0.025, 0.00055, 0.0005, 1, 0.5);
+        public static final PIDSettings visionRotationSettings = new PIDSettings(0.035, 0.00055, 0.0005, 0.75, 0.1);
+        public static final PIDSettings visionProfiledRotationSettings = new PIDSettings(0.035, 0.00055, 0.0005, 1, 1);
+        public static final Constraints visionProfiledRotationConstraints = new Constraints(1, 0.5);
+        public static final PIDSettings visionShootCloseTurnSettings = new PIDSettings(0.02, 0.00045, 0.0005, 1, 0.1);
+        public static final PIDSettings visionShootVeryCloseTurnSettings = new PIDSettings(0.04, 0.005, 0.0005, 1, 0.1);
+        public static final PIDSettings visionShootFarTurnSettings = new PIDSettings(0.01, 0.00045, 0.0005, 1, 0.1);
         public static final PIDSettings drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
         public static final PIDSettings drivetrainEncoderPositionLeftSettings = new PIDSettings(5, 0, 0.5, 0, 0);
         public static final PIDSettings drivetrainEncoderPositionRightSettings = new PIDSettings(-5, 0, -0.5, 0, 0);

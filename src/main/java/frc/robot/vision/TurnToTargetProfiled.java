@@ -45,6 +45,7 @@ public class TurnToTargetProfiled extends CommandBase {
   public void initialize() {
     foundTarget = false;
     rotationController.reset(limelight.getAngle());
+    rotationController.setGoal(0);
     limelight.startVision(target);
     led.blinkColor(LEDColor.Green, kBlinkingAmount);
   }
@@ -64,7 +65,7 @@ public class TurnToTargetProfiled extends CommandBase {
 
   @Override
   public boolean isFinished() {
-    return limelight.getTv() && rotationController.atSetpoint();
+    return limelight.getTv() && rotationController.atGoal();
   }
 
   @Override
