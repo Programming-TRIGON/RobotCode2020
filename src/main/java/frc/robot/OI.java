@@ -11,8 +11,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.command_groups.*;
 import frc.robot.constants.RobotConstants.OIConstants;
 import frc.robot.subsystems.drivetrain.DriveWithXbox;
-import frc.robot.subsystems.intakeopener.IntakeAngle;
-import frc.robot.subsystems.intakeopener.SetIntakeAngle;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.MixerPower;

@@ -3,9 +3,7 @@ package frc.robot.vision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.constants.RobotConstants.LoaderConstants;
 import frc.robot.constants.RobotConstants.VisionConstants;
-import frc.robot.subsystems.shooter.ShooterVelocity;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 

@@ -4,9 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants.ControlConstants;
 import frc.robot.subsystems.led.LEDColor;
-import frc.robot.utils.DriverStationLogger;
 import frc.robot.utils.TrigonPIDController;
-import frc.robot.utils.TrigonProfiledPIDController;
 
 import static frc.robot.Robot.*;
 

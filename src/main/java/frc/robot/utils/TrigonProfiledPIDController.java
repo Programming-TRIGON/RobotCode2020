@@ -16,6 +16,7 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
 
     public TrigonProfiledPIDController(PIDSettings settings, Constraints constraints) {
         super(settings.getKP(), settings.getKI(), settings.getKD(), constraints);
+        setTolerance(settings.getTolerance(), settings.getDeltaTolerance());
         this.constraints = constraints;
     }
 
