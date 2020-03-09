@@ -44,7 +44,6 @@ public class OI {
     private Command returnMixerControl;
     private Command spinMixerControl;
     private Command shortCollectCell;
-    private Command closeIntake;
 
     public OI() {
         driverXbox = new TrigonXboxController(kDriverPort);
@@ -95,7 +94,6 @@ public class OI {
         returnMixerControl = new InstantCommand(mixer::stopOverride);
         spinMixerControl = new SpinMixerByTime(MixerPower.MixForHardSort).alongWith(new SetLoaderSpeed(LoaderPower.UnloadForHardSort));
         shortCollectCell = new ShortCollectCell();
-        closeIntake = new SetIntakeAngle(IntakeAngle.Close);
     }
 
     /**
@@ -105,7 +103,7 @@ public class OI {
         mixer.setOverrideSupplier(() -> operatorXbox.getY(Hand.kRight));
         operatorXbox.getRightStickButton().whenPressed(returnMixerControl);
         operatorXbox.getButtonA().whenHeld(spinMixerControl);
-        operatorXbox.getButtonB().whenHeld(shortCollectCell).whenReleased(closeIntake);
+        operatorXbox.getButtonB().whenPressed(shortCollectCell);
     }
 
     /**
@@ -114,8 +112,8 @@ public class OI {
     private void setGrossmanSetting() {
         mixer.setOverrideSupplier(() -> operatorXbox.getY(Hand.kRight));
         operatorXbox.getRightStickButton().whenPressed(returnMixerControl);
-        operatorXbox.getButtonA().whileHeld(spinMixerControl);
-        operatorXbox.getButtonB().whenHeld(shortCollectCell).whenReleased(closeIntake);
+        operatorXbox.getButtonA().whenHeld(spinMixerControl);
+        operatorXbox.getButtonB().whenPressed(shortCollectCell);
     }
 
     public TrigonXboxController getDriverXboxController() {

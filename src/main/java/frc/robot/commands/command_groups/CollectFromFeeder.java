@@ -1,6 +1,7 @@
 package frc.robot.commands.command_groups;
 
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.constants.RobotConstants.IntakeConstants;
@@ -16,7 +17,7 @@ import frc.robot.subsystems.mixer.SpinMixerByTime;
 import frc.robot.vision.FollowTarget;
 import frc.robot.vision.Target;
 
-import static frc.robot.Robot.oi;
+import static frc.robot.Robot.*;
 
 public class CollectFromFeeder extends SequentialCommandGroup {
 
@@ -46,15 +47,11 @@ public class CollectFromFeeder extends SequentialCommandGroup {
                 )
             ).withInterrupt(() -> oi.getDriverXboxController().getDeltaTriggers() < kBackwardsDeadband),
             deadline(
-                parallel(
-                    new SetIntakeAngle(IntakeAngle.Close),
-                    deadline(
-                        new WaitUntilCommand(() -> oi.getDriverXboxController().getYButton()).withTimeout(OIConstants.kSortAfterCollectCellTimeout),
-                        new SpinMixerByTime(MixerPower.MixForSort),
-                        new SetIntakeSpeed(0),
-                        new SetLoaderSpeed(LoaderPower.UnloadForSort)
-                    )
-                ),
+                new WaitUntilCommand(() -> oi.getDriverXboxController().getYButton()).withTimeout(OIConstants.kSortAfterCollectCellTimeout),
+                new SpinMixerByTime(MixerPower.MixForSort),
+                new SetLoaderSpeed(LoaderPower.UnloadForSort),
+                new SetIntakeAngle(IntakeAngle.Close),
+                new InstantCommand(intake::stopMoving, intake),
                 new DriveWithXbox(() -> oi.getDriverXboxController().getX(Hand.kLeft), () -> oi.getDriverXboxController().getDeltaTriggers())
             )
         );
