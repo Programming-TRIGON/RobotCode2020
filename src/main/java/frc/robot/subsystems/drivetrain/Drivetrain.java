@@ -212,6 +212,11 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
             / DrivetrainConstants.kLeftEncoderTicksPerMeter;
     }
 
+    @Log(name = "Drivetrain/angular velcoity")
+    public double angularVelocity() {
+        return Math.toDegrees(kinematics.toChassisSpeeds(getWheelSpeeds()).omegaRadiansPerSecond);
+    }
+
     // @Log(name = "Drivetrain/Average Velocity")
     public double getAverageVelocity() {
         return (getLeftVelocity() + getRightVelocity()) / 2;
