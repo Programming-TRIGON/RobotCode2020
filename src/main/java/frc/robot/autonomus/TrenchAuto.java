@@ -31,7 +31,7 @@ public class TrenchAuto extends SequentialCommandGroup {
                     new FollowPath(AutoPath.InTrench),
                     new FollowPath(AutoPath.TrenchToShootingPosition)
                     ),
-                new CollectCell(0.7)
+                new CollectCell(0.5)
             ),
             new AutoShoot(5)
         );

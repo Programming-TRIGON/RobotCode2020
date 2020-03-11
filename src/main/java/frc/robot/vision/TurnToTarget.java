@@ -118,7 +118,8 @@ public class TurnToTarget extends CommandBase {
     @Override
     public boolean isFinished() {
         return foundTarget && pidController.atSetpoint() &&
-            Math.abs(setpoint.position) < 0.1;
+            Math.abs(setpoint.position) < 0.1 &&
+            limelight.getTv();
     }
 
     @Override
