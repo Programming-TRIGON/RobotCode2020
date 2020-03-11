@@ -1,6 +1,5 @@
 package frc.robot.autonomus;
 
-
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.command_groups.AutoShoot;
@@ -17,7 +16,7 @@ import static frc.robot.Robot.drivetrain;
 public class StealAuto extends SequentialCommandGroup {
     public StealAuto() {
         addCommands(
-            new InstantCommand(() -> drivetrain.resetOdometry(AutoPath.InitLineToEnemyTrench.getPath().getTrajectory().getInitialPose())),
+            new InstantCommand(() -> drivetrain.resetOdometry(AutoPath.InitLineToEnemyTrench)),
             deadline(
                 new FollowPath(AutoPath.InitLineToEnemyTrench),
                 sequence(

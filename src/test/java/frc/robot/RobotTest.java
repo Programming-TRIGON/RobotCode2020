@@ -72,7 +72,7 @@ public class RobotTest {
             new FollowTarget(Target.Feeder),
             new TurnToTarget(Target.PowerPort),
             new CalibrateFeedforward(),
-            new FollowPath(AutoPath.FacingPowerPortToMiddleField),
+            new FollowPath(AutoPath.InitLineToEnemyTrench),
             new DriveWithXbox(() -> 0, () -> 0),
             new SensorCheck(),
             new MoveMovableSubsystem(Robot.loader, () -> 0),
@@ -83,8 +83,8 @@ public class RobotTest {
             new AutoShoot(),
             new SimpleAuto(),
             new TrenchAuto(StartingPose.kFacingPowerPort),
-            new MiddleFieldAuto(StartingPose.kFacingPowerPort),
             new StealAuto(),
+            new HitAuto(),
         };
 
         for (Command command : commands) {

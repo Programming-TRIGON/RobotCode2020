@@ -22,6 +22,7 @@ public class Path {
     private static final double kDefaultStartPathVelocity = 0.0;
     private static final double kDefaultEndPathVelocity = 0.0;
     private Trajectory trajectory;
+
     private boolean reversed;
 
     /**
@@ -95,6 +96,10 @@ public class Path {
 
     public boolean isReversed() {
         return reversed;
+    }
+
+    public void setReversed(boolean reversed) {
+        this.reversed = reversed;
     }
 
     /**

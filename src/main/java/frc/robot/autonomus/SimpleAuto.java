@@ -23,22 +23,14 @@ public class SimpleAuto extends SequentialCommandGroup {
         addCommands(
             parallel(
                 sequence(
-                    new InstantCommand(() -> drivetrain.resetOdometry(AutoPath.FacingPowerPortToTrenchStart.getPath().getTrajectory().getInitialPose())),
                     new RunCommand(() -> drivetrain.arcadeDrive(0, AutoConstants.kSimpleAutoPower),
                         drivetrain).withInterrupt(() -> timer.hasPeriodPassed(timeout.getAsDouble())),
                     new InstantCommand(drivetrain::stopMoving),
                     new AutoShoot(3)
                 ),
-                new FindOpenerOffset()
-        )
-            // ),
-            // deadline(
-            //     new FollowPath(AutoPath.SimpleAutoToTrench),
-            //     new CollectCell()
-            //     ),
-            //     new CollectCell().withTimeout(0.2),
-            //     new FollowPath(AutoPath.TurnFromTrenchToPort),
-            //     new AutoShoot(3)
+                new FindOpenerOffset(),
+                new InstantCommand(() -> drivetrain.resetOdometry(AutoPath.FacingPowerPortToTrenchStart))
+            )
         );
     }
 

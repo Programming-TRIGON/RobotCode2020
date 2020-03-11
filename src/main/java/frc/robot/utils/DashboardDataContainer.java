@@ -62,7 +62,7 @@ public class DashboardDataContainer {
         // Shooter  
         putDefaultNumber("Shooter/Shooting velocity setpoint", 3050);
         putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
-        putData("Shooter/Set shooting velocity",  new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0), "TBH Controller"));
+        putData("Shooter/Set shooting velocity", new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0), "TBH Controller"));
         putData("Shooter/Enable tuning", new InstantCommand(shooter::enableTuning));
         putData("Shooter/Disable tuning", new InstantCommand(shooter::disableTuning));
         putDefaultNumber("Shooter/Override Power", 0);
@@ -79,6 +79,7 @@ public class DashboardDataContainer {
         putData("Drivetrain/Calibrate Drive", new RunWhenDisabledCommand(drivetrain::tuneTrigonDrive));
 
         putData("Motion Profiling/Path Test", new FollowPath(AutoPath.InitLineToEnemyTrench.getPath(), true));
+        putData("Motion Profiling/Auto Path Test", new FollowPath(AutoPath.FacingPowerPortToTrenchStart));
 
         // Intake  
         putDefaultNumber("Intake/Intake power", 0);
@@ -109,7 +110,7 @@ public class DashboardDataContainer {
         putData("Climb/Go down with joystick", new RunCommand(() ->
             climb.setHookPowerOverride(oi.getOperatorXboxController().getY(Hand.kLeft)), climb));
         putData("Climb/Move Up Hook", new SetHookHeight());
-        putData("Climb/Climb With Xbox", new MoveClimbAndHook(() -> oi.getOperatorXboxController().getY(Hand.kLeft), ()->0.0));
+        putData("Climb/Climb With Xbox", new MoveClimbAndHook(() -> oi.getOperatorXboxController().getY(Hand.kLeft), () -> 0.0));
 
         putData("Drivetrain/Load Star_Wars_Main_Theme", new InstantCommand(() -> drivetrain.loadSong(Song.Star_Wars_Main_Theme), drivetrain));
         putData("Drivetrain/Load Animal_Crossing_Nook_Scranny", new InstantCommand(() -> drivetrain.loadSong(Song.Animal_Crossing_Nook_Scranny), drivetrain));
