@@ -3,6 +3,7 @@ package frc.robot.vision;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.State;
@@ -17,6 +18,7 @@ import static frc.robot.Robot.limelight;
 
 public class TurnToTargetWithFeedforward extends CommandBase {
     public static final State kGoal = new State();
+    private String key;
     private Target target;
     private Timer timer;
     private double prevTime;
@@ -26,6 +28,7 @@ public class TurnToTargetWithFeedforward extends CommandBase {
     private SimpleMotorFeedforward feedforward;
     private double prevSpeed;
     private TrigonPIDController pidController;
+    private boolean isTuning;
 
     public TurnToTargetWithFeedforward(Target target) {
         addRequirements(drivetrain);
@@ -34,20 +37,34 @@ public class TurnToTargetWithFeedforward extends CommandBase {
         constraints = ControlConstants.visionProfiledRotationConstraints;
         feedforward = ControlConstants.visionTurnFeedforward;
         pidController = new TrigonPIDController(ControlConstants.visionProfiledTurnSettings);
+        isTuning = false;
     }
 
     public TurnToTargetWithFeedforward(Target target, String key) {
         addRequirements(drivetrain);
         this.target = target;
+        this.key = key;
         timer = new Timer();
-        constraints = ControlConstants.visionProfiledRotationConstraints;
+        if (!SmartDashboard.containsKey("Vision/" + key + " - max velocity")) {
+            SmartDashboard.putNumber("Vision/" + key + " - max velocity",
+                ControlConstants.visionProfiledRotationConstraints.maxVelocity);
+            SmartDashboard.putNumber("Vision/" + key + " - max acceleration",
+                ControlConstants.visionProfiledRotationConstraints.maxAcceleration);
+        }
         feedforward = ControlConstants.visionTurnFeedforward;
         pidController = new TrigonPIDController(key);
+        isTuning = true;
     }
 
     @Override
     public void initialize() {
         limelight.startVision(target);
+        if (isTuning) {
+            constraints = new Constraints(
+                SmartDashboard.getNumber("Vision/" + key + " - max velocity", 0),
+                SmartDashboard.getNumber("Vision/" + key + " - max acceleration", 0)
+            );
+        }
         drivetrain.setRampRate(0);
         setpoint = new State(limelight.getAngle(), 0);
         prevTime = 0;
@@ -77,7 +94,7 @@ public class TurnToTargetWithFeedforward extends CommandBase {
             + pidController.calculate(drivetrain.getRightVelocity(),
             targetRotationSpeed);
 
-         drivetrain.arcadeDrive(output / RobotController.getBatteryVoltage(), 0);
+        drivetrain.arcadeDrive(output / RobotController.getBatteryVoltage(), 0);
 
         prevTime = curTime;
         prevSpeed = targetRotationSpeed;
