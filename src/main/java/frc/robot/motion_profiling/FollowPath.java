@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.constants.RobotConstants.ControlConstants;
+import frc.robot.constants.RobotConstants.DrivetrainConstants;
 import frc.robot.constants.RobotConstants.MotionProfilingConstants;
 import frc.robot.utils.DriverStationLogger;
 import java.util.function.BiConsumer;
@@ -79,7 +80,7 @@ public class FollowPath extends CommandBase {
                 MotionProfilingConstants.kP, 0, 0),
             new PIDController(path.isReversed() ? MotionProfilingConstants.kReverseKp :
                 MotionProfilingConstants.kP, 0, 0),
-            (left, right) -> {drivetrain.voltageTankDrive(left, right); System.out.println("left: " + left + " right: " + right);},
+            (left, right) -> drivetrain.voltageTankDrive(left, right),
             drivetrain);
         this.isTuning = isTuning;
         SmartDashboard.putBoolean("Falcon/IsFollowingPath", false);
@@ -151,6 +152,7 @@ public class FollowPath extends CommandBase {
             }
             drivetrain.resetOdometry(m_trajectory.getInitialPose());
         }
+        drivetrain.setRampRate(0);
         m_prevTime = 0;
         var initialState = m_trajectory.sample(0);
         m_prevSpeeds = m_kinematics.toWheelSpeeds(
@@ -207,6 +209,10 @@ public class FollowPath extends CommandBase {
     public void end(boolean interrupted) {
         m_timer.stop();
         SmartDashboard.putBoolean("Falcon/IsFollowingPath", false);
+        if (isTuning) {
+            drivetrain.stopMoving();
+        }
+        drivetrain.setRampRate(DrivetrainConstants.kRampRate);
     }
 
     @Override

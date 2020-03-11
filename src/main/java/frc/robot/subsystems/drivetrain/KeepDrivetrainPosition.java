@@ -1,5 +1,6 @@
 package frc.robot.subsystems.drivetrain;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants.ControlConstants;
 import frc.robot.utils.TrigonPIDController;
@@ -37,12 +38,13 @@ public class KeepDrivetrainPosition extends CommandBase {
 
   @Override
   public void initialize() {
-    leftPidController.setSetpoint(drivetrain.getLeftDistance());
-    rightPidController.setSetpoint(drivetrain.getRightDistance());
-    rotationPidController.setSetpoint(drivetrain.getAngle());
     leftPidController.reset();
     rightPidController.reset();
     rotationPidController.reset();
+    leftPidController.setSetpoint(drivetrain.getLeftDistance());
+    rightPidController.setSetpoint(drivetrain.getRightDistance());
+    rotationPidController.setSetpoint(drivetrain.getAngle());
+    drivetrain.setDrivetrainNeutralMode(NeutralMode.Brake);
   }
 
   @Override
@@ -57,6 +59,7 @@ public class KeepDrivetrainPosition extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    drivetrain.setDrivetrainNeutralMode(NeutralMode.Coast);
     drivetrain.stopMoving();
   }
 }

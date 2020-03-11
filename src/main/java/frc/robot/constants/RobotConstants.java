@@ -11,7 +11,7 @@ public class RobotConstants {
 
     public static class DrivetrainConstants {
         public static final double kWheelDiameter = 15.748;
-        public static final double kWheelBaseWidth = 0.615;
+        public static final double kWheelBaseWidth = 0.625;
         public static final double kRobotLength = 0;
         public static final double kRobotWidth = 0;
         public static final double kLeftEncoderTicksPerMeter = 8216;
@@ -20,7 +20,7 @@ public class RobotConstants {
         public static final double kCurrentLimit = 50;
         public static final double kTriggerThresholdCurrent = 50;
         public static final double kTriggerThresholdTime = 1;
-        public static final boolean kRightEncoderInverted = false;
+        public static final boolean kRightEncoderInverted = true;
         public static final boolean kLeftEncoderInverted = false;
         public static final double kClimbDriveDistance = 0.1;
         public static final double kMoveWhenClimbingPower = -0.01;
@@ -118,8 +118,8 @@ public class RobotConstants {
         public static final double kMaxVelocity = 0;
         public static final double kMaxAcceleration = 0;
         public static final double kMaxCentripetalAcceleration = 0;
-        public static final double kP = 2;
-        public static final double kReverseKp = 1.26;
+        public static final double kP = 0.4;
+        public static final double kReverseKp = 0.4;
     }
 
     public static class VisionConstants {
@@ -163,8 +163,8 @@ public class RobotConstants {
         public static final PIDSettings visionRotationSettings = new PIDSettings(0.035, 0.00055, 0.0005, 0.75, 0.1);
         public static final Constraints visionProfiledRotationConstraints = new Constraints(700, 500);
         public static final PIDSettings drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
-        public static final PIDSettings drivetrainEncoderPositionLeftSettings = new PIDSettings(5, 0, 0.5, 0, 0);
-        public static final PIDSettings drivetrainEncoderPositionRightSettings = new PIDSettings(5, 0, 0.5, 0, 0);
+        public static final PIDSettings drivetrainEncoderPositionLeftSettings = new PIDSettings(3, 0, 0.005, 0, 0);
+        public static final PIDSettings drivetrainEncoderPositionRightSettings = new PIDSettings(3, 0, 0.005, 0, 0);
         public static final PIDSettings visionProfiledTurnSettings = new PIDSettings(0.005, 0, 0, 0.6, 0.3);
         public static final SimpleMotorFeedforward visionTurnFeedforward = new SimpleMotorFeedforward(0.26, 2.35, 0.0487);
     }

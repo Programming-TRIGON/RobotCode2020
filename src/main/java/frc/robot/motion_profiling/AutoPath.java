@@ -5,7 +5,7 @@ package frc.robot.motion_profiling;
  */
 public enum AutoPath {
     // TrenchAuto Paths
-    FacingPowerPortToTrenchStart, InLineWithTrenchToTrenchStart, InTrench,
+    FacingPowerPortToTrenchStart, InLineWithTrenchToTrenchStart, TrenchToShootingPosition, InTrench,
     // Steal Auto Paths
     InitLineToEnemyTrench, EnemyTrenchToPort(true),
     // MiddleFieldAndTrenchAuto Paths
