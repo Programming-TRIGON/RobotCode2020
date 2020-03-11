@@ -1,5 +1,6 @@
 package frc.robot.vision;
 
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
@@ -11,10 +12,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.constants.RobotConstants.ControlConstants;
 import frc.robot.constants.RobotConstants.DrivetrainConstants;
+import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.TrigonPIDController;
 
-import static frc.robot.Robot.drivetrain;
-import static frc.robot.Robot.limelight;
+import static frc.robot.Robot.*;
 
 public class TurnToTarget extends CommandBase {
     public static final State kGoal = new State(0, 0);
@@ -22,13 +23,14 @@ public class TurnToTarget extends CommandBase {
     private Target target;
     private Timer timer;
     private double prevTime;
-    private double prevAngle;
     private Constraints constraints;
     private State setpoint;
     private SimpleMotorFeedforward feedforward;
     private double prevSpeed;
     private TrigonPIDController pidController;
     private boolean isTuning;
+    private boolean foundTarget;
+    private static final int kBlinkingAmount = 30;
 
     public TurnToTarget(Target target) {
         addRequirements(drivetrain);
@@ -57,6 +59,7 @@ public class TurnToTarget extends CommandBase {
             ControlConstants.visionRotationSettings.getDeltaTolerance());
         isTuning = true;
     }
+
     @Override
     public void initialize() {
         limelight.startVision(target);
@@ -70,41 +73,52 @@ public class TurnToTarget extends CommandBase {
         setpoint = new State(limelight.getAngle(), 0);
         prevTime = 0;
         prevSpeed = 0;
-        prevAngle = limelight.getAngle();
         timer.reset();
         timer.start();
         pidController.reset();
+        foundTarget = false;
+        led.blinkColor(LEDColor.Green, kBlinkingAmount);
     }
 
     @Override
     public void execute() {
-        double curTime = timer.get();
-        double dt = curTime - prevTime;
-        var profile = new TrapezoidProfile(constraints, new State(0, 0),
-            new State(limelight.getAngle(), setpoint.velocity));
+        if (!foundTarget) {
+            if (limelight.getTv()) {
+                foundTarget = true;
+                setpoint = new State(limelight.getAngle(), 0);
+                led.setColor(LEDColor.Green);
+            } else
+                drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft),
+                    oi.getDriverXboxController().getDeltaTriggers());
+        } else {
+            double curTime = timer.get();
+            double dt = curTime - prevTime;
+            var profile = new TrapezoidProfile(constraints, new State(0, 0),
+                new State(limelight.getAngle(), setpoint.velocity));
 
-        setpoint = profile.calculate(Robot.kDefaultPeriod);
-        var targetRotationSpeed = DrivetrainConstants.kWheelBaseWidth / 2
-            * Math.toRadians(setpoint.velocity);
+            setpoint = profile.calculate(Robot.kDefaultPeriod);
+            var targetRotationSpeed = DrivetrainConstants.kWheelBaseWidth / 2
+                * Math.toRadians(setpoint.velocity);
 
-        double feedforwardOutput =
-            feedforward.calculate(targetRotationSpeed,
-                (targetRotationSpeed - prevSpeed) / dt);
+            double feedforwardOutput =
+                feedforward.calculate(targetRotationSpeed,
+                    (targetRotationSpeed - prevSpeed) / dt);
 
-        double output = feedforwardOutput
-            + pidController.calculate(drivetrain.getRightVelocity(),
-            targetRotationSpeed);
+            double output = feedforwardOutput
+                + pidController.calculate(drivetrain.getRightVelocity(),
+                targetRotationSpeed);
 
-        drivetrain.arcadeDrive(output / RobotController.getBatteryVoltage(), 0);
+            drivetrain.arcadeDrive(output / RobotController.getBatteryVoltage(), 0);
 
-        prevTime = curTime;
-        prevSpeed = targetRotationSpeed;
-        prevAngle = limelight.getAngle();
+            prevTime = curTime;
+            prevSpeed = targetRotationSpeed;
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return pidController.atSetpoint() && Math.abs(setpoint.position) < 0.1;
+        return foundTarget && pidController.atSetpoint() &&
+            Math.abs(setpoint.position) < 0.1;
     }
 
     @Override
