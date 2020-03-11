@@ -16,6 +16,7 @@ import static frc.robot.Robot.drivetrain;
 import static frc.robot.Robot.limelight;
 
 public class TurnToTargetWithFeedforward extends CommandBase {
+    public static final State kGoal = new State();
     private Target target;
     private Timer timer;
     private double prevTime;
@@ -24,7 +25,7 @@ public class TurnToTargetWithFeedforward extends CommandBase {
     private State setpoint;
     private SimpleMotorFeedforward feedforward;
     private double prevSpeed;
-    private TrigonPIDController PIDController;
+    private TrigonPIDController pidController;
 
     public TurnToTargetWithFeedforward(Target target) {
         addRequirements(drivetrain);
@@ -32,7 +33,7 @@ public class TurnToTargetWithFeedforward extends CommandBase {
         timer = new Timer();
         constraints = ControlConstants.visionProfiledRotationConstraints;
         feedforward = ControlConstants.visionTurnFeedforward;
-        PIDController = new TrigonPIDController(ControlConstants.visionProfiledTurnSettings);
+        pidController = new TrigonPIDController(ControlConstants.visionProfiledTurnSettings);
     }
 
     public TurnToTargetWithFeedforward(Target target, String key) {
@@ -41,7 +42,7 @@ public class TurnToTargetWithFeedforward extends CommandBase {
         timer = new Timer();
         constraints = ControlConstants.visionProfiledRotationConstraints;
         feedforward = ControlConstants.visionTurnFeedforward;
-        PIDController = new TrigonPIDController(key);
+        pidController = new TrigonPIDController(key);
     }
 
     @Override
@@ -54,7 +55,7 @@ public class TurnToTargetWithFeedforward extends CommandBase {
         prevAngle = limelight.getAngle();
         timer.reset();
         timer.start();
-        PIDController.reset();
+        pidController.reset();
     }
 
     @Override
@@ -67,16 +68,13 @@ public class TurnToTargetWithFeedforward extends CommandBase {
         setpoint = profile.calculate(Robot.kDefaultPeriod);
         var targetRotationSpeed = DrivetrainConstants.kWheelBaseWidth / 2
             * Math.toRadians(setpoint.velocity);
-        System.out.println("setpoint velocity: " + setpoint.velocity +
-            " target rotation speed: " + targetRotationSpeed
-        );
 
         double feedforwardOutput =
             feedforward.calculate(targetRotationSpeed,
                 (targetRotationSpeed - prevSpeed) / dt);
 
         double output = feedforwardOutput
-            + PIDController.calculate(drivetrain.getWheelSpeeds().leftMetersPerSecond,
+            + pidController.calculate(drivetrain.getRightVelocity(),
             targetRotationSpeed);
 
          drivetrain.arcadeDrive(output / RobotController.getBatteryVoltage(), 0);
@@ -88,7 +86,7 @@ public class TurnToTargetWithFeedforward extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;//leftController.atSetpoint() && rightController.atSetpoint() && setpoint.equals(new State());
+        return pidController.atSetpoint() && setpoint.equals(kGoal);
     }
 
     @Override
