@@ -68,7 +68,6 @@ public class RobotTest {
             new CalibrateVisionDistance(() -> false, Target.Feeder, 0),
             new FollowTarget(Target.Feeder),
             new TurnToTarget(Target.PowerPort),
-            new TurnToTargetProfiled(Target.PowerPort),
             new TurnToTargetWithFeedforward(Target.PowerPort),
             new CalibrateFeedforward(),
             new FollowPath(AutoPath.FacingPowerPortToMiddleField),
