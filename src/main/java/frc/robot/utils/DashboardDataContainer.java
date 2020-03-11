@@ -64,9 +64,9 @@ public class DashboardDataContainer {
         putData("Shooter/Disable tuning", new InstantCommand(shooter::disableTuning));
         putDefaultNumber("Shooter/Override Power", 0);
         putData("Shooter/Override", new OverrideCommand(shooter, () -> getNumber("Shooter/Override Power", 0)));
-        putData("Shooter/Turn to port", new TurnToTarget(Target.PowerPort));//, "Turn PID"));
-        putData("Shooter/Turn profiled to port", new TurnToTargetProfiled(Target.PowerPort, "Turn Profiled PID"));
-        putData("Shooter/Turn with feedforward to port",
+        putData("Vision/Turn to port", new TurnToTarget(Target.PowerPort));//, "Turn PID"));
+        putData("Vision/Turn profiled to port", new TurnToTargetProfiled(Target.PowerPort, "Turn Profiled PID"));
+        putData("Vision/Turn with feedforward to port",
             new TurnToTargetWithFeedforward(Target.PowerPort, "Turn With Feedforward PID"));
 
         // Drivetrain
