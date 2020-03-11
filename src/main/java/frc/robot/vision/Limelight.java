@@ -84,8 +84,8 @@ public class Limelight implements Loggable {
         return VisionConstants.kDistanceFromPortACoefficient * Math.pow(x, 3) +
             VisionConstants.kDistanceFromPortBCoefficient * Math.pow(x, 2) +
             VisionConstants.kDistanceFromPortCCoefficient * x +
-            VisionConstants.kDistanceFromPortDCoefficient + 
-            getRotationDegree() * VisionConstants.kSideVelocityMultiplierCoefficient;
+            VisionConstants.kDistanceFromPortDCoefficient; 
+            // + getRotationDegree() * VisionConstants.kSideVelocityMultiplierCoefficient;
     }
 
     @Log(name = "Limelight/Rotation Degree")
