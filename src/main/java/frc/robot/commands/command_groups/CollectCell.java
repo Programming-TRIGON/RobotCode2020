@@ -1,8 +1,8 @@
 package frc.robot.commands.command_groups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import frc.robot.constants.RobotConstants.IntakeConstants;
 import frc.robot.subsystems.intake.SetIntakeSpeed;
 import frc.robot.subsystems.intakeopener.IntakeAngle;
 import frc.robot.subsystems.intakeopener.SetIntakeAngle;
@@ -15,9 +15,9 @@ import frc.robot.subsystems.mixer.SpinMixerByTime;
 import static frc.robot.Robot.led;
 
 public class CollectCell extends ParallelCommandGroup {
-    public CollectCell() {
+    public CollectCell(double intakeSpeed) {
         addCommands(
-            new SetIntakeSpeed(),
+            new SetIntakeSpeed(intakeSpeed),
             sequence(
                 new SetIntakeAngle(IntakeAngle.OpenForIntake),
                 parallel(
@@ -27,5 +27,9 @@ public class CollectCell extends ParallelCommandGroup {
                 )
             )
         );
+    }
+
+    public CollectCell() {
+        this(IntakeConstants.kDefaultIntakePower);
     }
 }

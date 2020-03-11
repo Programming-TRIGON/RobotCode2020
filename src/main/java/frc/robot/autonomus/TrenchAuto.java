@@ -3,6 +3,7 @@ package frc.robot.autonomus;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.command_groups.AutoShoot;
+import frc.robot.commands.command_groups.CollectCell;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.FollowPath;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
@@ -19,15 +20,20 @@ public class TrenchAuto extends SequentialCommandGroup {
         addCommands(
             parallel(
                 sequence(
-                    //new AutoShoot(3),
+                    new AutoShoot(3),
                     new InstantCommand(() -> drivetrain.resetOdometry(autoPath))
                 ),
                 new FindOpenerOffset()
             ),
-            new FollowPath(autoPath),
-            new CollectCellAndFollowPath(AutoPath.InTrench),
-            new CollectCellAndFollowPath(AutoPath.TrenchToShootingPosition)//,
-            //new AutoShoot(5)
+            deadline(
+                sequence(
+                    new FollowPath(autoPath),
+                    new FollowPath(AutoPath.InTrench),
+                    new FollowPath(AutoPath.TrenchToShootingPosition)
+                    ),
+                new CollectCell(0.7)
+            ),
+            new AutoShoot(5)
         );
     }
 }
