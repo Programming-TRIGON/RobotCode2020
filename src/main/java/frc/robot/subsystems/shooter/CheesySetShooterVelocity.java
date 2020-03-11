@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -112,6 +113,8 @@ public class CheesySetShooterVelocity extends CommandBase {
         rightTBHController.reset();
         leftTBHController.setSetpoint(setpoint);
         rightTBHController.setSetpoint(setpoint);
+        leftTBHController.setLastOutput(shooter.getLeftPower() * RobotController.getBatteryVoltage() / 12);
+        rightTBHController.setLastOutput(shooter.getRightPower() * RobotController.getBatteryVoltage() / 12);
         led.blinkColor(LEDColor.Gold, kBlinkAmount);
     }
 
