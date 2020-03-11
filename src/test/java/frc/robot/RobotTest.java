@@ -23,10 +23,7 @@ import frc.robot.subsystems.intakeopener.SetIntakeAngle;
 import frc.robot.subsystems.loader.SetLoaderSpeed;
 import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
-import frc.robot.vision.CalibrateVisionDistance;
-import frc.robot.vision.FollowTarget;
-import frc.robot.vision.Target;
-import frc.robot.vision.TurnToTarget;
+import frc.robot.vision.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -71,6 +68,8 @@ public class RobotTest {
             new CalibrateVisionDistance(() -> false, Target.Feeder, 0),
             new FollowTarget(Target.Feeder),
             new TurnToTarget(Target.PowerPort),
+            new TurnToTargetProfiled(Target.PowerPort),
+            new TurnToTargetWithFeedforward(Target.PowerPort),
             new CalibrateFeedforward(),
             new FollowPath(AutoPath.FacingPowerPortToMiddleField),
             new DriveWithXbox(() -> 0, () -> 0),
