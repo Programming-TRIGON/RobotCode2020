@@ -144,7 +144,7 @@ public class RobotConstants {
     }
 
     public static class OIConstants {
-        public static final double kDeltaTriggersInterruptDifference = 0.25;
+        public static final double kDeltaTriggersInterruptDifference = 0.08;
         public static final double kSortAfterCollectCellTimeout = 3;
     }
 

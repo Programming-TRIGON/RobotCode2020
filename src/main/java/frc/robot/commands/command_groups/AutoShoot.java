@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import frc.robot.constants.RobotConstants.LoaderConstants;
 import frc.robot.constants.RobotConstants.MixerConstants;
+import frc.robot.subsystems.drivetrain.KeepDrivetrainPosition;
 import frc.robot.subsystems.loader.LoaderPower;
 import frc.robot.subsystems.loader.SetLoaderSpeedPID;
 import frc.robot.subsystems.mixer.MixerPower;
@@ -94,7 +95,7 @@ public class AutoShoot extends SequentialCommandGroup {
             ),
             deadline(
                 cheesySetShooterVelocity,
-//                new KeepDrivetrainPosition(),
+                new KeepDrivetrainPosition(),
                 sequence(
                     new WaitUntilCommand(() -> cheesySetShooterVelocity.readyToShoot()),
                     parallel(
