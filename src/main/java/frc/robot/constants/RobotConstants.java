@@ -65,7 +65,7 @@ public class RobotConstants {
         public static final double kBackwardsSpinTimeHighSpeed = 0.35;
         public static final double kBackwardsSpinTimeLowSpeed = 1;
         public static final double kSpinMixerByTime = 2;
-        public static final double kWaitForSpinMixerTime = 0.3;
+        public static final double kWaitForSpinMixerTime = 0.1;
     }
 
     public static class ClimbConstants {
@@ -161,14 +161,11 @@ public class RobotConstants {
         public static final SimpleMotorFeedforward motionProfilingReverseSettings = new SimpleMotorFeedforward(0.129, 2.47, 0.334);
         public static final PIDSettings visionDistanceSettings = new PIDSettings(0.04, 0, 0.04, 10, 25);
         public static final PIDSettings visionRotationSettings = new PIDSettings(0.035, 0.00055, 0.0005, 0.75, 0.1);
-        public static final Constraints visionProfiledRotationConstraints = new Constraints(200, 200);
-        public static final PIDSettings visionShootCloseTurnSettings = new PIDSettings(0.02, 0.00045, 0.0005, 1, 0.1);
-        public static final PIDSettings visionShootVeryCloseTurnSettings = new PIDSettings(0.04, 0.005, 0.0005, 1, 0.1);
-        public static final PIDSettings visionShootFarTurnSettings = new PIDSettings(0.01, 0.00045, 0.0005, 1, 0.1);
+        public static final Constraints visionProfiledRotationConstraints = new Constraints(700, 500);
         public static final PIDSettings drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
         public static final PIDSettings drivetrainEncoderPositionLeftSettings = new PIDSettings(5, 0, 0.5, 0, 0);
         public static final PIDSettings drivetrainEncoderPositionRightSettings = new PIDSettings(-5, 0, -0.5, 0, 0);
-        public static final PIDSettings visionProfiledTurnSettings = new PIDSettings(0, 0, 0, 1, 1);
-        public static final SimpleMotorFeedforward visionTurnFeedforward = new SimpleMotorFeedforward(0.538, 2.35, 0.0487);
+        public static final PIDSettings visionProfiledTurnSettings = new PIDSettings(0.005, 0, 0, 0.6, 0.3);
+        public static final SimpleMotorFeedforward visionTurnFeedforward = new SimpleMotorFeedforward(0.26, 2.35, 0.0487);
     }
 }

@@ -1,83 +1,115 @@
 package frc.robot.vision;
 
-import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Robot;
 import frc.robot.constants.RobotConstants.ControlConstants;
-import frc.robot.subsystems.led.LEDColor;
+import frc.robot.constants.RobotConstants.DrivetrainConstants;
 import frc.robot.utils.TrigonPIDController;
 
-import static frc.robot.Robot.*;
+import static frc.robot.Robot.drivetrain;
+import static frc.robot.Robot.limelight;
 
-/**
- * Turns the robot (drivetrain) to a given vision target.
- */
 public class TurnToTarget extends CommandBase {
-    private static final int kBlinkingAmount = 30;
+    public static final State kGoal = new State(0, 0);
+    private String key;
     private Target target;
-    private TrigonPIDController rotationPIDController;
-    private Boolean foundTarget;
+    private Timer timer;
+    private double prevTime;
+    private double prevAngle;
+    private Constraints constraints;
+    private State setpoint;
+    private SimpleMotorFeedforward feedforward;
+    private double prevSpeed;
+    private TrigonPIDController pidController;
+    private boolean isTuning;
 
-    /**
-     * @param target    The target the robot will turn to
-     */
     public TurnToTarget(Target target) {
         addRequirements(drivetrain);
         this.target = target;
-        rotationPIDController = new TrigonPIDController(ControlConstants.visionShootFarTurnSettings);
+        timer = new Timer();
+        constraints = ControlConstants.visionProfiledRotationConstraints;
+        feedforward = ControlConstants.visionTurnFeedforward;
+        pidController = new TrigonPIDController(ControlConstants.visionProfiledTurnSettings);
+        isTuning = false;
     }
 
-    /**
-     * This constructor is used for PID tuning
-     *
-     * @param target       The target the robot will turn to
-     * @param dashboardKey This is the key the will be attached to the pidController
-     *                     in the smart dashboard
-     */
-    public TurnToTarget(Target target, String dashboardKey) {
+    public TurnToTarget(Target target, String key) {
         addRequirements(drivetrain);
         this.target = target;
-        rotationPIDController = new TrigonPIDController(dashboardKey);
+        this.key = key;
+        timer = new Timer();
+        if (!SmartDashboard.containsKey("Vision/" + key + " - max velocity")) {
+            SmartDashboard.putNumber("Vision/" + key + " - max velocity",
+                ControlConstants.visionProfiledRotationConstraints.maxVelocity);
+            SmartDashboard.putNumber("Vision/" + key + " - max acceleration",
+                ControlConstants.visionProfiledRotationConstraints.maxAcceleration);
+        }
+        feedforward = ControlConstants.visionTurnFeedforward;
+        pidController = new TrigonPIDController(key);
+        pidController.setTolerance(ControlConstants.visionRotationSettings.getTolerance(),
+            ControlConstants.visionRotationSettings.getDeltaTolerance());
+        isTuning = true;
     }
-
     @Override
     public void initialize() {
-        if (limelight.getTx() < 10)
-                rotationPIDController.setPID(ControlConstants.visionShootCloseTurnSettings.getKP(),
-                ControlConstants.visionShootCloseTurnSettings.getKI(),
-                ControlConstants.visionShootCloseTurnSettings.getKD());
-        
-        if (limelight.getTx() < 2)
-            rotationPIDController.setPID(ControlConstants.visionShootVeryCloseTurnSettings.getKP(),
-            ControlConstants.visionShootVeryCloseTurnSettings.getKI(),
-            ControlConstants.visionShootVeryCloseTurnSettings.getKD());
-
-        foundTarget = false;
-        rotationPIDController.reset();
         limelight.startVision(target);
-        led.blinkColor(LEDColor.Green, kBlinkingAmount);
+        if (isTuning) {
+            constraints = new Constraints(
+                SmartDashboard.getNumber("Vision/" + key + " - max velocity", 0),
+                SmartDashboard.getNumber("Vision/" + key + " - max acceleration", 0)
+            );
+        }
+        drivetrain.setRampRate(0);
+        setpoint = new State(limelight.getAngle(), 0);
+        prevTime = 0;
+        prevSpeed = 0;
+        prevAngle = limelight.getAngle();
+        timer.reset();
+        timer.start();
+        pidController.reset();
     }
 
     @Override
     public void execute() {
-        if (limelight.getTv()) {
-            if (!foundTarget) {
-                led.setColor(LEDColor.Green);
-                foundTarget = true;
-            }
-            drivetrain.move(rotationPIDController.calculate(limelight.getAngle()));
-        } else
-            // If the target wasn't found, driver can drive
-            drivetrain.trigonCurvatureDrive(oi.getDriverXboxController().getX(Hand.kLeft), oi.getDriverXboxController().getDeltaTriggers());
+        double curTime = timer.get();
+        double dt = curTime - prevTime;
+        var profile = new TrapezoidProfile(constraints, new State(0, 0),
+            new State(limelight.getAngle(), setpoint.velocity));
+
+        setpoint = profile.calculate(Robot.kDefaultPeriod);
+        var targetRotationSpeed = DrivetrainConstants.kWheelBaseWidth / 2
+            * Math.toRadians(setpoint.velocity);
+
+        double feedforwardOutput =
+            feedforward.calculate(targetRotationSpeed,
+                (targetRotationSpeed - prevSpeed) / dt);
+
+        double output = feedforwardOutput
+            + pidController.calculate(drivetrain.getRightVelocity(),
+            targetRotationSpeed);
+
+        drivetrain.arcadeDrive(output / RobotController.getBatteryVoltage(), 0);
+
+        prevTime = curTime;
+        prevSpeed = targetRotationSpeed;
+        prevAngle = limelight.getAngle();
     }
 
     @Override
     public boolean isFinished() {
-        return limelight.getTv() && rotationPIDController.atSetpoint();
+        return pidController.atSetpoint() && Math.abs(setpoint.position) < 0.1;
     }
 
     @Override
     public void end(boolean interrupted) {
         drivetrain.stopMoving();
-        led.turnOffLED();
+        drivetrain.setRampRate(DrivetrainConstants.kRampRate);
     }
 }

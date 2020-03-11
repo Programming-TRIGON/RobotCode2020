@@ -31,7 +31,10 @@ import frc.robot.subsystems.mixer.SpinMixer;
 import frc.robot.subsystems.mixer.SpinMixerByTime;
 import frc.robot.subsystems.shooter.CheesySetShooterVelocity;
 import frc.robot.subsystems.shooter.SetShooterVelocity;
-import frc.robot.vision.*;
+import frc.robot.vision.CalibrateVisionDistance;
+import frc.robot.vision.FollowTarget;
+import frc.robot.vision.Target;
+import frc.robot.vision.TurnToTarget;
 import io.github.oblarg.oblog.Logger;
 
 import static edu.wpi.first.wpilibj.smartdashboard.SmartDashboard.*;
@@ -64,9 +67,8 @@ public class DashboardDataContainer {
         putData("Shooter/Disable tuning", new InstantCommand(shooter::disableTuning));
         putDefaultNumber("Shooter/Override Power", 0);
         putData("Shooter/Override", new OverrideCommand(shooter, () -> getNumber("Shooter/Override Power", 0)));
-        putData("Vision/Turn to port", new TurnToTarget(Target.PowerPort));//, "Turn PID"));
-        putData("Vision/Turn with feedforward to port",
-            new TurnToTargetWithFeedforward(Target.PowerPort, "Turn With Feedforward PID"));
+        putData("Vision/Turn to port",
+            new TurnToTarget(Target.PowerPort, "Turn With Feedforward PID"));
 
         // Drivetrain
         putData("Drivetrain/Calibrate Feedforward", new CalibrateFeedforward());
@@ -124,7 +126,7 @@ public class DashboardDataContainer {
             new SetLoaderSpeed(LoaderPower.UnloadForSort),
             new SpinMixerByTime(MixerPower.MixForSort)));
         putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
-        putData("CommandGroup/Auto Shoot By Vision", new AutoShoot());
+        putData("CommandGroup/Auto Shoot By Vision", new AutoShoot(5));
         putData("CommandGroup/ShortCollectCell", new ShortCollectCell());
         putBoolean("log", false);
         putData("Vision/Calibrate Vision Distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 120, 35, 10));
