@@ -8,7 +8,7 @@ import frc.robot.subsystems.intakeopener.SetIntakeAngle;
 
 public class ShortCollectCell extends SequentialCommandGroup {
 
-    private static final int kCollectTime = 2;
+    private static final double kCollectTime = 0.5;
 
     public ShortCollectCell() {
         addCommands(

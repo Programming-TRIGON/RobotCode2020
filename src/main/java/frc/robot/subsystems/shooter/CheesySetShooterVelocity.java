@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -17,7 +18,7 @@ import static frc.robot.Robot.shooter;
 public class CheesySetShooterVelocity extends CommandBase {
 
     private static final int kMinimumKfSamples = 20;
-    private static final int kBlinkAmount = 15;
+    private static final int kBlinkAmount = 50;
     private TBHController rightTBHController;
     private TBHController leftTBHController;
     private DoubleSupplier velocitySetpoint;
@@ -112,6 +113,8 @@ public class CheesySetShooterVelocity extends CommandBase {
         rightTBHController.reset();
         leftTBHController.setSetpoint(setpoint);
         rightTBHController.setSetpoint(setpoint);
+        leftTBHController.setLastOutput(shooter.getLeftPower() * RobotController.getBatteryVoltage() / 12);
+        rightTBHController.setLastOutput(shooter.getRightPower() * RobotController.getBatteryVoltage() / 12);
         led.blinkColor(LEDColor.Gold, kBlinkAmount);
     }
 
@@ -154,6 +157,8 @@ public class CheesySetShooterVelocity extends CommandBase {
         // set feedforward gains of the two sides of the shooter to the calculated gains from SpinUp state 
         shooter.configFeedforwardGains(leftKfSamplesSum / kfSamplesAmount, rightKfSamplesSum / kfSamplesAmount);
         currentShooterState = CheesyShooterState.Hold;
+        // leds stop blinking, target velocity reached 
+        led.setColor(LEDColor.Gold);
     }
 
     private void holdExecute() {
@@ -203,6 +208,7 @@ public class CheesySetShooterVelocity extends CommandBase {
             shooter.stopMoving();
         shooter.setProfileSlot(false);
         SmartDashboard.putString("Shooter/Current Cheesy shooter state", "No state");
+        led.turnOffLED();
     }
 
     /**

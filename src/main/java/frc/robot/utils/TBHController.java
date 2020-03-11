@@ -64,6 +64,7 @@ public class TBHController implements Sendable {
     public void reset() {
         lastError = 0;
         output = 0;
+        lastOutput = 0;
         tbh = 0;
     }
 
@@ -81,6 +82,11 @@ public class TBHController implements Sendable {
 
     public void setSetpoint(double setpoint) {
         this.setpoint = setpoint;
+    }
+
+    public void setLastOutput(double output) {
+        this.output = output;
+        lastOutput = output;
     }
 
     private boolean isPositive(double value) {

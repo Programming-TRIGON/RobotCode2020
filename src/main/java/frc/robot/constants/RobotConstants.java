@@ -33,7 +33,7 @@ public class RobotConstants {
 
     public static class IntakeConstants {
         public static final boolean kIsInverted = true;
-        public static final double kDefaultIntakePower = 0.5;
+        public static final double kDefaultIntakePower = 0.45;
         public static final double kFeederIntakePower = -0.25;
         public static final int kCurrentLimit = 40;
         public static final double kOnStallLimit = 35;
@@ -59,13 +59,13 @@ public class RobotConstants {
         public static final double kMixerMaxStall = 20;
         public static final boolean kIsInverted = false;
         public static final double kRampTime = 0.25;
-        public static final double kSpinByTimeRampTime = 3;
+        public static final double kSpinByTimeRampTime = 2;
         public static final double kStallWaitTime = 0.3;
         public static final double kTotalStallWaitTime = 1.5;
         public static final double kBackwardsSpinTimeHighSpeed = 0.35;
         public static final double kBackwardsSpinTimeLowSpeed = 1;
         public static final double kSpinMixerByTime = 2;
-        public static final double kWaitForSpinMixerTime = 0.3;
+        public static final double kWaitForSpinMixerTime = 0.1;
     }
 
     public static class ClimbConstants {
@@ -101,9 +101,9 @@ public class RobotConstants {
         public static final boolean kIsLeftEncoderInverted = false;
         public static final boolean kIsRightEncoderInverted = false;
         public static final double kStopLoadingTolerance = 10;
-        public static final double kVelocityTolerance = 35;
-        public static final double kLeftTBHGain = 0.000006;
-        public static final double kRightTBHGain = 0.000006;
+        public static final double kVelocityTolerance = 15;
+        public static final double kLeftTBHGain = 0.000009;
+        public static final double kRightTBHGain = 0.000009;
     }
 
     public static class LoaderConstants {
@@ -123,9 +123,10 @@ public class RobotConstants {
     }
 
     public static class VisionConstants {
-        public static final double kDistanceFromPortACoefficient = 3.7168;
-        public static final double kDistanceFromPortBCoefficient = 122.23;
-        public static final double kDistanceFromPortCCoefficient = 3960.4;
+        public static final double kDistanceFromPortACoefficient = -1.682;
+        public static final double kDistanceFromPortBCoefficient = -24.845;
+        public static final double kDistanceFromPortCCoefficient = 3.7541;
+        public static final double kDistanceFromPortDCoefficient = 3904.5;
         public static final double kSideVelocityMultiplierCoefficient = 8;
         public static final double kTargetNotFoundWaitTime = 0.5;
         public static final double kDistanceACoefficient = 19.003;
@@ -144,7 +145,7 @@ public class RobotConstants {
 
     public static class OIConstants {
         public static final double kDeltaTriggersInterruptDifference = 0.25;
-        public static final double kSortAfterCollectCellTimeout = 2;
+        public static final double kSortAfterCollectCellTimeout = 3;
     }
 
     public static class ControlConstants {
@@ -153,16 +154,18 @@ public class RobotConstants {
         public static final PIDSettings closeIntakeSettings = new PIDSettings(0.25, 0.0003000, 0, 1, 10);
         public static final PIDSettings leftShooterSettings = PIDSettings.fromTalonSettings(0.095, 0.00000975, 1, 0.0502, 2);
         public static final PIDSettings rightShooterSettings = PIDSettings.fromTalonSettings(0.125, 0.0000093, 1, 0.0478, 2);
-        public static final PIDSettings leftShooterCheesySettings = PIDSettings.fromTalonSettings(0.085, 0, 2.5, 0.05165, 0);
-        public static final PIDSettings rightShooterCheesySettings = PIDSettings.fromTalonSettings(0.075, 0, 2.5, 0.0492, 0);
+        public static final PIDSettings leftShooterCheesySettings = PIDSettings.fromTalonSettings(0.13, 0, 0.1, 0.05165, 0);
+        public static final PIDSettings rightShooterCheesySettings = PIDSettings.fromTalonSettings(0.15, 0, 0.1, 0.0492, 0);
         public static final PIDSettings loaderSettings = PIDSettings.fromTalonSettings(0.02, 0.000001, 1.5, 0.141, 2);
         public static final SimpleMotorFeedforward motionProfilingSettings = new SimpleMotorFeedforward(0.133, 2.48, 0.303);
         public static final SimpleMotorFeedforward motionProfilingReverseSettings = new SimpleMotorFeedforward(0.12, 2.48, 0.295);
         public static final PIDSettings visionDistanceSettings = new PIDSettings(0.04, 0, 0.04, 10, 25);
-        public static final PIDSettings visionRotationSettings = new PIDSettings(0.035, 0.00055, 0.0005, 1, 0.5);
-        public static final Constraints visionRotationConstraints = new Constraints(10, 7.5);
+        public static final PIDSettings visionRotationSettings = new PIDSettings(0.035, 0.00055, 0.0005, 0.75, 0.1);
+        public static final Constraints visionProfiledRotationConstraints = new Constraints(700, 500);
         public static final PIDSettings drivetrainRotateSettings = new PIDSettings(0, 0, 0, 0, 0);
         public static final PIDSettings drivetrainEncoderPositionLeftSettings = new PIDSettings(5, 0, 0.5, 0, 0);
         public static final PIDSettings drivetrainEncoderPositionRightSettings = new PIDSettings(5, 0, 0.5, 0, 0);
+        public static final PIDSettings visionProfiledTurnSettings = new PIDSettings(0.005, 0, 0, 0.6, 0.3);
+        public static final SimpleMotorFeedforward visionTurnFeedforward = new SimpleMotorFeedforward(0.26, 2.35, 0.0487);
     }
 }

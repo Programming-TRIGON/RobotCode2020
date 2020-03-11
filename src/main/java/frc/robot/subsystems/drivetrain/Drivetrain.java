@@ -213,6 +213,11 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
             / DrivetrainConstants.kLeftEncoderTicksPerMeter;
     }
 
+    @Log(name = "Drivetrain/angular velcoity")
+    public double angularVelocity() {
+        return Math.toDegrees(kinematics.toChassisSpeeds(getWheelSpeeds()).omegaRadiansPerSecond);
+    }
+
     // @Log(name = "Drivetrain/Average Velocity")
     public double getAverageVelocity() {
         return (getLeftVelocity() + getRightVelocity()) / 2;
@@ -326,6 +331,8 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         if (motor != master)
             motor.follow(master);
         motor.setNeutralMode(NeutralMode.Coast);
+        motor.configVoltageCompSaturation(12);
+        motor.enableVoltageCompensation(true);
         motor.configOpenloopRamp(DrivetrainConstants.kRampRate);
         motor.configStatorCurrentLimit(
             new StatorCurrentLimitConfiguration(false, DrivetrainConstants.kCurrentLimit,

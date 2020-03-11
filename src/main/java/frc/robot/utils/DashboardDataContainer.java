@@ -16,9 +16,9 @@ import frc.robot.commands.command_groups.ShortCollectCell;
 import frc.robot.motion_profiling.AutoPath;
 import frc.robot.motion_profiling.CalibrateFeedforward;
 import frc.robot.motion_profiling.FollowPath;
-import frc.robot.subsystems.drivetrain.KeepDrivetrainPosition;
 import frc.robot.subsystems.climb.MoveClimbAndHook;
 import frc.robot.subsystems.climb.SetHookHeight;
+import frc.robot.subsystems.drivetrain.KeepDrivetrainPosition;
 import frc.robot.subsystems.drivetrain.Song;
 import frc.robot.subsystems.intakeopener.FindOpenerOffset;
 import frc.robot.subsystems.intakeopener.IntakeAngle;
@@ -62,11 +62,13 @@ public class DashboardDataContainer {
         // Shooter  
         putDefaultNumber("Shooter/Shooting velocity setpoint", 3050);
         putData("Shooter/Set cheesy shooting velocity", new CheesySetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
-        putData("Shooter/Set shooting velocity",  new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0), "TBH Controller"));
-        putData("Shooter/Enable tuning", new StartEndCommand(shooter::enableTuning, shooter::disableTuning));
+        putData("Shooter/Set shooting velocity", new SetShooterVelocity(() -> getNumber("Shooter/Shooting velocity setpoint", 0), "TBH Controller"));
+        putData("Shooter/Enable tuning", new InstantCommand(shooter::enableTuning));
+        putData("Shooter/Disable tuning", new InstantCommand(shooter::disableTuning));
         putDefaultNumber("Shooter/Override Power", 0);
         putData("Shooter/Override", new OverrideCommand(shooter, () -> getNumber("Shooter/Override Power", 0)));
-        putData("Shooter/Turn to port", new TurnToTarget(Target.PowerPort, "Turn PID"));
+        putData("Vision/Turn to port",
+            new TurnToTarget(Target.PowerPort, "Turn With Feedforward PID"));
 
         // Drivetrain
         putData("Drivetrain/Calibrate Feedforward", new CalibrateFeedforward());
@@ -108,7 +110,7 @@ public class DashboardDataContainer {
         putData("Climb/Go down with joystick", new RunCommand(() ->
             climb.setHookPowerOverride(oi.getOperatorXboxController().getY(Hand.kLeft)), climb));
         putData("Climb/Move Up Hook", new SetHookHeight());
-        putData("Climb/Climb With Xbox", new MoveClimbAndHook(() -> oi.getOperatorXboxController().getY(Hand.kLeft), ()->0.0));
+        putData("Climb/Climb With Xbox", new MoveClimbAndHook(() -> oi.getOperatorXboxController().getY(Hand.kLeft), () -> 0.0));
 
         putData("Drivetrain/Load Star_Wars_Main_Theme", new InstantCommand(() -> drivetrain.loadSong(Song.Star_Wars_Main_Theme), drivetrain));
         putData("Drivetrain/Load Animal_Crossing_Nook_Scranny", new InstantCommand(() -> drivetrain.loadSong(Song.Animal_Crossing_Nook_Scranny), drivetrain));
@@ -125,6 +127,7 @@ public class DashboardDataContainer {
             new SetLoaderSpeed(LoaderPower.UnloadForSort),
             new SpinMixerByTime(MixerPower.MixForSort)));
         putData("CommandGroup/Auto Shoot", new AutoShoot(() -> getNumber("Shooter/Shooting velocity setpoint", 0)));
+        putData("CommandGroup/Auto Shoot By Vision", new AutoShoot(5));
         putData("CommandGroup/ShortCollectCell", new ShortCollectCell());
         putBoolean("log", false);
         putData("Vision/Calibrate Vision Distance", new CalibrateVisionDistance(() -> getBoolean("log", false), Target.Feeder, 120, 35, 10));

@@ -1,5 +1,6 @@
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants.ShooterConstants;
@@ -48,6 +49,8 @@ public class SetShooterVelocity extends CommandBase {
         rightController.reset();
         leftController.setSetpoint(setpoint);
         rightController.setSetpoint(setpoint);
+        leftController.setLastOutput(shooter.getLeftPower() * RobotController.getBatteryVoltage() / 12);
+        rightController.setLastOutput(shooter.getRightPower() * RobotController.getBatteryVoltage() / 12);
     }
 
     @Override
