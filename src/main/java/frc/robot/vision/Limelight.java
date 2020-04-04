@@ -3,9 +3,7 @@ package frc.robot.vision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import frc.robot.constants.RobotConstants.LoaderConstants;
 import frc.robot.constants.RobotConstants.VisionConstants;
-import frc.robot.subsystems.shooter.ShooterVelocity;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 
@@ -83,12 +81,11 @@ public class Limelight implements Loggable {
     @Log(name = "Limelight/Desired Shooter Velocity")
     public double getDesiredShooterVelocity() {
         double x = getTy();
-        if(x >= LoaderConstants.kFarawayTyMeasurement)
-            return VisionConstants.kDistanceFromPortACoefficient * Math.pow(x, 2) +
-                VisionConstants.kDistanceFromPortBCoefficient * x
-                + VisionConstants.kDistanceFromPortCCoefficient
-                + getRotationDegree() * 8;
-        return ShooterVelocity.FarAway.getVelocity();
+        return VisionConstants.kDistanceFromPortACoefficient * Math.pow(x, 3) +
+            VisionConstants.kDistanceFromPortBCoefficient * Math.pow(x, 2) +
+            VisionConstants.kDistanceFromPortCCoefficient * x +
+            VisionConstants.kDistanceFromPortDCoefficient; 
+            // + getRotationDegree() * VisionConstants.kSideVelocityMultiplierCoefficient;
     }
 
     @Log(name = "Limelight/Rotation Degree")

@@ -41,9 +41,4 @@ public class SetIntakeAngle extends CommandBase {
         return Math.abs(intakeOpener.getAngle() - angleSupplier.getAsDouble()) <
             ControlConstants.openIntakeSettings.getTolerance();
     }
-
-    @Override
-    public void end(boolean interrupted) {
-        // intakeOpener.stopMoving();
-    }
 }

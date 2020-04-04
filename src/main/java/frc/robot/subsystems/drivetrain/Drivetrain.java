@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.StatorCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.ctre.phoenix.music.Orchestra;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -13,10 +14,12 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.components.Pigeon;
 import frc.robot.constants.RobotConstants.DrivetrainConstants;
 import frc.robot.constants.RobotMap;
+import frc.robot.motion_profiling.AutoPath;
 import frc.robot.subsystems.MovableSubsystem;
 import frc.robot.utils.DriverStationLogger;
 import io.github.oblarg.oblog.Loggable;
@@ -169,14 +172,14 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     }
 
     public void resetEncoders() {
-        leftEncoder.setSelectedSensorPosition(0);
-        rightEncoder.setSelectedSensorPosition(0);
+        leftEncoder.setSelectedSensorPosition(0, 0, 10);
+        rightEncoder.setSelectedSensorPosition(0, 0, 10);
     }
 
     /**
      * @return meters
      */
-    // @Log(name = "Drivetrain/Left Distance")
+     @Log(name = "Drivetrain/Left Distance")
     public double getLeftDistance() {
         return getLeftTicks() / DrivetrainConstants.kLeftEncoderTicksPerMeter;
     }
@@ -184,7 +187,7 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
     /**
      * @return meters
      */
-    // @Log(name = "Drivetrain/Right Distance")
+     @Log(name = "Drivetrain/Right Distance")
     public double getRightDistance() {
         return getRightTicks() / DrivetrainConstants.kRightEncoderTicksPerMeter;
     }
@@ -212,6 +215,11 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
             / DrivetrainConstants.kLeftEncoderTicksPerMeter;
     }
 
+    @Log(name = "Drivetrain/angular velcoity")
+    public double angularVelocity() {
+        return Math.toDegrees(kinematics.toChassisSpeeds(getWheelSpeeds()).omegaRadiansPerSecond);
+    }
+
     // @Log(name = "Drivetrain/Average Velocity")
     public double getAverageVelocity() {
         return (getLeftVelocity() + getRightVelocity()) / 2;
@@ -232,8 +240,23 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         odometry.resetPosition(pose, angle);
     }
 
+    /**
+     * @param autoPath reset odometry to the initial pose of the given AutoPath 
+     */
+    public void resetOdometry(AutoPath autoPath) {
+        resetOdometry(autoPath.getPath().getTrajectory().getInitialPose());
+    }
+
     public void resetOdometry() {
-        resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0)));
+        try {
+            String serializedTrajectory =
+                SmartDashboard.getString(
+                    "Falcon/Serialized Trajectory", "");
+            var trajectory = TrajectoryUtil.deserializeTrajectory(serializedTrajectory);
+            resetOdometry(trajectory.getInitialPose());
+        } catch (JsonProcessingException e) {
+            DriverStationLogger.logErrorToDS("Failed to deserialize trajectory");
+        }
     }
 
     public Pose2d getPose() {
@@ -318,6 +341,8 @@ public class Drivetrain extends SubsystemBase implements MovableSubsystem, Logga
         if (motor != master)
             motor.follow(master);
         motor.setNeutralMode(NeutralMode.Coast);
+        motor.configVoltageCompSaturation(12);
+        motor.enableVoltageCompensation(true);
         motor.configOpenloopRamp(DrivetrainConstants.kRampRate);
         motor.configStatorCurrentLimit(
             new StatorCurrentLimitConfiguration(false, DrivetrainConstants.kCurrentLimit,

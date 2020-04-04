@@ -9,13 +9,13 @@ import frc.robot.utils.TrigonPIDController;
 import static frc.robot.Robot.*;
 
 /**
- * this is just template for a target follow command. It will be probably
- * changed according the game and the robot.
+ * Vision target follow (x and y axis) command, with the robot's drivetrain.
  */
 public class FollowTarget extends CommandBase {
+
     private static final int kBlinkAmount = 30;
-    private static final double kSwitchSpeedDistance = 45;
-    private static final double kFastForwardSpeed = 0.5;
+    private static final double kSwitchSpeedDistance = 40;
+    private static final double kFastForwardSpeed = 0.4;
     private static final double kSlowForwardSpeed = 0.2;
     private Target target;
     private TrigonPIDController rotationPIDController;
@@ -77,5 +77,6 @@ public class FollowTarget extends CommandBase {
     public void end(boolean interrupted) {
         drivetrain.stopMoving();
         led.turnOffLED();
+        limelight.setPipeline(Target.PowerPort);
     }
 }

@@ -1,12 +1,9 @@
 package frc.robot.subsystems.shooter;
 
 public enum ShooterVelocity {
-    //TODO: replace with meaningful names and values
-    Close(100),
-    Trench(1000),
-    Sector(2000),
+    HeatUp(3000),
     FarAway(3350),
-    Default(1500);
+    Default(3100);
 
     private final double velocity;
 

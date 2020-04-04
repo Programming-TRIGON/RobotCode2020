@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpiutil.math.MathUtil;
+import frc.robot.constants.RobotConstants;
 
 /**
  * Implements a PID control loop whose setpoint is constrained by a trapezoid
@@ -16,6 +17,7 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
 
     public TrigonProfiledPIDController(PIDSettings settings, Constraints constraints) {
         super(settings.getKP(), settings.getKI(), settings.getKD(), constraints);
+        setTolerance(settings.getTolerance(), settings.getDeltaTolerance());
         this.constraints = constraints;
     }
 
@@ -39,7 +41,7 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
      *                     in the smart dashboard
      */
     public TrigonProfiledPIDController(String dashboardKey) {
-        this(dashboardKey, 0);
+        this(dashboardKey, SmartDashboard.getNumber("PID/" + dashboardKey + "/goal", 0));
     }
 
     /**
@@ -53,12 +55,14 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
      *                        been changed from the dashboard
      */
     public TrigonProfiledPIDController(String dashboardKey, double defaultGoal) {
-        this(dashboardKey, defaultGoal, new Constraints());
-        SmartDashboard.putData("PID/" + dashboardKey, this);
+        this(dashboardKey, defaultGoal, RobotConstants.ControlConstants.visionProfiledRotationConstraints);
     }
 
     public TrigonProfiledPIDController(String dashboardKey, double defaultGoal, Constraints constraints) {
-        super(0, 0, 0, constraints);
+        super(SmartDashboard.getNumber("PID/" + dashboardKey + "/p", 0),
+            SmartDashboard.getNumber("PID/" + dashboardKey + "/i", 0),
+            SmartDashboard.getNumber("PID/" + dashboardKey + "/d", 0),
+            constraints);
         setGoal(defaultGoal);
         this.constraints = constraints;
         SmartDashboard.putData("PID/" + dashboardKey, this);
@@ -90,9 +94,9 @@ public class TrigonProfiledPIDController extends ProfiledPIDController {
     @Override
     public void initSendable(SendableBuilder builder) {
         super.initSendable(builder);
-        builder.addDoubleProperty("max velocity", () -> constraints.maxVelocity,
-            value -> constraints.maxVelocity = value);
-        builder.addDoubleProperty("max acceleration", () -> constraints.maxAcceleration,
-            value -> constraints.maxAcceleration = value);
+        // builder.addDoubleProperty("max velocity", () -> constraints.maxVelocity,
+        //     value -> setConstraints(new Constraints(value, constraints.maxAcceleration)));
+        // builder.addDoubleProperty("max acceleration", () -> constraints.maxAcceleration,
+        //     value -> setConstraints(new Constraints(constraints.maxVelocity, value)));
     }
 }
