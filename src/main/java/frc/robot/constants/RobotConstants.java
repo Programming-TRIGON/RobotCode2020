@@ -28,7 +28,7 @@ public class RobotConstants {
 
     public static class TrigonDriveConstants {
         public static final double kSensitivity = 1;
-        public static final double kThreshold = 0.4; // was 0.5
+        public static final double kThreshold = 0.5;
     }
 
     public static class IntakeConstants {

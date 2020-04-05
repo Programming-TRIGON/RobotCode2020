@@ -67,8 +67,8 @@ public class TrigonDrive extends DifferentialDrive {
     public void trigonCurvatureDrive(double xInput, double yInput) {
         double x = xInputCalculation(xInput);
         double y = yInputCalculation(yInput);
-        curvatureDrive(sensitivity * y, sensitivity * x,
-            Math.sqrt(y * y + x * x) < threshold || Math.abs(y) < Math.abs(x));
+        boolean quickTurn = Math.sqrt(y * y + x * x) < threshold || Math.abs(y) < Math.abs(x);  
+        curvatureDrive(y, quickTurn ? x : 2 * x, quickTurn);
     }
 
     @Override
