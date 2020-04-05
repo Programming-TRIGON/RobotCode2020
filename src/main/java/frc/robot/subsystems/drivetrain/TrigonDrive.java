@@ -14,7 +14,7 @@ public class TrigonDrive extends DifferentialDrive {
     private static final double kYLinearCoefficient = 2;
     private static final double kYLinearOffset = 0.06;
     private static final double kXDeadband = 0.085;
-    private static final double kXLinearCoefficient = 0.75;
+    private static final double kXLinearCoefficient = 0.5; // was 0.75
     private double sensitivity;
     private double threshold;
 
@@ -50,8 +50,9 @@ public class TrigonDrive extends DifferentialDrive {
      * the driver requests.
      */
     public double yInputCalculation(double value) {
-        boolean isLinear = Math.abs(value) <= kYLinearThreshold;
-        return isLinear ? kYLinearCoefficient * value + Math.signum(value) * kYLinearOffset : Math.signum(value) * Math.sqrt(Math.abs(value));
+        // boolean isLinear = Math.abs(value) <= kYLinearThreshold;
+        // return isLinear ? kYLinearCoefficient * value + Math.signum(value) * kYLinearOffset : Math.signum(value) * Math.sqrt(Math.abs(value));
+        return value;
     }
 
     /**
@@ -60,7 +61,7 @@ public class TrigonDrive extends DifferentialDrive {
      */
     public double xInputCalculation(double value) {
         value = value * kXLinearCoefficient;
-        return Math.abs(value) < kXDeadband ? 0 : value;
+        return Math.abs(value) < kXDeadband / 1.5 ? 0 : value;
     }
 
     public void trigonCurvatureDrive(double xInput, double yInput) {
