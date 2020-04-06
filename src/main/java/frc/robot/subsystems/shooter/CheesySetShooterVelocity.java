@@ -2,6 +2,7 @@ package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.constants.RobotConstants.ShooterConstants;
@@ -195,16 +196,18 @@ public class CheesySetShooterVelocity extends CommandBase {
     private void rumbleWhenCellShot(boolean isCellBeingShot) {
         if (isCellBeingShot && !isInZone) {
             isInZone = true;
-            oi.getDriverXboxController().intermittentRumble(1);
-            oi.getOperatorXboxController().intermittentRumble(1);
+            oi.getDriverXboxController().setRumble(1);
+            oi.getOperatorXboxController().setRumble(1);
         } else if (!isCellBeingShot) {
             if (isInZone) {
                 firstTimeOutsideZone = Timer.getFPGATimestamp();
                 isInZone = false;
+                oi.getDriverXboxController().setRumble(0);
+                oi.getOperatorXboxController().setRumble(0);
             }
             if (Timer.getFPGATimestamp() - firstTimeOutsideZone > ShooterConstants.kWaitTimeZone) {
-                oi.getDriverXboxController().intermittentRumble(1);
-                oi.getOperatorXboxController().intermittentRumble(1);
+                oi.getDriverXboxController().setRumble(1);
+                oi.getOperatorXboxController().setRumble(1);
                 firstTimeOutsideZone = Timer.getFPGATimestamp();
             }
         }
