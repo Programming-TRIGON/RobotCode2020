@@ -52,7 +52,7 @@ public class TrigonDrive extends DifferentialDrive {
     public double yInputCalculation(double value) {
         // boolean isLinear = Math.abs(value) <= kYLinearThreshold;
         // return isLinear ? kYLinearCoefficient * value + Math.signum(value) * kYLinearOffset : Math.signum(value) * Math.sqrt(Math.abs(value));
-        return value;
+        return value - Math.signum(value) * 0.06;
     }
 
     /**

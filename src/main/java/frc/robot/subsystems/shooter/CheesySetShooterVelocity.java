@@ -9,8 +9,7 @@ import frc.robot.subsystems.led.LEDColor;
 import frc.robot.utils.TBHController;
 import java.util.function.DoubleSupplier;
 
-import static frc.robot.Robot.led;
-import static frc.robot.Robot.shooter;
+import static frc.robot.Robot.*;
 
 /**
  * This command spins the wheel in the desired velocity in order to shoot the power cells.
@@ -173,6 +172,8 @@ public class CheesySetShooterVelocity extends CommandBase {
             boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageVelocity()) >= ShooterConstants.kShootingBallZone;
             countShotCells(isCellBeingShot);
         }
+        boolean isCellBeingShot = Math.abs(setpoint - shooter.getAverageVelocity()) >= ShooterConstants.kShootingBallZone;
+        rumbleWhenCellShot(isCellBeingShot);
     }
 
     private void countShotCells(boolean isCellBeingShot) {
@@ -186,6 +187,24 @@ public class CheesySetShooterVelocity extends CommandBase {
             }
             if (Timer.getFPGATimestamp() - firstTimeOutsideZone > ShooterConstants.kWaitTimeZone) {
                 cellsShot++;
+                firstTimeOutsideZone = Timer.getFPGATimestamp();
+            }
+        }
+    }
+
+    private void rumbleWhenCellShot(boolean isCellBeingShot) {
+        if (isCellBeingShot && !isInZone) {
+            isInZone = true;
+            oi.getDriverXboxController().intermittentRumble(1);
+            oi.getOperatorXboxController().intermittentRumble(1);
+        } else if (!isCellBeingShot) {
+            if (isInZone) {
+                firstTimeOutsideZone = Timer.getFPGATimestamp();
+                isInZone = false;
+            }
+            if (Timer.getFPGATimestamp() - firstTimeOutsideZone > ShooterConstants.kWaitTimeZone) {
+                oi.getDriverXboxController().intermittentRumble(1);
+                oi.getOperatorXboxController().intermittentRumble(1);
                 firstTimeOutsideZone = Timer.getFPGATimestamp();
             }
         }

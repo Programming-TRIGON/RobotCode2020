@@ -16,7 +16,7 @@ public class RobotConstants {
         public static final double kRobotWidth = 0;
         public static final double kLeftEncoderTicksPerMeter = 8216;
         public static final double kRightEncoderTicksPerMeter = 8237;
-        public static final double kRampRate = 0.1;
+        public static final double kRampRate = 0.4; // was 0.1
         public static final double kCurrentLimit = 50;
         public static final double kTriggerThresholdCurrent = 50;
         public static final double kTriggerThresholdTime = 1;
