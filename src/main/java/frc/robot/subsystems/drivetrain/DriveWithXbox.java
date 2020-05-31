@@ -1,6 +1,5 @@
 package frc.robot.subsystems.drivetrain;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import java.util.function.DoubleSupplier;
 
@@ -28,7 +27,6 @@ public class DriveWithXbox extends CommandBase {
 
     @Override
     public void execute() {
-        SmartDashboard.putNumber("Y input", yInput.getAsDouble());
         drivetrain.trigonCurvatureDrive(xInput.getAsDouble(), yInput.getAsDouble());
     }
 
